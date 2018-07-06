@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/discoucher.iml" filepath="$PROJECT_DIR$/discoucher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/discoucher_android.iml" filepath="$PROJECT_DIR$/discoucher_android.iml" />
+    </modules>
+  </component>
+</project>
