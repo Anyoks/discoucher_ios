@@ -131,40 +131,40 @@ class CarouselState extends State<Carousel> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> listImages = widget.images
-        .map((netImage) => new Container(
-              decoration: new BoxDecoration(
-                  borderRadius: widget.borderRadius
-                      ? new BorderRadius.all(widget.radius != null
-                          ? widget.radius
-                          : new Radius.circular(8.0))
-                      : null,
-                  image: new DecorationImage(
-                    //colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                    image: netImage,
-                    fit: widget.boxFit,
-                  )),
-              child: widget.overlayShadow
-                  ? new Container(
-                      decoration: new BoxDecoration(
-                        gradient: new LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.center,
-                          stops: [0.0, widget.overlayShadowSize],
-                          colors: [
-                            widget.overlayShadowColors != null
-                                ? widget.overlayShadowColors.withOpacity(1.0)
-                                : Colors.grey[800].withOpacity(1.0),
-                            widget.overlayShadowColors != null
-                                ? widget.overlayShadowColors.withOpacity(0.0)
-                                : Colors.grey[800].withOpacity(0.0)
-                          ],
-                        ),
-                      ),
-                    )
-                  : new Container(),
-            ))
-        .toList();
+    // final List<Widget> listImages = widget.images
+    //     .map((netImage) => new Container(
+    //           decoration: new BoxDecoration(
+    //               borderRadius: widget.borderRadius
+    //                   ? new BorderRadius.all(widget.radius != null
+    //                       ? widget.radius
+    //                       : new Radius.circular(8.0))
+    //                   : null,
+    //               image: new DecorationImage(
+    //                 //colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+    //                 image: netImage,
+    //                 fit: widget.boxFit,
+    //               )),
+    //           child: widget.overlayShadow
+    //               ? new Container(
+    //                   decoration: new BoxDecoration(
+    //                     gradient: new LinearGradient(
+    //                       begin: Alignment.bottomCenter,
+    //                       end: Alignment.center,
+    //                       stops: [0.0, widget.overlayShadowSize],
+    //                       colors: [
+    //                         widget.overlayShadowColors != null
+    //                             ? widget.overlayShadowColors.withOpacity(1.0)
+    //                             : Colors.grey[800].withOpacity(1.0),
+    //                         widget.overlayShadowColors != null
+    //                             ? widget.overlayShadowColors.withOpacity(0.0)
+    //                             : Colors.grey[800].withOpacity(0.0)
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 )
+    //               : new Container(),
+    //         ))
+    //     .toList();
 
     final List<Widget> carouselSections = widget.carouselContent
         .map(

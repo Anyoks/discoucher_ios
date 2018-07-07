@@ -4,7 +4,7 @@ import '../addAccount.dart';
 import '../profile.dart';
 import '../settings.dart';
 import '../help.dart';
-import '../searchPage.dart';
+import '../search.dart';
 import '../../models/models.dart';
 
 class HomePage extends StatefulWidget {
