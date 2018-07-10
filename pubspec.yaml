@@ -35,6 +35,7 @@ flutter:
 
   assets:
       - images/logo.png
+      - images/banner.jpg
       - images/sharon.jpg
       - images/edwin.jpg
       - images/burger.jpg
@@ -45,6 +46,13 @@ flutter:
       - images/uvp/discover.png
       - images/uvp/save.png
       - images/uvp/buy2.jpg
+
+      - images/establishments/mayura.jpg
+      - images/establishments/mister.jpg
+      - images/establishments/ob.jpg
+      - images/establishments/picazzo.jpg
+      - images/establishments/platter.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

@@ -58,14 +58,16 @@ class _TutorialPageState extends State<TutorialPage> {
       return Column(
         children: <Widget>[
           new Container(
-              width: 320.0,
-              height: 320.0,
-              decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: new DecorationImage(
-                    fit: BoxFit.cover,
-                    image: new AssetImage(uvpBanner),
-                  ))),
+            width: 320.0,
+            height: 320.0,
+            decoration: new BoxDecoration(
+              shape: BoxShape.circle,
+              image: new DecorationImage(
+                fit: BoxFit.cover,
+                image: new AssetImage(uvpBanner),
+              ),
+            ),
+          ),
           new Padding(padding: EdgeInsets.only(top: 19.0)),
           new Text(
             title,
