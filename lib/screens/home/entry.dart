@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:discoucher/screens/home/generic-list.dart';
+import 'package:discoucher/screens/home/top-banner.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,84 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget topBannerSection = Container(
-      color: Colors.red,
-      child: SizedBox(
-        height: 173.0,
-        child: new Image.asset("images/banner.jpg", fit: BoxFit.cover),
-      ),
-    );
-
-    Widget restaurantsList = Container(
-      padding: EdgeInsets.only(left: 12.0),
-      child: Column(
-        children: <Widget>[
-          new Row(
-            children: <Widget>[
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => {},
-                  child: Text(
-                    "Restaurants",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                child: GestureDetector(
-                  child: Icon(Icons.keyboard_arrow_right,
-                      color: Theme.of(context).primaryColor),
-                ),
-              )
-            ],
-          ),
-          Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 8.0,
-              ),
-              child: Column(children: <Widget>[
-                ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    // Container(
-                    //   height: 174.0,
-                    //   width: 160.0,
-                    //   padding: EdgeInsets.symmetric(vertical: 11.0),
-                    //   color: Colors.red,
-                    //   child: Image.asset(
-                    //     "images/burger.jpg",
-                    //     height: 140.0,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // ),
-                    Container(
-                      width: 160.0,
-                      color: Colors.blue,
-                    ),
-                    Container(
-                      width: 160.0,
-                      color: Colors.green,
-                    ),
-                    Container(
-                      width: 160.0,
-                      color: Colors.yellow,
-                    ),
-                    Container(
-                      width: 160.0,
-                      color: Colors.orange,
-                    ),
-                  ],
-                ),
-              ]))
-        ],
-      ),
-    );
-
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Color(0xFFE5E5E5),
@@ -120,33 +44,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+       body: ListView(
         children: [
           topBannerSection,
-          IconButton(
-            splashColor: Colors.redAccent,
-            onPressed: () => Navigator.of(context).pushNamed('/tutorial'),
-            icon: Icon(Icons.home),
-          ),
-          restaurantsList,
+          buildRestaurantsSection(context),
+          buildHotelsSection(context),
+          buildSpasAndSalonsSection(context),
+          buildOutCountrySection(context),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          return showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: Text(myController.text),
-              );
-            },
-          );
-        },
-        tooltip: 'Show me the value!',
-        child: Icon(Icons.text_fields),
       ),
     );
   }
