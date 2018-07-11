@@ -8,7 +8,7 @@ void main() {
     new MaterialApp(
       title: "Discoucher",
       theme: new ThemeData(
-          brightness: Brightness.light,
+          // brightness: Brightness.light,
           primaryColor: Colors.green[900],
           accentColor: Colors.red[700],
           scaffoldBackgroundColor: Colors.white),
@@ -16,7 +16,8 @@ void main() {
       routes: <String, WidgetBuilder>{
         '/home': (BuildContext context) => new HomePage(),
         '/tutorial': (BuildContext context) => new TutorialPage(),
-        '/settings': (BuildContext context) => new SettingsPage("This user")
+        // '/settings': (BuildContext context) => new SettingsPage("This user"),
+        //'/establishment-details': (BuildContext context) => new EstablishmentDetailsPage("This user")
       },
     ),
   );

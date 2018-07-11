@@ -11,7 +11,8 @@ dependencies:
   flutter_local_notifications: "^0.3.3"
   carousel: "^0.1.0"
   carousel_pro: "^0.0.13"
-
+  uuid: "^1.0.0"
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

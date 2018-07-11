@@ -1,10 +1,11 @@
+import 'package:discoucher/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/screens/home/generic-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => new _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -23,28 +24,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Color(0xFFE5E5E5),
+    return Scaffold(
+      appBar: AppBar(
+        // backgroundColor: Color(0xFFE5E5E5),
         elevation: 0.1,
         // toolbarOpacity: 0.0,
-        title: new Row(
-          children: <Widget>[
-            new Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
-              child: new Image.asset('images/logo.png'),
-            ),
-          ],
+        leading: Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
+          child: Image.asset('images/logo_with_no_name.png'),
+        ),
+        title: Container(
+          width: 200.0,
+          height: 30.0,
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.search),
+              TextField(
+                autofocus: true,
+                autocorrect: true,
+                style: TextStyle(color: Colors.black12),
+                decoration: InputDecoration(
+                    icon: Icon(Icons.search),
+                    prefixIcon: Icon(Icons.search),
+                    border: InputBorder.none,
+                    hintText: 'Search discounts',
+                    hintStyle: TextStyle(color: Colors.grey)),
+              )
+            ],
+          ),
         ),
         actions: <Widget>[
-          new IconButton(
-            onPressed: () {},
-            padding: new EdgeInsets.all(2.0),
-            icon: new Icon(Icons.notifications),
+          IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return ProfilePage(null);
+              }));
+            },
+            padding: EdgeInsets.all(2.0),
+            icon: Icon(Icons.notifications),
           ),
         ],
       ),
-       body: ListView(
+      body: ListView(
         children: [
           topBannerSection,
           buildRestaurantsSection(context),

@@ -1,22 +1,41 @@
+import 'package:discoucher/screens/details/establishment.details.dart';
+import 'package:discoucher/screens/details/establishment.list.dart';
+import 'package:discoucher/screens/help.dart';
+import 'package:discoucher/screens/settings.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
+import 'package:uuid/uuid.dart';
+
+String getRandomString() => new Uuid().v1();
+
+openEstablishmentDetails(BuildContext context, String title, String imageUrl, String heroTag) {
+  Navigator.push(context, EstablishmentDetailsPage(title, imageUrl, heroTag));
+}
+
+openEstablishmentsList(BuildContext context, String title) {
+  Navigator.push(context, EstablishmentListPage(title));
+}
 
 buildSectionTitle(BuildContext context, String title) {
   return Container(
-    // color: Colors.red,
     margin: EdgeInsets.only(left: 2.0, right: 0.0, bottom: 5.0),
     child: Row(
       children: <Widget>[
         Expanded(
-          child: GestureDetector(
-            onTap: () => {
-                  //TODO: Implement arrow click
-                },
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
+          child: Container(
+            alignment: Alignment(-1.0, 0.0),
+            child: GestureDetector(
+              onTap: () {
+                //TODO: Implement arrow click
+                openEstablishmentsList(context, title);
+              },
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -24,12 +43,13 @@ buildSectionTitle(BuildContext context, String title) {
         GestureDetector(
           onTap: () {
             //TODO: Implement arrow click
+            openEstablishmentsList(context, title);
           },
           child: Padding(
             padding: EdgeInsets.only(left: 12.0, right: 12.0),
             child: GestureDetector(
-              child: Icon(Icons.keyboard_arrow_right, size: 30.0,
-                  color: Theme.of(context).primaryColor),
+              child: Icon(Icons.keyboard_arrow_right,
+                  size: 25.0, color: Theme.of(context).primaryColor),
             ),
           ),
         ),
@@ -38,51 +58,57 @@ buildSectionTitle(BuildContext context, String title) {
   );
 }
 
-buildListItem(String imageUrl) {
+buildListItem(BuildContext context, String title, String imageUrl) {
+  final String heroTag = getRandomString();
+  print(heroTag);
+
   return Container(
     // color: Colors.redAccent,
     width: 160.0,
     margin: EdgeInsets.only(right: 12.0),
     child: new GestureDetector(
       onTap: () {
-        print("Restaurants");
+        openEstablishmentDetails(context, title, imageUrl, heroTag);
       },
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 120.0,
-            alignment: Alignment(0.0, 1.0),
-            margin: EdgeInsets.only(bottom: 4.0),
-            decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
-              shape: BoxShape.rectangle,
-              image: new DecorationImage(
-                fit: BoxFit.cover,
-                image: new AssetImage(imageUrl),
+      child: Hero(
+        tag: heroTag,
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 120.0,
+              alignment: Alignment(0.0, 1.0),
+              margin: EdgeInsets.only(bottom: 4.0),
+              decoration: new BoxDecoration(
+                borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
+                shape: BoxShape.rectangle,
+                image: new DecorationImage(
+                  fit: BoxFit.cover,
+                  image: new AssetImage(imageUrl),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(3.0),
+                child: Text(
+                  "Ibis Styles",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            child: Padding(
-              padding: EdgeInsets.all(3.0),
+            Flexible(
               child: Text(
-                "Ibis Styles",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500),
+                "FREE LUNCH MAIN COURSE  dwwwdwwdwd wdwdwdwd wwdw when a Lunch Main Course ...",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(color: Colors.black, fontSize: 11.0),
                 textAlign: TextAlign.center,
               ),
             ),
-          ),
-          Flexible(
-            child: Text(
-              "FREE LUNCH MAIN COURSE  dwwwdwwdwd wdwdwdwd wwdw when a Lunch Main Course ...",
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              style: TextStyle(color: Colors.black, fontSize: 11.0),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
@@ -102,11 +128,15 @@ buildList(BuildContext context, String establishmentType) {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              buildListItem("images/burger.jpg"),
-              buildListItem("images/establishments/mayura.jpg"),
-              buildListItem("images/establishments/mister.jpg"),
-              buildListItem("images/establishments/ob.jpg"),
-              buildListItem("images/establishments/platter.png"),
+              buildListItem(context, establishmentType, "images/burger.jpg"),
+              buildListItem(context, establishmentType,
+                  "images/establishments/mayura.jpg"),
+              buildListItem(context, establishmentType,
+                  "images/establishments/mister.jpg"),
+              buildListItem(
+                  context, establishmentType, "images/establishments/ob.jpg"),
+              buildListItem(context, establishmentType,
+                  "images/establishments/platter.png"),
             ],
           ),
         ),
