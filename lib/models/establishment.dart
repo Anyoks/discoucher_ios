@@ -1,10 +1,10 @@
 import 'package:discoucher/enums/enums.dart';
 
-class ApiRoot {
+class DiscoucherRoot {
   final List<Datum> data;
   final Jsonapi jsonapi;
 
-  ApiRoot.fromJsonMap(Map map)
+  DiscoucherRoot.fromJsonMap(Map map)
       : data = map['data'],
         jsonapi = map['jsonapi'];
 }

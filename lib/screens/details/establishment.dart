@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
-class EstablishmentPage extends StatelessWidget {
+class EstablishmentPage extends StatefulWidget {
+
+   EstablishmentPage({Key key,  @required this.title, @required this.heroTag, @required this.imageUrl})
+      : super(key: key);
   final String title;
   final String heroTag;
   final String imageUrl;
 
-  EstablishmentPage(this.title, this.imageUrl, this.heroTag);
+  @override
+  _EstablishmentPageState createState() => new _EstablishmentPageState();
+}
 
+class _EstablishmentPageState extends State<EstablishmentPage> {
   buildSliberAppBar(BuildContext context) {
     return SliverAppBar(
       centerTitle: true,
@@ -33,11 +39,11 @@ class EstablishmentPage extends StatelessWidget {
         )
       ],
       flexibleSpace: FlexibleSpaceBar(
-        title: Text(this.title),
+        title: Text(widget.title),
         background: DecoratedBox(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(this.imageUrl), fit: BoxFit.cover),
+                image: AssetImage(widget.imageUrl), fit: BoxFit.cover),
           ),
         ),
       ),
@@ -73,12 +79,12 @@ class EstablishmentPage extends StatelessWidget {
   buildFixedList() {
     return SliverFixedExtentList(
       itemExtent: 50.0,
-      delegate: new SliverChildBuilderDelegate(
+      delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return new Container(
+          return Container(
             alignment: Alignment.center,
             color: Colors.lightBlue[100 * (index % 9)],
-            child: new Text('list item $index'),
+            child: Text('list item $index'),
           );
         },
       ),
@@ -87,8 +93,8 @@ class EstablishmentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new CustomScrollView(
+    return Scaffold(
+      body: CustomScrollView(
         slivers: <Widget>[
           buildSliberAppBar(context),
           buildSliverGrid(),

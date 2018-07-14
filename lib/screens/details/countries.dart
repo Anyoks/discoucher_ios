@@ -5,7 +5,6 @@ import 'package:discoucher/models/country.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CountriesPage extends StatefulWidget {
   @override
@@ -27,15 +26,6 @@ class _CountriesPageState extends State<CountriesPage> {
         .listen((country) => setState(() => countryList.add(country)));
 
     loadCountriesUsingStream(countriesStreamController);
-  }
-
-  buildSvgImage(String url) {
-    return new SvgPicture.network(
-      url,
-      placeholderBuilder: (BuildContext context) => Container(
-          padding: const EdgeInsets.all(30.0),
-          child: const CircularProgressIndicator()),
-    );
   }
 
   buildCountriesStream(int index) {
@@ -100,19 +90,6 @@ class _CountriesPageState extends State<CountriesPage> {
     });
     return true;
   }
-
-  final String assetName =
-      "https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/Steps.svg";
-  final Widget svg = new SvgPicture.asset(
-    'assets/image_that_does_not_exist.svg',
-  );
-
-  final Widget networkSvg = SvgPicture.network(
-    "https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/Steps.svg",
-    placeholderBuilder: (BuildContext context) => new Container(
-        padding: const EdgeInsets.all(30.0),
-        child: const CircularProgressIndicator()),
-  );
 
   @override
   Widget build(BuildContext context) {

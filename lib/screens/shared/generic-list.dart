@@ -1,3 +1,4 @@
+import 'package:discoucher/enums/enums.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:discoucher/screens/details/category.dart';
 import 'package:flutter/material.dart';
@@ -5,15 +6,17 @@ import 'package:uuid/uuid.dart';
 
 String getRandomString() => new Uuid().v1();
 
-openEstablishmentDetails(BuildContext context, String title, String imageUrl,String heroTag) {
-   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return  EstablishmentPage(title, imageUrl, heroTag);
+openEstablishmentDetails(
+    BuildContext context, String title, String imageUrl, String heroTag) {
+  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+    return EstablishmentPage(
+        title: title, imageUrl: imageUrl, heroTag: heroTag);
   }));
 }
 
 openCategoryPage(BuildContext context, String title) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return CategoryListPage(title);
+    return CategoryPage(category:EstablishmentType.Hotels);
   }));
 }
 
@@ -114,7 +117,6 @@ buildListItemCategory(BuildContext context, String title, String imageUrl) {
     ),
   );
 }
-
 
 buildListItem(BuildContext context, String title, String imageUrl) {
   final String heroTag = getRandomString();
