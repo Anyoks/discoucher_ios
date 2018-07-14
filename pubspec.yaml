@@ -13,6 +13,7 @@ dependencies:
   carousel_pro: "^0.0.13"
   uuid: "^1.0.0"
   material_search: "^0.2.7"
+  flutter_svg: "^0.5.1"
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,7 @@ import 'package:discoucher/screens/play.dart';
 import 'package:discoucher/screens/presto.dart';
 import 'package:discoucher/screens/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:discoucher/screens/home/generic-list.dart';
+import 'package:discoucher/screens/shared/generic-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';
 
 class HomePage extends StatefulWidget {

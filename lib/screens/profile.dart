@@ -11,7 +11,7 @@ class ProfilePage extends StatelessWidget {
         child: new Row(
           children: <Widget>[
             new Padding(
-                padding: const EdgeInsets.only(right: 24.0),
+                padding: EdgeInsets.only(right: 24.0),
                 child: new Icon(icon, color: Colors.black54)),
             new Text(label,
                 style: TextStyle(
@@ -30,30 +30,30 @@ class ProfilePage extends StatelessWidget {
       // ),
       body: new CustomScrollView(
         slivers: <Widget>[
-          const SliverAppBar(
+          SliverAppBar(
             // backgroundColor: Colors.transparent,
             pinned: true,
             expandedHeight: 200.0,
             actions: <Widget>[
-              const IconButton(
-                // onPressed: () {
-                //   print("pressed");
-                // },
-                icon: const Icon(Icons.filter_list),
+              IconButton(
+                onPressed: () {
+                  print("pressed");
+                },
+                icon: Icon(Icons.filter_list),
               )
             ],
-            flexibleSpace: const FlexibleSpaceBar(
-              background: const DecoratedBox(
-                decoration: const BoxDecoration(
+            flexibleSpace: FlexibleSpaceBar(
+              background: DecoratedBox(
+                decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("images/establishments/platter.png"),
                       fit: BoxFit.cover),
-                  gradient: const LinearGradient(
-                    begin: const Alignment(0.0, -1.0),
-                    end: const Alignment(0.0, -0.2),
-                    colors: const <Color>[
-                      const Color(0x60000000),
-                      const Color(0x00000000)
+                  gradient: LinearGradient(
+                    begin: Alignment(0.0, -1.0),
+                    end: Alignment(0.0, -0.2),
+                    colors: <Color>[
+                      Color(0x60000000),
+                      Color(0x00000000)
                     ],
                   ),
                 ),
