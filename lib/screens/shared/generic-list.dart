@@ -16,7 +16,7 @@ openEstablishmentDetails(
 
 openCategoryPage(BuildContext context, String title) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return CategoryPage(category:EstablishmentType.Hotels);
+    return CategoryPage(category:'Hotels');
   }));
 }
 
@@ -64,7 +64,7 @@ buildSectionTitle(BuildContext context, String title) {
 
 buildListItemCategory(BuildContext context, String title, String imageUrl) {
   final String heroTag = getRandomString();
-  print(heroTag);
+  // print(heroTag);
 
   return Container(
     // color: Colors.redAccent,
@@ -120,7 +120,7 @@ buildListItemCategory(BuildContext context, String title, String imageUrl) {
 
 buildListItem(BuildContext context, String title, String imageUrl) {
   final String heroTag = getRandomString();
-  print(heroTag);
+  // print(heroTag);
 
   return Container(
     // color: Colors.redAccent,

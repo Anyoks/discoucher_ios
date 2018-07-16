@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class CategoryPage extends StatefulWidget {
   CategoryPage({Key key, @required this.category}) : super(key: key);
-  final EstablishmentType category;
+  final String category;
 
   @override
   _CategoryPageState createState() => new _CategoryPageState();
@@ -22,32 +22,58 @@ class _CategoryPageState extends State<CategoryPage> {
   final String spasEndpoint =
       "http://46.101.137.125/api/v1/establishments/spas";
 
-  List<Datum> categoryList;
-  StreamController<DiscoucherRoot> categoryStreamController;
-  DiscoucherRoot discoucherRoot;
+  List<Datum> categoryList = [];
+  Object apiVersion; 
+  StreamController<Datum> categoryStreamController;
 
-  Future<List<String>> _getData() async {
-    var values = new List<String>();
-    values.add("Horses");
-    values.add("Goats");
-    values.add("Chickens");
+  Future<List<Datum>> getCategoryList() async {
+    var response = await http.get(Uri.encodeFull(restaurantsEndpoint),
+        headers: {'Accept': 'application/json'});
 
-    //throw new Exception("Danger Will Robinson!!!");
+    var res = json.decode(response.body);
 
-    await new Future.delayed(new Duration(seconds: 5));
+    List<Datum> data = res['data'].map<Datum>((item) {
+      print(item);
+      return Datum.fromJsonMap(item);
+    });
 
-    return values;
+    for (int i = 0; i < data.length; i++) {
+      Datum dt = data[i];
+      // print(dt);
+    }
+    //print(data);
+
+    return data.toList();
+  }
+
+  loadCategoryList() async {
+    http.Response response = await http.get(Uri.encodeFull(restaurantsEndpoint),
+        headers: {'Accept': 'application/json'});
+
+    var res = json.decode(response.body);
+
+    var list = res['data'];
+    var count = list.length;
+    for (int i = 0; i < count; i++) {
+      Datum dt = new Datum.fromJsonMap(list[i]);
+      print(dt.id);
+    }
+
+    setState(() {
+      apiVersion = list.length;
+    });
   }
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
-    List<String> values = snapshot.data;
+    List establishments = snapshot.data;
+
     return new ListView.builder(
-      itemCount: values.length,
+      itemCount: establishments.length,
       itemBuilder: (BuildContext context, int index) {
         return new Column(
           children: <Widget>[
             new ListTile(
-              title: new Text(values[index]),
+              title: new Text(establishments[index].id),
             ),
             new Divider(
               height: 2.0,
@@ -62,19 +88,53 @@ class _CategoryPageState extends State<CategoryPage> {
   void initState() {
     super.initState();
 
-    // categoryStreamController = StreamController.broadcast();
-    // categoryStreamController.stream
-    //     .listen((discoucherRoot) => setState(() => category.add(discoucherRoot.data)));
+    categoryStreamController = StreamController.broadcast();
+    categoryStreamController.stream
+        .listen((data) => setState(() => print(data)));
+
+    // loadCountriesUsingStream(categoryStreamController);
+
+    loadCategoryList();
   }
 
-  Future<bool> getCategoryList() async {
-    var response = await http.get(Uri.encodeFull(restaurantsEndpoint),
-        headers: {'Accept': 'application/json'});
+  loadCountriesUsingStream(StreamController sc) async {
+    var client = http.Client();
+    var req = http.Request('get', Uri.parse(restaurantsEndpoint));
+    var streamedResponse = await client.send(req);
 
-    setState(() {
-      categoryList = json.decode(response.body);
-    });
-    return true;
+    streamedResponse.stream
+        .transform(UTF8.decoder)
+        .transform(json.decoder)
+        .expand((e) => e)
+        .map((map) => Datum.fromJsonMap(map))
+        .pipe(categoryStreamController);
+  }
+
+  buildCategories(int index) {
+    if (index >= categoryList.length) {
+      return null;
+    }
+
+    return Card(
+      child: Stack(
+        alignment: Alignment(-1.0, 1.0),
+        children: <Widget>[
+          // Container(
+          //   color: Colors.amber[300],
+          //   //child: buildSvgImage(categoryList[index].flag),
+          // ),
+          Container(
+            child: Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text(
+                categoryList[index].id,
+                style: Theme.of(context).textTheme.body2,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   buildSliberAppBar(BuildContext context) {
@@ -104,12 +164,12 @@ class _CategoryPageState extends State<CategoryPage> {
       ],
       flexibleSpace: FlexibleSpaceBar(
         title: Text("widget.title"),
-        background: DecoratedBox(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("widget.imageUrl"), fit: BoxFit.cover),
-          ),
-        ),
+        // background: DecoratedBox(
+        //   decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //         image: AssetImage("widget.imageUrl"), fit: BoxFit.cover),
+        //   ),
+        // ),
       ),
     );
   }
@@ -158,15 +218,15 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     var futureBuilder = FutureBuilder(
-      future: getData(),
+      future: getCategoryList(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return new Text('loading...');
+            return CircularProgressIndicator();
           default:
             if (snapshot.hasError)
-              return new Text('Error: ${snapshot.error}');
+              return new Text('Error: ${snapshot}');
             else
               return createListView(context, snapshot);
         }
@@ -174,7 +234,15 @@ class _CategoryPageState extends State<CategoryPage> {
     );
 
     return Scaffold(
+      appBar: new AppBar(title: new Text("Category")),
+      // body: Center(
+      //   child: ListView.builder(
+      //       itemBuilder: (BuildContext context, int index) =>
+      //           buildCategories(index)),
+      // ),
+
       body: futureBuilder,
+
       // body: CustomScrollView(
       //   slivers: <Widget>[
       //     buildSliberAppBar(context),
@@ -185,5 +253,9 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  static getData() {}
+  @override
+  void dispose() {
+    super.dispose();
+    categoryStreamController?.close();
+  }
 }

@@ -1,6 +1,6 @@
-import 'package:discoucher/screens/play.dart';
-import 'package:discoucher/screens/presto.dart';
-import 'package:discoucher/screens/profile.dart';
+import 'package:discoucher/screens/playground/fading.dart';
+import 'package:discoucher/screens/playground/play.dart';
+import 'package:discoucher/screens/playground/presto.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/screens/shared/generic-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';
@@ -22,6 +22,35 @@ class _HomePageState extends State<HomePage> {
     // Clean up the controller when the Widget is disposed
     myController.dispose();
     super.dispose();
+  }
+
+  openPage(String pageName) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      switch (pageName) {
+        case "PlayPage":
+          {
+            return PlayPage(title: "Play Page");
+          }
+        case "PrestoPage":
+          {
+            return PrestoPage();
+          }
+           case "FadingPage":
+          {
+            return FadingPage();
+          }
+        default:
+          {
+            return null;
+          }
+      }
+    }));
+  }
+
+  openNotifications() {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return PrestoPage();
+    }));
   }
 
   @override
@@ -74,22 +103,12 @@ class _HomePageState extends State<HomePage> {
       ),
       actions: <Widget>[
         IconButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return PlayPage(title: "Play Page");
-            }));
-          },
+          onPressed: () => openPage("FadingPage"),
           padding: EdgeInsets.all(2.0),
-          icon: Icon(Icons.library_music),
+          icon: Icon(Icons.open_with),
         ),
         IconButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return PrestoPage();
-            }));
-          },
+          onPressed: () => openPage("PrestoPage"),
           padding: EdgeInsets.all(2.0),
           icon: Icon(Icons.notifications),
         ),

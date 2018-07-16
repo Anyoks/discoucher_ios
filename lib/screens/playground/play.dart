@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-// The StatefulWidget's job is to take in some data and create a State class.
-// In this case, our Widget takes in a title, and creates a _MyHomePageState.
 class PlayPage extends StatefulWidget {
   final String title;
 
