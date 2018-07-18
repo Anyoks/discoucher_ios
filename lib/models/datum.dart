@@ -17,14 +17,15 @@ import 'package:discoucher/models/attribute.dart';
 class Datum {
   final String id;
   final String type;
-  final Attributes attributes;
+  //final Attributes attributes;
 
-  Datum(this.id, this.type, this.attributes);
+  //Datum(this.id, this.type, this.attributes);
+  Datum(this.id, this.type);
 
   Datum.fromJson(Map<String, dynamic> map)
       : id = map['id'],
-        type = map['type'],
-        attributes = map['attributes'];
+        type = map['type'];
+        //attributes = map['attributes'];
 
   Map<String, dynamic> toJson() => {
         'id': id,

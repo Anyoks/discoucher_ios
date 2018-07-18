@@ -26,26 +26,28 @@ class _CategoryPageState extends State<CategoryPage> {
   Object apiVersion;
   StreamController<Datum> categoryStreamController;
 
-  loadCategoryList() async {
-    http.Response response = await http.get(Uri.encodeFull(restaurantsEndpoint),
-        headers: {'Accept': 'application/json'});
+  @override
+  void initState() {
+    super.initState();
 
-    var res = json.decode(response.body);
+    categoryStreamController = StreamController.broadcast();
+    categoryStreamController.stream
+        .listen((data) => setState(() => print(data)));
 
-    var list = res['data'];
-    var count = list.length;
-    for (int i = 0; i < count; i++) {
-      Datum dt = new Datum.fromJson(list[i]);
-      print(dt.id);
-    }
+    // loadCountriesUsingStream(categoryStreamController);
 
-    setState(() {
-      apiVersion = list.length;
-    });
+    // loadCategoryList();
   }
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
-    List establishments = snapshot.data;
+    List<Datum> establishments = snapshot.data;
+
+    return CustomScrollView(
+      slivers: <Widget>[
+        buildSliberAppBar(context),
+        buildSliverGrid(establishments)
+      ],
+    );
 
     return new ListView.builder(
       itemCount: establishments.length,
@@ -62,19 +64,6 @@ class _CategoryPageState extends State<CategoryPage> {
         );
       },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    categoryStreamController = StreamController.broadcast();
-    categoryStreamController.stream
-        .listen((data) => setState(() => print(data)));
-
-    // loadCountriesUsingStream(categoryStreamController);
-
-    // loadCategoryList();
   }
 
   loadCountriesUsingStream(StreamController sc) async {
@@ -154,7 +143,7 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  buildSliverGrid() {
+  buildSliverGrid(List<Datum> establishments) {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 200.0,
@@ -171,11 +160,11 @@ class _CategoryPageState extends State<CategoryPage> {
             child: Container(
               alignment: Alignment.center,
               color: Colors.teal[100 * (index % 9)],
-              child: Text('grid item $index'),
+              child: new Text(establishments[index].id),
             ),
           );
         },
-        childCount: 100,
+        childCount: establishments.length,
       ),
     );
   }
@@ -198,7 +187,7 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     var futureBuilder = FutureBuilder(
-      future: getCategoryList(),
+      future: fetchCategory(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -206,7 +195,7 @@ class _CategoryPageState extends State<CategoryPage> {
             return CircularProgressIndicator();
           default:
             if (snapshot.hasError)
-              return new Text('Error: ${snapshot}');
+              return new Text('An error happened');
             else
               return createListView(context, snapshot);
         }
@@ -214,23 +203,8 @@ class _CategoryPageState extends State<CategoryPage> {
     );
 
     return Scaffold(
-      appBar: new AppBar(title: new Text("Category")),
-      // body: Center(
-      //   child: ListView.builder(
-      //       itemBuilder: (BuildContext context, int index) =>
-      //           buildCategories(index)),
-      // ),
-
-      body: futureBuilder,
-
-      // body: CustomScrollView(
-      //   slivers: <Widget>[
-      //     buildSliberAppBar(context),
-      //     buildSliverGrid(),
-      //     buildFixedList()
-      //   ],
-      // ),
-    );
+        // appBar: new AppBar(title: new Text("Category")),
+        body: futureBuilder);
   }
 
   @override
