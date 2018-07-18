@@ -1,5 +1,3 @@
-import 'package:discoucher/enums/enums.dart';
-
 class DiscoucherRoot {
   final List<Datum> data;
   final Jsonapi jsonapi;
@@ -14,10 +12,17 @@ class Datum {
   final String type;
   //final Attributes attributes;
 
-  Datum.fromJsonMap(Map map)
+  Datum(this.id, this.type);
+
+  Datum.fromJson(Map<String, dynamic> map)
       : id = map['id'],
         type = map['type'];
-        //attributes = map['attributes'];
+  //attributes = map['attributes'];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'type': type,
+      };
 }
 
 class Attributes {
