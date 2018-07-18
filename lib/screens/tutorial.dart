@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carousel/carousel.dart';
-//import 'package:discoucher/libraries/carousel_pro.dart.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class TutorialPage extends StatefulWidget {
   @override
@@ -94,16 +93,36 @@ class _TutorialPageState extends State<TutorialPage> {
       );
     }
 
-    Widget uvpSection = new Expanded(
-      child: new Carousel(
-          children: [
-        buildUVPSingle("images/uvp/buy.png", "BUY",
-            "Buy your DisCoucher book for KES1,800 and access over 100 vouchers valued at over KES500,000"),
-        buildUVPSingle("images/uvp/discover.png", "DISCOVER",
-            "Visit the establishment of your choosing, and present the waitress with your physical voucher. Create memories and savor experiences!"),
-        buildUVPSingle("images/uvp/buy2.jpg", "SAVE",
-            "The item indicated on the voucher is deducted from your bill"),
-      ].toList()),
+    // Widget uvpSection3 = Expanded(
+    //   child: Carousel(
+    //       children: [
+    //     buildUVPSingle("images/uvp/buy.png", "BUY",
+    //         "Buy your DisCoucher book for KES1,800 and access over 100 vouchers valued at over KES500,000"),
+    //     buildUVPSingle("images/uvp/discover.png", "DISCOVER",
+    //         "Visit the establishment of your choosing, and present the waitress with your physical voucher. Create memories and savor experiences!"),
+    //     buildUVPSingle("images/uvp/buy2.jpg", "SAVE",
+    //         "The item indicated on the voucher is deducted from your bill"),
+    //   ].toList()),
+    // );
+    Widget uvpSection = Expanded(
+      child: new CarouselSlider(
+        height: 320.0,
+        autoPlay: true,
+        items: [1, 2, 3, 4, 5].map((i) {
+          return new Builder(
+            builder: (BuildContext context) {
+              return new Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: new EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: new BoxDecoration(color: Colors.amber),
+                  child: new Text(
+                    'text $i',
+                    style: new TextStyle(fontSize: 16.0),
+                  ));
+            },
+          );
+        }).toList(),
+      ),
     );
 
 //    Widget uvpSection2 = new SizedBox(

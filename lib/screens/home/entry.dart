@@ -1,6 +1,7 @@
 import 'package:discoucher/screens/playground/fading.dart';
 import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/playground/presto.dart';
+import 'package:discoucher/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/screens/shared/generic-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';
@@ -39,6 +40,10 @@ class _HomePageState extends State<HomePage> {
           {
             return FadingPage();
           }
+        case "LoginPage":
+          {
+            return FadingPage();
+          }
         default:
           {
             return null;
@@ -49,7 +54,7 @@ class _HomePageState extends State<HomePage> {
 
   openNotifications() {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return PrestoPage();
+      return LoginPage();
     }));
   }
 
@@ -108,7 +113,7 @@ class _HomePageState extends State<HomePage> {
           icon: Icon(Icons.open_with),
         ),
         IconButton(
-          onPressed: () => openPage("PrestoPage"),
+          onPressed: () => openNotifications(),
           padding: EdgeInsets.all(2.0),
           icon: Icon(Icons.notifications),
         ),

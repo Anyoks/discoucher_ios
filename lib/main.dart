@@ -1,5 +1,3 @@
-import 'package:discoucher/screens/details/countries.dart';
-import 'package:discoucher/screens/playground/presto.dart';
 import 'package:flutter/material.dart';
 import 'screens/home/entry.dart';
 import 'screens/tutorial.dart';

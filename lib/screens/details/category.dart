@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:discoucher/enums/enums.dart';
-import 'package:discoucher/models/establishment.dart';
+import 'package:discoucher/contollers/categories.dart';
+import 'package:discoucher/models/datum.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,28 +23,8 @@ class _CategoryPageState extends State<CategoryPage> {
       "http://46.101.137.125/api/v1/establishments/spas";
 
   List<Datum> categoryList = [];
-  Object apiVersion; 
+  Object apiVersion;
   StreamController<Datum> categoryStreamController;
-
-  Future<List<Datum>> getCategoryList() async {
-    var response = await http.get(Uri.encodeFull(restaurantsEndpoint),
-        headers: {'Accept': 'application/json'});
-
-    var res = json.decode(response.body);
-
-    List<Datum> data = res['data'].map<Datum>((item) {
-      print(item);
-      return Datum.fromJsonMap(item);
-    });
-
-    for (int i = 0; i < data.length; i++) {
-      Datum dt = data[i];
-      // print(dt);
-    }
-    //print(data);
-
-    return data.toList();
-  }
 
   loadCategoryList() async {
     http.Response response = await http.get(Uri.encodeFull(restaurantsEndpoint),
@@ -55,7 +35,7 @@ class _CategoryPageState extends State<CategoryPage> {
     var list = res['data'];
     var count = list.length;
     for (int i = 0; i < count; i++) {
-      Datum dt = new Datum.fromJsonMap(list[i]);
+      Datum dt = new Datum.fromJson(list[i]);
       print(dt.id);
     }
 
@@ -94,7 +74,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
     // loadCountriesUsingStream(categoryStreamController);
 
-    loadCategoryList();
+    // loadCategoryList();
   }
 
   loadCountriesUsingStream(StreamController sc) async {
@@ -106,7 +86,7 @@ class _CategoryPageState extends State<CategoryPage> {
         .transform(UTF8.decoder)
         .transform(json.decoder)
         .expand((e) => e)
-        .map((map) => Datum.fromJsonMap(map))
+        .map((map) => Datum.fromJson(map))
         .pipe(categoryStreamController);
   }
 

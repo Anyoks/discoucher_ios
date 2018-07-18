@@ -1,8 +1,8 @@
-import 'package:discoucher/enums/enums.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:discoucher/screens/details/category.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+
 
 String getRandomString() => new Uuid().v1();
 

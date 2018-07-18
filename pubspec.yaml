@@ -9,9 +9,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: "^0.1.2"
   flutter_local_notifications: "^0.3.3"
-  carousel: "^0.1.0"
-  carousel_pro: "^0.0.13"
-  uuid: "^1.0.0"
+  carousel_slider: "^0.0.6"
+  uuid: "1.0.0"
   material_search: "^0.2.7"
   json_annotation: "^0.2.5"
 

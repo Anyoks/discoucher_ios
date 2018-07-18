@@ -6,23 +6,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PopupMenuItem<String> _buildMenuItem(IconData icon, String label) {
-      return new PopupMenuItem<String>(
-        child: new Row(
-          children: <Widget>[
-            new Padding(
-                padding: EdgeInsets.only(right: 24.0),
-                child: new Icon(icon, color: Colors.black54)),
-            new Text(label,
-                style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black54,
-                    height: 24.0 / 15.0)),
-          ],
-        ),
-      );
-    }
-
     return new Scaffold(
       // appBar: new AppBar(
       //   title: new Text("Profile"),
