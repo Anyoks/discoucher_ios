@@ -20,7 +20,7 @@ Future<List<Datum>> fetchCategory() async {
 
 // A function that will convert a response body into a List<Photo>
 List<Datum> parseCategoriesData(String responseBody) {
-  final Map<String, dynamic> parsedJson = JSON.decode(responseBody);
+  final Map<String, dynamic> parsedJson = json.decode(responseBody);
   final List<dynamic> data = parsedJson['data'];
 
   return data.map<Datum>((item) => Datum.fromJson(item)).toList();

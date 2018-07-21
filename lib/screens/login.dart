@@ -6,95 +6,67 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
+
+  String _email;
+  String _password;
+
+  void _submit() {
+    final form = formKey.currentState;
+
+    if (form.validate()) {
+      form.save();
+
+      // Email & password matched our validation rules
+      // and are saved to _email and _password fields.
+      _performLogin();
+    }
+  }
+
+  void _performLogin() {
+    // This is just a demo, so no actual login here.
+    final snackbar = SnackBar(
+      content: Text('Email: $_email, password: $_password'),
+    );
+
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          children: <Widget>[
-            SizedBox(height: 80.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                SizedBox(height: 16.0),
-                Image.asset(
-                  'images/logo.png',
-                  height: 200.0,
-                  fit: BoxFit.cover,
-                ),
-                Text(
-                  'SHRINE',
-                  style: Theme.of(context).textTheme.headline,
-                ),
-              ],
-            ),
-            SizedBox(height: 120.0),
-            PrimaryColorOverride(
-              color: Theme.of(context).primaryColor,
-              child: TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                ),
+      key: scaffoldKey,
+      appBar: AppBar(
+        title: Text('Validating forms'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Email'),
+                validator: (val) =>
+                    !val.contains('@') ? 'Not a valid email.' : null,
+                onSaved: (val) => _email = val,
               ),
-            ),
-            const SizedBox(height: 12.0),
-            new PrimaryColorOverride(
-              color: Theme.of(context).primaryColor,
-              child: TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Password'),
+                validator: (val) =>
+                    val.length < 6 ? 'Password too short.' : null,
+                onSaved: (val) => _password = val,
+                obscureText: true,
               ),
-            ),
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  child: Text('CANCEL'),
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(7.0)),
-                  ),
-                  onPressed: () {
-                    _usernameController.clear();
-                    _passwordController.clear();
-                  },
-                ),
-                RaisedButton(
-                  child: Text('NEXT'),
-                  elevation: 8.0,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(7.0)),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ],
+              RaisedButton(
+                onPressed: _submit,
+                child: new Text('Login'),
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-class PrimaryColorOverride extends StatelessWidget {
-  const PrimaryColorOverride({Key key, this.color, this.child})
-      : super(key: key);
-
-  final Color color;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      child: child,
-      data: Theme.of(context).copyWith(primaryColor: color),
     );
   }
 }

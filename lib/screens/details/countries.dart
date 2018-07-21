@@ -61,7 +61,7 @@ class _CountriesPageState extends State<CountriesPage> {
     var streamedResponse = await client.send(req);
 
     streamedResponse.stream
-        .transform(UTF8.decoder)
+        .transform(utf8.decoder)
         .transform(json.decoder)
         .expand((e) => e)
         .map((map) => Country.fromJsonMap(map))
