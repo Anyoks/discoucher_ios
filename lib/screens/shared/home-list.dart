@@ -2,6 +2,7 @@ import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/screens/shared/generic-list-item.dart';
 import 'package:discoucher/screens/shared/home-section-title.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 buildHomeList(BuildContext context, List<Datum> data) {
   return new Container(
@@ -14,19 +15,13 @@ buildHomeList(BuildContext context, List<Datum> data) {
         buildHomeSectionTitle(context, data[1].type),
         Container(
           height: 154.0,
-          child: ListView(
+          child: ListView.builder(
+            key: new Key(new Uuid().v1()), //new,
             scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              buildGenericListItem(context, data[1], "images/burger.jpg"),
-              buildGenericListItem(
-                  context, data[2], "images/establishments/mayura.jpg"),
-              buildGenericListItem(
-                  context, data[3], "images/establishments/mister.jpg"),
-              buildGenericListItem(
-                  context, data[1], "images/establishments/ob.jpg"),
-              buildGenericListItem(
-                  context, data[4], "images/establishments/platter.png"),
-            ],
+            itemCount: data.length,
+            itemBuilder: (BuildContext context, int index) {
+              return buildGenericListItem(context, data[index]);
+            },
           ),
         ),
       ],

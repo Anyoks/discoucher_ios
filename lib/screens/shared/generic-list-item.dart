@@ -1,43 +1,53 @@
 import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
-openEstablishmentDetails(BuildContext context, String title, String imageUrl, String heroTag) {
-  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return EstablishmentPage(
-        title: title, imageUrl: imageUrl, heroTag: heroTag);
-  }));
+openEstablishmentDetails(BuildContext context, Datum data) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (BuildContext context) {
+      return EstablishmentPage(
+        data: data,
+      );
+    }),
+  );
 }
 
-buildGenericListItem(BuildContext context, Datum data, String imageUrl) {
-  final String heroTag = new Uuid().v1();
+buildItemImage(String featuredImage) {
+  return AssetImage("images/burger.jpg");
 
+  // if (featuredImage != null && featuredImage.length > 0) {
+  //   return NetworkImage(featuredImage);
+  // } else {
+  //   return AssetImage("images/item-placeholder.jpg");
+  // }
+}
+
+buildGenericListItem(BuildContext context, Datum data) {
   return Container(
     // color: Colors.redAccent,
     width: 160.0,
     margin: EdgeInsets.only(right: 12.0),
     child: new GestureDetector(
       onTap: () {
-        openEstablishmentDetails(
-            context, data.attributes.name, imageUrl, heroTag);
+        openEstablishmentDetails(context, data);
       },
       child: Hero(
-        tag: heroTag,
+        tag: data.id,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
               height: 120.0,
               alignment: Alignment(0.0, 1.0),
               margin: EdgeInsets.only(bottom: 4.0),
               decoration: new BoxDecoration(
-                borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
-                shape: BoxShape.rectangle,
-                image: new DecorationImage(
-                  fit: BoxFit.cover,
-                  image: new AssetImage(imageUrl),
-                ),
-              ),
+                  borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
+                  shape: BoxShape.rectangle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: buildItemImage(data.attributes.featuredImage),
+                  )),
               child: Padding(
                 padding: EdgeInsets.all(3.0),
                 child: Text(
@@ -52,7 +62,7 @@ buildGenericListItem(BuildContext context, Datum data, String imageUrl) {
             ),
             Flexible(
               child: Text(
-                "FREE LUNCH MAIN COURSE  dwwwdwwdwd wdwdwdwd wwdw when a Lunch Main Course ...",
+                data.attributes.name,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(color: Colors.black, fontSize: 11.0),

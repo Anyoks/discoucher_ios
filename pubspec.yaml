@@ -38,13 +38,14 @@ flutter:
 
   assets:
       - images/logo.png
-      - images/banner.jpg
-      - images/sharon.jpg
-      - images/edwin.jpg
-      - images/burger.jpg
       - images/logo_with_no_name.png
+      - images/item-placeholder.jpg
+      - images/banner.jpg
+      - images/burger.jpg
+
       - images/social/fb.png
       - images/social/google.png
+
       - images/uvp/buy.png
       - images/uvp/discover.png
       - images/uvp/save.png

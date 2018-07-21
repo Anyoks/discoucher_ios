@@ -1,27 +1,24 @@
+import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
-openEstablishmentDetails(BuildContext context, String title, String imageUrl, String heroTag) {
+openEstablishmentDetails(BuildContext context, Datum data) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return EstablishmentPage(
-        title: title, imageUrl: imageUrl, heroTag: heroTag);
+    return EstablishmentPage(data: data);
   }));
 }
 
-buildListItemCategory(BuildContext context, String title, String imageUrl) {
-  final String heroTag = new Uuid().v1();
-
+buildListItemCategory(BuildContext context, Datum data) {
   return Container(
     // color: Colors.redAccent,
     width: 160.0,
     margin: EdgeInsets.only(right: 12.0),
     child: new GestureDetector(
       onTap: () {
-        openEstablishmentDetails(context, title, imageUrl, heroTag);
+        openEstablishmentDetails(context, data);
       },
       child: Hero(
-        tag: heroTag,
+        tag: data.id,
         child: Column(
           children: <Widget>[
             Container(
@@ -33,7 +30,9 @@ buildListItemCategory(BuildContext context, String title, String imageUrl) {
                 shape: BoxShape.rectangle,
                 image: new DecorationImage(
                   fit: BoxFit.cover,
-                  image: new AssetImage(imageUrl),
+                  image: NetworkImage(data.attributes.logo.length > 0
+                      ? data.attributes.logo
+                      : null),
                 ),
               ),
               child: Padding(

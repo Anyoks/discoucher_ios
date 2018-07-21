@@ -1,12 +1,9 @@
+import 'package:discoucher/models/datum.dart';
 import 'package:flutter/material.dart';
 
 class EstablishmentPage extends StatefulWidget {
-
-   EstablishmentPage({Key key,  @required this.title, @required this.heroTag, @required this.imageUrl})
-      : super(key: key);
-  final String title;
-  final String heroTag;
-  final String imageUrl;
+  EstablishmentPage({Key key, @required this.data}) : super(key: key);
+  final Datum data;
 
   @override
   _EstablishmentPageState createState() => new _EstablishmentPageState();
@@ -15,39 +12,41 @@ class EstablishmentPage extends StatefulWidget {
 class _EstablishmentPageState extends State<EstablishmentPage> {
   buildSliberAppBar(BuildContext context) {
     return SliverAppBar(
-      centerTitle: true,
-      pinned: true,
-      expandedHeight: 200.0,
-      leading: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: Icon(Icons.arrow_back_ios),
-      ),
-      actions: <Widget>[
-        IconButton(
+        centerTitle: true,
+        pinned: true,
+        expandedHeight: 200.0,
+        leading: IconButton(
           onPressed: () {
-            print("pressed");
+            Navigator.pop(context);
           },
-          icon: Icon(Icons.share),
+          icon: Icon(Icons.arrow_back_ios),
         ),
-        IconButton(
-          onPressed: () {
-            print("pressed");
-          },
-          icon: Icon(Icons.favorite_border),
-        )
-      ],
-      flexibleSpace: FlexibleSpaceBar(
-        title: Text(widget.title),
-        background: DecoratedBox(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(widget.imageUrl), fit: BoxFit.cover),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              print("pressed");
+            },
+            icon: Icon(Icons.share),
           ),
-        ),
-      ),
-    );
+          IconButton(
+            onPressed: () {
+              print("pressed");
+            },
+            icon: Icon(Icons.favorite_border),
+          )
+        ],
+        flexibleSpace: FlexibleSpaceBar(
+          title: Text(widget.data.attributes.name),
+          background: DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(widget.data.attributes.logo.length > 0
+                    ? widget.data.attributes.logo
+                    : null),
+              ),
+            ),
+          ),
+        ));
   }
 
   buildSliverGrid() {

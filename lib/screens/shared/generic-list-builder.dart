@@ -1,32 +1,40 @@
 import 'package:discoucher/contollers/categories.dart';
-import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/screens/shared/home-list.dart';
 import 'package:flutter/material.dart';
 
-List<Datum> dummyBuildData() {
-  var data;
-  fetchCategory().then((list) {
-    data = list;
-  }).catchError((
-    error,
-  ) {
-    data = error;
-  });
-  return data;
-}
-
 buildRestaurantsSection(BuildContext context) {
-  return buildHomeList(context, dummyBuildData());
+  return FutureBuilder(
+    future: fetchCategory(),
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      switch (snapshot.connectionState) {
+        case ConnectionState.none:
+        case ConnectionState.waiting:
+          return Container(
+            height: 191.0,
+              // color: Colors.amber,
+              child: Center(child: CircularProgressIndicator(),)
+              );
+        default:
+          if (snapshot.hasError)
+            return new Text('An error happened');
+          else
+            return buildHomeList(context, snapshot.data);
+      }
+    },
+  );
 }
 
 buildHotelsSection(BuildContext context) {
-  return buildHomeList(context, dummyBuildData());
+  //return buildHomeList(context, dummyBuildData());
+  buildRestaurantsSection(context);
 }
 
 buildSpasAndSalonsSection(BuildContext context) {
-  return buildHomeList(context, dummyBuildData());
+  //return buildHomeList(context, dummyBuildData());
+  buildRestaurantsSection(context);
 }
 
 buildOutCountrySection(BuildContext context) {
-  return buildHomeList(context, dummyBuildData());
+  //return buildHomeList(context, dummyBuildData());
+  buildRestaurantsSection(context);
 }
