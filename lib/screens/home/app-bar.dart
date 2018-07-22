@@ -1,7 +1,7 @@
-import 'package:discoucher/screens/login.dart';
 import 'package:discoucher/screens/playground/fading.dart';
 import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/playground/presto.dart';
+import 'package:discoucher/screens/authentication/login.dart';
 import 'package:flutter/material.dart';
 
 openPage(BuildContext context, String pageName) {
@@ -37,7 +37,32 @@ openNotifications(BuildContext context) {
   }));
 }
 
-buildAppBar(BuildContext context) {
+buildAppBar() {
+  return Row( 
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      Image.asset("images/logo"),
+      Icon(
+        Icons.search,
+        color: Colors.pinkAccent,
+      ),
+      TextField(
+        autofocus: false,
+        autocorrect: true,
+        style: TextStyle(color: Colors.black12),
+        decoration: InputDecoration(
+            icon: Icon(Icons.search),
+            prefixIcon: Icon(Icons.search),
+            border: InputBorder.none,
+            hintText: 'Search discounts',
+            hintStyle: TextStyle(color: Colors.grey)),
+      )
+    ],
+  );
+}
+
+buildAppBar2(BuildContext context) {
   return AppBar(
     // backgroundColor: Color(0xFFE5E5E5),
     elevation: 0.1,

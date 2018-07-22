@@ -1,5 +1,7 @@
-import 'package:discoucher/screens/home/app-bar.dart';
+import 'package:discoucher/screens/discover/discover.dart';
 import 'package:discoucher/screens/home/body.dart';
+import 'package:discoucher/screens/nearby/nearby.dart';
+import 'package:discoucher/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,7 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final myController = TextEditingController();
+  int index = 0;
+
   @override
   void initState() {
     super.initState();
@@ -16,9 +19,46 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    // Clean up the controller when the Widget is disposed
-    myController.dispose();
     super.dispose();
+  }
+
+  buildOffStageItem(int position, Widget child) {
+    return new Offstage(
+      offstage: this.index != position,
+      child: new TickerMode(
+        enabled: this.index == position,
+        child: child,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: new Stack(
+        children: <Widget>[
+          buildOffStageItem(0, buildBody(context)),
+          buildOffStageItem(1, ExplorePage()),
+          buildOffStageItem(2, NearbyPage()),
+          buildOffStageItem(3, SettingsPage()),
+        ],
+      ),
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: this.index,
+        onTap: (int index) {
+          setState(() {
+            this.index = index;
+          });
+        },
+        fixedColor: Colors.yellow,
+        items: <BottomNavigationBarItem>[
+          buildBottomBarItem(Icons.home, "Home"),
+          buildBottomBarItem(Icons.search, "Discover"),
+          buildBottomBarItem(Icons.location_on, "Nearby"),
+          buildBottomBarItem(Icons.person, "Me"),
+        ],
+      ),
+    );
   }
 
   buildBottomBarItem(IconData icon, String title) {
@@ -32,62 +72,6 @@ class _HomePageState extends State<HomePage> {
       title: Text(
         title,
         style: TextStyle(color: rangi),
-      ),
-    );
-  }
-
-  int index = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: buildAppBar(context),
-      body: new Stack(
-        children: <Widget>[
-          new Offstage(
-            offstage: index != 0,
-            child: new TickerMode(
-              enabled: index == 0,
-              child: buildBody(context),
-            ),
-          ),
-          new Offstage(
-            offstage: index != 1,
-            child: new TickerMode(
-              enabled: index == 1,
-              child: Text("Discover"),
-            ),
-          ),
-          new Offstage(
-            offstage: index != 2,
-            child: new TickerMode(
-              enabled: index == 2,
-              child: Text("Nearby"),
-            ),
-          ),
-          new Offstage(
-            offstage: index != 3,
-            child: new TickerMode(
-              enabled: index == 3,
-              child: Text("Me"),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: index,
-        onTap: (int index) {
-          setState(() {
-            this.index = index;
-          });
-        },
-        fixedColor: Colors.yellow,
-        items: <BottomNavigationBarItem>[
-          buildBottomBarItem(Icons.home, "Home"),
-          buildBottomBarItem(Icons.search, "Discover"),
-          buildBottomBarItem(Icons.location_on, "Nerby"),
-          buildBottomBarItem(Icons.person, "Me"),
-        ],
       ),
     );
   }

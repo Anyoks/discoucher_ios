@@ -1,6 +1,6 @@
+import 'package:discoucher/screens/settings/tutorial.dart';
 import 'package:flutter/material.dart';
 import 'screens/home/entry.dart';
-import 'screens/tutorial.dart';
 
 void main() {
   runApp(
