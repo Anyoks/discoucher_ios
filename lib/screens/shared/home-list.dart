@@ -8,9 +8,9 @@ buildHomeList(BuildContext context, List<Datum> data) {
   return new Container(
     margin: EdgeInsets.only(left: 12.0, top: 12.0),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      // mainAxisAlignment: MainAxisAlignment.start,
+      // mainAxisSize: MainAxisSize.min,
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         buildHomeSectionTitle(context, data[1].type),
         Container(

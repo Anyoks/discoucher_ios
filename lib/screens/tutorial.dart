@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class TutorialPage extends StatefulWidget {
   @override
@@ -36,26 +35,26 @@ class _TutorialPageState extends State<TutorialPage> {
       ),
     );
 
-    Widget uvpSection = Expanded(
-      child: new CarouselSlider(
-        height: 320.0,
-        autoPlay: true,
-        items: [1, 2, 3, 4, 5].map((i) {
-          return new Builder(
-            builder: (BuildContext context) {
-              return new Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: new EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: new BoxDecoration(color: Colors.amber),
-                  child: new Text(
-                    'text $i',
-                    style: new TextStyle(fontSize: 16.0),
-                  ));
-            },
-          );
-        }).toList(),
-      ),
-    );
+    // Widget uvpSection = Expanded(
+    //   child: new CarouselSlider(
+    //     height: 320.0,
+    //     autoPlay: false,
+    //     items: [1, 2, 3, 4, 5].map((i) {
+    //       return new Builder(
+    //         builder: (BuildContext context) {
+    //           return new Container(
+    //               width: MediaQuery.of(context).size.width,
+    //               margin: new EdgeInsets.symmetric(horizontal: 5.0),
+    //               decoration: new BoxDecoration(color: Colors.amber),
+    //               child: new Text(
+    //                 'text $i',
+    //                 style: new TextStyle(fontSize: 16.0),
+    //               ));
+    //         },
+    //       );
+    //     }).toList(),
+    //   ),
+    // );
 
 //    Widget uvpSection2 = new SizedBox(
 //      height: 150.0,
@@ -169,7 +168,7 @@ class _TutorialPageState extends State<TutorialPage> {
         children: [
           topBannerSection,
           new Padding(padding: EdgeInsets.only(top: 19.0)),
-          uvpSection,
+          // uvpSection,
           loginOptionsSection,
           bottomSection
         ],

@@ -25,6 +25,7 @@ class Datum {
   Datum.fromJson(Map<String, dynamic> map)
       : id = map['id'],
         type = map['type'],
+        // type = new Attribute.fromJson(map['attributes'] as Map<String, dynamic>).estType,
         attributes = map['attributes'] == null
             ? null
             : new Attribute.fromJson(map['attributes'] as Map<String, dynamic>);

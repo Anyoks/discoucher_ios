@@ -5,19 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 buildBody(BuildContext context) {
-  return Column(
-    children: [topBannerSection, buildHomeSections(context)],
-  );
+  return buildHomeSections(context);
 }
 
 sectionBuilder(BuildContext context, List sections) {
-  return ListView.builder(
-    key: new Key(new Uuid().v1()), //new,
-    scrollDirection: Axis.vertical,
-    itemCount: sections.length,
-    itemBuilder: (BuildContext context, int index) {
-      return buildHomeList(context, sections[index]);
-    },
+  return ListView(
+    children: <Widget>[
+      topBannerSection,
+      ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        key: new Key(new Uuid().v1()),
+        scrollDirection: Axis.vertical,
+        itemCount: sections.length,
+        itemBuilder: (BuildContext context, int index) {
+          return buildHomeList(context, sections[index]);
+        },
+      )
+    ],
   );
 }
 

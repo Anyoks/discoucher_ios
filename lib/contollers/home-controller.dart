@@ -19,32 +19,12 @@ Future<List<List<Datum>>> getHomeSections() async {
       client.get(Uri.encodeFull(endpoint),
           headers: {'Accept': 'application/json'})));
 
-  return responses.map((response) {
+  List<List<Datum>> sectionsLists = responses.map((response) {
     return parseSectionData(response.body);
   }).toList();
-}
 
-Future<List<List<Datum>>> fetchHomeSections() async {
-  final restaurantsResponse = await http.get(
-      Uri.encodeFull(restaurantsEndpoint),
-      headers: {'Accept': 'application/json'});
-  final hotelsResponse = await http.get(Uri.encodeFull(hotelsEndpoint),
-      headers: {'Accept': 'application/json'});
-  final spasResponse = await http.get(Uri.encodeFull(spasEndpoint),
-      headers: {'Accept': 'application/json'});
-
-  var restaurantsData = parseSectionData(restaurantsResponse.body);
-  var hotelsData = parseSectionData(hotelsResponse.body);
-  var spasData = parseSectionData(spasResponse.body);
-
-  // Use the compute function to run parsePhotos in a separate isolate
-  // return compute(parseData, response.body);
-  // var restaurantsData = compute(parseSectionData, restaurantsResponse.body);
-  // var hotelsData = compute(parseSectionData, hotelsResponse.body);
-  // var spasData = compute(parseSectionData, spasResponse.body);
-
-  // return [restaurantsData, hotelsData, spasData];
-  return [restaurantsData];
+  client.close();
+  return sectionsLists;
 }
 
 // A function that will convert a response body into a List<Photo>
