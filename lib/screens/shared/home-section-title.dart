@@ -1,13 +1,15 @@
+import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/screens/category/category-main.dart';
 import 'package:flutter/material.dart';
 
-openCategoryPage(BuildContext context, String title) {
+openCategoryPage(BuildContext context, List<Datum> categoryData, String type) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return CategoryPage(category: 'Hotels');
+    return CategoryPage(category: categoryData, type: type,);
   }));
 }
 
-buildHomeSectionTitle(BuildContext context, String title) {
+buildHomeSectionTitle(
+    BuildContext context, List<Datum> categoryData, String type) {
   return Container(
     margin: EdgeInsets.only(left: 2.0, right: 3.0, bottom: 15.0),
     child: Row(
@@ -18,10 +20,10 @@ buildHomeSectionTitle(BuildContext context, String title) {
             child: GestureDetector(
               onTap: () {
                 //TODO: Implement arrow click
-                openCategoryPage(context, title);
+                openCategoryPage(context, categoryData, type);
               },
               child: Text(
-                title,
+                type,
                 style: TextStyle(
                   fontSize: 18.0,
                   color: Theme.of(context).primaryColor,
@@ -34,7 +36,7 @@ buildHomeSectionTitle(BuildContext context, String title) {
         GestureDetector(
           onTap: () {
             //TODO: Implement arrow click
-            openCategoryPage(context, title);
+            openCategoryPage(context, categoryData, type);
           },
           child: Padding(
             padding: EdgeInsets.only(left: 12.0, right: 12.0),

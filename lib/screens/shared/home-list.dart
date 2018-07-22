@@ -5,18 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 buildHomeList(BuildContext context, List<Datum> data) {
+  var estType = data[0].attributes.estType != null
+      ? data[0].attributes.estType
+      : "Establishment";
+
+  String header = estType;
+  switch (estType) {
+    case "Restaurant":
+      header = "Restaurants";
+      break;
+    case "Hotel":
+      header = "Hotels";
+      break;
+    case "Spas and Salons":
+      header = "Spas and Salons";
+      break;
+    default:
+      header = estType;
+  }
+  
   return new Container(
-    margin: EdgeInsets.only(left: 12.0, top: 12.0),
+    margin: EdgeInsets.only(left: 12.0, top: 5.0),
     child: Column(
-      // mainAxisAlignment: MainAxisAlignment.start,
-      // mainAxisSize: MainAxisSize.min,
-      // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        buildHomeSectionTitle(context, data[1].type),
+        buildHomeSectionTitle(
+            // TODO: Remove this shinanigan
+            context,
+            data,
+            header),
         Container(
           height: 154.0,
           child: ListView.builder(
-            key: new Key(new Uuid().v1()), //new,
+            key: new Key(new Uuid().v1()),
             scrollDirection: Axis.horizontal,
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {

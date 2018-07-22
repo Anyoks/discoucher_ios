@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 
-buildCategorySliverAppBar(BuildContext context) {
+buildCategorySliverAppBar(BuildContext context, String type) {
+// - images/establishments/hotels.jpeg
+// - images/establishments/hotels2.jpg
+// - images/establishments/restaurants.jpeg
+// - images/establishments/ribs.jpg
+// - images/establishments/salons.jpg
+  String img = "images/establishments/mister.jpg";
+  switch (type) {
+    case "Restaurants":
+      img = "images/establishments/restaurants.jpeg";
+      break;
+    case "Hotels":
+      img = "images/establishments/hotels2.jpg";
+      break;
+    case "Spas and Salons":
+      img = "images/establishments/salons.jpg";
+      break;
+    default:
+      img = "images/establishments/hotels.jpeg";
+  }
+
   return SliverAppBar(
     centerTitle: true,
     pinned: true,
@@ -26,13 +46,12 @@ buildCategorySliverAppBar(BuildContext context) {
       )
     ],
     flexibleSpace: FlexibleSpaceBar(
-      title: Text("widget.title"),
-      // background: DecoratedBox(
-      //   decoration: BoxDecoration(
-      //     image: DecorationImage(
-      //         image: AssetImage("widget.imageUrl"), fit: BoxFit.cover),
-      //   ),
-      // ),
+      title: Text(type),
+      background: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(img), fit: BoxFit.cover),
+        ),
+      ),
     ),
   );
 }

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 buildCategorySliverGrid(List<Datum> establishments) {
   return SliverGrid(
-    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 160.0,
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: establishments.length,
         crossAxisSpacing: 4.18,
         mainAxisSpacing: 4.18),
     delegate: SliverChildBuilderDelegate(
@@ -17,8 +17,10 @@ buildCategorySliverGrid(List<Datum> establishments) {
           },
           child: Container(
               alignment: Alignment.center,
-              color: Colors.teal[100 * (index % 9)],
+              color: Colors.red,
               child: buildGenericListItem(context, data)
+
+
               // new Text(establishments[index].id),
 
               // return new ListView.builder(

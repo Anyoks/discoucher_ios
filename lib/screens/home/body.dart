@@ -12,6 +12,7 @@ sectionBuilder(BuildContext context, List sections) {
   return ListView(
     children: <Widget>[
       topBannerSection,
+      SizedBox(height: 10.0),
       ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -27,6 +28,7 @@ sectionBuilder(BuildContext context, List sections) {
 }
 
 buildHomeSections(BuildContext context) {
+  // TODO: Handle loading screens
   return FutureBuilder(
     future: getHomeSections(),
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -41,7 +43,7 @@ buildHomeSections(BuildContext context) {
           ));
         default:
           if (snapshot.hasError)
-            return new Text('An error happened');
+            return new Text('An error happened: ${snapshot.error}');
           else
             return sectionBuilder(context, snapshot.data);
       }
