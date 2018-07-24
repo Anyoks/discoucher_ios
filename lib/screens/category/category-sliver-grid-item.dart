@@ -1,22 +1,11 @@
+
 import 'package:discoucher/models/datum.dart';
-import 'package:discoucher/screens/details/establishment.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
 
-openEstablishmentDetails(BuildContext context, Datum data) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (BuildContext context) {
-      return EstablishmentPage(
-        data: data,
-      );
-    }),
-  );
-}
-
 buildSectonContent(Datum data) {
   final double xHeight = 120.0;
-  final double xWidth = 159.0;
+  final double xWidth = 189.0;
   return Container(
     height: xHeight,
     width: xWidth,
@@ -74,37 +63,6 @@ buildSectonContent(Datum data) {
       //   ),
       // ),
       // ),
-    ),
-  );
-}
-
-buildGenericListItem(BuildContext context, Datum data) {
-  return Container(
-    width: 160.0,
-    margin: EdgeInsets.only(right: 10.0),
-    child: new GestureDetector(
-      onTap: () {
-        openEstablishmentDetails(context, data);
-      },
-      child: Hero(
-        tag: data.id,
-        child: Column(
-          children: <Widget>[
-            buildSectonContent(data),
-            SizedBox(height: 7.0),
-            Expanded(
-              child: Text(
-                // data.attributes.name,
-                "FREE LUNCH MAIN COURSE when a Lunch Main Course",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: TextStyle(color: Colors.black, fontSize: 11.0),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
-      ),
     ),
   );
 }

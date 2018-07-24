@@ -2,6 +2,7 @@ import 'package:discoucher/screens/playground/fading.dart';
 import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/playground/presto.dart';
 import 'package:discoucher/screens/authentication/login.dart';
+import 'package:discoucher/screens/search/search.dart';
 import 'package:flutter/material.dart';
 
 openPage(BuildContext context, String pageName) {
@@ -37,73 +38,80 @@ openNotifications(BuildContext context) {
   }));
 }
 
-buildAppBar() {
-  return Row( 
-    mainAxisAlignment: MainAxisAlignment.start,
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: <Widget>[
-      Image.asset("images/logo"),
-      Icon(
-        Icons.search,
-        color: Colors.pinkAccent,
-      ),
-      TextField(
-        autofocus: false,
-        autocorrect: true,
-        style: TextStyle(color: Colors.black12),
-        decoration: InputDecoration(
-            icon: Icon(Icons.search),
-            prefixIcon: Icon(Icons.search),
-            border: InputBorder.none,
-            hintText: 'Search discounts',
-            hintStyle: TextStyle(color: Colors.grey)),
-      )
-    ],
-  );
-}
+// buildAppBar(){
+//   return HomeAppBar();
+// }
 
-buildAppBar2(BuildContext context) {
+buildAppBar(BuildContext context, SearchDelegate _delegate) {
+  // final appBarBackground = const Color(0XFFE5E5E5);
+  final appBarBackground = Colors.green[900];
+  final appBarForeground = const Color(0XFFBDBDBD);
+
   return AppBar(
-    // backgroundColor: Color(0xFFE5E5E5),
-    elevation: 0.1,
-    // toolbarOpacity: 0.0,
-    leading: Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
-      child: Image.asset('images/logo_with_no_name.png'),
-    ),
-    title: Container(
-      width: 200.0,
-      height: 30.0,
+    // elevation: 1.0,
+    backgroundColor: appBarBackground,
+    centerTitle: true,
+    titleSpacing: 0.0,
+    title: Center(
       child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            Icons.search,
-            color: Colors.pinkAccent,
+          SizedBox(width: 5.0),
+          Container(
+            child: Image.asset(
+              "images/simple-logo.png",
+              fit: BoxFit.fitHeight,
+              height: 25.0,
+            ),
           ),
-          // TextField(
-          //   autofocus: false,
-          //   autocorrect: true,
-          //   style: TextStyle(color: Colors.black12),
-          //   decoration: InputDecoration(
-          //       icon: Icon(Icons.search),
-          //       prefixIcon: Icon(Icons.search),
-          //       border: InputBorder.none,
-          //       hintText: 'Search discounts',
-          //       hintStyle: TextStyle(color: Colors.grey)),
-          // )
+          SizedBox(width: 10.0),
+          Flexible(
+            child: GestureDetector(
+              onTap: () async {
+                 print("Searching....");
+                // final int selected = await showSearch<int>(
+                //   context: context,
+                //   delegate: _delegate,
+                // );
+                // if (selected != null) {
+                //   print(selected);
+                // }
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 15.0),
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.search, color: appBarForeground),
+                    SizedBox(width: 10.0),
+                    Expanded(
+                      child: Text(
+                        "discover hotels, spas, cafes...",
+                        style:
+                            TextStyle(fontSize: 16.0, color: appBarForeground),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     ),
     actions: <Widget>[
       IconButton(
-        onPressed: () => openPage(context, "FadingPage"),
-        padding: EdgeInsets.all(2.0),
-        icon: Icon(Icons.open_with),
-      ),
-      IconButton(
-        onPressed: () => openNotifications(context),
-        padding: EdgeInsets.all(2.0),
-        icon: Icon(Icons.notifications),
+        iconSize: 32.0,
+        onPressed: () {
+          print("pressed");
+        },
+        icon: Icon(Icons.notifications_none),
       ),
     ],
   );

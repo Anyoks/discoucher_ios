@@ -12,8 +12,6 @@ dependencies:
   carousel_slider: "^0.0.6"
   uuid: "1.0.1"
   material_search: "^0.2.7"
-  location: "^1.3.0"
-
 
 dev_dependencies:
   flutter_test:
@@ -37,10 +35,13 @@ flutter:
 
   assets:
       - images/logo.png
-      - images/logo_with_no_name.png
+      - images/simple-logo.png
       - images/item-placeholder.jpg
       - images/banner.jpg
       - images/burger.jpg
+  
+      - images/sharon.jpg
+      - images/edwin.jpg
 
       - images/social/fb.png
       - images/social/google.png

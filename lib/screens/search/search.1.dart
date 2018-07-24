@@ -1,58 +1,107 @@
+// Copyright 2018 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
-class HomeAppBar extends StatefulWidget {
-    static const String routeName = '/material/search'; 
+class SearchDemo extends StatefulWidget {
+  static const String routeName = '/material/search'; 
 
   @override
-  _HomeAppBarState createState() => new _HomeAppBarState();
+  _SearchDemoState createState() => new _SearchDemoState();
 }
 
-class _HomeAppBarState extends State<HomeAppBar> {
+class _SearchDemoState extends State<SearchDemo> {
   final _SearchDemoSearchDelegate _delegate = new _SearchDemoSearchDelegate();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   int _lastIntegerSelected;
 
-  openSearch() async {
-    final int selected = await showSearch<int>(
-      context: context,
-      delegate: this._delegate,
-    );
-    if (selected != null && selected != _lastIntegerSelected) {
-      setState(() {
-        _lastIntegerSelected = selected;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return new Scaffold(
+      key: _scaffoldKey,
+      appBar: new AppBar(
+        leading: new IconButton(
+          tooltip: 'Navigation menu',
+          icon: new AnimatedIcon(
+            icon: AnimatedIcons.menu_arrow,
+            color: Colors.white,
+            progress: _delegate.transitionAnimation,
+          ),
+          onPressed: () {
+            // _scaffoldKey.currentState.openDrawer();
+          },
+        ),
+        title: const Text('Numbers'),
         actions: <Widget>[
-          IconButton(
-            iconSize: 32.0,
-            onPressed: () {
-              openSearch();
+          new IconButton(
+            tooltip: 'Search',
+            icon: const Icon(Icons.search),
+            onPressed: () async {
+              final int selected = await showSearch<int>(
+                context: context,
+                delegate: _delegate,
+              );
+              if (selected != null && selected != _lastIntegerSelected) {
+                setState(() {
+                  _lastIntegerSelected = selected;
+                });
+              }
             },
-            icon: Icon(Icons.search),
+          ),
+          new IconButton(
+            tooltip: 'More (not implemented)',
+            icon: const Icon(Icons.more_vert),
+            onPressed: () {},
           ),
         ],
-      );
+      ),
+      body: new Center(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new MergeSemantics(
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Text('Press the '),
+                      Tooltip(
+                        message: 'search',
+                        child: Icon(
+                          Icons.search,
+                          size: 18.0,
+                        ),
+                      ),
+                      Text(' icon in the AppBar'),
+                    ],
+                  ),
+                  const Text('and search for an integer between 0 and 100,000.'),
+                ],
+              ),
+            ),
+            const SizedBox(height: 64.0),
+            new Text('Last selected integer: ${_lastIntegerSelected ?? 'NONE' }.')
+          ],
+        ),
+      ),
+      floatingActionButton: new FloatingActionButton.extended(
+        tooltip: 'Back', // Tests depend on this label to exit the demo.
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        label: const Text('Close demo'),
+        icon: const Icon(Icons.close),
+      ),
+    );
   }
 }
 
 class _SearchDemoSearchDelegate extends SearchDelegate<int> {
-  final List<int> _data =
-      new List<int>.generate(100001, (int i) => i).reversed.toList();
+  final List<int> _data = new List<int>.generate(100001, (int i) => i).reversed.toList();
   final List<int> _history = <int>[42607, 85604, 66374, 44, 174];
 
   @override
@@ -71,6 +120,7 @@ class _SearchDemoSearchDelegate extends SearchDelegate<int> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+
     final Iterable<int> suggestions = query.isEmpty
         ? _history
         : _data.where((int i) => '$i'.startsWith(query));
@@ -192,8 +242,7 @@ class _SuggestionList extends StatelessWidget {
           title: new RichText(
             text: new TextSpan(
               text: suggestion.substring(0, query.length),
-              style:
-                  theme.textTheme.subhead.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.subhead.copyWith(fontWeight: FontWeight.bold),
               children: <TextSpan>[
                 new TextSpan(
                   text: suggestion.substring(query.length),

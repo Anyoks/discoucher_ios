@@ -1,4 +1,3 @@
-
 import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/screens/category/category-sliver-app-bar.dart';
 import 'package:discoucher/screens/category/category-sliver-grid.dart';
@@ -32,7 +31,7 @@ class _CategoryPageState extends State<CategoryPage> {
       body: CustomScrollView(
         slivers: <Widget>[
           buildCategorySliverAppBar(context, widget.type),
-          buildCategorySliverGrid(widget.category),
+          buildCategorySliverGrid(widget.category)
         ],
       ),
     );

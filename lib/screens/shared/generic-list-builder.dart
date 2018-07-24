@@ -1,5 +1,5 @@
 import 'package:discoucher/contollers/categories.dart';
-import 'package:discoucher/screens/shared/home-list.dart';
+import 'package:discoucher/screens/home/horizontal-list.dart';
 import 'package:flutter/material.dart';
 
 buildRestaurantsSection(BuildContext context) {

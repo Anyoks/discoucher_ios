@@ -1,6 +1,6 @@
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/screens/home/home-section-title.dart';
 import 'package:discoucher/screens/shared/generic-list-item.dart';
-import 'package:discoucher/screens/shared/home-section-title.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 

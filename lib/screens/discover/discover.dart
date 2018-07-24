@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:discoucher/screens/search/search.dart';
+import 'package:flutter/material.dart';
 
 class ExplorePage extends StatefulWidget {
   @override
@@ -8,12 +9,8 @@ class ExplorePage extends StatefulWidget {
 class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: CupertinoButton(
-      child: Text("Discover stuff"),
-      onPressed: () {
-        print("Stuff");
-      },
-    ));
+    return Scaffold(
+      body: HomeAppBar(),
+    );
   }
 }

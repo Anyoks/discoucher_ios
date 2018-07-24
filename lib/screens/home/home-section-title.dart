@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 
 openCategoryPage(BuildContext context, List<Datum> categoryData, String type) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return CategoryPage(category: categoryData, type: type,);
+    return CategoryPage(
+      category: categoryData,
+      type: type,
+    );
   }));
 }
 
 buildHomeSectionTitle(
     BuildContext context, List<Datum> categoryData, String type) {
   return Container(
-    margin: EdgeInsets.only(left: 2.0, right: 3.0, bottom: 15.0),
+    padding: EdgeInsets.symmetric(vertical: 10.0),
     child: Row(
       children: <Widget>[
         Expanded(
