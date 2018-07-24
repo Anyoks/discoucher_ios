@@ -10,11 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-    final _SearchDelegate _delegate = new _SearchDelegate();
-
   int index = 0;
-
-  SearchDelegate _homeSearchDelegate;
 
   @override
   void initState() {
@@ -42,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       body: Container( 
         child: new Stack(
           children: <Widget>[
-            buildOffStageItem(0, buildBody(context, _homeSearchDelegate)),
+            buildOffStageItem(0, HomeBody()),
             buildOffStageItem(1, ExplorePage()),
             buildOffStageItem(2, NearbyPage()),
             buildOffStageItem(3, SettingsPage()),
@@ -82,85 +78,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-class _SearchDelegate extends SearchDelegate<int> {
-  final List<int> _data =
-      new List<int>.generate(100001, (int i) => i).reversed.toList();
-  final List<int> _history = <int>[42607, 85604, 66374, 44, 174];
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return new IconButton(
-      tooltip: 'Back',
-      icon: new AnimatedIcon(
-        icon: AnimatedIcons.menu_arrow,
-        progress: transitionAnimation,
-      ),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final Iterable<int> suggestions = query.isEmpty
-        ? _history
-        : _data.where((int i) => '$i'.startsWith(query));
-
-    return null;
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    final int searched = int.tryParse(query);
-    if (searched == null || !_data.contains(searched)) {
-      return new Center(
-        child: new Text(
-          '"$query"\n is not a valid integer between 0 and 100,000.\nTry again.',
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-
-    return new ListView(
-      children: <Widget>[
-         Card(
-        child: new Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: new Column(
-            children: <Widget>[
-              new Text("title"),
-             
-            ],
-          ),
-        ),
-      ),
-        
-      ],
-    );
-  }
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return <Widget>[
-      query.isEmpty
-          ? new IconButton(
-              tooltip: 'Voice Search',
-              icon: const Icon(Icons.mic),
-              onPressed: () {
-                query = 'TODO: implement voice input';
-              },
-            )
-          : new IconButton(
-              tooltip: 'Clear',
-              icon: const Icon(Icons.clear),
-              onPressed: () {
-                query = '';
-                showSuggestions(context);
-              },
-            )
-    ];
-  }
-}
-

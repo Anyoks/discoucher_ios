@@ -22,8 +22,9 @@ buildCategorySliverAppBar(BuildContext context, String type) {
   }
 
   return SliverAppBar(
-    centerTitle: true,
+    // centerTitle: true,
     pinned: true,
+    primary: true,
     expandedHeight: 200.0,
     leading: IconButton(
       onPressed: () {

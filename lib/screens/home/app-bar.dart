@@ -2,7 +2,6 @@ import 'package:discoucher/screens/playground/fading.dart';
 import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/playground/presto.dart';
 import 'package:discoucher/screens/authentication/login.dart';
-import 'package:discoucher/screens/search/search.dart';
 import 'package:flutter/material.dart';
 
 openPage(BuildContext context, String pageName) {
@@ -42,7 +41,7 @@ openNotifications(BuildContext context) {
 //   return HomeAppBar();
 // }
 
-buildAppBar(BuildContext context, SearchDelegate _delegate) {
+buildAppBar(BuildContext context) {
   // final appBarBackground = const Color(0XFFE5E5E5);
   final appBarBackground = Colors.green[900];
   final appBarForeground = const Color(0XFFBDBDBD);

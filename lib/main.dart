@@ -4,17 +4,17 @@ import 'screens/home/entry.dart';
 
 void main() {
   runApp(
-    new MaterialApp(
+   MaterialApp(
       title: "Discoucher",
-      theme: new ThemeData(
+      theme:ThemeData(
           // brightness: Brightness.light,
           primaryColor: Colors.green[900],
           accentColor: Colors.red[700],
           scaffoldBackgroundColor: Colors.white),
-      home: new HomePage(),
+      home: TutorialPage(),
       routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => new HomePage(),
-        '/tutorial': (BuildContext context) => new TutorialPage(),
+        '/home': (BuildContext context) =>HomePage(),
+        '/tutorial': (BuildContext context) =>TutorialPage(),
       },
     ),
   );

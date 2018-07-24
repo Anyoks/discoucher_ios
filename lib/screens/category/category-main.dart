@@ -1,6 +1,6 @@
 import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/screens/category/category-sliver-app-bar.dart';
-import 'package:discoucher/screens/category/category-sliver-grid.dart';
+import 'package:discoucher/screens/category/category-sliver-list.dart';
 import 'package:flutter/material.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -29,9 +29,12 @@ class _CategoryPageState extends State<CategoryPage> {
     return Scaffold(
       // appBar: new AppBar(title: new Text("Category")),
       body: CustomScrollView(
+        shrinkWrap: true,
         slivers: <Widget>[
           buildCategorySliverAppBar(context, widget.type),
-          buildCategorySliverGrid(widget.category)
+          // buildListTypeSelector(),
+          // buildCategorySliverGrid(widget.category),
+          buildCategorySliverList(widget.category),
         ],
       ),
     );
