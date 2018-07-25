@@ -28,7 +28,7 @@ class DiscoucherRoutes {
           {
             return LoginPage();
           }
-        case "LoginPage":
+        case "HomePage":
           {
             return HomePage();
           }
@@ -46,7 +46,7 @@ class DiscoucherRoutes {
           }
         default:
           {
-            return null;
+            return LoginPage();
           }
       }
     }));
