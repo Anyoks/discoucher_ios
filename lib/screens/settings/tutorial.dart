@@ -1,5 +1,7 @@
+import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 
 class TutorialPage extends StatefulWidget {
   @override
@@ -7,12 +9,19 @@ class TutorialPage extends StatefulWidget {
 }
 
 class _TutorialPageState extends State<TutorialPage> {
-  get back => null;
+  DiscoucherRoutes routes = new DiscoucherRoutes();
 
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
   }
 
   toggleTopBarVisibility(bool isHidden) {
@@ -100,7 +109,6 @@ class _TutorialPageState extends State<TutorialPage> {
           color: Theme.of(context).primaryColor,
           onPressed: () {
             Navigator.of(context).pop();
-            SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
           },
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +132,7 @@ class _TutorialPageState extends State<TutorialPage> {
             child: new FlatButton(
               padding: EdgeInsets.all(0.0),
               child: Text('Sign In'),
-              onPressed: (() {}),
+              onPressed: (() => routes.go(context, "LoginPage")),
             ),
           ),
           new Text(

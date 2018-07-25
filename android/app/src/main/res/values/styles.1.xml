@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Discoucher</string>
+
+    <string name="facebook_app_id">244995332781311</string>
+    <string name="fb_login_protocol_scheme">fb244995332781311</string>
+
+</resources>
