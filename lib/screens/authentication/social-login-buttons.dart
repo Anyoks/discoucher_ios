@@ -60,6 +60,7 @@ class SocialLoginButtons extends StatelessWidget {
       switch (results.success) {
         case true:
           goHome(context);
+          saveLoggedInUser(new LoggedInUser(userData: results.profile));
           break;
         default:
           showErrorMessage(results.message);
@@ -75,6 +76,7 @@ class SocialLoginButtons extends StatelessWidget {
       LoginResults results = await fb.login();
       switch (results.success) {
         case true:
+          saveLoggedInUser(new LoggedInUser(userData: results.profile));
           goHome(context);
           break;
         default:
@@ -85,14 +87,16 @@ class SocialLoginButtons extends StatelessWidget {
     }
   }
 
-  showErrorMessage(String error) {
-    Duration timeout = new Duration(seconds: 3);
-    final snackbar = SnackBar(
-      duration: timeout,
-      content: Text(error),
-    );
+  showErrorMessage(dynamic error) {
+    if (error.runtimeType == String) {
+      Duration timeout = new Duration(seconds: 3);
+      final snackbar = SnackBar(
+        duration: timeout,
+        content: Text(error),
+      );
 
-    scaffoldKey.currentState.showSnackBar(snackbar);
+      scaffoldKey.currentState.showSnackBar(snackbar);
+    }
   }
 
   waitForLogin(BuildContext context) async {
@@ -116,7 +120,7 @@ class SocialLoginButtons extends StatelessWidget {
     }));
   }
 
-  saveLoggedInUser(LoggedInUser user) async{
+  saveLoggedInUser(LoggedInUser user) async {
     var userSaved = await prefs.updateLoggedInUser(user);
     print(userSaved);
   }

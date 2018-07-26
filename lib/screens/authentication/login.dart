@@ -10,7 +10,7 @@ class LoginPage extends StatefulWidget {
   final key;
   final bool fromSplashScreen;
 
-  LoginPage({this.key, this.fromSplashScreen});
+  LoginPage({this.key, @required this.fromSplashScreen});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -69,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
               exit(0);
               // SystemNavigator.pop();
             } else {
+              SystemChrome.setEnabledSystemUIOverlays([]);
               Navigator.pop(context);
             }
           },

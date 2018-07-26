@@ -42,22 +42,26 @@ class _TutorialPageState extends State<TutorialPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             buildTopBannerSection(context),
-            Padding(padding: EdgeInsets.only(top: 19.0)),
-            SizedBox(
-              width: 70.0,
-              child: FlatButton(
-                padding: EdgeInsets.all(0.0),
-                child: Text('Sign In'),
-                onPressed: (() => routes.go(context, "LoginPage")),
+            buildCarousel(),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 80.0,
+                    child: FlatButton(
+                      child: Text('Sign In'),
+                      onPressed: (() => routes.go(context, "LoginPage")),
+                    ),
+                  ),
+                  Text(
+                    "|",
+                    style: TextStyle(fontSize: 22.0),
+                  ),
+                  SocialLoginButtons(routes, scaffoldKey, prefs),
+                ],
               ),
             ),
-            Text(
-              "|",
-              style: TextStyle(fontSize: 22.0),
-            ),
-            SizedBox(width: 15.0),
-            buildCarousel(),
-            SocialLoginButtons(routes, scaffoldKey, prefs),
+            SizedBox(height: 15.0),
             buildBottomSection(context)
           ],
         ),
@@ -79,34 +83,67 @@ class _TutorialPageState extends State<TutorialPage> {
 
   buildCarousel() {
     List<CarouselContent> carouselContents = [
-      new CarouselContent("images/uvp/discover.png", "Discover"),
-      new CarouselContent("images/uvp/buy2.jpg", "Buy"),
-      new CarouselContent("images/uvp/save.png", "Save")
+      new CarouselContent(
+          imagePath: "images/uvp/buy2.jpg",
+          title: "Buy",
+          description:
+              "Buy your DisCoucher book for KES2,000 and access over 150 vouchers valued at over KES650,000"),
+      new CarouselContent(
+          imagePath: "images/uvp/discover.png",
+          title: "Discover",
+          description:
+              "Visit the establishment of your choosing, and present the waitress with your physical voucher. Create memories and savor experiences!"),
+      new CarouselContent(
+          imagePath: "images/uvp/save.png",
+          title: "Save",
+          description:
+              "The item indicated on the voucher is deducted from your bill.")
     ];
 
     return Expanded(
       child: CarouselSlider(
-        height: 340.0,
+        //height: 350.0,
+        aspectRatio: 1.0,
         autoPlay: false,
         items: carouselContents.map((carouselContent) {
           return Builder(
             builder: (BuildContext context) {
-              return Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: new BoxDecoration(
-                    borderRadius:
-                        new BorderRadius.all(new Radius.circular(10.0)),
-                    shape: BoxShape.rectangle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(carouselContent.imagePath),
+              return Column(
+                children: <Widget>[
+                  Container(
+                    height: 300.0,
+                    width: 300.0,
+                    foregroundDecoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(carouselContent.imagePath),
+                      ),
+                    ),
+                    child: null,
+                  ),
+                  SizedBox(height: 15.0),
+                  Text(
+                    carouselContent.title,
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 20.0),
+                  ),
+                  SizedBox(height: 15.0),
+                  Expanded(
+                    child: Container(
+                      width: 250.0,
+                      child: Text(
+                        carouselContent.description,
+                        textAlign: TextAlign.center,
+                        style: new TextStyle(fontSize: 13.0),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    carouselContent.text,
-                    style: TextStyle(fontSize: 16.0),
-                  ));
+                ],
+              );
             },
           );
         }).toList(),
@@ -114,44 +151,49 @@ class _TutorialPageState extends State<TutorialPage> {
     );
   }
 
-  buildBottomText(String text) => Center(
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
-        ),
-      );
+  buildBottomText(String text) {
+    return Center(
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+      ),
+    );
+  }
 
-  buildBottomSection(BuildContext context) => Container(
+  buildBottomSection(BuildContext context) {
+    return Container(
+      color: Theme.of(context).primaryColor,
+      child: FlatButton(
+        padding: const EdgeInsets.all(18.0),
         color: Theme.of(context).primaryColor,
-        child: FlatButton(
-          padding: const EdgeInsets.all(18.0),
-          color: Theme.of(context).primaryColor,
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return HomePage();
-            }));
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              buildBottomText("DISCOVER DEALS"),
-              Padding(padding: EdgeInsets.only(left: 18.0)),
-              Icon(Icons.keyboard_arrow_right, color: Colors.white),
-              Icon(Icons.keyboard_arrow_right, color: Colors.white)
-            ],
-          ),
+        onPressed: () {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return HomePage();
+          }));
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildBottomText("DISCOVER DEALS"),
+            Padding(padding: EdgeInsets.only(left: 18.0)),
+            Icon(Icons.keyboard_arrow_right, color: Colors.white),
+            Icon(Icons.keyboard_arrow_right, color: Colors.white)
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 class CarouselContent {
   final String imagePath;
-  final String text;
+  final String title;
+  final String description;
 
-  CarouselContent(this.imagePath, this.text);
+  CarouselContent({this.imagePath, this.title, this.description});
 
   // CarouselContent.getContent()
 }

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:discoucher/screens/discover/discover.dart';
 import 'package:discoucher/screens/home/body.dart';
 import 'package:discoucher/screens/nearby/nearby.dart';
@@ -27,33 +30,61 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  Future<bool> _onWillPop() {
+    return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return new AlertDialog(
+                title: new Text('Are you sure you want to exit?'),
+                content: new Text('Press yes again to exit'),
+                actions: <Widget>[
+                  new FlatButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: new Text('No'),
+                  ),
+                  new FlatButton(
+                    onPressed: () {
+                      // Navigator.of(context).pop(true);
+                      exit(0);
+                    },
+                    child: new Text('Yes'),
+                  ),
+                ],
+              );
+            }) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: Container(
-        child: new Stack(
-          children: <Widget>[
-            buildOffStageItem(0, HomeBody()),
-            buildOffStageItem(1, ExplorePage()),
-            buildOffStageItem(2, NearbyPage()),
-            buildOffStageItem(3, SettingsPage()),
+    return new WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: Container(
+          child: new Stack(
+            children: <Widget>[
+              buildOffStageItem(0, HomeBody()),
+              buildOffStageItem(1, ExplorePage()),
+              buildOffStageItem(2, NearbyPage()),
+              buildOffStageItem(3, SettingsPage()),
+            ],
+          ),
+        ),
+        bottomNavigationBar: new BottomNavigationBar(
+          currentIndex: this.index,
+          onTap: (int index) {
+            setState(() {
+              this.index = index;
+            });
+          },
+          fixedColor: Colors.yellow,
+          items: <BottomNavigationBarItem>[
+            buildBottomBarItem(Icons.home, "Home"),
+            buildBottomBarItem(Icons.search, "Discover"),
+            buildBottomBarItem(Icons.location_on, "Nearby"),
+            buildBottomBarItem(Icons.person, "Me"),
           ],
         ),
-      ),
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: this.index,
-        onTap: (int index) {
-          setState(() {
-            this.index = index;
-          });
-        },
-        fixedColor: Colors.yellow,
-        items: <BottomNavigationBarItem>[
-          buildBottomBarItem(Icons.home, "Home"),
-          buildBottomBarItem(Icons.search, "Discover"),
-          buildBottomBarItem(Icons.location_on, "Nearby"),
-          buildBottomBarItem(Icons.person, "Me"),
-        ],
       ),
     );
   }

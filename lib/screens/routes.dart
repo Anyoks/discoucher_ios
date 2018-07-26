@@ -30,7 +30,7 @@ class DiscoucherRoutes {
           }
         case "LoginPage":
           {
-            return LoginPage();
+            return LoginPage(fromSplashScreen: false,);
           }
         case "HomePage":
           {
@@ -50,7 +50,7 @@ class DiscoucherRoutes {
           }
         default:
           {
-            return LoginPage();
+            return LoginPage(fromSplashScreen: false,);
           }
       }
     }));

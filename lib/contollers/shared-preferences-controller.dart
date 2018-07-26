@@ -14,10 +14,10 @@ class SharedPrefefencedController {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if (user != null) {
-        var localUser = json.encode(user.toJson());
+        var localUserString = user.toJson();
+        var localUser = json.encode(localUserString);
         results =
             await prefs.setString(prefPaths.loggedInUser.toString(), localUser);
-
         return results;
       } else {
         results = await prefs.remove(prefPaths.loggedInUser);
@@ -33,8 +33,8 @@ class SharedPrefefencedController {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      var localUser = await prefs.getString(prefPaths.loggedInUser);
-      var user = json.decode(localUser);
+      final String localUser = await prefs.getString(prefPaths.loggedInUser).toString();
+      final user = json.decode(localUser);
 
       return LoggedInUser.fromJsonMap(user);
     } catch (e) {

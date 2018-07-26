@@ -14,7 +14,7 @@ openEstablishmentDetails(BuildContext context, Datum data) {
   );
 }
 
-buildSectonContent(Datum data) {
+buildSectionContent(Datum data) {
   final double xHeight = 120.0;
   final double xWidth = 159.0;
   return Container(
@@ -90,7 +90,7 @@ buildGenericListItem(BuildContext context, Datum data) {
         tag: data.id,
         child: Column(
           children: <Widget>[
-            buildSectonContent(data),
+            buildSectionContent(data),
             SizedBox(height: 7.0),
             Expanded(
               child: Text(

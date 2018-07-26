@@ -2,7 +2,6 @@ import 'package:discoucher/contollers/home-controller.dart';
 import 'package:discoucher/contollers/search-controller.dart';
 import 'package:discoucher/screens/home/horizontal-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';
-import 'package:discoucher/screens/home/app-bar.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -109,6 +108,7 @@ class _HomeBodyState extends State<HomeBody> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      SizedBox(width: 5.0),
                     ],
                   ),
                 ),
