@@ -3,6 +3,7 @@ import 'package:discoucher/screens/home/body.dart';
 import 'package:discoucher/screens/nearby/nearby.dart';
 import 'package:discoucher/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,6 +16,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+
+    // TODO: check auth
   }
 
   @override
@@ -22,20 +27,10 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  buildOffStageItem(int position, Widget child) {
-    return new Offstage(
-      offstage: this.index != position,
-      child: new TickerMode(
-        enabled: this.index == position,
-        child: child,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: Container( 
+      body: Container(
         child: new Stack(
           children: <Widget>[
             buildOffStageItem(0, HomeBody()),
@@ -59,6 +54,16 @@ class _HomePageState extends State<HomePage> {
           buildBottomBarItem(Icons.location_on, "Nearby"),
           buildBottomBarItem(Icons.person, "Me"),
         ],
+      ),
+    );
+  }
+
+  buildOffStageItem(int position, Widget child) {
+    return new Offstage(
+      offstage: this.index != position,
+      child: new TickerMode(
+        enabled: this.index == position,
+        child: child,
       ),
     );
   }

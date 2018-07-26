@@ -9,6 +9,10 @@ import 'package:discoucher/screens/settings/tutorial.dart';
 import 'package:flutter/material.dart';
 
 class DiscoucherRoutes {
+  goAndNeverComeback(BuildContext context, String pageName) {
+    Navigator.of(context).pushReplacementNamed('/${pageName}');
+  }
+
   go(BuildContext context, String pageName) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       switch (pageName) {

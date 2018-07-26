@@ -1,5 +1,5 @@
+import 'package:discoucher/screens/authentication/social-login-buttons.dart';
 import 'package:discoucher/screens/routes.dart';
-import 'package:discoucher/screens/shared/social-login-buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

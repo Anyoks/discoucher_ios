@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:discoucher/screens/authentication/login.dart';
 import 'package:discoucher/screens/routes.dart';
+import 'package:discoucher/screens/settings/tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,22 +17,42 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays(
-        []); // Give the navigation animations, etc, some time to finish
-    Future.delayed(Duration(seconds: 1)).then((_) {
-      var firstTimeUsingApp = true;
-      if (firstTimeUsingApp) {
-        routes.go(context, "TutorialPage");
+
+    SystemChrome.setEnabledSystemUIOverlays([]);
+
+    const timeout = const Duration(seconds: 1, milliseconds: 500);
+    new Timer(timeout, () {
+      try {
+        var firstTimeUsingApp = true;
+
+        if (firstTimeUsingApp) {
+          //Navigator.of(context).pushReplacementNamed('/tutorials');
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return TutorialPage();
+          }));
+        } else {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return LoginPage(
+              fromSplashScreen: true,
+            );
+          }));
+        }
+      } catch (error) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return LoginPage(
+            fromSplashScreen: true,
+          );
+        }));
       }
-      routes.go(context, "LoginPage");
     });
   }
 
   @override
   void dispose() {
     super.dispose();
-
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
   }
 
   @override

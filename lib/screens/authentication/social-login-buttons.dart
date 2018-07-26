@@ -1,14 +1,17 @@
 import 'package:discoucher/contollers/facebook-login.dart';
+import 'package:discoucher/contollers/google-signIn.dart';
 import 'package:discoucher/models/shared.dart';
+import 'package:discoucher/screens/home/entry.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 
 class SocialLoginButtons extends StatelessWidget {
+  SocialLoginButtons(this.routes, this.scaffoldKey);
+
   final DiscoucherRoutes routes;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final FacebookLoginController fb = new FacebookLoginController();
-
-  SocialLoginButtons(this.routes, this.scaffoldKey);
+  final GoogleSignInController google = new GoogleSignInController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +53,27 @@ class SocialLoginButtons extends StatelessWidget {
   }
 
   attemptGoogleLogin(BuildContext context) async {
-    var results = await waitForLogin(context);
-    print(results);
+    try {
+      LoginResults results = await google.signIn();
+      switch (results.success) {
+        case true:
+          goHome(context);
+          break;
+        default:
+          showErrorMessage(results.message);
+      }
+    } catch (errorMessage) {
+      showErrorMessage(errorMessage);
+    }
   }
 
   attemptFacebookLogin(BuildContext context) async {
     // waitForLogin(context);
     try {
       LoginResults results = await fb.login();
-
       switch (results.success) {
         case true:
-          //routes.go(context, "HomePage");
-          Navigator.pushNamed(context, '/');
-          // showErrorMessage("Welcome");
+          goHome(context);
           break;
         default:
           showErrorMessage(results.message);
@@ -74,7 +84,9 @@ class SocialLoginButtons extends StatelessWidget {
   }
 
   showErrorMessage(String error) {
+    Duration timeout = new Duration(seconds: 3);
     final snackbar = SnackBar(
+      duration: timeout,
       content: Text(error),
     );
 
@@ -94,5 +106,13 @@ class SocialLoginButtons extends StatelessWidget {
         );
       }),
     );
+  }
+
+  goHome(BuildContext context) {
+    // Navigator.of(context).pushReplacementNamed('/');
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) {
+      return HomePage();
+    }));
   }
 }

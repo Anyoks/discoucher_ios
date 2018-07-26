@@ -1,15 +1,16 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:discoucher/models/facebook-user.dart';
-import 'package:discoucher/screens/routes.dart';
-import 'package:discoucher/screens/shared/social-login-buttons.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import 'dart:io';
 
+import 'package:discoucher/screens/authentication/social-login-buttons.dart';
+import 'package:discoucher/screens/routes.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class LoginPage extends StatefulWidget {
+  final key;
+  final bool fromSplashScreen;
+
+  LoginPage({this.key, this.fromSplashScreen});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -59,6 +60,18 @@ class _LoginPageState extends State<LoginPage> {
       key: scaffoldKey,
       appBar: AppBar(
         title: Text('Login'),
+        leading: IconButton(
+          onPressed: () {
+            if (widget.fromSplashScreen) {
+              //TODO: Find a better way to do this, a safe way
+              exit(0);
+              // SystemNavigator.pop();
+            } else {
+              Navigator.pop(context);
+            }
+          },
+          icon: Icon(Icons.close),
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.all(16.0),
@@ -74,6 +87,8 @@ class _LoginPageState extends State<LoginPage> {
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextFormField(
             decoration: InputDecoration(labelText: 'Email'),
@@ -87,9 +102,21 @@ class _LoginPageState extends State<LoginPage> {
             onSaved: (val) => _password = val,
             obscureText: true,
           ),
-          RaisedButton(
-            onPressed: _submit,
-            child: Text('Login'),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 15.0),
+            child: RaisedButton(
+              onPressed: _submit,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: Colors.white, fontSize: 17.0),
+                ),
+              ),
+              color: Theme.of(context).primaryColor,
+              elevation: 4.0,
+              splashColor: Colors.red,
+            ),
           ),
         ],
       ),

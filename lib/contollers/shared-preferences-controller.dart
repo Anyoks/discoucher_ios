@@ -1,0 +1,5 @@
+class SharedPrefefencedController {
+  save() {}
+
+  remove() {}
+}

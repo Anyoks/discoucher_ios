@@ -12,7 +12,7 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
-   // final SearchHelper _searchHelper = new SearchHelper();
+  // final SearchHelper _searchHelper = new SearchHelper();
   final _searchDelegate = SearchHelper.getDelegate();
 
   int _lastIntegerSelected;
@@ -64,8 +64,9 @@ class _HomeBodyState extends State<HomeBody> {
     final appBarForeground = const Color(0XFFBDBDBD);
 
     return AppBar(
-      // elevation: 1.0,
       backgroundColor: appBarBackground,
+      leading: null,
+      automaticallyImplyLeading: false,
       centerTitle: true,
       titleSpacing: 0.0,
       title: Center(
