@@ -1,7 +1,10 @@
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
+import 'package:discoucher/screens/home/entry.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class TutorialPage extends StatefulWidget {
   @override
@@ -9,12 +12,14 @@ class TutorialPage extends StatefulWidget {
 }
 
 class _TutorialPageState extends State<TutorialPage> {
+  SharedPrefefencedController prefs = new SharedPrefefencedController();
   DiscoucherRoutes routes = DiscoucherRoutes();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
@@ -51,8 +56,8 @@ class _TutorialPageState extends State<TutorialPage> {
               style: TextStyle(fontSize: 22.0),
             ),
             SizedBox(width: 15.0),
-            // uvpSection,
-            SocialLoginButtons(routes, scaffoldKey),
+            buildCarousel(),
+            SocialLoginButtons(routes, scaffoldKey, prefs),
             buildBottomSection(context)
           ],
         ),
@@ -72,54 +77,44 @@ class _TutorialPageState extends State<TutorialPage> {
         ),
       );
 
-  // Widget uvpSection = Expanded(
-  //   child: CarouselSlider(
-  //     height: 320.0,
-  //     autoPlay: false,
-  //     items: [1, 2, 3, 4, 5].map((i) {
-  //       return Builder(
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //               width: MediaQuery.of(context).size.width,
-  //               margin: EdgeInsets.symmetric(horizontal: 5.0),
-  //               decoration: BoxDecoration(color: Colors.amber),
-  //               child: Text(
-  //                 'text $i',
-  //                 style: TextStyle(fontSize: 16.0),
-  //               ));
-  //         },
-  //       );
-  //     }).toList(),
-  //   ),
-  // );
+  buildCarousel() {
+    List<CarouselContent> carouselContents = [
+      new CarouselContent("images/uvp/discover.png", "Discover"),
+      new CarouselContent("images/uvp/buy2.jpg", "Buy"),
+      new CarouselContent("images/uvp/save.png", "Save")
+    ];
 
-//    Widget uvpSection2 = SizedBox(
-//      height: 150.0,
-//      width: 300.0,
-//      child: Carousel(
-//        images: [
-//          NetworkImage(
-//              'https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-//          NetworkImage(
-//              'https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg'),
-//          ExactAssetImage("images/uvp/save.png")
-//        ],
-//        carouselContent: [
-//          NetworkImage(
-//              'https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-//          NetworkImage(
-//              'https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg'),
-//          ExactAssetImage("images/uvp/save.png")
-//        ],
-//        dotSize: 4.0,
-//        dotSpacing: 15.0,
-//        dotColor: Colors.lightGreenAccent,
-//        indicatorBgPadding: 5.0,
-//        dotBgColor: Colors.transparent,
-//      ),
-//    );
+    return Expanded(
+      child: CarouselSlider(
+        height: 340.0,
+        autoPlay: false,
+        items: carouselContents.map((carouselContent) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: new BoxDecoration(
+                    borderRadius:
+                        new BorderRadius.all(new Radius.circular(10.0)),
+                    shape: BoxShape.rectangle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(carouselContent.imagePath),
+                    ),
+                  ),
+                  child: Text(
+                    carouselContent.text,
+                    style: TextStyle(fontSize: 16.0),
+                  ));
+            },
+          );
+        }).toList(),
+      ),
+    );
+  }
 
-  Widget buildBottomText(String text) => Center(
+  buildBottomText(String text) => Center(
         child: Text(
           text,
           textAlign: TextAlign.center,
@@ -134,7 +129,10 @@ class _TutorialPageState extends State<TutorialPage> {
           padding: const EdgeInsets.all(18.0),
           color: Theme.of(context).primaryColor,
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return HomePage();
+            }));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -147,4 +145,13 @@ class _TutorialPageState extends State<TutorialPage> {
           ),
         ),
       );
+}
+
+class CarouselContent {
+  final String imagePath;
+  final String text;
+
+  CarouselContent(this.imagePath, this.text);
+
+  // CarouselContent.getContent()
 }

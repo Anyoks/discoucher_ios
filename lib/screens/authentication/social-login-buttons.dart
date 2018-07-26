@@ -1,13 +1,15 @@
 import 'package:discoucher/contollers/facebook-login.dart';
 import 'package:discoucher/contollers/google-signIn.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/home/entry.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 
 class SocialLoginButtons extends StatelessWidget {
-  SocialLoginButtons(this.routes, this.scaffoldKey);
+  SocialLoginButtons(this.routes, this.scaffoldKey, this.prefs);
 
+  final SharedPrefefencedController prefs;
   final DiscoucherRoutes routes;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final FacebookLoginController fb = new FacebookLoginController();
@@ -99,9 +101,7 @@ class SocialLoginButtons extends StatelessWidget {
       MaterialPageRoute<bool>(builder: (BuildContext context) {
         return Scaffold(
           body: Center(
-            child: CircularProgressIndicator(
-              value: null,
-            ),
+            child: CircularProgressIndicator(),
           ),
         );
       }),
@@ -114,5 +114,10 @@ class SocialLoginButtons extends StatelessWidget {
         MaterialPageRoute(builder: (BuildContext context) {
       return HomePage();
     }));
+  }
+
+  saveLoggedInUser(LoggedInUser user) async{
+    var userSaved = await prefs.updateLoggedInUser(user);
+    print(userSaved);
   }
 }

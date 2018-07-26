@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  SharedPrefefencedController prefs = new SharedPrefefencedController();
   DiscoucherRoutes routes = DiscoucherRoutes();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
@@ -77,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.all(16.0),
         children: <Widget>[
           buildLoginForm(),
-          SocialLoginButtons(routes, scaffoldKey),
+          SocialLoginButtons(routes, scaffoldKey, prefs),
         ],
       ),
     );
