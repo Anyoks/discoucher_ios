@@ -5,7 +5,7 @@ class SearchView extends StatefulWidget {
   // static const String routeName = '/material/search';
 
   @override
-  _SearchViewState createState() => new _SearchViewState();
+  _SearchViewState createState() => _SearchViewState();
 }
 
 class _SearchViewState extends State<SearchView> {
@@ -37,77 +37,79 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       //key: _scaffoldKey,
-      appBar: new AppBar(
-        leading: new IconButton(
-          tooltip: 'Navigation menu',
-          icon: new AnimatedIcon(
-            icon: AnimatedIcons.menu_arrow,
-            color: Colors.white,
-            progress: _searchDelegate.transitionAnimation,
-          ),
-          onPressed: () {
-            // _scaffoldKey.currentState.openDrawer();
-          },
-        ),
+      appBar: AppBar(
+        // leading: IconButton(
+        //   tooltip: 'Navigation menu',
+        //   icon: AnimatedIcon(
+        //     icon: AnimatedIcons.menu_arrow,
+        //     color: Colors.white,
+        //     progress: _searchDelegate.transitionAnimation,
+        //   ),
+        //   onPressed: () {
+        //     // _scaffoldKey.currentState.openDrawer();
+        //   },
+        // ),
         title: const Text('Discover'),
         actions: <Widget>[
-          new IconButton(
+          IconButton(
             tooltip: 'Search',
             icon: const Icon(Icons.search),
             onPressed: () {
               openSearch();
             },
           ),
-          new IconButton(
+          IconButton(
             tooltip: 'More (not implemented)',
             icon: const Icon(Icons.more_vert),
             onPressed: () {},
           ),
         ],
       ),
-      body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new MergeSemantics(
-              child: new Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Text('Press the '),
-                      Tooltip(
-                        message: 'search',
-                        child: Icon(
-                          Icons.search,
-                          size: 18.0,
-                        ),
-                      ),
-                      Text(' icon in the AppBar'),
-                    ],
-                  ),
-                  const Text(
-                      'and search for an integer between 0 and 100,000.'),
-                ],
-              ),
-            ),
-            const SizedBox(height: 64.0),
-            new Text(
-                'Last selected integer: ${_lastIntegerSelected ?? 'NONE' }.')
-          ],
-        ),
+      body: Center(),
+      floatingActionButton: FloatingActionButton.extended(
+        tooltip: 'Tip', // Tests depend on this label to exit the demo.
+        onPressed: () {
+          // Navigator.of(context).pop();
+        },
+        label: const Text('Home '),
+        icon: const Icon(Icons.close),
       ),
-      // floatingActionButton: new FloatingActionButton.extended(
-      //   tooltip: 'Back', // Tests depend on this label to exit the demo.
-      //   onPressed: () {
-      //     Navigator.of(context).pop();
-      //   },
-      //   label: const Text('Close demo'),
-      //   icon: const Icon(Icons.close),
-      // ),
+    );
+  }
+
+  buildDummyDiscover() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          MergeSemantics(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Text('Press the '),
+                    Tooltip(
+                      message: 'search',
+                      child: Icon(
+                        Icons.search,
+                        size: 18.0,
+                      ),
+                    ),
+                    Text(' icon in the AppBar'),
+                  ],
+                ),
+                const Text('and search for an integer between 0 and 100,000.'),
+              ],
+            ),
+          ),
+          const SizedBox(height: 64.0),
+          Text('Last selected integer: ${_lastIntegerSelected ?? 'NONE' }.')
+        ],
+      ),
     );
   }
 }

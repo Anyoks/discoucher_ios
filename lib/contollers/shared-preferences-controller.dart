@@ -15,7 +15,8 @@ class SharedPrefefencedController {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if (user != null) {
         var localUserString = user.toJson();
-        var localUser = json.encode(localUserString);
+        var localUser = json.encode(user);
+       
         results =
             await prefs.setString(prefPaths.loggedInUser.toString(), localUser);
         return results;

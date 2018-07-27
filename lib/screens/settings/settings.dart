@@ -7,19 +7,24 @@ import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
-  final SharedPrefefencedController prefs = new SharedPrefefencedController();
+  SettingsPage();
+
+  final SharedPrefefencedController prefs = SharedPrefefencedController();
   final DiscoucherRoutes routes = DiscoucherRoutes();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Settings"),
+      ),
       body: ListView(
         children: <Widget>[
           SizedBox(
             height: 200.0,
             child: Container(
-              color: Colors.grey,
+              // color: Colors.grey,
               child: FutureBuilder(
                 future: checkLoggedIn(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -34,10 +39,9 @@ class SettingsPage extends StatelessWidget {
                       ));
                     default:
                       if (snapshot.hasError)
-                        return new Text('An error happened: ${snapshot}');
+                        return Text('An error happened: ${snapshot}');
                       else
-                        return profileSectionBuilder(context, snapshot.data) ??
-                            Container();
+                        return profileSectionBuilder(context, snapshot.data);
                   }
                 },
               ),
@@ -50,14 +54,41 @@ class SettingsPage extends StatelessWidget {
   }
 
   Future<LoggedInUser> checkLoggedIn() async {
-    final SharedPrefefencedController prefs = new SharedPrefefencedController();
+    final SharedPrefefencedController prefs = SharedPrefefencedController();
     return await prefs.fetchLoggedInUser();
   }
 
   Widget profileSectionBuilder(BuildContext context, LoggedInUser user) {
     if (user != null) {
-      return Text(user.toJson().toString());
+      return Column(
+        children: <Widget>[
+          Center(
+            child: Container(
+              height: 150.0,
+              width: 150.0,
+              alignment: Alignment(0.0, 1.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: user.photoUrl != null
+                      ? NetworkImage(user.photoUrl)
+                      : AssetImage("images/item-placeholder.jpg"),
+                ),
+              ),
+              child: null,
+            ),
+          ),
+          Column(
+            children: <Widget>[
+              Text(user.fullName),
+              Text(user.email),
+            ],
+          )
+        ],
+      );
+    } else {
+      return Container();
     }
-    return null;
   }
 }

@@ -9,13 +9,31 @@ class LoginResults {
 
 class LoggedInUser {
   final String id;
-  final dynamic userData;
-  LoggedInUser({this.id, this.userData});
+  final String fullName;
+  final String email;
+  final String photoUrl;
+  final String token;
+
+  LoggedInUser({
+    this.id,
+    this.fullName,
+    this.email,
+    this.photoUrl,
+    this.token,
+  });
 
   LoggedInUser.fromJsonMap(Map map)
       : id = map['id'],
-        userData = map['userData'];
+        fullName = map['fullName'],
+        email = map['email'],
+        photoUrl = map['photoUrl'],
+        token = map['token'];
 
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'id': id, "userData": userData};
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        "fullName": fullName,
+        "email": email,
+        "photoUrl": photoUrl,
+        "token": token,
+      };
 }

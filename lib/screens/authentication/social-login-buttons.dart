@@ -1,10 +1,13 @@
 import 'package:discoucher/contollers/facebook-login.dart';
 import 'package:discoucher/contollers/google-signIn.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
+import 'package:discoucher/models/facebook-user.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/home/entry.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SocialLoginButtons extends StatelessWidget {
   SocialLoginButtons(this.routes, this.scaffoldKey, this.prefs);
@@ -60,13 +63,19 @@ class SocialLoginButtons extends StatelessWidget {
       switch (results.success) {
         case true:
           goHome(context);
-          saveLoggedInUser(new LoggedInUser(userData: results.profile));
+          GoogleSignInAccount profile = results.profile;
+          saveLoggedInUser(new LoggedInUser(
+              id: profile.id,
+              email: profile.email,
+              fullName: profile.displayName,
+              photoUrl: profile.photoUrl,
+              token: results.token));
           break;
         default:
-          showErrorMessage(results.message);
+          showErrorMessage(context, results.message);
       }
     } catch (errorMessage) {
-      showErrorMessage(errorMessage);
+      showErrorMessage(context, errorMessage);
     }
   }
 
@@ -76,26 +85,33 @@ class SocialLoginButtons extends StatelessWidget {
       LoginResults results = await fb.login();
       switch (results.success) {
         case true:
-          saveLoggedInUser(new LoggedInUser(userData: results.profile));
+          FacebookAccessToken token = results.token;
+          FacebookProfile profile = results.profile;
+
+          saveLoggedInUser(new LoggedInUser(
+              id: profile.id,
+              email: profile.email,
+              fullName: profile.name,
+              photoUrl: null,
+              token: token.token));
           goHome(context);
           break;
         default:
-          showErrorMessage(results.message);
+          showErrorMessage(context, results.message);
       }
     } catch (errorMessage) {
-      showErrorMessage(errorMessage);
+      showErrorMessage(context, errorMessage);
     }
   }
 
-  showErrorMessage(dynamic error) {
+  showErrorMessage(BuildContext context, dynamic error) {
     if (error.runtimeType == String) {
       Duration timeout = new Duration(seconds: 3);
-      final snackbar = SnackBar(
+      final snackBar = SnackBar(
         duration: timeout,
         content: Text(error),
       );
-
-      scaffoldKey.currentState.showSnackBar(snackbar);
+      Scaffold.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -113,7 +129,6 @@ class SocialLoginButtons extends StatelessWidget {
   }
 
   goHome(BuildContext context) {
-    // Navigator.of(context).pushReplacementNamed('/');
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) {
       return HomePage();
@@ -122,6 +137,5 @@ class SocialLoginButtons extends StatelessWidget {
 
   saveLoggedInUser(LoggedInUser user) async {
     var userSaved = await prefs.updateLoggedInUser(user);
-    print(userSaved);
   }
 }

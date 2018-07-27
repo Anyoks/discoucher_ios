@@ -9,9 +9,14 @@ openEstablishmentDetails(BuildContext context, Datum data) {
   }));
 }
 
+final double xHeight = 157.0;
+//final double xBottomTextBoxWidtht = 150.0;
+final double xBottomTextBoxWidth = 200.0;
+final xlighterTextColor = Color(0xFF4F4F4F);
+
 buildCategorySliverList(List<Datum> establishments) {
   return SliverFixedExtentList(
-    itemExtent: 120.0,
+    itemExtent: 135.0,
     delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) {
         var data = establishments[index];
@@ -30,7 +35,6 @@ buildCategorySliverList(List<Datum> establishments) {
 }
 
 buildCategoryListItem(BuildContext context, Datum data) {
-  final double xHeight = 157.0;
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -48,11 +52,12 @@ buildCategoryListItem(BuildContext context, Datum data) {
     padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
     margin: EdgeInsets.symmetric(vertical: 5.0),
     child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         //buildSectonContent(data),
         Container(
-          height: 157.0,
-          width: 160.0,
+          height: 120.0,
+          width: 130.0,
           foregroundDecoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             shape: BoxShape.rectangle,
@@ -63,18 +68,102 @@ buildCategoryListItem(BuildContext context, Datum data) {
           ),
         ),
         SizedBox(width: 7.0),
-        Expanded(
-          child: Text(
-            // data.attributes.name,
-            "FREE LUNCH MAIN COURSE when a Lunch Main Course",
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            style: TextStyle(color: Colors.black, fontSize: 11.0),
-            textAlign: TextAlign.center,
-          ),
-        ),
+        Expanded(child: buildCategoryContent(context, data)),
+        // Container(
+        //   // color: Colors.red,
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: <Widget>[
+        //       Icon(Icons.next_week, color: Theme.of(context).primaryColor),
+        //       SizedBox(height: 19.0),
+        //       Text(
+        //         "Redeem",
+        //         overflow: TextOverflow.ellipsis,
+        //         maxLines: 1,
+        //         style: TextStyle(
+        //             color: Theme.of(context).primaryColor,
+        //             fontSize: 18.0,
+        //             fontWeight: FontWeight.w500),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     ),
+  );
+}
+
+buildCategoryContent(BuildContext context, Datum data) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      Text(
+        data.attributes.name,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w500),
+      ),
+      SizedBox(height: 7.0),
+      Flexible(
+        child: Column(
+          children: <Widget>[
+            Text(
+              "FREE LUNCH MAIN COURSE when a Lunch Main Course is bought (a la carte menu only).  a Lunch Main Course is bought.  a Lunch Main Course is bought. a Lunch Main Course is bought",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+              style: TextStyle(color: Colors.black, fontSize: 11.0),
+            ),
+            SizedBox(height: 8.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.calendar_today,
+                  size: 16.0,
+                  color: xlighterTextColor,
+                ),
+                SizedBox(width: 5.0),
+                Container(
+                    width: xBottomTextBoxWidth,
+                    child: Text("Valid on  Tuesday to Friday",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: xlighterTextColor, fontSize: 11.0))),
+              ],
+            ),
+            SizedBox(height: 5.0),
+            Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.location_on,
+                    size: 16.0,
+                    color: xlighterTextColor,
+                  ),
+                  SizedBox(width: 5.0),
+                  Container(
+                    width: xBottomTextBoxWidth,
+                    child: Text("Eldama Ravine Rd, Westlands Nairobi",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: xlighterTextColor, fontSize: 11.0)),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
   );
 }
 

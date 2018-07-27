@@ -1,5 +1,6 @@
 import 'package:discoucher/models/datum.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 class EstablishmentPage extends StatefulWidget {
   EstablishmentPage({Key key, @required this.data}) : super(key: key);
@@ -24,13 +25,26 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              print("pressed");
+              //TODO: Add proper sharing
+              // Share.share(widget.data.attributes.name);
+              final RenderBox box = context.findRenderObject();
+              Share.share(widget.data.attributes.name,
+                  sharePositionOrigin:
+                      box.localToGlobal(Offset.zero) & box.size);
             },
             icon: Icon(Icons.share),
           ),
           IconButton(
             onPressed: () {
-              print("pressed");
+              // TODO: Add proper favorites
+
+              Duration timeout = new Duration(seconds: 3);
+              final snackBar = SnackBar(
+                duration: timeout,
+                content:
+                    Text("${widget.data.attributes.name} added to favorites"),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
             },
             icon: Icon(Icons.favorite_border),
           )
@@ -40,9 +54,9 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
           background: DecoratedBox(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(widget.data.attributes.logo.length > 0
-                    ? widget.data.attributes.logo
-                    : null),
+                fit: BoxFit.cover,
+                image: NetworkImage(widget.data.attributes.featuredImage ??
+                    "images/item-placeholder.jpg"),
               ),
             ),
           ),
@@ -51,41 +65,39 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
 
   buildSliverGrid() {
     return SliverGrid(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 200.0,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 10.0,
-        childAspectRatio: 4.0,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 1,
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              print("pressed");
-            },
-            child: Container(
-              alignment: Alignment.center,
-              color: Colors.teal[100 * (index % 9)],
-              child: Text('grid item $index'),
-            ),
+          return Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                child: Text(widget.data.attributes.name),
+              ),
+              SizedBox(height: 200.0),
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    print("Inkwell tapped");
+                  },
+                  splashColor: Colors.purpleAccent,
+                  child: Text(
+                    "Keep calm! Data is coming here!",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(height: 1000.0),
+              ),
+            ],
           );
         },
-        childCount: 100,
-      ),
-    );
-  }
-
-  buildFixedList() {
-    return SliverFixedExtentList(
-      itemExtent: 50.0,
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          return Container(
-            alignment: Alignment.center,
-            color: Colors.lightBlue[100 * (index % 9)],
-            child: Text('list item $index'),
-          );
-        },
+        childCount: 1,
       ),
     );
   }
@@ -97,7 +109,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
         slivers: <Widget>[
           buildSliberAppBar(context),
           buildSliverGrid(),
-          buildFixedList()
         ],
       ),
     );

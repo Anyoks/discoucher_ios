@@ -35,22 +35,40 @@ buildCategorySliverAppBar(BuildContext context, String type) {
     actions: <Widget>[
       IconButton(
         onPressed: () {
-          print("pressed");
+          new AlertDialog(
+            title: Text("Title"),
+            content: new Text("Test"),
+          );
+
+          //  new SimpleDialogOption(
+          //   onPressed: () {
+          //     print("Dialog pressed");
+          //   },
+          //   child: new Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: <Widget>[
+          //       new Icon(Icons.dialpad, size: 36.0),
+          //       new Padding(
+          //         padding: const EdgeInsets.only(left: 16.0),
+          //         child: new Text("text"),
+          //       ),
+          //     ],
+          //   ),
+          // );
         },
-        icon: Icon(Icons.share),
-      ),
-      IconButton(
-        onPressed: () {
-          print("pressed");
-        },
-        icon: Icon(Icons.favorite_border),
+        icon: Icon(Icons.settings_applications),
       )
     ],
     flexibleSpace: FlexibleSpaceBar(
       title: Text(type),
       background: DecoratedBox(
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(img), fit: BoxFit.cover),
+          image: DecorationImage(
+              image: AssetImage(img),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.4), BlendMode.overlay)),
         ),
       ),
     ),
