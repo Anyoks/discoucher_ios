@@ -1,12 +1,12 @@
 import 'package:discoucher/screens/search/search.dart';
 import 'package:flutter/material.dart';
 
-class ExplorePage extends StatefulWidget {
+class DiscoverPage extends StatefulWidget {
   @override
-  _ExplorePageState createState() => _ExplorePageState();
+  _DiscoverPageState createState() => _DiscoverPageState();
 }
 
-class _ExplorePageState extends State<ExplorePage> {
+class _DiscoverPageState extends State<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
