@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
 import 'package:discoucher/screens/routes.dart';
-import 'package:flutter/material.dart';
+import 'package:discoucher/constants/strings.dart';
+
 
 class SettingsPage extends StatelessWidget {
   SettingsPage();
@@ -17,7 +19,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text(appBarsettings),
       ),
       body: ListView(
         children: <Widget>[

@@ -6,6 +6,7 @@ import 'package:discoucher/screens/home/body.dart';
 import 'package:discoucher/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:discoucher/constants/strings.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   new FlatButton(
                     onPressed: () {
+                      // TODO: Change this for iOs
                       // Navigator.of(context).pop(true);
                       exit(0);
                     },
@@ -64,7 +66,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               buildOffStageItem(0, HomeBody()),
               buildOffStageItem(1, ExplorePage()),
-              buildOffStageItem(3, SettingsPage()),
+              buildOffStageItem(2, SettingsPage()),
             ],
           ),
         ),
@@ -77,9 +79,9 @@ class _HomePageState extends State<HomePage> {
           },
           fixedColor: Colors.yellow,
           items: <BottomNavigationBarItem>[
-            buildBottomBarItem(Icons.home, "Home"),
-            buildBottomBarItem(Icons.search, "Discover"),
-            buildBottomBarItem(Icons.person, "Me"),
+            buildBottomBarItem(Icons.home, bottomBarHome),
+            buildBottomBarItem(Icons.search, bottomBarDiscover),
+            buildBottomBarItem(Icons.person, bottomBarme),
           ],
         ),
       ),
