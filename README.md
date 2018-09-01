@@ -16,6 +16,9 @@ Accent Color <span style="color:#d32f2f"> Red [700: Material Palette] d32f2f </s
 
 I like this onne too <span style="color:#C2185B"> Pink[700: Material Palette] C2185B </span>
 
+Using Hex code colors in flutter:
+e.g final xlighterTextColor = Color(0xFF27AE60);
+
 ## App Keys
 
 Debug Key:

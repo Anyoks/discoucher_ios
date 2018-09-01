@@ -43,7 +43,7 @@ ThemeData _buildDiscoucherTheme() {
     textSelectionColor: discoucherPink100,
     errorColor: discoucherErrorRed, 
     splashColor: discoucherPurple.withOpacity(0.5),
-
+    
     // TODO: Add the text themes (103)
     // TODO: Add the icon themes (103)
     // TODO: Decorate the inputs (103)
