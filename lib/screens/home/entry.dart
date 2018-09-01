@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:discoucher/screens/discover/discover.dart';
 import 'package:discoucher/screens/home/body.dart';
-import 'package:discoucher/screens/nearby/nearby.dart';
 import 'package:discoucher/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -65,7 +64,6 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               buildOffStageItem(0, HomeBody()),
               buildOffStageItem(1, ExplorePage()),
-              buildOffStageItem(2, NearbyPage()),
               buildOffStageItem(3, SettingsPage()),
             ],
           ),
@@ -81,7 +79,6 @@ class _HomePageState extends State<HomePage> {
           items: <BottomNavigationBarItem>[
             buildBottomBarItem(Icons.home, "Home"),
             buildBottomBarItem(Icons.search, "Discover"),
-            buildBottomBarItem(Icons.location_on, "Nearby"),
             buildBottomBarItem(Icons.person, "Me"),
           ],
         ),

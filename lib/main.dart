@@ -15,7 +15,7 @@ void main() {
         '/home': (BuildContext context) => HomePage(),
         '/splashScreen': (BuildContext context) => SplashScreen(),
         '/tutorial': (BuildContext context) => TutorialPage(),
-        '/login': (BuildContext context) => LoginPage(),
+        '/login': (BuildContext context) => LoginPage(fromSplashScreen: false,),
       },
     ),
   );

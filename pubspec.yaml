@@ -1,77 +1,40 @@
 name: discoucher
 description: Discoucher android app
+version: 1.0.0+1
+author: Bespoke Fusion <denpalrius@bespokefusion.com>
+homepage: http://www.discoucher.com/
+
+environment:
+  sdk: ">=2.0.0-dev.16.0 <2.0.0"
+  # sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: "^0.1.2"
-  shared_preferences: "^0.4.2"
-  share: "^0.5.2"
-  flutter_local_notifications: "^0.3.3"
-  carousel_slider: "^0.0.6"
-  uuid: "1.0.1"
-  material_search: "^0.2.7"
+  shared_preferences: ^0.4.2
+  share: ^0.5.2
+  uuid: ^1.0.3
+  flutter_local_notifications: ^0.3.3
+  carousel_slider: ^0.0.6
+  material_search: ^0.2.7
   flutter_facebook_login: "^1.1.1"
   google_sign_in: ^3.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_cache_manager:
+    git: https://github.com/Cretezy/flutter_cache_manager.git
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
-
   assets:
-      - images/logo.png
-      - images/simple-logo.png
-      - images/item-placeholder.jpg
-      - images/banner.jpg
-      - images/burger.jpg
-  
-      - images/sharon.jpg
-      - images/edwin.jpg
-
-      - images/social/fb.png
-      - images/social/google.png
-
-      - images/uvp/buy.png
-      - images/uvp/discover.png
-      - images/uvp/save.png
-      - images/uvp/buy2.jpg
-
-      - images/establishments/mayura.jpg
-      - images/establishments/mister.jpg
-      - images/establishments/ob.jpg
-      - images/establishments/picazzo.jpg
-      - images/establishments/platter.png
-      - images/establishments/hotels.jpeg
-      - images/establishments/hotels2.jpg
-      - images/establishments/restaurants.jpeg
-      - images/establishments/ribs.jpg
-      - images/establishments/salons.jpg
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.io/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.io/assets-and-images/#from-packages
-
+    - images/
+    - images/establishments/
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
