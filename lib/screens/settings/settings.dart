@@ -184,7 +184,7 @@ class SettingsPage extends StatelessWidget {
   buildSocialIcon(String platform) {
     return Column(
       children: <Widget>[
-        Image.asset("imageses/social/fb.png"),
+        Image.asset("images/social/fb.png"),
         Text(platform, style: TextStyle(fontSize: 13.0))
       ],
     );

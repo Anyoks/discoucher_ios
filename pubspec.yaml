@@ -15,7 +15,7 @@ dependencies:
   uuid: ^1.0.3
   flutter_local_notifications: ^0.3.3
   carousel_slider: ^0.0.6
-  flutter_facebook_login: "^1.1.1"
+  flutter_facebook_login: ^1.1.1
   google_sign_in: ^3.0.4
   url_launcher: ^3.0.3
 
