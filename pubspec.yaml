@@ -5,8 +5,7 @@ author: Bespoke Fusion <denpalrius@bespokefusion.com>
 homepage: http://www.discoucher.com/
 
 environment:
-  sdk: ">=2.0.0-dev.16.0 <2.0.0"
-  # sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -16,7 +15,6 @@ dependencies:
   uuid: ^1.0.3
   flutter_local_notifications: ^0.3.3
   carousel_slider: ^0.0.6
-  material_search: ^0.2.7
   flutter_facebook_login: "^1.1.1"
   google_sign_in: ^3.0.4
 
