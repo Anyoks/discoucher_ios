@@ -15,6 +15,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int index = 0;
+  final HomeBody homePage = new HomeBody();
+  final DiscoverPage discoverPage = new DiscoverPage();
+  final SettingsPage settingsPage = new SettingsPage();
 
   @override
   void initState() {
@@ -64,9 +67,9 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           child: new Stack(
             children: <Widget>[
-              buildOffStageItem(0, HomeBody()),
-              buildOffStageItem(1, ExplorePage()),
-              buildOffStageItem(2, SettingsPage()),
+              buildOffStageItem(0, homePage),
+              buildOffStageItem(1, discoverPage),
+              buildOffStageItem(2, settingsPage),
             ],
           ),
         ),
