@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
               this.index = index;
             });
           },
+          type: BottomNavigationBarType.shifting,
           fixedColor: Colors.yellow,
           items: <BottomNavigationBarItem>[
             buildBottomBarItem(Icons.home, bottomBarHome),
