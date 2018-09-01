@@ -88,8 +88,7 @@ class _HomeBodyState extends State<HomeBody> {
                   openSearch();
                 },
                 child: Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 6.0, horizontal: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                   decoration: new BoxDecoration(
                     color: Colors.white,
                     borderRadius:
@@ -114,18 +113,10 @@ class _HomeBodyState extends State<HomeBody> {
                 ),
               ),
             ),
+            SizedBox(width: 10.0),
           ],
         ),
       ),
-      actions: <Widget>[
-        IconButton(
-          iconSize: 32.0,
-          onPressed: () {
-            print("show notifications");
-          },
-          icon: Icon(Icons.notifications_none),
-        ),
-      ],
     );
   }
 
