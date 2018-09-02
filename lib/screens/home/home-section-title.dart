@@ -38,14 +38,27 @@ buildHomeSectionTitle(
         ),
         GestureDetector(
           onTap: () {
-            //TODO: Implement arrow click
             openCategoryPage(context, categoryData, type);
           },
           child: Padding(
             padding: EdgeInsets.only(left: 12.0, right: 12.0),
             child: GestureDetector(
-              child: Icon(Icons.keyboard_arrow_right,
-                  size: 25.0, color: Theme.of(context).primaryColor),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(bottom: 4.0),
+                    child: Text(
+                      'more',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                  Icon(Icons.keyboard_arrow_right,
+                      size: 25.0, color: Theme.of(context).primaryColor)
+                ],
+              ),
             ),
           ),
         ),

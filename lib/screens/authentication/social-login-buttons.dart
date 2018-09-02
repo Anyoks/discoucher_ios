@@ -31,7 +31,7 @@ class SocialLoginButtons extends StatelessWidget {
             onPressed: () => attemptFacebookLogin(context),
             child: Row(
               children: <Widget>[
-                Image.asset("images/social/fb.png", width: 20.0),
+                Image.asset("images/social/facebook.png", width: 20.0),
                 Padding(padding: EdgeInsets.only(left: 3.0)),
                 Text("Facebook")
               ],

@@ -63,9 +63,9 @@ class _HomeBodyState extends State<HomeBody> {
     final appBarForeground = const Color(0XFFBDBDBD);
 
     return AppBar(
-      backgroundColor: appBarBackground,
+      backgroundColor: Colors.white,
       leading: null,
-      automaticallyImplyLeading: false,
+      // automaticallyImplyLeading: false,
       centerTitle: true,
       titleSpacing: 0.0,
       title: Center(
@@ -73,28 +73,13 @@ class _HomeBodyState extends State<HomeBody> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(width: 5.0),
-            Container(
-              child: Image.asset(
-                "images/simple-logo.png",
-                fit: BoxFit.fitHeight,
-                height: 25.0,
-              ),
-            ),
-            SizedBox(width: 10.0),
+             SizedBox(width: 15.0),
             Flexible(
               child: GestureDetector(
                 onTap: () {
                   openSearch();
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        new BorderRadius.all(new Radius.circular(5.0)),
-                    shape: BoxShape.rectangle,
-                  ),
                   child: Row(
                     children: <Widget>[
                       Icon(Icons.search, color: appBarForeground),

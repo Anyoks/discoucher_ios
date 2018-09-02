@@ -1,5 +1,5 @@
-import 'dart:async';
-
+import 'package:discoucher/screens/settings/anonymous-user-settings.dart';
+import 'package:discoucher/screens/settings/logged-in-settings.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
@@ -7,13 +7,15 @@ import 'package:discoucher/screens/authentication/social-login-buttons.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
+import 'package:discoucher/constants/enums.dart';
+import 'package:discoucher/constants/colors.dart';
+import 'package:discoucher/screens/settings/bottom-sections.dart';
 
 class SettingsPage extends StatelessWidget {
   final SharedPrefefencedController prefs = SharedPrefefencedController();
   final DiscoucherRoutes routes = DiscoucherRoutes();
   final SettingsController controller = SettingsController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final xIconColor = Color(0xFF27AE60);
 
   @override
   Widget build(BuildContext context) {
@@ -31,192 +33,36 @@ class SettingsPage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          SizedBox(
-            height: 200.0,
-            child: Container(
-              child: FutureBuilder(
-                future: controller.checkLoggedIn(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                      return Text("Nothing to show :(");
-                    case ConnectionState.waiting:
-                      return Container(
-                          // color: Colors.amber,.
-                          child: Center(
-                        child: CircularProgressIndicator(),
-                      ));
-                    default:
-                      if (snapshot.hasError)
-                        return Text('An error happened: $snapshot');
-                      else
-                        return profileSectionBuilder(context, snapshot.data);
-                  }
-                },
-              ),
-            ),
+          SizedBox(height: 15.0),
+          FutureBuilder(
+            future: controller.checkLoggedIn(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return Text("Nothing to show :(");
+                case ConnectionState.waiting:
+                  return Container(
+                      // color: Colors.amber,.
+                      child: Center(
+                    child: CircularProgressIndicator(),
+                  ));
+                default:
+                  if (snapshot.hasError)
+                    return buildAnonymousSettings();
+                  else
+                    return buildLoggedInUser(
+                        context: context,
+                        controller: controller,
+                        user: snapshot.data);
+              }
+            },
           ),
-          Column(
-            children: <Widget>[
-              buildSettingItem(
-                  tapEvent: null,
-                  icon: Icons.supervised_user_circle,
-                  displayText: "Profile"),
-              buildSettingItem(
-                  tapEvent: () {},
-                  icon: Icons.receipt,
-                  displayText: "Redeemed Deals"),
-              buildSettingItem(
-                  tapEvent: null,
-                  icon: Icons.favorite,
-                  displayText: "Favorites"),
-              buildSettingItem(
-                  tapEvent: null,
-                  icon: Icons.supervised_user_circle,
-                  displayText: "Discoucher process"),
-              buildSettingItem(
-                  tapEvent: null,
-                  icon: Icons.info,
-                  displayText: "About Discoucher"),
-              buildSettingItem(
-                  tapEvent: null,
-                  icon: Icons.supervised_user_circle,
-                  displayText: "Log out"),
-              Container(
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  child: Text("CONTACT-US", style: TextStyle(fontSize: 18.0))),
-              buildSettingItem(
-                  tapEvent: () {
-                    controller.call("0700100200");
-                  },
-                  icon: Icons.phone,
-                  displayText: "0700100200"),
-              buildSettingItem(
-                  tapEvent: () {
-                    controller.email("hello@discoucher.com");
-                  },
-                  icon: Icons.email,
-                  displayText: "hello@discoucher.com"),
-              SizedBox(height: 15.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  buildSocialIcon("Facebook", "fb.png"),
-                  buildSocialIcon("Instagram", "instagram.png"),
-                  buildSocialIcon("Website", "website.png"),
-                ],
-              )
-            ],
-          ),
-          SizedBox(height: 25.0)
-        ],
-      ),
-    );
-  }
-
-  Widget profileSectionBuilder(BuildContext context, LoggedInUser user) {
-    if (user != null) {
-      return Column(
-        children: <Widget>[
-          Center(
-            child: Container(
-              height: 150.0,
-              width: 150.0,
-              alignment: Alignment(0.0, 1.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: user.photoUrl != null
-                      ? NetworkImage(user.photoUrl)
-                      : AssetImage("images/item-placeholder.jpg"),
-                ),
-              ),
-              child: null,
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              Text(user.fullName),
-              Text(user.email),
-            ],
-          )
-        ],
-      );
-    } else {
-      // TODO: Add placeholder image
-      return Container();
-    }
-  }
-
-  Widget anonymousSettings() {
-    return GestureDetector(
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: 15.0,
-              ),
-              Icon(
-                Icons.verified_user,
-                color: xIconColor,
-              ),
-              SizedBox(
-                width: 15.0,
-              ),
-              Expanded(
-                child: Text(
-                  "Profile",
-                  style: TextStyle(fontSize: 18.0),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  buildSocialIcon(String title, String platform) {
-    return GestureDetector(
-      // TODO: Place social action gesture
-      onTap: () {},
-      child: Column(
-        children: <Widget>[
-          Image.asset("images/social/$platform", height: 40.0),
-          SizedBox(height: 10.0),
-          Text(title, style: TextStyle(fontSize: 13.0))
-        ],
-      ),
-    );
-  }
-
-  Widget buildSettingItem(
-      {@required Function tapEvent,
-      @required IconData icon,
-      @required String displayText}) {
-    return InkWell(
-      onTap: tapEvent,
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 15.0),
-            child: Row(
-              children: <Widget>[
-                SizedBox(width: 15.0),
-                Icon(icon, color: xIconColor),
-                SizedBox(width: 15.0),
-                Expanded(
-                  child: Text(displayText, style: TextStyle(fontSize: 18.0)),
-                )
-              ],
-            ),
-          ),
-          Container(
-              margin: EdgeInsets.only(left: 55.0),
-              height: 1.0,
-              color: Colors.grey.withOpacity(0.5))
+          SizedBox(height: 15.0),
+          buildBottomSection(controller),
+          SizedBox(height: 25.0),
+          Center(child: Text(appVersion, style: TextStyle(color: Colors.grey))),
+          SizedBox(height: 25.0),
+          // SocialLoginButtons(routes, scaffoldKey, prefs)
         ],
       ),
     );

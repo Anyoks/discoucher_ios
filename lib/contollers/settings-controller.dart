@@ -2,15 +2,46 @@ import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
+import 'package:discoucher/constants/enums.dart';
+import 'package:discoucher/constants/strings.dart';
 
 class SettingsController {
-  email(String email) async {
-    final String url = 'mailto:$email';
+  email() async {
+    final String url = 'mailto:$discoucherEmail';
     await launchUrl(url);
   }
 
-  call(String phone) async {
-    final String url = 'tel:$phone';
+  call() async {
+    final String url = 'tel:$discoucherPhone';
+    await launchUrl(url);
+  }
+
+  lauchSocial(SocialSite site) async {
+    String url = "";
+
+    switch (site) {
+      case SocialSite.Facebook:
+        {
+          url = discoucherFacebook;
+          break;
+        }
+      case SocialSite.Twitter:
+        {
+          url = discoucherTwitter;
+          break;
+        }
+      case SocialSite.Instagram:
+        {
+          url = discoucherInstagram;
+          break;
+        }
+      case SocialSite.Website:
+        {
+          url = discoucherWebsite;
+          break;
+        }
+    }
+
     await launchUrl(url);
   }
 
