@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "7752475752",
+    "firebase_url": "https://discoucher-test.firebaseio.com",
+    "project_id": "discoucher-test",
+    "storage_bucket": "discoucher-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7752475752:android:c89c6ffb03287b0f",
+        "android_client_info": {
+          "package_name": "com.discoucher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7752475752-31bk4oddh8cs94gepgfbdpmhadue99e1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.discoucher",
+            "certificate_hash": "bfbb09d2136ae40a8d84708f21a5dc157b872f94"
+          }
+        },
+        {
+          "client_id": "7752475752-rb16ksc6i3r0mnllmlfs98ajjt7gl9kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiDA6QiQxX_-xGgzcMuRI5EIw22t4mE6E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7752475752-rb16ksc6i3r0mnllmlfs98ajjt7gl9kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
