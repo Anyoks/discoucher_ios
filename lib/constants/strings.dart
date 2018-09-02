@@ -1,6 +1,24 @@
+// App
+final String appVersion = "Version 1.0.0";
+
+// Page headers
 final String appBardiscover = "DISCOVER";
 final String appBarsettings = "SETTINGS";
 final String appBarProfile = "PROFILE";
+
+//Bottom Bar
 final String bottomBarHome = "Home";
 final String bottomBarDiscover = "Discover";
 final String bottomBarme = "Me";
+
+// Links
+final String discoucherPhone = "(+254) 727 402884";
+final String discoucherEmail = "info@discoucher.com";
+final String discoucherFacebook = "https://www.facebook.com/pages/DisCoucher/836436146401604";
+final String discoucherTwitter = "https://twitter.com/DisCoucher";
+final String discoucherInstagram = "http://instagram.com/discoucher";
+final String discoucherWebsite = "www.discoucher.com";
+final String discoucherTermsAndConditons = "http://www.discoucher.com/terms-conditions/";
+
+
+
