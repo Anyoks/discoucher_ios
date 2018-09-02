@@ -27,12 +27,30 @@ Debug Key:
 v7sJ0hNq5AqNhHCPIaXcFXuHL5Q=
 ```
 
-Certificate fingerprint:
+Certificate fingerprint(dennis.riungu):
 
 ```sh
-SHA1: BF:BB:09:D2:13:6A:E4:0A:8D:84:70:8F:21:A5:DC:15:7B:87:2F:94
-SHA256: 9E:AB:82:75:5C:0D:3A:BF:5D:00:79:53:31:A1:81:84:96:B9:D1:D5:E2:D2:5C:B9:A4:AF:F1:7F:76:ED:88:59
+SHA1:
+BF:BB:09:D2:13:6A:E4:0A:8D:84:70:8F:21:A5:DC:15:7B:87:2F:94
+
+SHA256:
+9E:AB:82:75:5C:0D:3A:BF:5D:00:79:53:31:A1:81:84:96:B9:D1:D5:E2:D2:5C:B9:A4:AF:F1:7F:76:ED:88:59
 ```
+
+Certificate fingerprints(admin):
+
+```sh
+SHA1:
+D4:97:05:AB:5B:71:43:81:05:33:A4:C8:5B:D6:BA:AC:29:CA:21:62
+
+SHA256: 
+C4:1C:9D:98:69:9C:21:5B:0F:B2:5B:82:EB:79:AD:3C:53:DF:2C:B0:AD:23:B0:3B:C1:B3:CC:28:39:81:15:09
+```
+
+Signature algorithm name: SHA1withRSA
+Subject Public Key Algorithm: 1024-bit RSA key
+Version: 1
+
 
 ## Firebase Debugging Analytics
 
