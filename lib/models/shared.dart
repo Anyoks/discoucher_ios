@@ -2,7 +2,7 @@ class LoginResults {
   final bool success;
   final dynamic profile;
   String message;
-  dynamic token = null;
+  dynamic token;
 
   LoginResults({this.success, this.profile, this.message});
 }

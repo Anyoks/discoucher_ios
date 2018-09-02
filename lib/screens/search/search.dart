@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/search-controller.dart';
 
 class SearchView extends StatefulWidget {
@@ -51,30 +52,38 @@ class _SearchViewState extends State<SearchView> {
         //     // _scaffoldKey.currentState.openDrawer();
         //   },
         // ),
-        title: const Text('Discover'),
+        title: Text(
+          appBardiscover,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
             tooltip: 'Search',
-            icon: const Icon(Icons.search),
+            icon: Icon(Icons.search, color: Colors.black),
             onPressed: () {
               openSearch();
             },
           ),
           IconButton(
             tooltip: 'More (not implemented)',
-            icon: const Icon(Icons.more_vert),
+            icon: Icon(Icons.more_vert, color: Colors.black),
             onPressed: () {},
           ),
         ],
       ),
       body: Center(),
       floatingActionButton: FloatingActionButton.extended(
-        tooltip: 'Tip', // Tests depend on this label to exit the demo.
+        tooltip: 'Select search filters', 
         onPressed: () {
           // Navigator.of(context).pop();
         },
-        label: const Text('Home '),
-        icon: const Icon(Icons.close),
+        label: const Text('Filters'),
+        icon: const Icon(Icons.settings),
       ),
     );
   }
@@ -107,7 +116,7 @@ class _SearchViewState extends State<SearchView> {
             ),
           ),
           const SizedBox(height: 64.0),
-          Text('Last selected integer: ${_lastIntegerSelected ?? 'NONE' }.')
+          Text('Last selected integer: ${_lastIntegerSelected ?? 'NONE'}.')
         ],
       ),
     );

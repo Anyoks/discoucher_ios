@@ -11,7 +11,7 @@ import 'package:discoucher/contollers/settings-controller.dart';
 class SettingsPage extends StatelessWidget {
   final SharedPrefefencedController prefs = SharedPrefefencedController();
   final DiscoucherRoutes routes = DiscoucherRoutes();
-  final SettingsController settingsController = SettingsController();
+  final SettingsController controller = SettingsController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final xIconColor = Color(0xFF27AE60);
 
@@ -35,7 +35,7 @@ class SettingsPage extends StatelessWidget {
             height: 200.0,
             child: Container(
               child: FutureBuilder(
-                future: checkLoggedIn(),
+                future: controller.checkLoggedIn(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
@@ -48,7 +48,7 @@ class SettingsPage extends StatelessWidget {
                       ));
                     default:
                       if (snapshot.hasError)
-                        return Text('An error happened: ${snapshot}');
+                        return Text('An error happened: $snapshot');
                       else
                         return profileSectionBuilder(context, snapshot.data);
                   }
@@ -87,33 +87,31 @@ class SettingsPage extends StatelessWidget {
                   child: Text("CONTACT-US", style: TextStyle(fontSize: 18.0))),
               buildSettingItem(
                   tapEvent: () {
-                    settingsController.call("0700100200");
+                    controller.call("0700100200");
                   },
                   icon: Icons.phone,
                   displayText: "0700100200"),
               buildSettingItem(
                   tapEvent: () {
-                    settingsController.email("hello@discoucher.com");
+                    controller.email("hello@discoucher.com");
                   },
                   icon: Icons.email,
                   displayText: "hello@discoucher.com"),
+              SizedBox(height: 15.0),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  buildSocialIcon("Facebook"),
-                  buildSocialIcon("Instagram"),
-                  buildSocialIcon("Website"),
+                  buildSocialIcon("Facebook", "fb.png"),
+                  buildSocialIcon("Instagram", "instagram.png"),
+                  buildSocialIcon("Website", "website.png"),
                 ],
               )
             ],
-          )
+          ),
+          SizedBox(height: 25.0)
         ],
       ),
     );
-  }
-
-  Future<LoggedInUser> checkLoggedIn() async {
-    final SharedPrefefencedController prefs = SharedPrefefencedController();
-    return await prefs.fetchLoggedInUser();
   }
 
   Widget profileSectionBuilder(BuildContext context, LoggedInUser user) {
@@ -180,13 +178,17 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-
-  buildSocialIcon(String platform) {
-    return Column(
-      children: <Widget>[
-        Image.asset("images/social/fb.png"),
-        Text(platform, style: TextStyle(fontSize: 13.0))
-      ],
+  buildSocialIcon(String title, String platform) {
+    return GestureDetector(
+      // TODO: Place social action gesture
+      onTap: () {},
+      child: Column(
+        children: <Widget>[
+          Image.asset("images/social/$platform", height: 40.0),
+          SizedBox(height: 10.0),
+          Text(title, style: TextStyle(fontSize: 13.0))
+        ],
+      ),
     );
   }
 
