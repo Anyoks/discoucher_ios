@@ -21,15 +21,15 @@ e.g final xlighterTextColor = Color(0xFF27AE60);
 
 ## App Keys
 
-Debug Key:
+### Debug Keys:
 
-```sh
-v7sJ0hNq5AqNhHCPIaXcFXuHL5Q=
-```
 
 Certificate fingerprint(dennis.riungu):
 
 ```sh
+Base64:
+v7sJ0hNq5AqNhHCPIaXcFXuHL5Q=
+
 SHA1:
 BF:BB:09:D2:13:6A:E4:0A:8D:84:70:8F:21:A5:DC:15:7B:87:2F:94
 
@@ -38,8 +38,10 @@ SHA256:
 ```
 
 Certificate fingerprints(admin):
-
 ```sh
+Base64:
+1JcFq1txQ4EFM6TIW9a6rCnKIWI=
+
 SHA1:
 D4:97:05:AB:5B:71:43:81:05:33:A4:C8:5B:D6:BA:AC:29:CA:21:62
 
