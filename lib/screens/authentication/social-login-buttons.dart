@@ -92,7 +92,7 @@ class SocialLoginButtons extends StatelessWidget {
               id: profile.id,
               email: profile.email,
               fullName: profile.name,
-              photoUrl: null,
+              photoUrl: profile.picture.data.url,
               token: token.token));
           goHome(context);
           break;

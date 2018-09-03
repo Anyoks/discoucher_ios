@@ -1,9 +1,44 @@
+import 'dart:math';
+
 import 'package:discoucher/models/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/constants/enums.dart';
 import 'package:discoucher/constants/colors.dart';
+
+String createInitials(String fullName) {
+  if (fullName.length > 0) {
+    final String firstInitial = fullName[0];
+
+    final indexPrecedingSecondInitial = fullName.indexOf(" ");
+    if (indexPrecedingSecondInitial > 0) {
+      final String secondInitial = fullName[indexPrecedingSecondInitial + 1];
+      if (secondInitial.length > 0) {
+        return (firstInitial + secondInitial).toUpperCase();
+      } else {
+        return firstInitial;
+      }
+    } else {
+      return firstInitial;
+    }
+  } else {
+    return fullName;
+  }
+}
+
+final List<Color> circleColors = [
+  Colors.greenAccent,
+  Colors.blue,
+  Colors.blueAccent,
+  Colors.teal[400],
+  Colors.indigoAccent,
+  Colors.indigo[400]
+];
+
+int colousCount = circleColors.length;
+
+Random random = new Random();
 
 Widget buildLoggedInUser(
     {BuildContext context, SettingsController controller, LoggedInUser user}) {
@@ -14,23 +49,31 @@ Widget buildLoggedInUser(
           child: Container(
             height: 150.0,
             width: 150.0,
-            alignment: Alignment(0.0, 1.0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: user.photoUrl != null
-                    ? NetworkImage(user.photoUrl)
-                    : AssetImage("images/item-placeholder.jpg"),
-              ),
+              color: circleColors[random.nextInt(colousCount)],
             ),
-            child: null,
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    createInitials(user.fullName),
+                    style: TextStyle(fontSize: 50.0, color: Colors.white),
+                  ),
+                ),
+                user.photoUrl == null
+                    ? null
+                    : CircleAvatar(
+                        backgroundImage: new NetworkImage(user.photoUrl),
+                      ),
+              ],
+            ),
           ),
         ),
         Column(
           children: <Widget>[
-                      SizedBox(height: 10.0),
-
+            SizedBox(height: 10.0),
             Text(user.fullName),
             Text(user.email),
           ],

@@ -4,7 +4,7 @@ class LoginResults {
   String message;
   dynamic token;
 
-  LoginResults({this.success, this.profile, this.message});
+  LoginResults({this.success, this.profile, this.message, this.token});
 }
 
 class LoggedInUser {

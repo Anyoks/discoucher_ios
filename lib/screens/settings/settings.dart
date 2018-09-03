@@ -62,7 +62,7 @@ class SettingsPage extends StatelessWidget {
           SizedBox(height: 25.0),
           Center(child: Text(appVersion, style: TextStyle(color: Colors.grey))),
           SizedBox(height: 25.0),
-          // SocialLoginButtons(routes, scaffoldKey, prefs)
+          SocialLoginButtons(routes, scaffoldKey, prefs)
         ],
       ),
     );

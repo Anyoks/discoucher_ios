@@ -29,6 +29,7 @@ final discoucherPurple = Color(0xFFe040fb);
 final discoucherErrorRed =Color(0xFFC5032B);
 final discoucherSurfaceWhite = Color(0xFFFFFBFA);
 final discoucherBackgroundWhite = Colors.white;
+// final discoucherBackgroundWhite = Color(0xFFE8F9FF);
 
 final ThemeData _discoucherTheme = _buildDiscoucherTheme();
 
