@@ -1,52 +1,29 @@
-import 'package:discoucher/screens/authentication/login.dart';
-import 'package:discoucher/screens/settings/tutorial.dart';
-import 'package:discoucher/screens/splash.screen.dart';
 import 'package:flutter/material.dart';
-import 'screens/home/entry.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:discoucher/screens/theme.dart';
+import 'package:discoucher/screens/routes.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      title: "Discoucher",
-      theme: _discoucherTheme,
-      home: SplashScreen(),
-     // initialRoute: '/login',
-      routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => HomePage(),
-        '/splashScreen': (BuildContext context) => SplashScreen(),
-        '/tutorial': (BuildContext context) => TutorialPage(),
-        '/login': (BuildContext context) => LoginPage(fromSplashScreen: false,),
-      },
-    ),
-  );
+  runApp(new DiscoucherApp());
 }
 
+class DiscoucherApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = new FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      new FirebaseAnalyticsObserver(analytics: analytics);
 
-final discoucherGreen900 = Colors.green[900];
-final discoucherRed700 = Colors.red[700];
-final discoucherPink100 = Color(0xFFC2185B);
-final discoucherPurple = Color(0xFFe040fb);
-final discoucherErrorRed =Color(0xFFC5032B);
-final discoucherSurfaceWhite = Color(0xFFFFFBFA);
-final discoucherBackgroundWhite = Colors.white;
-// final discoucherBackgroundWhite = Color(0xFFE8F9FF);
+  final DiscoucherTheme _discoucherTheme = new DiscoucherTheme();
+  final DiscoucherRoutes _discoucherRoutes = new DiscoucherRoutes();
 
-final ThemeData _discoucherTheme = _buildDiscoucherTheme();
-
-ThemeData _buildDiscoucherTheme() {
-  final ThemeData base = ThemeData.light();
-  return base.copyWith(
-    accentColor: discoucherRed700,
-    primaryColor: discoucherGreen900,
-    buttonColor: discoucherGreen900,
-    scaffoldBackgroundColor: discoucherBackgroundWhite,
-    cardColor: discoucherBackgroundWhite,
-    textSelectionColor: discoucherPink100,
-    errorColor: discoucherErrorRed, 
-    splashColor: discoucherPurple.withOpacity(0.5),
-    
-    // TODO: Add the text themes (103)
-    // TODO: Add the icon themes (103)
-    // TODO: Decorate the inputs (103)
-  );
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Discoucher',
+      theme: _discoucherTheme.theme,
+      home: _discoucherRoutes.splashScreen,
+      navigatorObservers: <NavigatorObserver>[observer],
+      routes: _discoucherRoutes.routes,
+    );
+  }
 }

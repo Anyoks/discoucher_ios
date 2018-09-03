@@ -3,11 +3,31 @@ import 'package:discoucher/screens/home/entry.dart';
 import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/settings/settings.dart';
 import 'package:discoucher/screens/settings/tutorial.dart';
+import 'package:discoucher/screens/splash.screen.dart';
 import 'package:flutter/material.dart';
 
 class DiscoucherRoutes {
+  SplashScreen splashScreen;
+  Map<String, WidgetBuilder> routes;
+
+  DiscoucherRoutes() {
+    splashScreen = new SplashScreen();
+    routes = _buildRoutes();
+  }
+
+  Map<String, WidgetBuilder> _buildRoutes() {
+    return <String, WidgetBuilder>{
+      '/home': (BuildContext context) => HomePage(),
+      '/splashScreen': (BuildContext context) => SplashScreen(),
+      '/tutorial': (BuildContext context) => TutorialPage(),
+      '/login': (BuildContext context) => LoginPage(
+            fromSplashScreen: false,
+          )
+    };
+  }
+
   goAndNeverComeback(BuildContext context, String pageName) {
-    Navigator.of(context).pushReplacementNamed('/${pageName}');
+    Navigator.of(context).pushReplacementNamed('/$pageName');
   }
 
   go(BuildContext context, String pageName) {
@@ -19,7 +39,9 @@ class DiscoucherRoutes {
           }
         case "LoginPage":
           {
-            return LoginPage(fromSplashScreen: false,);
+            return LoginPage(
+              fromSplashScreen: false,
+            );
           }
         case "HomePage":
           {
@@ -35,7 +57,9 @@ class DiscoucherRoutes {
           }
         default:
           {
-            return LoginPage(fromSplashScreen: false,);
+            return LoginPage(
+              fromSplashScreen: false,
+            );
           }
       }
     }));
