@@ -1,10 +1,13 @@
+import 'dart:typed_data';
+
 class FacebookProfile {
   final String id;
   final String name;
   final String firstName;
   final String lastName;
   final String email;
-  final Picture picture;
+  Picture picture;
+  Uint8List bytes;
 
   FacebookProfile.fromJson(Map<String, dynamic> map)
       : id = map['id'],
@@ -18,7 +21,7 @@ class FacebookProfile {
 }
 
 class Picture {
-  final PictureData data;
+  PictureData data;
 
   Picture.fromJson(Map<String, dynamic> map)
       : data = map['data'] == null
@@ -28,9 +31,10 @@ class Picture {
 
 class PictureData {
   final bool isSilhouette;
-  final String url;
+  String url;
   final int height;
   final int width;
+  Uint8List bytes;
 
   PictureData.fromJson(Map<String, dynamic> map)
       : isSilhouette = map['is_silhouette'],

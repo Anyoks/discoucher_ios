@@ -38,19 +38,15 @@ class FacebookLoginController {
       var graphResponse =
           await http.get(Uri.encodeFull(grapghUrl + accessToken.token));
 
-      // final picUri = new Uri.https(
-      //     "graph.facebook.com",
-      //     'v3.1/100028213101190/picture?access_token=' + accessToken.token,
-      //     {"type": "large"});
-
-      // var picRes = await http.get(picUri);
-      // var userPicJson = json.decode(picRes.body);
-      // var userPic = Picture.fromJson(userPicJson);
-
-      // print(userPic);
+      final picUri = new Uri.https(
+          "graph.facebook.com",
+          'v3.1/100028213101190/picture',
+          {"type": "large", "access_token": accessToken.token});
+      var picRes = await http.get(picUri);
 
       var profileData = json.decode(graphResponse.body);
       var userProfile = FacebookProfile.fromJson(profileData);
+      userProfile.bytes = picRes.bodyBytes;
 
       return new LoginResults(
           success: true,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
@@ -6,12 +7,17 @@ import 'package:discoucher/constants/enums.dart';
 import 'package:discoucher/constants/strings.dart';
 
 class SettingsController {
-  email() async {
+  final SharedPrefefencedController prefs;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  SettingsController({@required this.prefs, @required this.scaffoldKey});
+
+  Future<void> email() async {
     final String url = 'mailto:$discoucherEmail';
     await launchUrl(url);
   }
 
-  call() async {
+  Future<void> call() async {
     final String url = 'tel:$discoucherPhone';
     await launchUrl(url);
   }
@@ -37,7 +43,7 @@ class SettingsController {
         }
       case SocialSite.Website:
         {
-          url = discoucherWebsite;
+          url = "http://$discoucherWebsite";
           break;
         }
     }
@@ -45,14 +51,24 @@ class SettingsController {
     await launchUrl(url);
   }
 
-  launchUrl(String url) async {
+  Future<void> launchUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     }
   }
 
   Future<LoggedInUser> checkLoggedIn() async {
-    final SharedPrefefencedController prefs = SharedPrefefencedController();
     return await prefs.fetchLoggedInUser();
+  }
+
+  Future logOut() async {
+    await prefs.updateLoggedInUser(null).whenComplete(() => _logOut());
+  }
+
+  _logOut() {
+    scaffoldKey.currentState.showSnackBar(
+      new SnackBar(content: new Text("You have been logged out")),
+    );
+    scaffoldKey.currentState.setState(() {});
   }
 }

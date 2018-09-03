@@ -3,28 +3,25 @@ import 'dart:convert';
 import 'package:discoucher/models/shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class prefPaths {
-  static final String loggedInUser = "loggedInUser";
+class PrefPaths {
+  static final loggedInUser = "loggedInUser";
 }
 
 class SharedPrefefencedController {
+  /// Update or delete a saved user
   Future<bool> updateLoggedInUser(LoggedInUser user) async {
     var results = false;
 
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if (user != null) {
-        var localUserString = user.toJson();
         var localUser = json.encode(user);
-       
-        results =
-            await prefs.setString(prefPaths.loggedInUser.toString(), localUser);
-        return results;
+        results = await prefs.setString(PrefPaths.loggedInUser, localUser);
       } else {
-        results = await prefs.remove(prefPaths.loggedInUser);
+        results = await prefs.remove(PrefPaths.loggedInUser);
       }
     } catch (e) {
-      print(e);
+      results = false;
     }
 
     return results;
@@ -34,7 +31,7 @@ class SharedPrefefencedController {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      final String localUser = await prefs.getString(prefPaths.loggedInUser).toString();
+      final String localUser = prefs.getString(PrefPaths.loggedInUser);
       final user = json.decode(localUser);
 
       return LoggedInUser.fromJsonMap(user);

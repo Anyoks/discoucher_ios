@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:discoucher/models/shared.dart';
@@ -29,7 +30,6 @@ String createInitials(String fullName) {
 
 final List<Color> circleColors = [
   Colors.greenAccent,
-  Colors.blue,
   Colors.blueAccent,
   Colors.teal[400],
   Colors.indigoAccent,
@@ -62,11 +62,7 @@ Widget buildLoggedInUser(
                     style: TextStyle(fontSize: 50.0, color: Colors.white),
                   ),
                 ),
-                user.photoUrl == null
-                    ? null
-                    : CircleAvatar(
-                        backgroundImage: new NetworkImage(user.photoUrl),
-                      ),
+                buldProfPic(user),
               ],
             ),
           ),
@@ -87,6 +83,21 @@ Widget buildLoggedInUser(
   }
 }
 
+Widget buldProfPic(LoggedInUser user) {
+  return user.photoUrl == null
+      ? null
+      : CircleAvatar(
+          backgroundImage: new NetworkImage(user.photoUrl),
+        );
+  // user.bytes == null
+  //     ? CircleAvatar(
+  //         backgroundImage: new NetworkImage(user.photoUrl),
+  //       )
+  //     : CircleAvatar(
+  //         backgroundImage: new MemoryImage(user.bytes),
+  //       ),
+}
+
 Widget loggedInUserSettings(SettingsController controller) {
   return Column(
     children: <Widget>[
@@ -101,7 +112,11 @@ Widget loggedInUserSettings(SettingsController controller) {
       buildSettingItem(
           tapEvent: () {}, icon: Icons.info, displayText: "About Discoucher"),
       buildSettingItem(
-          tapEvent: () {}, icon: Icons.exit_to_app, displayText: "Log out"),
+          tapEvent: () {
+            controller.logOut();
+          },
+          icon: Icons.exit_to_app,
+          displayText: "Log out"),
       Container(
           padding: EdgeInsets.symmetric(vertical: 15.0),
           child: Text("CONTACT-US", style: TextStyle(fontSize: 18.0))),

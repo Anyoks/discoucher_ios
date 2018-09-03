@@ -2,24 +2,28 @@ import 'package:discoucher/screens/settings/anonymous-user-settings.dart';
 import 'package:discoucher/screens/settings/logged-in-settings.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
-import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
-import 'package:discoucher/constants/enums.dart';
-import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/screens/settings/bottom-sections.dart';
 
-class SettingsPage extends StatelessWidget {
-  final SharedPrefefencedController prefs = SharedPrefefencedController();
-  final DiscoucherRoutes routes = DiscoucherRoutes();
-  final SettingsController controller = SettingsController();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  static SharedPrefefencedController _prefs = new SharedPrefefencedController();
+  final DiscoucherRoutes _routes = new DiscoucherRoutes();
+  final SettingsController controller =
+      new SettingsController(prefs: _prefs, scaffoldKey: _scaffoldKey);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           appBarsettings,
@@ -62,7 +66,12 @@ class SettingsPage extends StatelessWidget {
           SizedBox(height: 25.0),
           Center(child: Text(appVersion, style: TextStyle(color: Colors.grey))),
           SizedBox(height: 25.0),
-          SocialLoginButtons(routes, scaffoldKey, prefs)
+          SocialLoginButtons(_routes, _scaffoldKey, _prefs),
+          FlatButton(
+            onPressed: () => _scaffoldKey.currentState.setState(() => {
+            }),
+            child: Text("Refresh"),
+          )
         ],
       ),
     );

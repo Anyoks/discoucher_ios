@@ -10,11 +10,11 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SocialLoginButtons extends StatelessWidget {
-  SocialLoginButtons(this.routes, this.scaffoldKey, this.prefs);
+  SocialLoginButtons(this._routes, this._scaffoldKey, this._prefs);
 
-  final SharedPrefefencedController prefs;
-  final DiscoucherRoutes routes;
-  final GlobalKey<ScaffoldState> scaffoldKey;
+  final SharedPrefefencedController _prefs;
+  final DiscoucherRoutes _routes;
+  final GlobalKey<ScaffoldState> _scaffoldKey;
   final FacebookLoginController fb = new FacebookLoginController();
   final GoogleSignInController google = new GoogleSignInController();
 
@@ -93,6 +93,7 @@ class SocialLoginButtons extends StatelessWidget {
               email: profile.email,
               fullName: profile.name,
               photoUrl: profile.picture.data.url,
+              bytes: profile.bytes,
               token: token.token));
           goHome(context);
           break;
@@ -135,7 +136,6 @@ class SocialLoginButtons extends StatelessWidget {
     }));
   }
 
-  saveLoggedInUser(LoggedInUser user) async {
-    var userSaved = await prefs.updateLoggedInUser(user);
-  }
+  saveLoggedInUser(LoggedInUser user) async =>
+      await _prefs.updateLoggedInUser(user);
 }

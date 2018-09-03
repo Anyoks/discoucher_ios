@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class LoginResults {
   final bool success;
   final dynamic profile;
@@ -12,13 +14,15 @@ class LoggedInUser {
   final String fullName;
   final String email;
   final String photoUrl;
-  final String token;
+  Uint8List bytes;
+  String token;
 
   LoggedInUser({
     this.id,
     this.fullName,
     this.email,
     this.photoUrl,
+    this.bytes,
     this.token,
   });
 
