@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:discoucher/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
@@ -62,6 +63,7 @@ class SettingsController {
   }
 
   Future logOut() async {
+    // TODO: Implement this
     await prefs.updateLoggedInUser(null).whenComplete(() => _logOut());
   }
 
@@ -70,5 +72,11 @@ class SettingsController {
       new SnackBar(content: new Text("You have been logged out")),
     );
     scaffoldKey.currentState.setState(() {});
+  }
+
+  openProfilePage(BuildContext context, LoggedInUser user) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return ProfilePage(loggedInUser: user);
+    }));
   }
 }

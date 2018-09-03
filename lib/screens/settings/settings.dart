@@ -37,7 +37,6 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: ListView(
         children: <Widget>[
-          SizedBox(height: 15.0),
           FutureBuilder(
             future: controller.checkLoggedIn(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -67,11 +66,6 @@ class _SettingsPageState extends State<SettingsPage> {
           Center(child: Text(appVersion, style: TextStyle(color: Colors.grey))),
           SizedBox(height: 25.0),
           SocialLoginButtons(_routes, _scaffoldKey, _prefs),
-          FlatButton(
-            onPressed: () => _scaffoldKey.currentState.setState(() => {
-            }),
-            child: Text("Refresh"),
-          )
         ],
       ),
     );
