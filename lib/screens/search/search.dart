@@ -12,7 +12,7 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   final _searchDelegate = SearchHelper.getDelegate();
 
-  int _lastIntegerSelected;
+  int _lastIntegerSelected = 0;
 
   openSearch() async {
     final int selected = await showSearch<int>(
@@ -78,7 +78,7 @@ class _SearchViewState extends State<SearchView> {
       ),
       body: Center(),
       floatingActionButton: FloatingActionButton.extended(
-        tooltip: 'Select search filters', 
+        tooltip: 'Select search filters',
         onPressed: () {
           // Navigator.of(context).pop();
         },

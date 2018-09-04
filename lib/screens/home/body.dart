@@ -48,7 +48,7 @@ class _HomeBodyState extends State<HomeBody> {
               ));
             default:
               if (snapshot.hasError)
-                return new Text('An error happened: ${snapshot}');
+                return new Text('An error happened: $snapshot');
               else
                 return sectionBuilder(context, snapshot.data);
           }
@@ -58,8 +58,6 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   buildHomeAppBar() {
-    // final appBarBackground = const Color(0XFFE5E5E5);
-    final appBarBackground = Colors.green[900];
     final appBarForeground = const Color(0XFFBDBDBD);
 
     return AppBar(
@@ -73,7 +71,7 @@ class _HomeBodyState extends State<HomeBody> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-             SizedBox(width: 15.0),
+            SizedBox(width: 15.0),
             Flexible(
               child: GestureDetector(
                 onTap: () {
@@ -98,7 +96,7 @@ class _HomeBodyState extends State<HomeBody> {
                 ),
               ),
             ),
-            SizedBox(width: 10.0),
+            SizedBox(width: 10.0)
           ],
         ),
       ),

@@ -1,6 +1,44 @@
 import 'package:flutter/material.dart';
 
-buildCategorySliverAppBar(BuildContext context, String type) {
+Widget _buildSearchTrigger(String type, Function triggerSearchFn) {
+  return GestureDetector(
+    onTap: () {
+      triggerSearchFn();
+    },
+    child: Stack(
+      alignment: Alignment(0.0, 1.0),
+      fit: StackFit.loose,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(bottom: 5.0),
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 10.0),
+              Icon(Icons.search, color: Colors.white),
+              SizedBox(width: 10.0),
+              Expanded(
+                child: Text("Search in ${type.toLowerCase()}",
+                    style: TextStyle(fontSize: 16.0),
+                    overflow: TextOverflow.ellipsis),
+              ),
+              SizedBox(width: 15.0)
+            ],
+          ),
+        ),
+        Container(
+            margin: EdgeInsets.only(right: 50.0),
+            height: 1.0,
+            color: Colors.white),
+      ],
+    ),
+  );
+}
+
+buildCategorySliverAppBar(
+    {BuildContext context,
+    String type,
+    Function showFiltersFn,
+    Function triggerSearchFn}) {
 // - images/establishments/hotels.jpeg
 // - images/establishments/hotels2.jpg
 // - images/establishments/restaurants.jpeg
@@ -22,7 +60,7 @@ buildCategorySliverAppBar(BuildContext context, String type) {
   }
 
   return SliverAppBar(
-    // centerTitle: true,
+    centerTitle: true,
     pinned: true,
     primary: true,
     expandedHeight: 200.0,
@@ -32,36 +70,8 @@ buildCategorySliverAppBar(BuildContext context, String type) {
       },
       icon: Icon(Icons.arrow_back_ios),
     ),
-    actions: <Widget>[
-      IconButton(
-        onPressed: () {
-          new AlertDialog(
-            title: Text("Title"),
-            content: new Text("Test"),
-          );
-
-          //  new SimpleDialogOption(
-          //   onPressed: () {
-          //     print("Dialog pressed");
-          //   },
-          //   child: new Row(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     children: <Widget>[
-          //       new Icon(Icons.dialpad, size: 36.0),
-          //       new Padding(
-          //         padding: const EdgeInsets.only(left: 16.0),
-          //         child: new Text("text"),
-          //       ),
-          //     ],
-          //   ),
-          // );
-        },
-        icon: Icon(Icons.settings_applications),
-      )
-    ],
     flexibleSpace: FlexibleSpaceBar(
-      title: Text(type),
+      title: _buildSearchTrigger(type, triggerSearchFn),
       background: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -72,5 +82,13 @@ buildCategorySliverAppBar(BuildContext context, String type) {
         ),
       ),
     ),
+    actions: <Widget>[
+      IconButton(
+        onPressed: () {
+          showFiltersFn();
+        },
+        icon: Icon(Icons.tune),
+      )
+    ],
   );
 }
