@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-final xGreenIconColor = Color(0xFF27AE60);
+const xGreenIconColor = Color(0xFF27AE60);

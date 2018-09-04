@@ -10,12 +10,16 @@ class LoginResults {
 }
 
 class LoggedInUser {
-  final String id;
-  final String fullName;
-  final String email;
-  final String photoUrl;
-  Uint8List bytes;
+  String id;
+  String fullName;
+  String email;
+  String photoUrl;
   String token;
+
+  String firstName;
+  String lastName;
+  DateTime dob;
+  Uint8List bytes;
 
   LoggedInUser({
     this.id,
@@ -36,6 +40,8 @@ class LoggedInUser {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
         "fullName": fullName,
+        "firstName": firstName,
+        "lastName": lastName,
         "email": email,
         "photoUrl": photoUrl,
         "token": token,

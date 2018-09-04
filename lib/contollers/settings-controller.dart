@@ -76,7 +76,7 @@ class SettingsController {
 
   openProfilePage(BuildContext context, LoggedInUser user) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return ProfilePage(loggedInUser: user);
+      return ProfilePage(currentUser: user);
     }));
   }
 }
