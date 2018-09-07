@@ -48,15 +48,13 @@ buildHomeSectionTitle(
                   Container(
                     padding: EdgeInsets.only(bottom: 4.0),
                     child: Text(
-                      'more',
+                      'SEE ALL',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Theme.of(context).primaryColor,
                       ),
                     ),
-                  ),
-                  Icon(Icons.keyboard_arrow_right,
-                      size: 25.0, color: Theme.of(context).primaryColor)
+                  )
                 ],
               ),
             ),

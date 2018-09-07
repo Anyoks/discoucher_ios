@@ -8,7 +8,6 @@ import 'package:discoucher/screens/settings/user-avatar.dart';
 import 'package:discoucher/contollers/profile-controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key, @required this.currentUser}) : super(key: key);
