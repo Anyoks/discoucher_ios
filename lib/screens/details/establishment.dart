@@ -4,6 +4,17 @@ import 'package:discoucher/screens/details/map.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
+class EstablishmentPageRoute extends MaterialPageRoute {
+  EstablishmentPageRoute(Datum data)
+      : super(builder: (context) => EstablishmentPage(data: data));
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(opacity: animation, child: child);
+  }
+}
+
 class EstablishmentPage extends StatefulWidget {
   EstablishmentPage({Key key, @required this.data}) : super(key: key);
   final Datum data;
@@ -18,7 +29,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
   @override
   Widget build(BuildContext context) {
     primaryColor = Theme.of(context).primaryColor;
-
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -112,10 +122,13 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
             // Divider(color: Colors.grey),
             // SizedBox(height: 10.0),
             Center(
-              child: Text(
-                "FREE LUNCH MAIN COURSE".toUpperCase(),
-                style: TextStyle(fontSize: 24.0),
-                textAlign: TextAlign.center,
+              child: Hero(
+                tag: 'text-${establishment.id}',
+                child: Text(
+                  "FREE LUNCH MAIN COURSE".toUpperCase(),
+                  style: TextStyle(fontSize: 24.0),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             SizedBox(height: 20.0),

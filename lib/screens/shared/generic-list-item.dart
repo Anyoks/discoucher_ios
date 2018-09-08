@@ -3,17 +3,6 @@ import 'package:discoucher/screens/details/establishment.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
 
-openEstablishmentDetails(BuildContext context, Datum data) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (BuildContext context) {
-      return EstablishmentPage(
-        data: data,
-      );
-    }),
-  );
-}
-
 buildSectionContent(Datum data) {
   final double xHeight = 120.0;
   final double xWidth = 159.0;
@@ -84,15 +73,15 @@ buildGenericListItem(BuildContext context, Datum data) {
     margin: EdgeInsets.only(right: 10.0),
     child: new GestureDetector(
       onTap: () {
-        openEstablishmentDetails(context, data);
+        Navigator.push(context, EstablishmentPageRoute(data));
       },
-      child: Hero(
-        tag: data.id,
-        child: Column(
-          children: <Widget>[
-            buildSectionContent(data),
-            SizedBox(height: 7.0),
-            Expanded(
+      child: Column(
+        children: <Widget>[
+          buildSectionContent(data),
+          SizedBox(height: 7.0),
+          Expanded(
+            child: Hero(
+              tag: 'text-${data.id}',
               child: Text(
                 // data.attributes.name,
                 "FREE LUNCH MAIN COURSE when a Lunch Main Course",
@@ -102,8 +91,8 @@ buildGenericListItem(BuildContext context, Datum data) {
                 textAlign: TextAlign.center,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     ),
   );

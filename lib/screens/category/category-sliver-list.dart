@@ -3,14 +3,7 @@ import 'package:discoucher/screens/details/establishment.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
 
-openEstablishmentDetails(BuildContext context, Datum data) {
-  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return EstablishmentPage(data: data);
-  }));
-}
-
 final double xHeight = 157.0;
-//final double xBottomTextBoxWidtht = 150.0;
 final double xBottomTextBoxWidth = 200.0;
 final xlighterTextColor = Color(0xFF4F4F4F);
 
@@ -23,7 +16,7 @@ buildCategorySliverList(List<Datum> establishments) {
         return Center(
           child: GestureDetector(
             onTap: () {
-              openEstablishmentDetails(context, data);
+              Navigator.push(context, EstablishmentPageRoute(data));
             },
             child: buildCategoryListItem(context, data),
           ),
@@ -111,11 +104,14 @@ buildCategoryContent(BuildContext context, Datum data) {
       Flexible(
         child: Column(
           children: <Widget>[
-            Text(
-              "FREE LUNCH MAIN COURSE when a Lunch Main Course is bought (a la carte menu only).  a Lunch Main Course is bought.  a Lunch Main Course is bought. a Lunch Main Course is bought",
-              overflow: TextOverflow.ellipsis,
-              maxLines: 3,
-              style: TextStyle(color: Colors.black, fontSize: 11.0),
+            Hero(
+              tag: 'text-${data.id}',
+              child: Text(
+                "FREE LUNCH MAIN COURSE when a Lunch Main Course is bought (a la carte menu only).  a Lunch Main Course is bought.  a Lunch Main Course is bought. a Lunch Main Course is bought",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                style: TextStyle(color: Colors.black, fontSize: 11.0),
+              ),
             ),
             SizedBox(height: 8.0),
             Row(
