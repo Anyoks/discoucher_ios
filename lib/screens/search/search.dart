@@ -10,7 +10,7 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  final _searchDelegate = SearchHelper.getDelegate();
+  final _searchDelegate = SearchController.getDelegate();
 
   int _lastIntegerSelected = 0;
 

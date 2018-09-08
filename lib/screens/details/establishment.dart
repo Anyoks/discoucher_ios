@@ -33,27 +33,39 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
       body: CustomScrollView(
         slivers: <Widget>[
           buildSliberAppBar(context),
+          //buildSliverList(context)
           buildSliverContent(context),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         tooltip: 'Redeem this offer',
         onPressed: () {
-          return showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: Text(widget.data.attributes.area),
-                title: Text(widget.data.attributes.name),
-              );
-            },
-          );
+          showRedeemDialog(context);
         },
         label: const Text('Redeem'),
         icon: const Icon(Icons.check),
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
       ),
+    );
+  }
+
+  showRedeemDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+            content: Text(widget.data.attributes.area),
+            title: Text(widget.data.attributes.name),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ]);
+      },
     );
   }
 
@@ -107,6 +119,53 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
             ),
           ),
         ));
+  }
+
+  buildSliverList(BuildContext context) {
+    final establishment = widget.data;
+
+    return CustomScrollView(
+      shrinkWrap: true,
+      slivers: <Widget>[
+        new SliverPadding(
+          padding: const EdgeInsets.all(20.0),
+          sliver: new SliverList(
+            delegate: new SliverChildListDelegate(
+              <Widget>[
+                Center(
+                  child: Hero(
+                    tag: 'text-${establishment.id}',
+                    child: Text(
+                      "FREE LUNCH MAIN COURSE".toUpperCase(),
+                      style: TextStyle(fontSize: 24.0),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                Center(
+                  child: Text(
+                    "When a Lunch Main Course is bought (a la carte menu only).",
+                    style: TextStyle(fontSize: 16.0),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                buildEstablishmentItem(Icons.info,
+                    "Only the equal or lesser costing item is free"),
+                buildEstablishmentItem(
+                    Icons.calendar_today, "Valid only on Tuesday to Friday"),
+                buildEstablishmentItem(
+                    Icons.local_dining, "About Thyme Main Course Menu"),
+                buildEstablishmentItem(Icons.phone, "0721 850026"),
+                buildEstablishmentItem(Icons.info, "http://about-thyme.com"),
+                buildEstablishmentDescription(establishment),
+                MapWidget("locationString"),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   buildSliverContent(BuildContext context) {

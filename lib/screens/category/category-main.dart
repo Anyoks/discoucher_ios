@@ -15,7 +15,7 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  final _searchDelegate = SearchHelper.getDelegate();
+  final _searchDelegate = SearchController.getDelegate();
   int _lastIntegerSelected;
 
   @override

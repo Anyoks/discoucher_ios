@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:discoucher/contollers/home-controller.dart';
-import 'package:discoucher/contollers/search-controller.dart';
+import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:discoucher/screens/home/horizontal-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';
+import 'package:discoucher/screens/shared/search-app-bar.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,22 +15,14 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
-  // final SearchHelper _searchHelper = new SearchHelper();
-  final _searchDelegate = SearchHelper.getDelegate();
   final _homeController = new HomeController();
 
-  int _lastIntegerSelected;
+  Future<List<List<Datum>>> _homeFuture;
 
-  openSearch() async {
-    final int selected = await showSearch<int>(
-      context: context,
-      delegate: this._searchDelegate,
-    );
-    if (selected != null && selected != _lastIntegerSelected) {
-      setState(() {
-        _lastIntegerSelected = selected;
-      });
-    }
+  @override
+  void initState() {
+    _homeFuture = _homeController.fetchHomeData();
+    super.initState();
   }
 
   @override
@@ -34,22 +30,22 @@ class _HomeBodyState extends State<HomeBody> {
     // TODO: Handle loading screens
 
     return Scaffold(
-      appBar: buildHomeAppBar(),
+      appBar: SearchAppBar(),
       body: FutureBuilder(
-        future: _homeController.fetchHomeData(),
+        future: _homeFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               return Text("Nothing to show :(");
             case ConnectionState.waiting:
               return Container(
-                  // color: Colors.amber,.
-                  child: Center(
-                child: CircularProgressIndicator(),
-              ));
+                child: Center(child: CircularProgressIndicator()),
+              );
             default:
               if (snapshot.hasError)
-                return new Text('An error happened: $snapshot');
+                return HomeError(onPressed: () {
+                  reloadFuture();
+                });
               else
                 return sectionBuilder(context, snapshot.data);
           }
@@ -58,50 +54,8 @@ class _HomeBodyState extends State<HomeBody> {
     );
   }
 
-  buildHomeAppBar() {
-    final appBarForeground = const Color(0XFFBDBDBD);
-
-    return AppBar(
-      backgroundColor: Colors.white,
-      leading: null,
-      // automaticallyImplyLeading: false,
-      centerTitle: true,
-      titleSpacing: 0.0,
-      title: Center(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(width: 15.0),
-            Flexible(
-              child: GestureDetector(
-                onTap: () {
-                  openSearch();
-                },
-                child: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.search, color: appBarForeground),
-                      SizedBox(width: 10.0),
-                      Expanded(
-                        child: Text(
-                          "discover hotels, spas, cafes...",
-                          style: TextStyle(
-                              fontSize: 16.0, color: appBarForeground),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      SizedBox(width: 5.0),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 10.0)
-          ],
-        ),
-      ),
-    );
+  reloadFuture() {
+    _homeFuture = _homeController.fetchHomeData();
   }
 
   sectionBuilder(BuildContext context, List sections) {

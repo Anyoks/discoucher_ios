@@ -14,6 +14,8 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   static const APIKEY = "AIzaSyCwwdZdbd-zVeLCeCwQrHLPpeHWYJO1XoY";
 
+  static Location nairobi = new Location(-1.28333, 36.81667);
+
   _MapWidgetState() {
     MapView.setApiKey(APIKEY);
   }
@@ -28,8 +30,8 @@ class _MapWidgetState extends State<MapWidget> {
   @override
   initState() {
     super.initState();
-    cameraPosition = new CameraPosition(Locations.nairobi, 2.0);
-    staticMapUri = staticMapProvider.getStaticUri(Locations.nairobi, 12,
+    cameraPosition = new CameraPosition(nairobi, 2.0);
+    staticMapUri = staticMapProvider.getStaticUri(nairobi, 12,
         width: 900, height: 400, mapType: StaticMapViewType.roadmap);
   }
 
@@ -87,7 +89,7 @@ class _MapWidgetState extends State<MapWidget> {
             showUserLocation: true,
             showMyLocationButton: true,
             showCompassButton: true,
-            initialCameraPosition: new CameraPosition(Locations.nairobi, 15.0),
+            initialCameraPosition: new CameraPosition(nairobi, 15.0),
             hideToolbar: false,
             title: "Nairobi"),
         toolbarActions: [new ToolbarAction("Done", 1)]);
