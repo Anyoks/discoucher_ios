@@ -16,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   DiscoucherRoutes routes = new DiscoucherRoutes();
+  final HomePage _homePage = new HomePage();
 
   @override
   void initState() {
@@ -33,9 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text("Welcome to Discoucher")),
-    );
+    return Scaffold(body: Center(child: Text("Welcome to Discoucher")));
   }
 
   Future<LoggedInUser> checkLoggedIn() async {
@@ -46,37 +45,38 @@ class _SplashScreenState extends State<SplashScreen> {
   startTimer() async {
     final hasUser = await checkLoggedIn();
     if (hasUser != null) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) {
-        return HomePage();
-      }));
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (BuildContext context) {
+          return _homePage;
+        },
+      ));
     } else {
-      const timeout = const Duration(seconds: 1, milliseconds: 500);
-      new Timer(timeout, () {
+      final Duration timeout = const Duration(seconds: 1, milliseconds: 500);
+
+      Timer(timeout, () {
         try {
           var firstTimeUsingApp = true;
 
           if (firstTimeUsingApp) {
             //Navigator.of(context).pushReplacementNamed('/tutorials');
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return TutorialPage();
-            }));
+            Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (BuildContext context) {
+                return TutorialPage();
+              },
+            ));
           } else {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return LoginPage(
-                fromSplashScreen: true,
-              );
-            }));
+            Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (BuildContext context) {
+                return LoginPage(fromSplashScreen: true);
+              },
+            ));
           }
         } catch (error) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (BuildContext context) {
-            return LoginPage(
-              fromSplashScreen: true,
-            );
-          }));
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (BuildContext context) {
+              return LoginPage(fromSplashScreen: true);
+            },
+          ));
         }
       });
     }

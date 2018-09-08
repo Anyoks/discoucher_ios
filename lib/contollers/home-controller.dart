@@ -1,34 +1,39 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:async/async.dart';
+import 'package:discoucher/constants/endpoints.dart';
 import 'package:discoucher/models/datum.dart';
 import 'package:http/http.dart';
 
-final String restaurantsEndpoint =
-    "http://46.101.137.125/api/v1/establishments/restaurants";
-final String hotelsEndpoint =
-    "http://46.101.137.125/api/v1/establishments/hotels";
-final String spasEndpoint = "http://46.101.137.125/api/v1/establishments/spas";
-
-Future<List<List<Datum>>> getHomeSections() async {
+class HomeController {
+  final AsyncMemoizer<List<List<Datum>>> _memoizer = AsyncMemoizer();
   var client = new Client();
-  List<String> endpoints = [restaurantsEndpoint, hotelsEndpoint, spasEndpoint];
 
-  List<Response> responses = await Future.wait(endpoints.map((endpoint) =>
-      client.get(Uri.encodeFull(endpoint),
-          headers: {'Accept': 'application/json'})));
+  Future<List<List<Datum>>> fetchHomeData() async {
+    List<String> endpoints = [
+      Endpoints.restaurantsEndpoint,
+      Endpoints.hotelsEndpoint,
+      Endpoints.spasEndpoint
+    ];
 
-  List<List<Datum>> sectionsLists = responses.map((response) {
-    return parseSectionData(response.body);
-  }).toList();
+    return _memoizer.runOnce(() async {
+      List<Response> responses = await Future.wait(endpoints.map((endpoint) =>
+          client.get(Uri.encodeFull(endpoint),
+              headers: {'Accept': 'application/json'})));
 
-  client.close();
-  return sectionsLists;
-}
+      List<List<Datum>> sectionsLists = responses.map((response) {
+        return parseSectionData(response.body);
+      }).toList();
 
-// A function that will convert a response body into a List<Photo>
-List<Datum> parseSectionData(String responseBody) {
-  final Map<String, dynamic> parsedJson = json.decode(responseBody);
-  final List<dynamic> data = parsedJson['data'];
+      client.close();
+      return sectionsLists;
+    });
+  }
 
-  return data.map<Datum>((item) => Datum.fromJson(item)).toList();
+  List<Datum> parseSectionData(String responseBody) {
+    final Map<String, dynamic> parsedJson = json.decode(responseBody);
+    final List<dynamic> data = parsedJson['data'];
+
+    return data.map<Datum>((item) => Datum.fromJson(item)).toList();
+  }
 }

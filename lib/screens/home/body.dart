@@ -13,6 +13,7 @@ class HomeBody extends StatefulWidget {
 class _HomeBodyState extends State<HomeBody> {
   // final SearchHelper _searchHelper = new SearchHelper();
   final _searchDelegate = SearchHelper.getDelegate();
+  final _homeController = new HomeController();
 
   int _lastIntegerSelected;
 
@@ -35,7 +36,7 @@ class _HomeBodyState extends State<HomeBody> {
     return Scaffold(
       appBar: buildHomeAppBar(),
       body: FutureBuilder(
-        future: getHomeSections(),
+        future: _homeController.fetchHomeData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
