@@ -1,4 +1,6 @@
+import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/screens/details/map.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
@@ -11,6 +13,40 @@ class EstablishmentPage extends StatefulWidget {
 }
 
 class _EstablishmentPageState extends State<EstablishmentPage> {
+  Color primaryColor;
+
+  @override
+  Widget build(BuildContext context) {
+    primaryColor = Theme.of(context).primaryColor;
+
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          buildSliberAppBar(context),
+          buildSliverContent(context),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        tooltip: 'Redeem this offer',
+        onPressed: () {
+          return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(widget.data.attributes.area),
+                title: Text(widget.data.attributes.name),
+              );
+            },
+          );
+        },
+        label: const Text('Redeem'),
+        icon: const Icon(Icons.check),
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+      ),
+    );
+  }
+
   buildSliberAppBar(BuildContext context) {
     return SliverAppBar(
         centerTitle: true,
@@ -63,52 +99,86 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
         ));
   }
 
-  buildSliverGrid() {
+  buildSliverContent(BuildContext context) {
+    final establishment = widget.data;
+
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return Column(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.center,
-                child: Text(widget.data.attributes.name),
+          return ListView(children: <Widget>[
+            // Divider(color: Colors.grey),
+            // SizedBox(height: 10.0),
+            Center(
+              child: Text(
+                "FREE LUNCH MAIN COURSE".toUpperCase(),
+                style: TextStyle(fontSize: 24.0),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 200.0),
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    print("Inkwell tapped");
-                  },
-                  splashColor: Colors.purpleAccent,
-                  child: Text(
-                    "Keep calm! Data is coming here!",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-                  ),
-                ),
+            ),
+            SizedBox(height: 20.0),
+            Center(
+              child: Text(
+                "When a Lunch Main Course is bought (a la carte menu only).",
+                style: TextStyle(fontSize: 16.0),
+                textAlign: TextAlign.center,
               ),
-              Expanded(
-                child: SizedBox(height: 1000.0),
-              ),
-            ],
-          );
+            ),
+            buildEstablishmentItem(
+                Icons.info, "Only the equal or lesser costing item is free"),
+            buildEstablishmentItem(
+                Icons.calendar_today, "Valid only on Tuesday to Friday"),
+            buildEstablishmentItem(
+                Icons.local_dining, "About Thyme Main Course Menu"),
+            buildEstablishmentItem(Icons.phone, "0721 850026"),
+            buildEstablishmentItem(Icons.info, "http://about-thyme.com"),
+
+            buildEstablishmentDescription(establishment),
+            MapWidget("locationString"),
+          ]);
         },
         childCount: 1,
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          buildSliberAppBar(context),
-          buildSliverGrid(),
+  buildEstablishmentItem(IconData icon, String title) {
+    return Column(
+      children: <Widget>[
+        SizedBox(width: 10.0),
+        Row(
+          children: <Widget>[
+            SizedBox(width: 15.0),
+            Icon(icon, color: primaryColor),
+            SizedBox(width: 15.0),
+            Text(
+              title,
+              style: TextStyle(color: xSubtitileColor),
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(width: 15.0)
+          ],
+        ),
+        SizedBox(width: 10.0),
+        Divider(color: Colors.green),
+      ],
+    );
+  }
+
+  buildEstablishmentDescription(Datum establishment) {
+    return new RichText(
+      text: new TextSpan(
+        text: '',
+        style: DefaultTextStyle.of(context).style,
+        children: <TextSpan>[
+          new TextSpan(
+              text: establishment.attributes.name,
+              style: new TextStyle(fontWeight: FontWeight.bold)),
+          new TextSpan(
+              text:
+                  'offers an eclectic menu with imaginative, well-prepared and beautifully presented dishes from around the world. There is something to cater for all tastes with a wide range of vegetarian dishes. Our desserts are a special treat and have become famous over the years.'),
         ],
       ),
     );

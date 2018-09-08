@@ -3,7 +3,7 @@ import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/search-controller.dart';
 
 class SearchView extends StatefulWidget {
-  // static const String routeName = '/material/search';
+  // static String routeName = '/material/search';
 
   @override
   _SearchViewState createState() => _SearchViewState();
@@ -80,10 +80,24 @@ class _SearchViewState extends State<SearchView> {
       floatingActionButton: FloatingActionButton.extended(
         tooltip: 'Select search filters',
         onPressed: () {
-          // Navigator.of(context).pop();
+          showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return new Container(
+                  child: new Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: new Text(
+                      'This is the modal bottom sheet. Tap anywhere to dismiss.',
+                      textAlign: TextAlign.center,
+                      style: new TextStyle(
+                          color: Theme.of(context).accentColor, fontSize: 24.0),
+                    ),
+                  ),
+                );
+              });
         },
-        label: const Text('Filters'),
-        icon: const Icon(Icons.settings),
+        label: Text('Filters'),
+        icon: Icon(Icons.settings),
       ),
     );
   }
@@ -99,7 +113,7 @@ class _SearchViewState extends State<SearchView> {
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Text('Press the '),
                     Tooltip(
                       message: 'search',
@@ -111,11 +125,11 @@ class _SearchViewState extends State<SearchView> {
                     Text(' icon in the AppBar'),
                   ],
                 ),
-                const Text('and search for an integer between 0 and 100,000.'),
+                Text('and search for an integer between 0 and 100,000.'),
               ],
             ),
           ),
-          const SizedBox(height: 64.0),
+          SizedBox(height: 64.0),
           Text('Last selected integer: ${_lastIntegerSelected ?? 'NONE'}.')
         ],
       ),
