@@ -1,4 +1,4 @@
-class Attribute {
+class EstablishementAttributes {
   final String name;
   final String area;
   final String location;
@@ -7,7 +7,7 @@ class Attribute {
   final String featuredImage;
   final List<String> pictures;
 
-  Attribute(
+  EstablishementAttributes(
       {this.name,
       this.area,
       this.location,
@@ -16,7 +16,7 @@ class Attribute {
       this.featuredImage,
       this.pictures});
 
-  Attribute.fromJsonMap(Map map)
+  EstablishementAttributes.fromJsonMap(Map map)
       : name = map['name'],
         area = map['area'],
         location = map['location'],
@@ -35,6 +35,6 @@ class Attribute {
         'pictures': pictures
       };
 
-  factory Attribute.fromJson(Map<String, dynamic> map) =>
-      Attribute.fromJsonMap(map);
+  factory EstablishementAttributes.fromJson(Map<String, dynamic> map) =>
+      EstablishementAttributes.fromJsonMap(map);
 }

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:discoucher/contollers/search-controller.dart';
 import 'package:discoucher/models/attribute.dart';
 import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/screens/search/results-card.dart';
@@ -7,41 +10,43 @@ import 'package:uuid/uuid.dart';
 
 class SearchDiscoucherSearchDelegate extends SearchDelegate<Datum> {
   final uuid = new Uuid();
+  final searchController = new SearchController();
 
   final List<Datum> data = [
     new Datum(
       id: new Uuid().v1(),
       type: "Spa",
-      attributes: new Attribute(
+      attributes: new EstablishementAttributes(
           name: "Serena Spa", area: "Kimathi Street, CBD", location: "CBD"),
     ),
     new Datum(
       id: new Uuid().v1(),
       type: "Restaurant",
-      attributes: new Attribute(
+      attributes: new EstablishementAttributes(
           name: "Kilimanjaro", area: "Kimathi Street, CBD", location: "CBD"),
     ),
     new Datum(
       id: new Uuid().v1(),
       type: "Restaurant",
-      attributes: new Attribute(name: "Candles", area: "Juja", location: "CBD"),
+      attributes: new EstablishementAttributes(
+          name: "Candles", area: "Juja", location: "CBD"),
     ),
     new Datum(
       id: new Uuid().v1(),
       type: "Restaurant",
-      attributes: new Attribute(
+      attributes: new EstablishementAttributes(
           name: "Candles", area: "Kimathi Street, CBD", location: "CBD"),
     ),
     new Datum(
       id: new Uuid().v1(),
       type: "Hotel",
-      attributes: new Attribute(
+      attributes: new EstablishementAttributes(
           name: "Kempinski", area: "Kimathi Street, CBD", location: "CBD"),
     ),
     new Datum(
       id: new Uuid().v1(),
       type: "Restaurant",
-      attributes: new Attribute(
+      attributes: new EstablishementAttributes(
           name: "Bao Box", area: "Kimathi Street, CBD", location: "CBD"),
     )
   ];
@@ -50,8 +55,15 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Datum> {
     "Kilimanjaro",
     "About Thyme",
     "Serena",
-    "Candles",
+    "pizza",
+    "main",
   ];
+
+  Future<List<Datum>> searchVoucher(String query) async {
+    List<Datum> _searchResults = await searchController.searchVoucher(query);
+
+    return _searchResults;
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -89,8 +101,14 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Datum> {
     final List<Datum> searchResults =
         data.where((datum) => datum.attributes.name.contains(query)).toList();
 
-    print("searchResults.length");
-    print(searchResults.length);
+    List<Datum> _searchResults;
+
+    searchController.searchVoucher(query).then((onValue) {
+      _searchResults = onValue;
+
+      print("searchResults");
+      print(_searchResults.toString());
+    });
 
     if (searchResults == null && searchResults.length < 1) {
       return Center(

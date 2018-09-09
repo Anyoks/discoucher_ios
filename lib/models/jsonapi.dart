@@ -1,5 +1,15 @@
 class Jsonapi {
-  final String version;
+    String version;
 
-  Jsonapi.fromJsonMap(Map map) : version = map['version'];
+    Jsonapi({
+        this.version,
+    });
+
+    factory Jsonapi.fromJson(Map<String, dynamic> json) => new Jsonapi(
+        version: json["version"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "version": version,
+    };
 }

@@ -1,22 +1,24 @@
 import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/models/jsonapi.dart';
-// import 'package:discoucher/models/jsonapi.version.dart';
-
-// class DiscoucherRoot {
-//   final List<Datum> data;
-//   final Jsonapi jsonapi;
-
-//   DiscoucherRoot.fromJsonMap(Map map)
-//       : data = map['data'],
-//         jsonapi = map['jsonapi'];
-// }
-
 
 class DiscoucherRoot {
-  final List<Datum> data;
-  final Jsonapi jsonapi;
+  List<Datum> data;
+  Jsonapi jsonapi;
 
-  DiscoucherRoot.fromJsonMap(Map map)
-      : data = map['data'],
-        jsonapi = map['jsonapi'];
+  DiscoucherRoot({
+    this.data,
+    this.jsonapi,
+  });
+
+  factory DiscoucherRoot.fromJson(Map<String, dynamic> json) =>
+      new DiscoucherRoot(
+        data: new List<Datum>.from(
+            json["data"].map((datum) => Datum.fromJson(datum))),
+        jsonapi: Jsonapi.fromJson(json["jsonapi"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "data": new List<dynamic>.from(data.map((datum) => datum.toJson())),
+        "jsonapi": jsonapi.toJson(),
+      };
 }
