@@ -1,15 +1,16 @@
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
 
-openEstablishmentDetails(BuildContext context, Datum data) {
+openEstablishmentDetails(BuildContext context, Voucher data) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
     return EstablishmentPage(data: data);
   }));
 }
 
-buildCategorySliverGrid(List<Datum> establishments) {
+buildCategorySliverGrid(List<Voucher> vouchers) {
   return SliverGrid(
     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
       maxCrossAxisExtent: 230.0,
@@ -19,7 +20,7 @@ buildCategorySliverGrid(List<Datum> establishments) {
     ),
     delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) {
-        var data = establishments[index];
+        var data = vouchers[index];
         return GestureDetector(
           onTap: () {
             print("pressed");
@@ -27,12 +28,12 @@ buildCategorySliverGrid(List<Datum> establishments) {
           child: buildCategoryListItem(context, data),
         );
       },
-      childCount: establishments.length,
+      childCount: vouchers.length,
     ),
   );
 }
 
-buildCategorySliverGrid2(List<Datum> establishments) {
+buildCategorySliverGrid2(List<Voucher> vouchers) {
   return SliverGrid(
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
@@ -41,7 +42,7 @@ buildCategorySliverGrid2(List<Datum> establishments) {
     ),
     delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) {
-        var data = establishments[index];
+        var data = vouchers[index];
         return Center(
           child: GestureDetector(
             onTap: () {
@@ -51,12 +52,12 @@ buildCategorySliverGrid2(List<Datum> establishments) {
           ),
         );
       },
-      childCount: establishments.length,
+      childCount: vouchers.length,
     ),
   );
 }
 
-buildCategoryListItem(BuildContext context, Datum data) {
+buildCategoryListItem(BuildContext context, Voucher data) {
   final double xHeight = 190.0;
   final double xWidth = 189.0;
   return Container(
@@ -66,7 +67,7 @@ buildCategoryListItem(BuildContext context, Datum data) {
     // constraints: BoxConstraints.expand(),
     padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
     child: Hero(
-      tag: data.id,
+      tag: data.establishment.data.id,
       child: Column(
         children: <Widget>[
           buildSectonContent(data),
@@ -87,7 +88,7 @@ buildCategoryListItem(BuildContext context, Datum data) {
   );
 }
 
-buildSectonContent(Datum data) {
+buildSectonContent(Voucher data) {
   final double xInnerHeight = 145.0;
   return Container( 
      height: xInnerHeight,
@@ -96,7 +97,7 @@ buildSectonContent(Datum data) {
       shape: BoxShape.rectangle,
       image: DecorationImage(
         fit: BoxFit.cover,
-        image: buildItemImage(data.attributes.featuredImage),
+        image: buildItemImage(data.establishment.data.attributes.featuredImage),
       ),
     ),
     child: Container(
@@ -109,7 +110,7 @@ buildSectonContent(Datum data) {
         constraints: BoxConstraints.expand(height: 44.0),
         padding: EdgeInsets.all(4.0),
         child: Text(
-          data.attributes.name,
+          data.establishment.data.attributes.name,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(

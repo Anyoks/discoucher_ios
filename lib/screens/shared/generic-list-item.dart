@@ -1,9 +1,9 @@
-import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
 
-buildSectionContent(Datum data) {
+buildSectionContent(Voucher data) {
   final double xHeight = 120.0;
   final double xWidth = 159.0;
   return Container(
@@ -14,7 +14,7 @@ buildSectionContent(Datum data) {
       shape: BoxShape.rectangle,
       image: DecorationImage(
         fit: BoxFit.cover,
-        image: buildItemImage(data.attributes.featuredImage),
+        image: buildItemImage(data.establishment.data.attributes.featuredImage),
       ),
     ),
     child: Container(
@@ -27,7 +27,7 @@ buildSectionContent(Datum data) {
         constraints: BoxConstraints.expand(height: 44.0),
         padding: EdgeInsets.all(4.0),
         child: Text(
-          data.attributes.name,
+          data.establishment.data.attributes.name,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
@@ -67,7 +67,7 @@ buildSectionContent(Datum data) {
   );
 }
 
-buildGenericListItem(BuildContext context, Datum data) {
+buildGenericListItem(BuildContext context, Voucher data) {
   return Container(
     width: 160.0,
     margin: EdgeInsets.only(right: 10.0),
@@ -81,7 +81,7 @@ buildGenericListItem(BuildContext context, Datum data) {
           SizedBox(height: 7.0),
           Expanded(
             child: Hero(
-              tag: 'text-${data.id}',
+              tag: 'text-${data.establishment.data.id}',
               child: Text(
                 // data.attributes.name,
                 "FREE LUNCH MAIN COURSE when a Lunch Main Course",

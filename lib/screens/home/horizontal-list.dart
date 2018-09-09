@@ -1,12 +1,13 @@
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/home/home-section-title.dart';
 import 'package:discoucher/screens/shared/generic-list-item.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-buildHomeList(BuildContext context, List<Datum> data) {
-  var estType = data[0].attributes.estType != null
-      ? data[0].attributes.estType
+buildHomeList(BuildContext context, List<Voucher> data) {
+  var estType = data[0].establishment.data.type != null
+      ? data[0].establishment.data.type
       : "Establishment";
 
   String header = estType;

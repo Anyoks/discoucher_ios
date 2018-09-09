@@ -1,14 +1,15 @@
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:flutter/material.dart';
 
-openEstablishmentDetails(BuildContext context, Datum data) {
+openEstablishmentDetails(BuildContext context, Voucher data) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
     return EstablishmentPage(data: data);
   }));
 }
 
-buildListItemCategory(BuildContext context, Datum data) {
+buildListItemCategory(BuildContext context, Voucher data) {
   return Container(
     // color: Colors.redAccent,
     width: 160.0,
@@ -18,7 +19,7 @@ buildListItemCategory(BuildContext context, Datum data) {
         openEstablishmentDetails(context, data);
       },
       child: Hero(
-        tag: data.id,
+        tag: data.establishment.data.id,
         child: Column(
           children: <Widget>[
             Container(
@@ -30,8 +31,8 @@ buildListItemCategory(BuildContext context, Datum data) {
                 shape: BoxShape.rectangle,
                 image: new DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(data.attributes.logo.length > 0
-                      ? data.attributes.logo
+                  image: NetworkImage(data.establishment.data.attributes.featuredImage.length > 0
+                      ? data.establishment.data.attributes.featuredImage
                       : null),
                 ),
               ),

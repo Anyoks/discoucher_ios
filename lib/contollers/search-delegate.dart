@@ -2,52 +2,55 @@ import 'dart:async';
 
 import 'package:discoucher/contollers/search-controller.dart';
 import 'package:discoucher/models/attribute.dart';
-import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/data-attributes.dart';
+import 'package:discoucher/models/data.dart';
+import 'package:discoucher/models/establishment.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/search/results-card.dart';
 import 'package:discoucher/screens/search/suggestions-list.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-class SearchDiscoucherSearchDelegate extends SearchDelegate<Datum> {
+class SearchDiscoucherSearchDelegate extends SearchDelegate<Voucher> {
   final uuid = new Uuid();
   final searchController = new SearchController();
 
-  final List<Datum> data = [
-    new Datum(
-      id: new Uuid().v1(),
-      type: "Spa",
-      attributes: new EstablishementAttributes(
-          name: "Serena Spa", area: "Kimathi Street, CBD", location: "CBD"),
+  final List<Voucher> data = [
+    new Voucher(
+      code: new Uuid().v1(),
+      condition: "Spa",
+      establishment: new Establishment(
+          data: new Data(attributes: new DataAttributes(name: "Kilimanjaro"))),
     ),
-    new Datum(
-      id: new Uuid().v1(),
-      type: "Restaurant",
-      attributes: new EstablishementAttributes(
-          name: "Kilimanjaro", area: "Kimathi Street, CBD", location: "CBD"),
+    new Voucher(
+      code: new Uuid().v1(),
+      condition: "Spa",
+      establishment: new Establishment(
+          data: new Data(attributes: new DataAttributes(name: "Serena Spa"))),
     ),
-    new Datum(
-      id: new Uuid().v1(),
-      type: "Restaurant",
-      attributes: new EstablishementAttributes(
-          name: "Candles", area: "Juja", location: "CBD"),
+    new Voucher(
+      code: new Uuid().v1(),
+      condition: "Spa",
+      establishment: new Establishment(
+          data: new Data(attributes: new DataAttributes(name: "About Thyme"))),
     ),
-    new Datum(
-      id: new Uuid().v1(),
-      type: "Restaurant",
-      attributes: new EstablishementAttributes(
-          name: "Candles", area: "Kimathi Street, CBD", location: "CBD"),
+    new Voucher(
+      code: new Uuid().v1(),
+      condition: "Spa",
+      establishment: new Establishment(
+          data: new Data(attributes: new DataAttributes(name: "Kempinski"))),
     ),
-    new Datum(
-      id: new Uuid().v1(),
-      type: "Hotel",
-      attributes: new EstablishementAttributes(
-          name: "Kempinski", area: "Kimathi Street, CBD", location: "CBD"),
+    new Voucher(
+      code: new Uuid().v1(),
+      condition: "Spa",
+      establishment: new Establishment(
+          data: new Data(attributes: new DataAttributes(name: "Pizza"))),
     ),
-    new Datum(
-      id: new Uuid().v1(),
-      type: "Restaurant",
-      attributes: new EstablishementAttributes(
-          name: "Bao Box", area: "Kimathi Street, CBD", location: "CBD"),
+    new Voucher(
+      code: new Uuid().v1(),
+      condition: "Spa",
+      establishment: new Establishment(
+          data: new Data(attributes: new DataAttributes(name: "Pizza"))),
     )
   ];
 
@@ -59,9 +62,8 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Datum> {
     "main",
   ];
 
-  Future<List<Datum>> searchVoucher(String query) async {
-    List<Datum> _searchResults = await searchController.searchVoucher(query);
-
+  Future<List<Voucher>> searchVoucher(String query) async {
+    List<Voucher> _searchResults = await searchController.searchVoucher(query);
     return _searchResults;
   }
 
@@ -98,15 +100,17 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Datum> {
   @override
   Widget buildResults(BuildContext context) {
     // TODO: Call Api here
-    final List<Datum> searchResults =
-        data.where((datum) => datum.attributes.name.contains(query)).toList();
+    final List<Voucher> searchResults = data
+        .where(
+            (datum) => datum.establishment.data.attributes.name.contains(query))
+        .toList();
 
-    List<Datum> _searchResults;
+    List<Voucher> _searchResults;
 
     searchController.searchVoucher(query).then((onValue) {
       _searchResults = onValue;
 
-      print("searchResults");
+      print("searchResults............");
       print(_searchResults.toString());
     });
 
@@ -117,14 +121,40 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Datum> {
     }
 
     List<Widget> resultsCards = [];
-    searchResults.forEach((result) => resultsCards.add(
-          ResultCard(
-            datum: result,
-            searchDelegate: this,
-          ),
-        ));
 
-    return new ListView(children: resultsCards);
+    // searchResults.forEach((result) => resultsCards.add(
+    //       ResultCard(
+    //         datum: result,
+    //         searchDelegate: this,
+    //       ),
+    //     ));
+
+    // return new ListView(children: resultsCards);
+
+    return FutureBuilder(
+      future: searchController.searchVoucher(query),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return Text("Nothing to show :(");
+          case ConnectionState.waiting:
+            return Container(
+              child: Center(child: CircularProgressIndicator()),
+            );
+          default:
+            if (snapshot.hasError)
+              return Text("Error: $snapshot");
+            else
+              snapshot.data.forEach((result) => resultsCards.add(
+                    ResultCard(
+                      voucher: result,
+                      searchDelegate: this,
+                    ),
+                  ));
+            return new ListView(children: resultsCards);
+        }
+      },
+    );
   }
 
   @override
@@ -132,8 +162,9 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Datum> {
     final Iterable<String> suggestions = query.isEmpty
         ? history
         : data
-            .where((Datum datum) => datum.attributes.name.contains(query))
-            .map((datum) => datum.attributes.name);
+            .where((Voucher voucher) =>
+                voucher.establishment.data.attributes.name.contains(query))
+            .map((voucher) => voucher.establishment.data.attributes.name);
 
     return SuggestionList(
       query: query,

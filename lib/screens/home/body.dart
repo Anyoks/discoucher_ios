@@ -55,6 +55,7 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   reloadFuture() {
+    print("reload");
     _homeFuture = _homeController.fetchHomeData();
   }
 

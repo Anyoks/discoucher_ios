@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:discoucher/contollers/search-delegate.dart';
-import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
   final _searchDelegate = SearchDiscoucherSearchDelegate();
 
   Future openSearch() async {
-    final Datum selected = await showSearch<Datum>(
+    final Voucher selected = await showSearch<Voucher>(
       context: context,
       delegate: _searchDelegate,
     );

@@ -1,4 +1,5 @@
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establishment.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,12 @@ final double xHeight = 157.0;
 final double xBottomTextBoxWidth = 200.0;
 final xlighterTextColor = Color(0xFF4F4F4F);
 
-buildCategorySliverList(List<Datum> establishments) {
+buildCategorySliverList(List<Voucher> vouchers) {
   return SliverFixedExtentList(
     itemExtent: 135.0,
     delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) {
-        var data = establishments[index];
+        var data = vouchers[index];
         return Center(
           child: GestureDetector(
             onTap: () {
@@ -22,12 +23,12 @@ buildCategorySliverList(List<Datum> establishments) {
           ),
         );
       },
-      childCount: establishments.length,
+      childCount: vouchers.length,
     ),
   );
 }
 
-buildCategoryListItem(BuildContext context, Datum data) {
+buildCategoryListItem(BuildContext context, Voucher data) {
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -56,7 +57,8 @@ buildCategoryListItem(BuildContext context, Datum data) {
             shape: BoxShape.rectangle,
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: buildItemImage(data.attributes.featuredImage),
+              image: buildItemImage(
+                  data.establishment.data.attributes.featuredImage),
             ),
           ),
         ),
@@ -87,12 +89,12 @@ buildCategoryListItem(BuildContext context, Datum data) {
   );
 }
 
-buildCategoryContent(BuildContext context, Datum data) {
+buildCategoryContent(BuildContext context, Voucher data) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: <Widget>[
       Text(
-        data.attributes.name,
+        data.establishment.data.attributes.name,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: TextStyle(
@@ -105,7 +107,7 @@ buildCategoryContent(BuildContext context, Datum data) {
         child: Column(
           children: <Widget>[
             Hero(
-              tag: 'text-${data.id}',
+              tag: 'text-${data.establishment.data.id}',
               child: Text(
                 "FREE LUNCH MAIN COURSE when a Lunch Main Course is bought (a la carte menu only).  a Lunch Main Course is bought.  a Lunch Main Course is bought. a Lunch Main Course is bought",
                 overflow: TextOverflow.ellipsis,
@@ -163,7 +165,7 @@ buildCategoryContent(BuildContext context, Datum data) {
   );
 }
 
-buildSectonContent(Datum data) {
+buildSectonContent(Voucher data) {
   final double xInnerHeight = 150.0;
   return Container(
     height: xInnerHeight,
@@ -172,7 +174,7 @@ buildSectonContent(Datum data) {
       shape: BoxShape.rectangle,
       image: DecorationImage(
         fit: BoxFit.cover,
-        image: buildItemImage(data.attributes.featuredImage),
+        image: buildItemImage(data.establishment.data.attributes.featuredImage),
       ),
     ),
     child: Container(
@@ -185,7 +187,7 @@ buildSectonContent(Datum data) {
         constraints: BoxConstraints.expand(height: 44.0),
         padding: EdgeInsets.all(4.0),
         child: Text(
-          data.attributes.name,
+          data.establishment.data.attributes.name,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(

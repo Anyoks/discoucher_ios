@@ -1,11 +1,12 @@
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/map.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
 class EstablishmentPageRoute extends MaterialPageRoute {
-  EstablishmentPageRoute(Datum data)
+  EstablishmentPageRoute(Voucher data)
       : super(builder: (context) => EstablishmentPage(data: data));
 
   @override
@@ -17,7 +18,7 @@ class EstablishmentPageRoute extends MaterialPageRoute {
 
 class EstablishmentPage extends StatefulWidget {
   EstablishmentPage({Key key, @required this.data}) : super(key: key);
-  final Datum data;
+  final Voucher data;
 
   @override
   _EstablishmentPageState createState() => new _EstablishmentPageState();
@@ -55,8 +56,8 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: Text(widget.data.attributes.area),
-            title: Text(widget.data.attributes.name),
+            content: Text(widget.data.establishment.data.attributes.area),
+            title: Text(widget.data.establishment.data.attributes.name),
             actions: <Widget>[
               new FlatButton(
                 child: new Text("Close"),
@@ -86,7 +87,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               //TODO: Add proper sharing
               // Share.share(widget.data.attributes.name);
               final RenderBox box = context.findRenderObject();
-              Share.share(widget.data.attributes.name,
+              Share.share(widget.data.establishment.data.attributes.name,
                   sharePositionOrigin:
                       box.localToGlobal(Offset.zero) & box.size);
             },
@@ -100,7 +101,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               final snackBar = SnackBar(
                 duration: timeout,
                 content:
-                    Text("${widget.data.attributes.name} added to favorites"),
+                    Text("${widget.data.establishment.data.attributes.name} added to favorites"),
               );
               Scaffold.of(context).showSnackBar(snackBar);
             },
@@ -108,12 +109,12 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
           )
         ],
         flexibleSpace: FlexibleSpaceBar(
-          title: Text(widget.data.attributes.name),
+          title: Text(widget.data.establishment.data.attributes.name),
           background: DecoratedBox(
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(widget.data.attributes.featuredImage ??
+                image: NetworkImage(widget.data.establishment.data.attributes.featuredImage ??
                     "images/item-placeholder.jpg"),
               ),
             ),
@@ -134,7 +135,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               <Widget>[
                 Center(
                   child: Hero(
-                    tag: 'text-${establishment.id}',
+                    tag: 'text-${establishment.establishment.data.id}',
                     child: Text(
                       "FREE LUNCH MAIN COURSE".toUpperCase(),
                       style: TextStyle(fontSize: 24.0),
@@ -169,7 +170,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
   }
 
   buildSliverContent(BuildContext context) {
-    final establishment = widget.data;
+    final voucher = widget.data;
 
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -182,7 +183,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
             // SizedBox(height: 10.0),
             Center(
               child: Hero(
-                tag: 'text-${establishment.id}',
+                tag: 'text-${voucher.establishment.data.id}',
                 child: Text(
                   "FREE LUNCH MAIN COURSE".toUpperCase(),
                   style: TextStyle(fontSize: 24.0),
@@ -207,7 +208,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
             buildEstablishmentItem(Icons.phone, "0721 850026"),
             buildEstablishmentItem(Icons.info, "http://about-thyme.com"),
 
-            buildEstablishmentDescription(establishment),
+            buildEstablishmentDescription(voucher),
             MapWidget("locationString"),
           ]);
         },
@@ -239,14 +240,14 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
     );
   }
 
-  buildEstablishmentDescription(Datum establishment) {
+  buildEstablishmentDescription(Voucher voucher) {
     return new RichText(
       text: new TextSpan(
         text: '',
         style: DefaultTextStyle.of(context).style,
         children: <TextSpan>[
           new TextSpan(
-              text: establishment.attributes.name,
+              text: voucher.establishment.data.attributes.name,
               style: new TextStyle(fontWeight: FontWeight.bold)),
           new TextSpan(
               text:
