@@ -22,8 +22,36 @@ class Favorites extends StatelessWidget {
         leading: AppBackButton(),
         title: AppBarTitle(appBarFavorites),
       ),
-      body: Center(
-        child: Text("Favourites"),
+      body: _nofavoritesYet(context),
+    );
+  }
+
+  _nofavoritesYet(BuildContext context) {
+    return Center(
+      child: ListView(
+        children: <Widget>[
+          SizedBox(height: 100.0),
+          Container(
+            padding: EdgeInsets.all(12.0),
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.favorite_border,
+                    size: 100.0, color: Colors.blueGrey.withOpacity(0.8)),
+                SizedBox(height: 30.0),
+                Text("No Favourites!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 24.0)),
+                SizedBox(height: 30.0),
+                Text("You have not added any favourites.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16.0)),
+                Text("Click on the heart icon within a deal to add one!.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16.0)),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
