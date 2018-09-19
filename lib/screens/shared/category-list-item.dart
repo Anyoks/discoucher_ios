@@ -19,7 +19,7 @@ buildListItemCategory(BuildContext context, Voucher data) {
         openEstablishmentDetails(context, data);
       },
       child: Hero(
-        tag: data.establishment.data.id,
+        tag: data.heroId,
         child: Column(
           children: <Widget>[
             Container(

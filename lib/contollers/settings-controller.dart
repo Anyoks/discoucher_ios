@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:discoucher/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
@@ -74,9 +73,4 @@ class SettingsController {
     scaffoldKey.currentState.setState(() {});
   }
 
-  openProfilePage(BuildContext context, LoggedInUser user) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return ProfilePage(currentUser: user);
-    }));
-  }
 }

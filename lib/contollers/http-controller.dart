@@ -10,22 +10,24 @@ class HttpController {
   HttpController() {
     client = new Client();
 
-    _headers = {
-      'Content-Type': 'application/json',
-      "access-token": "wyou8FqUHar0SAzB0eP2kQ",
-      "client": "ZHZ4v8N1RgvuqVYLrovnkg",
-      "uid": "testingbbc@api.com"
-    };
+    // _headers = {
+    //   'Content-Type': 'application/json',
+    //   "access-token": "wyou8FqUHar0SAzB0eP2kQ",
+    //   "client": "ZHZ4v8N1RgvuqVYLrovnkg",
+    //   "uid": "testingbbc@api.com"
+    // };
   }
 
-  Future<Response> post(String endPoint, payload) async {
-    return await client.post(endPoint, headers: _headers, body: payload);
+  Future<Response> post(
+      {String endPoint, Map<String, String> headers, payload}) async {
+    return await client.post(endPoint, headers: headers, body: payload);
   }
 
   Future<List<Datum>> search(
       String endPoint, Map<String, String> payload) async {
     try {
-      var res = await client.post(endPoint, headers: _headers, body: payload.toString());
+      var res = await client.post(endPoint,
+          headers: _headers, body: payload.toString());
       List<Datum> results = parseSectionData(res.body);
       print("searchResults");
       print(results);

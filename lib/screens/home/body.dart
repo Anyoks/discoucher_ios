@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:discoucher/contollers/home-controller.dart';
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:discoucher/screens/home/horizontal-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';
@@ -17,7 +18,7 @@ class HomeBody extends StatefulWidget {
 class _HomeBodyState extends State<HomeBody> {
   final _homeController = new HomeController();
 
-  Future<List<List<Datum>>> _homeFuture;
+  Future<List<List<Voucher>>> _homeFuture;
 
   @override
   void initState() {

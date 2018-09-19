@@ -1,4 +1,3 @@
-import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/home/home-section-title.dart';
 import 'package:discoucher/screens/shared/generic-list-item.dart';
@@ -24,7 +23,7 @@ buildHomeList(BuildContext context, List<Voucher> data) {
     default:
       header = estType;
   }
-  
+
   return new Container(
     margin: EdgeInsets.only(left: 12.0, top: 5.0),
     child: Column(

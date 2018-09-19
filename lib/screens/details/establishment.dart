@@ -1,5 +1,4 @@
 import 'package:discoucher/constants/colors.dart';
-import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/map.dart';
 import 'package:flutter/material.dart';
@@ -100,8 +99,8 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               Duration timeout = new Duration(seconds: 3);
               final snackBar = SnackBar(
                 duration: timeout,
-                content:
-                    Text("${widget.data.establishment.data.attributes.name} added to favorites"),
+                content: Text(
+                    "${widget.data.establishment.data.attributes.name} added to favorites"),
               );
               Scaffold.of(context).showSnackBar(snackBar);
             },
@@ -114,8 +113,9 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(widget.data.establishment.data.attributes.featuredImage ??
-                    "images/item-placeholder.jpg"),
+                image: NetworkImage(
+                    widget.data.establishment.data.attributes.featuredImage ??
+                        "images/item-placeholder.jpg"),
               ),
             ),
           ),
@@ -123,7 +123,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
   }
 
   buildSliverList(BuildContext context) {
-    final establishment = widget.data;
+    final voucher = widget.data;
 
     return CustomScrollView(
       shrinkWrap: true,
@@ -135,7 +135,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               <Widget>[
                 Center(
                   child: Hero(
-                    tag: 'text-${establishment.establishment.data.id}',
+                    tag: voucher.heroId,
                     child: Text(
                       "FREE LUNCH MAIN COURSE".toUpperCase(),
                       style: TextStyle(fontSize: 24.0),
@@ -159,7 +159,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
                     Icons.local_dining, "About Thyme Main Course Menu"),
                 buildEstablishmentItem(Icons.phone, "0721 850026"),
                 buildEstablishmentItem(Icons.info, "http://about-thyme.com"),
-                buildEstablishmentDescription(establishment),
+                buildEstablishmentDescription(voucher),
                 MapWidget("locationString"),
               ],
             ),
@@ -183,7 +183,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
             // SizedBox(height: 10.0),
             Center(
               child: Hero(
-                tag: 'text-${voucher.establishment.data.id}',
+                tag: voucher.heroId,
                 child: Text(
                   "FREE LUNCH MAIN COURSE".toUpperCase(),
                   style: TextStyle(fontSize: 24.0),

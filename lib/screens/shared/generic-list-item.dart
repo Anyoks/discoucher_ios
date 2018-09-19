@@ -81,7 +81,7 @@ buildGenericListItem(BuildContext context, Voucher data) {
           SizedBox(height: 7.0),
           Expanded(
             child: Hero(
-              tag: 'text-${data.establishment.data.id}',
+              tag: data.heroId,
               child: Text(
                 // data.attributes.name,
                 "FREE LUNCH MAIN COURSE when a Lunch Main Course",

@@ -1,4 +1,3 @@
-import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/category/category-sliver-app-bar.dart';
 import 'package:discoucher/screens/category/category-sliver-list.dart';

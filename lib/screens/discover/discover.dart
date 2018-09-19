@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:discoucher/screens/discover/discover-grid.dart';
 import 'package:discoucher/screens/shared/search-app-bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

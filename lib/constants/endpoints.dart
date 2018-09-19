@@ -10,7 +10,7 @@ class Endpoint {
   static String spaEstablishments = "$baseUrl/establishments/spas";
 
   static String allVouchers = "$baseUrl/vouchers/all";
-  static String restaurantVouchers = "$baseUrl/vouchers/resturants";
+  static String restaurantVouchers = "$baseUrl/vouchers/restaurants";
   static String hotelVouchers = "$baseUrl/vouchers/hotels";
   static String spaVouchers = "$baseUrl/vouchers/spas";
 
