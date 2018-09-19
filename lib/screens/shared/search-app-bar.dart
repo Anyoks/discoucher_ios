@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:discoucher/contollers/search-delegate.dart';
 import 'package:discoucher/models/voucher.dart';
-import 'package:discoucher/screens/details/establishment.dart';
+import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:flutter/material.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -27,7 +27,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
     );
 
     if (selected != null) {
-      Navigator.push(context, EstablishmentPageRoute(selected));
+      Navigator.push(context, VoucherDetailsPageRoute(selected));
     }
   }
 

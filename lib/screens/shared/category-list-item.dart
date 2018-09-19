@@ -1,11 +1,10 @@
-import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/models/voucher.dart';
-import 'package:discoucher/screens/details/establishment.dart';
+import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:flutter/material.dart';
 
 openEstablishmentDetails(BuildContext context, Voucher data) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return EstablishmentPage(data: data);
+    return VoucherDetailsPage(data: data);
   }));
 }
 

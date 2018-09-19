@@ -1,5 +1,5 @@
 import 'package:discoucher/models/voucher.dart';
-import 'package:discoucher/screens/details/establishment.dart';
+import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +73,7 @@ buildGenericListItem(BuildContext context, Voucher data) {
     margin: EdgeInsets.only(right: 10.0),
     child: new GestureDetector(
       onTap: () {
-        Navigator.push(context, EstablishmentPageRoute(data));
+        Navigator.push(context, VoucherDetailsPageRoute(data));
       },
       child: Column(
         children: <Widget>[

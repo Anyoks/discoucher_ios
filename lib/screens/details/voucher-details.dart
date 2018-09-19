@@ -4,9 +4,9 @@ import 'package:discoucher/screens/details/map.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
-class EstablishmentPageRoute extends MaterialPageRoute {
-  EstablishmentPageRoute(Voucher data)
-      : super(builder: (context) => EstablishmentPage(data: data));
+class VoucherDetailsPageRoute extends MaterialPageRoute {
+  VoucherDetailsPageRoute(Voucher data)
+      : super(builder: (context) => VoucherDetailsPage(data: data));
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
@@ -15,15 +15,15 @@ class EstablishmentPageRoute extends MaterialPageRoute {
   }
 }
 
-class EstablishmentPage extends StatefulWidget {
-  EstablishmentPage({Key key, @required this.data}) : super(key: key);
+class VoucherDetailsPage extends StatefulWidget {
+  VoucherDetailsPage({Key key, @required this.data}) : super(key: key);
   final Voucher data;
 
   @override
-  _EstablishmentPageState createState() => new _EstablishmentPageState();
+  _VoucherDetailsPageState createState() => new _VoucherDetailsPageState();
 }
 
-class _EstablishmentPageState extends State<EstablishmentPage> {
+class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   Color primaryColor;
 
   @override

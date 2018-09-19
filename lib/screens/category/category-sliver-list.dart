@@ -1,6 +1,5 @@
-import 'package:discoucher/models/datum.dart';
 import 'package:discoucher/models/voucher.dart';
-import 'package:discoucher/screens/details/establishment.dart';
+import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +16,7 @@ buildCategorySliverList(List<Voucher> vouchers) {
         return Center(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(context, EstablishmentPageRoute(data));
+              Navigator.push(context, VoucherDetailsPageRoute(data));
             },
             child: buildCategoryListItem(context, data),
           ),
