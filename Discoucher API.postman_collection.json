@@ -1,0 +1,1264 @@
+{
+	"info": {
+		"_postman_id": "9436d5cc-0b7e-1234-bd9e-df8327dbba52",
+		"name": "Discoucher API NEW",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign In",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"testingBBC@api.com\",\n\t\"password\":\"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/auth/sign_in",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"sign_in"
+					]
+				},
+				"description": "Sign in"
+			},
+			"response": []
+		},
+		{
+			"name": "Sign up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"testingBBC@api.com\",\r\n  \"password\": \"testing12345\",\r\n  \"password_confirmation\": \"testing12345\",\r\n  \"first_name\": \"tEST \",\r\n  \"last_name\": \"uSER\",\r\n  \"phone_number\": \"0722334455\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/auth",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth"
+					]
+				},
+				"description": "Sign up"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Favorites",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "wyou8FqUHar0SAzB0eP2kQ"
+					},
+					{
+						"key": "client",
+						"value": "ZHZ4v8N1RgvuqVYLrovnkg"
+					},
+					{
+						"key": "uid",
+						"value": "testingbbc@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"voucher_id\": \"00b179e4-048c-4baa-b33\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/favourites/add",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"favourites",
+						"add"
+					]
+				},
+				"description": "Add Favorites"
+			},
+			"response": []
+		},
+		{
+			"name": "User Favorites",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "VxC3AnUSbfcdE4X5Q3_Nkw"
+					},
+					{
+						"key": "client",
+						"value": "tyQSnFon7rT2Gu55VqF_Lw"
+					},
+					{
+						"key": "uid",
+						"value": "testingbbc@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"voucher_id\": \"00b179e4-048c-4baa-b33\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/favourites",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"favourites"
+					]
+				},
+				"description": "User Favorites"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "lyHnXi5MPPodk8wdQBGcnQ"
+					},
+					{
+						"key": "client",
+						"value": "9CGMuZwCpC4eHa3TGemmsg"
+					},
+					{
+						"key": "uid",
+						"value": "testingbbc@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"testingBBC@api.com\",\r\n  \"password\": \"testing12345\",\r\n  \"password_confirmation\": \"testing12345\",\r\n  \"first_name\": \"tEST \",\r\n  \"last_name\": \"uSER\",\r\n  \"phone_number\": \"0722334455\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/auth",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth"
+					]
+				},
+				"description": "Update Profile"
+			},
+			"response": []
+		},
+		{
+			"name": "Hotels",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "v-Grn-DL7hKFY14PH26pKw"
+					},
+					{
+						"key": "client",
+						"value": "nko10Oif0mo_XRhjNyW82A"
+					},
+					{
+						"key": "uid",
+						"value": "testing672@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/establishments/hotels",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"establishments",
+						"hotels"
+					]
+				},
+				"description": "Hotels endpoint"
+			},
+			"response": []
+		},
+		{
+			"name": "Restaurants",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "v-Grn-DL7hKFY14PH26pKw"
+					},
+					{
+						"key": "client",
+						"value": "nko10Oif0mo_XRhjNyW82A"
+					},
+					{
+						"key": "uid",
+						"value": "testing672@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/establishments/restaurants",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"establishments",
+						"restaurants"
+					]
+				},
+				"description": "Hotels endpoint"
+			},
+			"response": []
+		},
+		{
+			"name": "Spas",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "v-Grn-DL7hKFY14PH26pKw"
+					},
+					{
+						"key": "client",
+						"value": "nko10Oif0mo_XRhjNyW82A"
+					},
+					{
+						"key": "uid",
+						"value": "testing672@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/establishments/spas",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"establishments",
+						"spas"
+					]
+				},
+				"description": "Hotels endpoint"
+			},
+			"response": []
+		},
+		{
+			"name": "All Vouchers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "v-Grn-DL7hKFY14PH26pKw"
+					},
+					{
+						"key": "client",
+						"value": "nko10Oif0mo_XRhjNyW82A"
+					},
+					{
+						"key": "uid",
+						"value": "testing672@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/vouchers/all?page=1",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"vouchers",
+						"all"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				},
+				"description": "Hotels endpoint"
+			},
+			"response": [
+				{
+					"name": "All Vouchers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access-token",
+								"value": "v-Grn-DL7hKFY14PH26pKw",
+								"disabled": false
+							},
+							{
+								"key": "client",
+								"value": "nko10Oif0mo_XRhjNyW82A",
+								"disabled": false
+							},
+							{
+								"key": "uid",
+								"value": "testing672@api.com",
+								"disabled": false
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+						},
+						"url": {
+							"raw": "http://159.89.103.53/api/v1/vouchers/all",
+							"protocol": "http",
+							"host": [
+								"46",
+								"101",
+								"137",
+								"125"
+							],
+							"path": [
+								"api",
+								"v1",
+								"vouchers",
+								"all"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 05 Sep 2018 09:36:16 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e8caed517f173b992dc2c036b6a118f3\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Server",
+							"value": "nginx/1.14.0 + Phusion Passenger 5.3.3",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "_discoucher_session=aUMzY1Zjb1E5ZmhURHo1bE42am1IS2R3aHYzU2hrekpGR3c4ZVFTOWgyVTE5a1pnb2VXd0NkbVdFZmM3U2hqdXFTYWwreno5QXAzcmE5TzZEMTZNTW5uSUVabktnbERlaE5RRktXTEIzVFlOU00wK0J6WXpUQmk2cWJFeHQrY1ZhRjliclcyTWZKdllFVVhwNWdpOXU1UFcwUnF6VkFJaEVDWVVwWFFiQ1N2Tlg3L3RJcUxHRDhKTU4yV2FZL3h2NTBQQzlnT0FybHRmb2VmYlVJR1FHVnVBc1krN3l3TWhGemUwNmNwQU5DRHdGbFlIZ1VjY3NOa3hteGllL3Y3eHI1RHlPOUJNNU1rWFdsejdpa1ZyOVd0YnVZeVZpR2l4OFExNmx1OUErU0pUYWlHZzJsVnNOR24yc1F1UllJNmc0SEtYYkIvMFl3REwxMlgrKzVvNWFXdHh2ZjhnclUyZDRoVlRzZzhMbm9WYUx6OHVyU0VDcnpBYlNpcFBBMVZVSUUxT2JJWDFtVThSS3J1eVV0Y3NwZ2JkRmV5SUJOdGZOV21RZUtFcGN3dklVdGtEcld5MmhGcDlLOFVVQm1yQkpMdGxoSENNRjJDckplNnJVK2lkc1BiSWNlTEFacUFWVTI0UVVSQjBBVWpFYUdxcWdodE9xdXVRTWJFWnhCU3MveGVBbjZwT1RIaUQ0aEh5U1I1UC9nPT0tLVpLbExxOE53VWhuMng5Y1RHa2FNSUE9PQ%3D%3D--93cc7b7c6ca599420aaec5146dfbb5b107490043; path=/; HttpOnly",
+							"name": "Set-Cookie",
+							"description": "an HTTP cookie"
+						},
+						{
+							"key": "Status",
+							"value": "200 OK",
+							"name": "Status",
+							"description": "Custom header"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"name": "X-Content-Type-Options",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN",
+							"name": "X-Frame-Options",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Phusion Passenger 5.3.3",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "44b281af-dcfe-4343-ba66-8b1fc3ebca75",
+							"name": "X-Request-Id",
+							"description": "Custom header"
+						},
+						{
+							"key": "X-Runtime",
+							"value": "0.025119",
+							"name": "X-Runtime",
+							"description": "Custom header"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block",
+							"name": "X-XSS-Protection",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 06:14:07 GMT+0300 (E. Africa Standard Time)",
+							"httpOnly": true,
+							"domain": "159.89.103.53",
+							"path": "/",
+							"secure": false,
+							"value": "aUMzY1Zjb1E5ZmhURHo1bE42am1IS2R3aHYzU2hrekpGR3c4ZVFTOWgyVTE5a1pnb2VXd0NkbVdFZmM3U2hqdXFTYWwreno5QXAzcmE5TzZEMTZNTW5uSUVabktnbERlaE5RRktXTEIzVFlOU00wK0J6WXpUQmk2cWJFeHQrY1ZhRjliclcyTWZKdllFVVhwNWdpOXU1UFcwUnF6VkFJaEVDWVVwWFFiQ1N2Tlg3L3RJcUxHRDhKTU4yV2FZL3h2NTBQQzlnT0FybHRmb2VmYlVJR1FHVnVBc1krN3l3TWhGemUwNmNwQU5DRHdGbFlIZ1VjY3NOa3hteGllL3Y3eHI1RHlPOUJNNU1rWFdsejdpa1ZyOVd0YnVZeVZpR2l4OFExNmx1OUErU0pUYWlHZzJsVnNOR24yc1F1UllJNmc0SEtYYkIvMFl3REwxMlgrKzVvNWFXdHh2ZjhnclUyZDRoVlRzZzhMbm9WYUx6OHVyU0VDcnpBYlNpcFBBMVZVSUUxT2JJWDFtVThSS3J1eVV0Y3NwZ2JkRmV5SUJOdGZOV21RZUtFcGN3dklVdGtEcld5MmhGcDlLOFVVQm1yQkpMdGxoSENNRjJDckplNnJVK2lkc1BiSWNlTEFacUFWVTI0UVVSQjBBVWpFYUdxcWdodE9xdXVRTWJFWnhCU3MveGVBbjZwT1RIaUQ0aEh5U1I1UC9nPT0tLVpLbExxOE53VWhuMng5Y1RHa2FNSUE9PQ%3D%3D--93cc7b7c6ca599420aaec5146dfbb5b107490043",
+							"key": "_discoucher_session"
+						}
+					],
+					"body": "{\"data\":[{\"id\":\"de310ebb-a197-4a32-bd25-15233d075a08\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher1\",\"description\":\"This is a test voucher\",\"condition\":\"Will only be redeemed twice for demonstration\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"c18fc304-f716-46d3-bf67-dd26563347cb\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher2\",\"description\":\"This is a sample voucher\",\"condition\":\"Will only be used as demo voucher\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"3770c008-a2a7-404a-94ca-221d6bfc852d\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher3\",\"description\":\"Sample voucher\",\"condition\":\"Will only be used to test functionality of the sys\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"a47afcc0-aa2c-4125-a2d1-692da388d996\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher4\",\"description\":\"Test\",\"condition\":\"Test\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"317110ea-4935-4397-8112-58befb9de118\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher5\",\"description\":\"test\",\"condition\":\"test\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"d178f51f-3fbe-475a-b76e-4cf88351f4c2\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher6\",\"description\":\"Card details book\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"ffa8943c-acf6-4b00-8f4c-03595d1d534b\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher7\",\"description\":\"Card details Book\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"95a5998c-d2ec-405f-a6fe-57af0f6350a3\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher20\",\"description\":\"Bank Vouchers\",\"condition\":\"Used By Edwin to demo to banks\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"f7897877-bb0d-476b-92a2-75b3474e0afb\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher8\",\"description\":\"Card details bool\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"20413c62-a44e-465b-808d-a1b226dab0b0\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher21\",\"description\":\"Bank Vouchers\",\"condition\":\"Used By Edwin to demo to banks\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}}],\"jsonapi\":{\"version\":\"1.0\"}}"
+				}
+			]
+		},
+		{
+			"name": "Restaurant Vouchers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "v-Grn-DL7hKFY14PH26pKw"
+					},
+					{
+						"key": "client",
+						"value": "nko10Oif0mo_XRhjNyW82A"
+					},
+					{
+						"key": "uid",
+						"value": "testing672@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/vouchers/all",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"vouchers",
+						"all"
+					]
+				},
+				"description": "Restaurant Vouchers"
+			},
+			"response": [
+				{
+					"name": "All Vouchers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access-token",
+								"value": "v-Grn-DL7hKFY14PH26pKw",
+								"disabled": false
+							},
+							{
+								"key": "client",
+								"value": "nko10Oif0mo_XRhjNyW82A",
+								"disabled": false
+							},
+							{
+								"key": "uid",
+								"value": "testing672@api.com",
+								"disabled": false
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+						},
+						"url": {
+							"raw": "http://159.89.103.53/api/v1/vouchers/all",
+							"protocol": "http",
+							"host": [
+								"46",
+								"101",
+								"137",
+								"125"
+							],
+							"path": [
+								"api",
+								"v1",
+								"vouchers",
+								"all"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 05 Sep 2018 09:36:16 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e8caed517f173b992dc2c036b6a118f3\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Server",
+							"value": "nginx/1.14.0 + Phusion Passenger 5.3.3",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "_discoucher_session=aUMzY1Zjb1E5ZmhURHo1bE42am1IS2R3aHYzU2hrekpGR3c4ZVFTOWgyVTE5a1pnb2VXd0NkbVdFZmM3U2hqdXFTYWwreno5QXAzcmE5TzZEMTZNTW5uSUVabktnbERlaE5RRktXTEIzVFlOU00wK0J6WXpUQmk2cWJFeHQrY1ZhRjliclcyTWZKdllFVVhwNWdpOXU1UFcwUnF6VkFJaEVDWVVwWFFiQ1N2Tlg3L3RJcUxHRDhKTU4yV2FZL3h2NTBQQzlnT0FybHRmb2VmYlVJR1FHVnVBc1krN3l3TWhGemUwNmNwQU5DRHdGbFlIZ1VjY3NOa3hteGllL3Y3eHI1RHlPOUJNNU1rWFdsejdpa1ZyOVd0YnVZeVZpR2l4OFExNmx1OUErU0pUYWlHZzJsVnNOR24yc1F1UllJNmc0SEtYYkIvMFl3REwxMlgrKzVvNWFXdHh2ZjhnclUyZDRoVlRzZzhMbm9WYUx6OHVyU0VDcnpBYlNpcFBBMVZVSUUxT2JJWDFtVThSS3J1eVV0Y3NwZ2JkRmV5SUJOdGZOV21RZUtFcGN3dklVdGtEcld5MmhGcDlLOFVVQm1yQkpMdGxoSENNRjJDckplNnJVK2lkc1BiSWNlTEFacUFWVTI0UVVSQjBBVWpFYUdxcWdodE9xdXVRTWJFWnhCU3MveGVBbjZwT1RIaUQ0aEh5U1I1UC9nPT0tLVpLbExxOE53VWhuMng5Y1RHa2FNSUE9PQ%3D%3D--93cc7b7c6ca599420aaec5146dfbb5b107490043; path=/; HttpOnly",
+							"name": "Set-Cookie",
+							"description": "an HTTP cookie"
+						},
+						{
+							"key": "Status",
+							"value": "200 OK",
+							"name": "Status",
+							"description": "Custom header"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"name": "X-Content-Type-Options",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN",
+							"name": "X-Frame-Options",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Phusion Passenger 5.3.3",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "44b281af-dcfe-4343-ba66-8b1fc3ebca75",
+							"name": "X-Request-Id",
+							"description": "Custom header"
+						},
+						{
+							"key": "X-Runtime",
+							"value": "0.025119",
+							"name": "X-Runtime",
+							"description": "Custom header"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block",
+							"name": "X-XSS-Protection",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 06:14:07 GMT+0300 (E. Africa Standard Time)",
+							"httpOnly": true,
+							"domain": "159.89.103.53",
+							"path": "/",
+							"secure": false,
+							"value": "aUMzY1Zjb1E5ZmhURHo1bE42am1IS2R3aHYzU2hrekpGR3c4ZVFTOWgyVTE5a1pnb2VXd0NkbVdFZmM3U2hqdXFTYWwreno5QXAzcmE5TzZEMTZNTW5uSUVabktnbERlaE5RRktXTEIzVFlOU00wK0J6WXpUQmk2cWJFeHQrY1ZhRjliclcyTWZKdllFVVhwNWdpOXU1UFcwUnF6VkFJaEVDWVVwWFFiQ1N2Tlg3L3RJcUxHRDhKTU4yV2FZL3h2NTBQQzlnT0FybHRmb2VmYlVJR1FHVnVBc1krN3l3TWhGemUwNmNwQU5DRHdGbFlIZ1VjY3NOa3hteGllL3Y3eHI1RHlPOUJNNU1rWFdsejdpa1ZyOVd0YnVZeVZpR2l4OFExNmx1OUErU0pUYWlHZzJsVnNOR24yc1F1UllJNmc0SEtYYkIvMFl3REwxMlgrKzVvNWFXdHh2ZjhnclUyZDRoVlRzZzhMbm9WYUx6OHVyU0VDcnpBYlNpcFBBMVZVSUUxT2JJWDFtVThSS3J1eVV0Y3NwZ2JkRmV5SUJOdGZOV21RZUtFcGN3dklVdGtEcld5MmhGcDlLOFVVQm1yQkpMdGxoSENNRjJDckplNnJVK2lkc1BiSWNlTEFacUFWVTI0UVVSQjBBVWpFYUdxcWdodE9xdXVRTWJFWnhCU3MveGVBbjZwT1RIaUQ0aEh5U1I1UC9nPT0tLVpLbExxOE53VWhuMng5Y1RHa2FNSUE9PQ%3D%3D--93cc7b7c6ca599420aaec5146dfbb5b107490043",
+							"key": "_discoucher_session"
+						}
+					],
+					"body": "{\"data\":[{\"id\":\"de310ebb-a197-4a32-bd25-15233d075a08\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher1\",\"description\":\"This is a test voucher\",\"condition\":\"Will only be redeemed twice for demonstration\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"c18fc304-f716-46d3-bf67-dd26563347cb\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher2\",\"description\":\"This is a sample voucher\",\"condition\":\"Will only be used as demo voucher\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"3770c008-a2a7-404a-94ca-221d6bfc852d\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher3\",\"description\":\"Sample voucher\",\"condition\":\"Will only be used to test functionality of the sys\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"a47afcc0-aa2c-4125-a2d1-692da388d996\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher4\",\"description\":\"Test\",\"condition\":\"Test\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"317110ea-4935-4397-8112-58befb9de118\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher5\",\"description\":\"test\",\"condition\":\"test\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"d178f51f-3fbe-475a-b76e-4cf88351f4c2\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher6\",\"description\":\"Card details book\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"ffa8943c-acf6-4b00-8f4c-03595d1d534b\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher7\",\"description\":\"Card details Book\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"95a5998c-d2ec-405f-a6fe-57af0f6350a3\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher20\",\"description\":\"Bank Vouchers\",\"condition\":\"Used By Edwin to demo to banks\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"f7897877-bb0d-476b-92a2-75b3474e0afb\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher8\",\"description\":\"Card details bool\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"20413c62-a44e-465b-808d-a1b226dab0b0\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher21\",\"description\":\"Bank Vouchers\",\"condition\":\"Used By Edwin to demo to banks\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}}],\"jsonapi\":{\"version\":\"1.0\"}}"
+				}
+			]
+		},
+		{
+			"name": "Hotel Vouchers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "v-Grn-DL7hKFY14PH26pKw"
+					},
+					{
+						"key": "client",
+						"value": "nko10Oif0mo_XRhjNyW82A"
+					},
+					{
+						"key": "uid",
+						"value": "testing672@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/vouchers/hotels",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"vouchers",
+						"hotels"
+					]
+				},
+				"description": "Hotel Vouchers"
+			},
+			"response": [
+				{
+					"name": "All Vouchers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access-token",
+								"value": "v-Grn-DL7hKFY14PH26pKw",
+								"disabled": false
+							},
+							{
+								"key": "client",
+								"value": "nko10Oif0mo_XRhjNyW82A",
+								"disabled": false
+							},
+							{
+								"key": "uid",
+								"value": "testing672@api.com",
+								"disabled": false
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+						},
+						"url": {
+							"raw": "http://159.89.103.53/api/v1/vouchers/all",
+							"protocol": "http",
+							"host": [
+								"46",
+								"101",
+								"137",
+								"125"
+							],
+							"path": [
+								"api",
+								"v1",
+								"vouchers",
+								"all"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 05 Sep 2018 09:36:16 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e8caed517f173b992dc2c036b6a118f3\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Server",
+							"value": "nginx/1.14.0 + Phusion Passenger 5.3.3",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "_discoucher_session=aUMzY1Zjb1E5ZmhURHo1bE42am1IS2R3aHYzU2hrekpGR3c4ZVFTOWgyVTE5a1pnb2VXd0NkbVdFZmM3U2hqdXFTYWwreno5QXAzcmE5TzZEMTZNTW5uSUVabktnbERlaE5RRktXTEIzVFlOU00wK0J6WXpUQmk2cWJFeHQrY1ZhRjliclcyTWZKdllFVVhwNWdpOXU1UFcwUnF6VkFJaEVDWVVwWFFiQ1N2Tlg3L3RJcUxHRDhKTU4yV2FZL3h2NTBQQzlnT0FybHRmb2VmYlVJR1FHVnVBc1krN3l3TWhGemUwNmNwQU5DRHdGbFlIZ1VjY3NOa3hteGllL3Y3eHI1RHlPOUJNNU1rWFdsejdpa1ZyOVd0YnVZeVZpR2l4OFExNmx1OUErU0pUYWlHZzJsVnNOR24yc1F1UllJNmc0SEtYYkIvMFl3REwxMlgrKzVvNWFXdHh2ZjhnclUyZDRoVlRzZzhMbm9WYUx6OHVyU0VDcnpBYlNpcFBBMVZVSUUxT2JJWDFtVThSS3J1eVV0Y3NwZ2JkRmV5SUJOdGZOV21RZUtFcGN3dklVdGtEcld5MmhGcDlLOFVVQm1yQkpMdGxoSENNRjJDckplNnJVK2lkc1BiSWNlTEFacUFWVTI0UVVSQjBBVWpFYUdxcWdodE9xdXVRTWJFWnhCU3MveGVBbjZwT1RIaUQ0aEh5U1I1UC9nPT0tLVpLbExxOE53VWhuMng5Y1RHa2FNSUE9PQ%3D%3D--93cc7b7c6ca599420aaec5146dfbb5b107490043; path=/; HttpOnly",
+							"name": "Set-Cookie",
+							"description": "an HTTP cookie"
+						},
+						{
+							"key": "Status",
+							"value": "200 OK",
+							"name": "Status",
+							"description": "Custom header"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"name": "X-Content-Type-Options",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN",
+							"name": "X-Frame-Options",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Phusion Passenger 5.3.3",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "44b281af-dcfe-4343-ba66-8b1fc3ebca75",
+							"name": "X-Request-Id",
+							"description": "Custom header"
+						},
+						{
+							"key": "X-Runtime",
+							"value": "0.025119",
+							"name": "X-Runtime",
+							"description": "Custom header"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block",
+							"name": "X-XSS-Protection",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 06:14:07 GMT+0300 (E. Africa Standard Time)",
+							"httpOnly": true,
+							"domain": "159.89.103.53",
+							"path": "/",
+							"secure": false,
+							"value": "aUMzY1Zjb1E5ZmhURHo1bE42am1IS2R3aHYzU2hrekpGR3c4ZVFTOWgyVTE5a1pnb2VXd0NkbVdFZmM3U2hqdXFTYWwreno5QXAzcmE5TzZEMTZNTW5uSUVabktnbERlaE5RRktXTEIzVFlOU00wK0J6WXpUQmk2cWJFeHQrY1ZhRjliclcyTWZKdllFVVhwNWdpOXU1UFcwUnF6VkFJaEVDWVVwWFFiQ1N2Tlg3L3RJcUxHRDhKTU4yV2FZL3h2NTBQQzlnT0FybHRmb2VmYlVJR1FHVnVBc1krN3l3TWhGemUwNmNwQU5DRHdGbFlIZ1VjY3NOa3hteGllL3Y3eHI1RHlPOUJNNU1rWFdsejdpa1ZyOVd0YnVZeVZpR2l4OFExNmx1OUErU0pUYWlHZzJsVnNOR24yc1F1UllJNmc0SEtYYkIvMFl3REwxMlgrKzVvNWFXdHh2ZjhnclUyZDRoVlRzZzhMbm9WYUx6OHVyU0VDcnpBYlNpcFBBMVZVSUUxT2JJWDFtVThSS3J1eVV0Y3NwZ2JkRmV5SUJOdGZOV21RZUtFcGN3dklVdGtEcld5MmhGcDlLOFVVQm1yQkpMdGxoSENNRjJDckplNnJVK2lkc1BiSWNlTEFacUFWVTI0UVVSQjBBVWpFYUdxcWdodE9xdXVRTWJFWnhCU3MveGVBbjZwT1RIaUQ0aEh5U1I1UC9nPT0tLVpLbExxOE53VWhuMng5Y1RHa2FNSUE9PQ%3D%3D--93cc7b7c6ca599420aaec5146dfbb5b107490043",
+							"key": "_discoucher_session"
+						}
+					],
+					"body": "{\"data\":[{\"id\":\"de310ebb-a197-4a32-bd25-15233d075a08\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher1\",\"description\":\"This is a test voucher\",\"condition\":\"Will only be redeemed twice for demonstration\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"c18fc304-f716-46d3-bf67-dd26563347cb\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher2\",\"description\":\"This is a sample voucher\",\"condition\":\"Will only be used as demo voucher\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"3770c008-a2a7-404a-94ca-221d6bfc852d\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher3\",\"description\":\"Sample voucher\",\"condition\":\"Will only be used to test functionality of the sys\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"a47afcc0-aa2c-4125-a2d1-692da388d996\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher4\",\"description\":\"Test\",\"condition\":\"Test\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"317110ea-4935-4397-8112-58befb9de118\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher5\",\"description\":\"test\",\"condition\":\"test\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"d178f51f-3fbe-475a-b76e-4cf88351f4c2\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher6\",\"description\":\"Card details book\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"ffa8943c-acf6-4b00-8f4c-03595d1d534b\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher7\",\"description\":\"Card details Book\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"95a5998c-d2ec-405f-a6fe-57af0f6350a3\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher20\",\"description\":\"Bank Vouchers\",\"condition\":\"Used By Edwin to demo to banks\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"f7897877-bb0d-476b-92a2-75b3474e0afb\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher8\",\"description\":\"Card details bool\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"20413c62-a44e-465b-808d-a1b226dab0b0\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher21\",\"description\":\"Bank Vouchers\",\"condition\":\"Used By Edwin to demo to banks\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}}],\"jsonapi\":{\"version\":\"1.0\"}}"
+				}
+			]
+		},
+		{
+			"name": "Spas Vouchers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "v-Grn-DL7hKFY14PH26pKw"
+					},
+					{
+						"key": "client",
+						"value": "nko10Oif0mo_XRhjNyW82A"
+					},
+					{
+						"key": "uid",
+						"value": "testing672@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/vouchers/spas",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"vouchers",
+						"spas"
+					]
+				},
+				"description": "Spas Vouchers"
+			},
+			"response": [
+				{
+					"name": "All Vouchers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access-token",
+								"value": "v-Grn-DL7hKFY14PH26pKw",
+								"disabled": false
+							},
+							{
+								"key": "client",
+								"value": "nko10Oif0mo_XRhjNyW82A",
+								"disabled": false
+							},
+							{
+								"key": "uid",
+								"value": "testing672@api.com",
+								"disabled": false
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"testing672@api.com\",\n\t\"password\":\"testing12345\"\n}"
+						},
+						"url": {
+							"raw": "http://159.89.103.53/api/v1/vouchers/all",
+							"protocol": "http",
+							"host": [
+								"46",
+								"101",
+								"137",
+								"125"
+							],
+							"path": [
+								"api",
+								"v1",
+								"vouchers",
+								"all"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/vnd.api+json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 05 Sep 2018 09:36:16 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e8caed517f173b992dc2c036b6a118f3\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Server",
+							"value": "nginx/1.14.0 + Phusion Passenger 5.3.3",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "_discoucher_session=aUMzY1Zjb1E5ZmhURHo1bE42am1IS2R3aHYzU2hrekpGR3c4ZVFTOWgyVTE5a1pnb2VXd0NkbVdFZmM3U2hqdXFTYWwreno5QXAzcmE5TzZEMTZNTW5uSUVabktnbERlaE5RRktXTEIzVFlOU00wK0J6WXpUQmk2cWJFeHQrY1ZhRjliclcyTWZKdllFVVhwNWdpOXU1UFcwUnF6VkFJaEVDWVVwWFFiQ1N2Tlg3L3RJcUxHRDhKTU4yV2FZL3h2NTBQQzlnT0FybHRmb2VmYlVJR1FHVnVBc1krN3l3TWhGemUwNmNwQU5DRHdGbFlIZ1VjY3NOa3hteGllL3Y3eHI1RHlPOUJNNU1rWFdsejdpa1ZyOVd0YnVZeVZpR2l4OFExNmx1OUErU0pUYWlHZzJsVnNOR24yc1F1UllJNmc0SEtYYkIvMFl3REwxMlgrKzVvNWFXdHh2ZjhnclUyZDRoVlRzZzhMbm9WYUx6OHVyU0VDcnpBYlNpcFBBMVZVSUUxT2JJWDFtVThSS3J1eVV0Y3NwZ2JkRmV5SUJOdGZOV21RZUtFcGN3dklVdGtEcld5MmhGcDlLOFVVQm1yQkpMdGxoSENNRjJDckplNnJVK2lkc1BiSWNlTEFacUFWVTI0UVVSQjBBVWpFYUdxcWdodE9xdXVRTWJFWnhCU3MveGVBbjZwT1RIaUQ0aEh5U1I1UC9nPT0tLVpLbExxOE53VWhuMng5Y1RHa2FNSUE9PQ%3D%3D--93cc7b7c6ca599420aaec5146dfbb5b107490043; path=/; HttpOnly",
+							"name": "Set-Cookie",
+							"description": "an HTTP cookie"
+						},
+						{
+							"key": "Status",
+							"value": "200 OK",
+							"name": "Status",
+							"description": "Custom header"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"name": "X-Content-Type-Options",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN",
+							"name": "X-Frame-Options",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Phusion Passenger 5.3.3",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "44b281af-dcfe-4343-ba66-8b1fc3ebca75",
+							"name": "X-Request-Id",
+							"description": "Custom header"
+						},
+						{
+							"key": "X-Runtime",
+							"value": "0.025119",
+							"name": "X-Runtime",
+							"description": "Custom header"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block",
+							"name": "X-XSS-Protection",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 06:14:07 GMT+0300 (E. Africa Standard Time)",
+							"httpOnly": true,
+							"domain": "159.89.103.53",
+							"path": "/",
+							"secure": false,
+							"value": "aUMzY1Zjb1E5ZmhURHo1bE42am1IS2R3aHYzU2hrekpGR3c4ZVFTOWgyVTE5a1pnb2VXd0NkbVdFZmM3U2hqdXFTYWwreno5QXAzcmE5TzZEMTZNTW5uSUVabktnbERlaE5RRktXTEIzVFlOU00wK0J6WXpUQmk2cWJFeHQrY1ZhRjliclcyTWZKdllFVVhwNWdpOXU1UFcwUnF6VkFJaEVDWVVwWFFiQ1N2Tlg3L3RJcUxHRDhKTU4yV2FZL3h2NTBQQzlnT0FybHRmb2VmYlVJR1FHVnVBc1krN3l3TWhGemUwNmNwQU5DRHdGbFlIZ1VjY3NOa3hteGllL3Y3eHI1RHlPOUJNNU1rWFdsejdpa1ZyOVd0YnVZeVZpR2l4OFExNmx1OUErU0pUYWlHZzJsVnNOR24yc1F1UllJNmc0SEtYYkIvMFl3REwxMlgrKzVvNWFXdHh2ZjhnclUyZDRoVlRzZzhMbm9WYUx6OHVyU0VDcnpBYlNpcFBBMVZVSUUxT2JJWDFtVThSS3J1eVV0Y3NwZ2JkRmV5SUJOdGZOV21RZUtFcGN3dklVdGtEcld5MmhGcDlLOFVVQm1yQkpMdGxoSENNRjJDckplNnJVK2lkc1BiSWNlTEFacUFWVTI0UVVSQjBBVWpFYUdxcWdodE9xdXVRTWJFWnhCU3MveGVBbjZwT1RIaUQ0aEh5U1I1UC9nPT0tLVpLbExxOE53VWhuMng5Y1RHa2FNSUE9PQ%3D%3D--93cc7b7c6ca599420aaec5146dfbb5b107490043",
+							"key": "_discoucher_session"
+						}
+					],
+					"body": "{\"data\":[{\"id\":\"de310ebb-a197-4a32-bd25-15233d075a08\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher1\",\"description\":\"This is a test voucher\",\"condition\":\"Will only be redeemed twice for demonstration\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"c18fc304-f716-46d3-bf67-dd26563347cb\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher2\",\"description\":\"This is a sample voucher\",\"condition\":\"Will only be used as demo voucher\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"3770c008-a2a7-404a-94ca-221d6bfc852d\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher3\",\"description\":\"Sample voucher\",\"condition\":\"Will only be used to test functionality of the sys\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"a47afcc0-aa2c-4125-a2d1-692da388d996\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher4\",\"description\":\"Test\",\"condition\":\"Test\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"317110ea-4935-4397-8112-58befb9de118\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher5\",\"description\":\"test\",\"condition\":\"test\",\"establishment\":\"Example\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"d178f51f-3fbe-475a-b76e-4cf88351f4c2\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher6\",\"description\":\"Card details book\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"ffa8943c-acf6-4b00-8f4c-03595d1d534b\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher7\",\"description\":\"Card details Book\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"95a5998c-d2ec-405f-a6fe-57af0f6350a3\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher20\",\"description\":\"Bank Vouchers\",\"condition\":\"Used By Edwin to demo to banks\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"f7897877-bb0d-476b-92a2-75b3474e0afb\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher8\",\"description\":\"Card details bool\",\"condition\":\"Only FOr bank customers\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}},{\"id\":\"20413c62-a44e-465b-808d-a1b226dab0b0\",\"type\":\"vouchers\",\"attributes\":{\"code\":\"voucher21\",\"description\":\"Bank Vouchers\",\"condition\":\"Used By Edwin to demo to banks\",\"establishment\":\"Example 2\",\"est_image\":\"http://159.89.103.53/assets/discoucher_small-dc4fb7e7c2870ea5762271f8a6f69f8e2f43de0a80f7a591ad118ff37ce2f7db.jpg\"}}],\"jsonapi\":{\"version\":\"1.0\"}}"
+				}
+			]
+		},
+		{
+			"name": "Voucher for an Establishment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "wyou8FqUHar0SAzB0eP2kQ"
+					},
+					{
+						"key": "client",
+						"value": "ZHZ4v8N1RgvuqVYLrovnkg"
+					},
+					{
+						"key": "uid",
+						"value": "testingbbc@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "establishment_id",
+						"value": "8a910beb-bf9e-44d6-b414-f1a09287c77d"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"establishment_id\":\"8a910beb-bf9e-44d6-b414-f1a09287c77d\"\n}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/vouchers/est",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"vouchers",
+						"est"
+					]
+				},
+				"description": "Hotels endpoint"
+			},
+			"response": []
+		},
+		{
+			"name": "Search Offers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "wyou8FqUHar0SAzB0eP2kQ"
+					},
+					{
+						"key": "client",
+						"value": "ZHZ4v8N1RgvuqVYLrovnkg"
+					},
+					{
+						"key": "uid",
+						"value": "testingbbc@api.com"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"query\":\"pizza\"}"
+				},
+				"url": {
+					"raw": "http://159.89.103.53/api/v1/search/vouchers",
+					"protocol": "http",
+					"host": [
+						"46",
+						"101",
+						"137",
+						"125"
+					],
+					"path": [
+						"api",
+						"v1",
+						"search",
+						"vouchers"
+					]
+				},
+				"description": "Search Offers"
+			},
+			"response": []
+		}
+	]
+}

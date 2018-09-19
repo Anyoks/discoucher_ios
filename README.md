@@ -67,3 +67,5 @@ This behavior persists until you explicitly disable Debug mode by executing the 
 ```sh
 adb shell setprop debug.firebase.analytics.app .none.
 ```
+
+echo y | keytool -genkeypair -dname "cn=Dennis Riungu, ou=Developer, o=Nairobi, c=KE" -alias business -keypass ab987c -keystore C:/Users/dennis.riungu/Documents/Code/flutter/discoucher_android/pub/android.keystore -storepass ab987c -validity 20000
