@@ -6,8 +6,20 @@ import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/settings/user-avatar.dart';
 import 'package:discoucher/contollers/profile-controller.dart';
+import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+class ProfilePageRoute extends MaterialPageRoute {
+  ProfilePageRoute(user)
+      : super(builder: (context) => ProfilePage(currentUser: user));
+
+  // @override
+  // Widget buildTransitions(BuildContext context, Animation<double> animation,
+  //     Animation<double> secondaryAnimation, Widget child) {
+  //   return FadeTransition(opacity: animation, child: child);
+  // }
+}
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key, @required this.currentUser}) : super(key: key);
@@ -58,12 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-        ),
+        leading: AppBackButton(),
       ),
       body: ListView(
         children: <Widget>[
