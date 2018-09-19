@@ -30,9 +30,9 @@ class HomeController {
 
   Future<List<List<Datum>>> fetchHomeData() async {
     List<String> endpoints = [
-      Endpoints.restaurantsEndpoint,
-      Endpoints.hotelsEndpoint,
-      Endpoints.spasEndpoint
+      Endpoint.restaurantEstablishments,
+      Endpoint.hotelEstablishments,
+      Endpoint.spaEstablishments
     ];
 
     return _memoizer.runOnce(() async {
