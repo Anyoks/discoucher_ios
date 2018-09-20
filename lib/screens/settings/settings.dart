@@ -8,12 +8,7 @@ import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/screens/settings/bottom-sections.dart';
 
-class SettingsPage extends StatefulWidget {
-  @override
-  _SettingsPageState createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends State<SettingsPage> {
+class SettingsPage extends StatelessWidget {
   static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   static SharedPrefefencedController _prefs = new SharedPrefefencedController();
   final DiscoucherRoutes _routes = new DiscoucherRoutes();

@@ -17,8 +17,8 @@ class SettingsController {
     await launchUrl(url);
   }
 
-  Future<void> call() async {
-    final String url = 'tel:$discoucherPhone';
+  Future<void> call(phone) async {
+    final String url = 'tel:$phone';
     await launchUrl(url);
   }
 
@@ -72,5 +72,4 @@ class SettingsController {
     );
     scaffoldKey.currentState.setState(() {});
   }
-
 }

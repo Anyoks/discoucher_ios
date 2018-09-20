@@ -16,8 +16,12 @@ final String bottomBarDiscover = "Discover";
 final String bottomBarme = "Me";
 
 // Links
-final String discoucherPhone = "(+254) 727 402884";
+final String discoucherPhone1 = "(+254) 727 402884";
+final String discoucherPhone2 = "(+254) 734 402884";
+final String discoucherPhone3 = "(020) 2218114";
+
 final String discoucherEmail = "info@discoucher.com";
+
 final String discoucherFacebook =
     "https://www.facebook.com/pages/DisCoucher/836436146401604";
 final String discoucherTwitter = "https://twitter.com/DisCoucher";
