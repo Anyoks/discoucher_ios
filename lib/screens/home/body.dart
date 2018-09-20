@@ -37,16 +37,23 @@ class _HomeBodyState extends State<HomeBody> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
-              return Text("Nothing to show :(");
+              return HomeError(
+                  onPressed: () {
+                    handleRefresh();
+                  },
+                  message: "You are offline");
             case ConnectionState.waiting:
               return Container(
                 child: Center(child: CircularProgressIndicator()),
               );
             default:
               if (snapshot.hasError)
-                return HomeError(onPressed: () {
-                  reloadFuture();
-                });
+                return HomeError(
+                  onPressed: () {
+                    handleRefresh();
+                  },
+                  message: "Nothing to see",
+                );
               else
                 return sectionBuilder(context, snapshot.data);
           }
@@ -55,9 +62,13 @@ class _HomeBodyState extends State<HomeBody> {
     );
   }
 
-  reloadFuture() {
-    print("reload");
-    _homeFuture = _homeController.fetchHomeData();
+  Future<Null> handleRefresh() async {
+    setState(() {
+      _homeFuture = _homeController.fetchHomeData();
+      ;
+    });
+
+    return null;
   }
 
   sectionBuilder(BuildContext context, List sections) {
@@ -72,7 +83,7 @@ class _HomeBodyState extends State<HomeBody> {
           scrollDirection: Axis.vertical,
           itemCount: sections.length,
           itemBuilder: (BuildContext context, int index) {
-            return buildHomeList(context, sections[index]);
+            return buildHomeList(context, sections[index], index);
           },
         )
       ],
