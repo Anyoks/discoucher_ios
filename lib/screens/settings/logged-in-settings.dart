@@ -56,13 +56,14 @@ Widget loggedInUserSettings(
           displayText: "Favorites"),
       buildSettingItem(
           tapEvent: () {
-            Navigator.push(context, DiscoucherProcessRoute());
+            Navigator.push(
+                context, DiscoucherProcessRoute(user: user, ctrl: controller));
           },
           icon: Icons.help,
           displayText: "Discoucher process"),
       buildSettingItem(
           tapEvent: () {
-            Navigator.push(context, AboutRoute());
+            Navigator.push(context, AboutRoute(ctrl: controller));
           },
           icon: Icons.info,
           displayText: "About Discoucher"),
@@ -77,10 +78,10 @@ Widget loggedInUserSettings(
           child: Text("CONTACT-US", style: TextStyle(fontSize: 18.0))),
       buildSettingItem(
           tapEvent: () {
-            controller.call();
+            controller.call(discoucherPhone1);
           },
           icon: Icons.phone,
-          displayText: discoucherPhone),
+          displayText: discoucherPhone1),
       buildSettingItem(
           tapEvent: () {
             controller.email();
@@ -110,7 +111,7 @@ Widget buildSettingItem(
           child: Row(
             children: <Widget>[
               SizedBox(width: 15.0),
-              Icon(icon, color: xGreenIconColor),
+              Icon(icon, color: xDiscoucherGreen),
               SizedBox(width: 15.0),
               Expanded(
                 child: Text(displayText, style: TextStyle(fontSize: 18.0)),

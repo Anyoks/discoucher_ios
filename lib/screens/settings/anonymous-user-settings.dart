@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:discoucher/constants/strings.dart';
-import 'package:discoucher/contollers/settings-controller.dart';
-import 'package:discoucher/constants/enums.dart';
 import 'package:discoucher/constants/colors.dart';
 
 Widget buildAnonymousSettings() {
@@ -15,7 +12,7 @@ Widget buildAnonymousSettings() {
             ),
             Icon(
               Icons.verified_user,
-              color: xGreenIconColor,
+              color: xDiscoucherGreen,
             ),
             SizedBox(
               width: 15.0,
