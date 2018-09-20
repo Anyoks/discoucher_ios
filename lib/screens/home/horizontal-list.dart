@@ -4,24 +4,20 @@ import 'package:discoucher/screens/shared/generic-list-item.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-buildHomeList(BuildContext context, List<Voucher> data) {
-  var estType = data[0].establishment.data.type != null
-      ? data[0].establishment.data.type
-      : "Establishment";
-
-  String header = estType;
-  switch (estType) {
-    case "Restaurant":
+buildHomeList(BuildContext context, List<Voucher> data, int index) {
+  String header = "";
+  switch (index) {
+    case 0:
       header = "Restaurants";
       break;
-    case "Hotel":
+    case 1:
       header = "Hotels";
       break;
-    case "Spas and Salons":
+    case 2:
       header = "Spas and Salons";
       break;
     default:
-      header = estType;
+      header = "Establishments";
   }
 
   return new Container(
