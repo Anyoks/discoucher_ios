@@ -7,13 +7,13 @@ normalText(text) {
 
 greenText(text) {
   return TextSpan(
-      text: text, style: TextStyle(fontSize: 16.0, color: xDiscoucherGreen));
+      text: text, style: TextStyle(fontSize: 16.0, color: xDiscoucherIconGreen));
 }
 
 boldGreenText(text) {
   return Text(
     text,
     style: TextStyle(
-        color: xDiscoucherGreen, fontWeight: FontWeight.bold, fontSize: 18.0),
+        color: xDiscoucherIconGreen, fontWeight: FontWeight.bold, fontSize: 18.0),
   );
 }

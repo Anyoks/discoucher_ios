@@ -111,7 +111,7 @@ Widget buildSettingItem(
           child: Row(
             children: <Widget>[
               SizedBox(width: 15.0),
-              Icon(icon, color: xDiscoucherGreen),
+              Icon(icon, color: xDiscoucherIconGreen),
               SizedBox(width: 15.0),
               Expanded(
                 child: Text(displayText, style: TextStyle(fontSize: 18.0)),

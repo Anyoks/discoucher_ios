@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 buildSectionContent(Voucher data) {
   final double xHeight = 120.0;
-  final double xWidth = 159.0;
+  final double xWidth = 159.0; 
   return Container(
     height: xHeight,
     width: xWidth,
@@ -39,34 +39,6 @@ buildSectionContent(Voucher data) {
           textAlign: TextAlign.center,
         ),
       ),
-      // DecoratedBox(
-      //     decoration: BoxDecoration(
-      //       gradient: LinearGradient(
-      //           colors: [
-      //             Color(0xff000000).withOpacity(0.4),
-      //             Color(0x00000000),
-      //           ],
-      //           begin: FractionalOffset.bottomCenter,
-      //           end: FractionalOffset.topCenter,
-      //           stops: [0.0, 0.7]),
-      //     ),
-      //     child: null
-      // Container(
-      //   alignment: Alignment(0.0, 1.0),
-      //   constraints: BoxConstraints.expand(height: 44.0),
-      //   padding: EdgeInsets.all(4.0),
-      //   child: Text(
-      //     data.attributes.name,
-      //     maxLines: 2,
-      //     overflow: TextOverflow.ellipsis,
-      //     style: TextStyle(
-      //         color: Colors.white,
-      //         fontSize: 18.0,
-      //         fontWeight: FontWeight.w500),
-      //     textAlign: TextAlign.center,
-      //   ),
-      // ),
-      // ),
     ),
   );
 }

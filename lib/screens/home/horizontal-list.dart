@@ -24,11 +24,7 @@ buildHomeList(BuildContext context, List<Voucher> data, int index) {
     margin: EdgeInsets.only(left: 12.0, top: 5.0),
     child: Column(
       children: <Widget>[
-        buildHomeSectionTitle(
-            // TODO: Remove this shinanigan
-            context,
-            data,
-            header),
+        buildHomeSectionTitle(context, data, header),
         Container(
           height: 154.0,
           child: ListView.builder(

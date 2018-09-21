@@ -73,7 +73,7 @@ class HomeError extends StatelessWidget {
                         EdgeInsets.symmetric(horizontal: 36.0, vertical: 12.0),
                     child: Text(
                       "Retry",
-                      style: TextStyle(color: xDiscoucherGreen),
+                      style: TextStyle(color: xDiscoucherIconGreen),
                     ),
                   ),
                 ),

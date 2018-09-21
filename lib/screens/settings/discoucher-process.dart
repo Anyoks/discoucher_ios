@@ -49,7 +49,7 @@ class DiscoucherProcess extends StatelessWidget {
                     "We’re here to stretch the power of your shilling!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: xDiscoucherGreen,
+                        color: xDiscoucherIconGreen,
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0),
                   ),
@@ -129,7 +129,7 @@ class DiscoucherProcess extends StatelessWidget {
                 controller.lauchSocial(SocialSite.Website);
               },
               padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 12.0),
-              borderSide: BorderSide(color: xDiscoucherGreen),
+              borderSide: BorderSide(color: xDiscoucherIconGreen),
               child: boldGreenText("View More Details"),
             ),
           ),
@@ -145,7 +145,7 @@ class DiscoucherProcess extends StatelessWidget {
         Icon(
           icon,
           size: 40.0,
-          color: xDiscoucherGreen,
+          color: xDiscoucherIconGreen,
         ),
         SizedBox(width: 10.0),
         Expanded(child: Text(text))

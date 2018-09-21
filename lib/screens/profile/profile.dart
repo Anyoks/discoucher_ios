@@ -100,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(height: 20.0),
-        Text(title, style: TextStyle(fontSize: 16.0, color: xDiscoucherGreen)),
+        Text(title, style: TextStyle(fontSize: 16.0, color: xDiscoucherIconGreen)),
         SizedBox(height: 15.0),
       ],
     );
@@ -135,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
       autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       decoration: const InputDecoration(
-          icon: const Icon(Icons.person, color: xDiscoucherGreen),
+          icon: const Icon(Icons.person, color: xDiscoucherIconGreen),
           hintText: 'Enter your first and last name',
           labelText: 'First Name'),
       validator: (val) => val.isEmpty ? 'First name is required' : null,
@@ -149,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
       autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       decoration: const InputDecoration(
-          icon: const Icon(Icons.person, color: xDiscoucherGreen),
+          icon: const Icon(Icons.person, color: xDiscoucherIconGreen),
           hintText: 'Enter last name',
           labelText: 'Last Name'),
       validator: (val) => val.isEmpty ? 'Last name is required' : null,
@@ -164,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
           controller: _dateController,
           autovalidate: true,
           decoration: const InputDecoration(
-            icon: const Icon(Icons.date_range, color: xDiscoucherGreen),
+            icon: const Icon(Icons.date_range, color: xDiscoucherIconGreen),
             hintText: 'Enter your date of birth',
             labelText: 'Date of birth',
           ),
@@ -190,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
       initialValue: user.email,
       autovalidate: true,
       decoration: const InputDecoration(
-          icon: const Icon(Icons.email, color: xDiscoucherGreen),
+          icon: const Icon(Icons.email, color: xDiscoucherIconGreen),
           hintText: 'Enter your email address',
           labelText: 'Email address'),
       keyboardType: TextInputType.emailAddress,
@@ -206,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
       initialValue: user.phone_number,
       autovalidate: true,
       decoration: const InputDecoration(
-          icon: const Icon(Icons.phone, color: xDiscoucherGreen),
+          icon: const Icon(Icons.phone, color: xDiscoucherIconGreen),
           hintText: 'Enter you phone number',
           labelText: 'Phone'),
       keyboardType: TextInputType.phone,
