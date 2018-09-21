@@ -11,20 +11,9 @@ class ResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
-      onTap: () {
-        searchDelegate.close(context, voucherData);
-      },
-      child: new Card(
-        child: new Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: new Column(
-            children: <Widget>[
-              // new Text(voucherData.attributes.code), 
-              buildCategoryListItem(context, voucherData.attributes)
-            ],
-          ),
-        ),
-      ),
-    );
+        onTap: () {
+          searchDelegate.close(context, voucherData);
+        },
+        child: buildCategoryListItem(context, voucherData.attributes));
   }
 }

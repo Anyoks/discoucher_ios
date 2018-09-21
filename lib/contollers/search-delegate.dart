@@ -69,7 +69,7 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
     List<Widget> resultsCards = [];
 
     return FutureBuilder(
-      future: searchController.searchVoucher(query),
+      future: fetchSearchResults(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -82,6 +82,8 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
             if (snapshot.hasError)
               return Text("Error: $snapshot");
             else
+            print(snapshot.data.length);
+
               snapshot.data.forEach((result) => resultsCards.add(
                     ResultCard(
                       voucherData: result,

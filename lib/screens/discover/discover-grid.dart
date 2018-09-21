@@ -27,7 +27,7 @@ class DiscoverGrid extends StatelessWidget {
                     fit: BoxFit.cover,
                     image: NetworkImage(tags[index].attributes.image),
                     colorFilter: new ColorFilter.mode(
-                      Colors.black.withOpacity(0.3),
+                      Colors.black.withOpacity(0.2),
                       BlendMode.darken,
                     ),
                   ),

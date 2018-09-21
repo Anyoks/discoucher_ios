@@ -66,7 +66,7 @@ buildCategoryListItem(BuildContext context, Voucher data) {
     // constraints: BoxConstraints.expand(),
     padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
     child: Hero(
-      tag: data.establishment.data.id,
+      tag: data.heroId,
       child: Column(
         children: <Widget>[
           buildSectonContent(data),

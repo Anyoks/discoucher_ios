@@ -62,7 +62,8 @@ buildCategoryListItem(BuildContext context, Voucher data) {
           ),
         ),
         SizedBox(width: 7.0),
-        Expanded(child: buildCategoryContent(context, data)),
+        Flexible(
+            fit: FlexFit.loose, child: buildCategoryContent(context, data)),
         // Container(
         //   // color: Colors.red,
         //   child: Column(
@@ -90,6 +91,7 @@ buildCategoryListItem(BuildContext context, Voucher data) {
 
 buildCategoryContent(BuildContext context, Voucher data) {
   return Column(
+    mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: <Widget>[
       Text(
@@ -103,12 +105,16 @@ buildCategoryContent(BuildContext context, Voucher data) {
       ),
       SizedBox(height: 7.0),
       Flexible(
+        fit: FlexFit.loose,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Hero(
-              tag: 'text-${data.establishment.data.id}',
+              tag: data.heroId,
               child: Text(
-                "FREE LUNCH MAIN COURSE when a Lunch Main Course is bought (a la carte menu only).  a Lunch Main Course is bought.  a Lunch Main Course is bought. a Lunch Main Course is bought",
+                data.description,
+                textAlign: TextAlign.left,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,
                 style: TextStyle(color: Colors.black, fontSize: 11.0),
@@ -127,7 +133,7 @@ buildCategoryContent(BuildContext context, Voucher data) {
                 SizedBox(width: 5.0),
                 Container(
                     width: xBottomTextBoxWidth,
-                    child: Text("Valid on  Tuesday to Friday",
+                    child: Text(data.condition != null ? data.condition : "",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
@@ -135,7 +141,7 @@ buildCategoryContent(BuildContext context, Voucher data) {
               ],
             ),
             SizedBox(height: 5.0),
-            Flexible(
+            Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,7 +154,10 @@ buildCategoryContent(BuildContext context, Voucher data) {
                   SizedBox(width: 5.0),
                   Container(
                     width: xBottomTextBoxWidth,
-                    child: Text("Eldama Ravine Rd, Westlands Nairobi",
+                    child: Text(
+                        data.establishment.data.attributes.location != null
+                            ? data.establishment.data.attributes.location
+                            : "",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
