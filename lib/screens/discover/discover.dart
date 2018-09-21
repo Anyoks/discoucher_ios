@@ -1,8 +1,11 @@
-import 'dart:math';
+import 'dart:async';
 
+import 'package:discoucher/contollers/tags-controller.dart';
+import 'package:discoucher/models/tag-data.dart';
+import 'package:discoucher/screens/discover/discover-grid.dart';
+import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:discoucher/screens/shared/search-app-bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class DiscoverPage extends StatefulWidget {
   @override
@@ -10,85 +13,67 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class _DiscoverPageState extends State<DiscoverPage> {
+  TagsController _controller = new TagsController();
+  Future<List<TagData>> _tagsFuture;
+
   @override
   void initState() {
+    _tagsFuture = _controller.loadTags();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: SearchAppBar(), body: buildStaggeredGridView());
+    return Scaffold(appBar: SearchAppBar(), body: buildDiscoveryFuture());
   }
 
-  List<String> images = [
-    'https://cdn.pixabay.com/photo/2016/01/22/16/42/eiffel-tower-1156146_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2016/01/22/16/42/eiffel-tower-1156146_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2016/11/16/10/59/mountains-1828596_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2017/08/24/22/37/gyrfalcon-2678684_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2013/01/17/08/25/sunset-75159_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2013/04/07/21/30/croissant-101636_960_720.jpg'
-  ];
-  Random random = new Random();
-
-  buildImage() {
-    final int imagesNo = images.length;
-    int randomPosition = 0;
-    randomPosition = random.nextInt(imagesNo);
-    String imageSrc = images[randomPosition];
-
-    return Image.network(imageSrc, fit: BoxFit.cover);
-  }
-
-  fetchImage() {
-    final int imagesNo = images.length;
-    int randomPosition = 0;
-    randomPosition = random.nextInt(imagesNo);
-    String imageSrc = images[randomPosition];
-
-    return NetworkImage(imageSrc);
-  }
-
-  buildStaggeredGridView() {
-    return Padding(
-      padding: EdgeInsets.all(5.0),
-      child: StaggeredGridView.countBuilder(
-        crossAxisCount: 4,
-        itemCount: 18,
-        itemBuilder: (BuildContext context, int index) => InkWell(
-              onTap: () {
-                print("Print");
-              },
-              child: Container(
-                alignment: Alignment(0.0, 1.0),
-                decoration: new BoxDecoration(
-                  borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
-                  shape: BoxShape.rectangle,
-                  color: Colors.black,
-                  backgroundBlendMode: BlendMode.overlay,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: fetchImage(),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(3.0),
-                  child: Text(
-                    "Ibis Styles",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ),
-        staggeredTileBuilder: (int index) =>
-            StaggeredTile.count(2, index.isEven ? 2 : 1),
-        mainAxisSpacing: 5.0,
-        crossAxisSpacing: 5.0,
-      ),
+  buildDiscoveryFuture() {
+    return FutureBuilder(
+      future: _tagsFuture,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return HomeError(
+                onPressed: () {
+                  handleRefresh();
+                },
+                message: "You are offline");
+          case ConnectionState.waiting:
+            return Container(
+              child: Center(child: CircularProgressIndicator()),
+            );
+          default:
+            if (snapshot.hasError)
+              return HomeError(
+                onPressed: () {
+                  handleRefresh();
+                },
+                message:
+                    "Search for a voucher, restarant, hotel, spa, location...",
+              );
+            else
+              return (snapshot.data as List<TagData>).length > 0
+                  ? DiscoverGrid(snapshot.data)
+                  : HomeError(
+                      onPressed: () {
+                        handleRefresh();
+                      },
+                      message:
+                          "Search for a voucher, restarant, hotel, spa, location...",
+                    );
+        }
+      },
     );
+  }
+
+  Future<List<TagData>> handleRefresh() async {
+    Future<List<TagData>> tagsF = _controller.loadTags();
+
+    setState(() {
+      _tagsFuture = tagsF;
+    });
+
+    return tagsF;
   }
 }

@@ -1,82 +1,54 @@
+import 'package:discoucher/models/tag-data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class DiscoverGrid extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StaggeredGridView.count(
-      primary: false,
-      crossAxisCount: 4,
-      mainAxisSpacing: 0.0,
-      crossAxisSpacing: 0.0,
-      children: <Widget>[
-        new _Tile(
-            'https://cdn.pixabay.com/photo/2013/04/07/21/30/croissant-101636_960_720.jpg',
-            1),
-        new _Tile(
-            'https://cdn.pixabay.com/photo/2016/01/22/16/42/eiffel-tower-1156146_960_720.jpg',
-            2),
-        new _Tile(
-            'https://cdn.pixabay.com/photo/2013/04/07/21/30/croissant-101636_960_720.jpg',
-            3),
-        new _Tile(
-            'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_960_720.jpg',
-            4),
-        new _Tile(
-            'https://cdn.pixabay.com/photo/2016/11/16/10/59/mountains-1828596_960_720.jpg',
-            5),
-        new _Tile(
-            'https://cdn.pixabay.com/photo/2016/01/22/16/42/eiffel-tower-1156146_960_720.jpg',
-            6),
-        new _Tile(
-            'https://cdn.pixabay.com/photo/2017/08/24/22/37/gyrfalcon-2678684_960_720.jpg',
-            7),
-        new _Tile(
-            'https://cdn.pixabay.com/photo/2013/01/17/08/25/sunset-75159_960_720.jpg',
-            8),
-      ],
-      staggeredTiles: const <StaggeredTile>[
-        const StaggeredTile.fit(2),
-        const StaggeredTile.fit(2),
-        const StaggeredTile.fit(1),
-        const StaggeredTile.fit(3),
-        const StaggeredTile.fit(3),
-        const StaggeredTile.fit(1),
-        const StaggeredTile.fit(2),
-        const StaggeredTile.fit(2),
-      ],
-    );
-  }
-}
+  DiscoverGrid(this.tags);
 
-class _Tile extends StatelessWidget {
-  const _Tile(this.source, this.index);
-
-  final String source;
-  final int index;
+  final List<TagData> tags;
 
   @override
   Widget build(BuildContext context) {
-    return new Card(
-      child: new Column(
-        children: <Widget>[
-          new Image.network(source),
-          new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: new Column(
-              children: <Widget>[
-                new Text(
-                  'Image number $index',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+    return Padding(
+      padding: EdgeInsets.all(5.0),
+      child: StaggeredGridView.countBuilder(
+        crossAxisCount: 4,
+        itemCount: tags.length,
+        itemBuilder: (BuildContext context, int index) => InkWell(
+              onTap: () {
+                print(tags[index].attributes.name);
+              },
+              child: Container(
+                alignment: Alignment(0.0, 1.0),
+                decoration: new BoxDecoration(
+                  borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
+                  shape: BoxShape.rectangle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(tags[index].attributes.image),
+                    colorFilter: new ColorFilter.mode(
+                      Colors.black.withOpacity(0.3),
+                      BlendMode.darken,
+                    ),
+                  ),
                 ),
-                new Text(
-                  'Vincent Van Gogh',
-                  style: const TextStyle(color: Colors.grey),
+                child: Padding(
+                  padding: EdgeInsets.all(3.0),
+                  child: Text(
+                    tags[index].attributes.name,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ],
+              ),
             ),
-          )
-        ],
+        staggeredTileBuilder: (int index) =>
+            StaggeredTile.count(2, index.isEven ? 2 : 1),
+        mainAxisSpacing: 5.0,
+        crossAxisSpacing: 5.0,
       ),
     );
   }

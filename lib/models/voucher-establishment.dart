@@ -1,18 +1,18 @@
-class DataAttributes {
+class VoucherEstabishment {
   String name;
   String area;
   String location;
   String featuredImage;
 
-  DataAttributes({
+  VoucherEstabishment({
     this.name,
     this.area,
     this.location,
     this.featuredImage,
   });
 
-  factory DataAttributes.fromJson(Map<String, dynamic> json) =>
-      new DataAttributes(
+  factory VoucherEstabishment.fromJson(Map<String, dynamic> json) =>
+      new VoucherEstabishment(
         name: json["name"],
         area: json["area"],
         location: json["location"],

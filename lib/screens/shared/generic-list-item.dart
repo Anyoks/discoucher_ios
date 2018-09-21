@@ -15,6 +15,10 @@ buildSectionContent(Voucher data) {
       image: DecorationImage(
         fit: BoxFit.cover,
         image: buildItemImage(data.establishment.data.attributes.featuredImage),
+        colorFilter: new ColorFilter.mode(
+          Colors.black.withOpacity(0.2),
+          BlendMode.darken,
+        ),
       ),
     ),
     child: Container(
@@ -83,8 +87,7 @@ buildGenericListItem(BuildContext context, Voucher data) {
             child: Hero(
               tag: data.heroId,
               child: Text(
-                // data.attributes.name,
-                "FREE LUNCH MAIN COURSE when a Lunch Main Course",
+                data.description,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(color: Colors.black, fontSize: 11.0),

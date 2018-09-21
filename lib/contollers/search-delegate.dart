@@ -1,58 +1,19 @@
 import 'dart:async';
 
 import 'package:discoucher/contollers/search-controller.dart';
-import 'package:discoucher/models/attribute.dart';
-import 'package:discoucher/models/data-attributes.dart';
 import 'package:discoucher/models/data.dart';
 import 'package:discoucher/models/establishment.dart';
+import 'package:discoucher/models/voucher-data.dart';
+import 'package:discoucher/models/voucher-establishment.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/search/results-card.dart';
 import 'package:discoucher/screens/search/suggestions-list.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-class SearchDiscoucherSearchDelegate extends SearchDelegate<Voucher> {
+class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
   final uuid = new Uuid();
   final searchController = new SearchController();
-
-  final List<Voucher> data = [
-    new Voucher(
-      code: new Uuid().v1(),
-      condition: "Spa",
-      establishment: new Establishment(
-          data: new Data(attributes: new DataAttributes(name: "Kilimanjaro"))),
-    ),
-    new Voucher(
-      code: new Uuid().v1(),
-      condition: "Spa",
-      establishment: new Establishment(
-          data: new Data(attributes: new DataAttributes(name: "Serena Spa"))),
-    ),
-    new Voucher(
-      code: new Uuid().v1(),
-      condition: "Spa",
-      establishment: new Establishment(
-          data: new Data(attributes: new DataAttributes(name: "About Thyme"))),
-    ),
-    new Voucher(
-      code: new Uuid().v1(),
-      condition: "Spa",
-      establishment: new Establishment(
-          data: new Data(attributes: new DataAttributes(name: "Kempinski"))),
-    ),
-    new Voucher(
-      code: new Uuid().v1(),
-      condition: "Spa",
-      establishment: new Establishment(
-          data: new Data(attributes: new DataAttributes(name: "Pizza"))),
-    ),
-    new Voucher(
-      code: new Uuid().v1(),
-      condition: "Spa",
-      establishment: new Establishment(
-          data: new Data(attributes: new DataAttributes(name: "Pizza"))),
-    )
-  ];
 
   final List<String> history = <String>[
     "Kilimanjaro",
@@ -62,8 +23,9 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Voucher> {
     "main",
   ];
 
-  Future<List<Voucher>> searchVoucher(String query) async {
-    List<Voucher> _searchResults = await searchController.searchVoucher(query);
+  Future<List<VoucherData>> searchVouchers(String query) async {
+    List<VoucherData> _searchResults =
+        await searchController.searchVoucher(query);
     return _searchResults;
   }
 
@@ -97,39 +59,14 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Voucher> {
     );
   }
 
+  Future<List<VoucherData>> fetchSearchResults() async {
+    final results = await searchController.searchVoucher(query);
+    return results;
+  }
+
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: Call Api here
-    final List<Voucher> searchResults = data
-        .where(
-            (datum) => datum.establishment.data.attributes.name.contains(query))
-        .toList();
-
-    List<Voucher> _searchResults;
-
-    searchController.searchVoucher(query).then((onValue) {
-      _searchResults = onValue;
-
-      print("searchResults............");
-      print(_searchResults.toString());
-    });
-
-    if (searchResults == null && searchResults.length < 1) {
-      return Center(
-        child: Text('Nothing found :(', textAlign: TextAlign.center),
-      );
-    }
-
     List<Widget> resultsCards = [];
-
-    // searchResults.forEach((result) => resultsCards.add(
-    //       ResultCard(
-    //         datum: result,
-    //         searchDelegate: this,
-    //       ),
-    //     ));
-
-    // return new ListView(children: resultsCards);
 
     return FutureBuilder(
       future: searchController.searchVoucher(query),
@@ -147,7 +84,7 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Voucher> {
             else
               snapshot.data.forEach((result) => resultsCards.add(
                     ResultCard(
-                      voucher: result,
+                      voucherData: result,
                       searchDelegate: this,
                     ),
                   ));
@@ -161,11 +98,8 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<Voucher> {
   Widget buildSuggestions(BuildContext context) {
     final Iterable<String> suggestions = query.isEmpty
         ? history
-        : data
-            .where((Voucher voucher) =>
-                voucher.establishment.data.attributes.name.contains(query))
-            .map((voucher) => voucher.establishment.data.attributes.name);
-
+        : [];
+        
     return SuggestionList(
       query: query,
       suggestions: suggestions.map((String name) => name).toList(),

@@ -1,20 +1,20 @@
-import 'package:discoucher/models/voucher-establishment.dart';
+import 'package:discoucher/models/voucher.dart';
 
-class Data {
+class VoucherData {
   String id;
   String type;
-  VoucherEstabishment attributes;
+  Voucher attributes;
 
-  Data({
+  VoucherData({
     this.id,
     this.type,
     this.attributes,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => new Data(
+  factory VoucherData.fromJson(Map<String, dynamic> json) => new VoucherData(
         id: json["id"],
         type: json["type"],
-        attributes: VoucherEstabishment.fromJson(json["attributes"]),
+        attributes: Voucher.fromJson(json["attributes"]),
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,6 +1,7 @@
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/map.dart';
+import 'package:discoucher/screens/shared/styled-texts.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
@@ -137,7 +138,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
                   child: Hero(
                     tag: voucher.heroId,
                     child: Text(
-                      "FREE LUNCH MAIN COURSE".toUpperCase(),
+                      voucher.description.toUpperCase(),
                       style: TextStyle(fontSize: 24.0),
                       textAlign: TextAlign.center,
                     ),
@@ -146,7 +147,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
                 SizedBox(height: 20.0),
                 Center(
                   child: Text(
-                    "When a Lunch Main Course is bought (a la carte menu only).",
+                   voucher.condition,
                     style: TextStyle(fontSize: 16.0),
                     textAlign: TextAlign.center,
                   ),
@@ -157,7 +158,8 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
                     Icons.calendar_today, "Valid only on Tuesday to Friday"),
                 buildEstablishmentItem(
                     Icons.local_dining, "About Thyme Main Course Menu"),
-                buildEstablishmentItem(Icons.phone, "0721 850026"),
+                buildEstablishmentItem(Icons.location_on, voucher.establishment.data.attributes.location ),
+                buildEstablishmentItem(Icons.phone, voucher.establishment.data.attributes.location ),
                 buildEstablishmentItem(Icons.info, "http://about-thyme.com"),
                 buildEstablishmentDescription(voucher),
                 MapWidget("locationString"),
@@ -241,18 +243,22 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   }
 
   buildEstablishmentDescription(Voucher voucher) {
-    return new RichText(
-      text: new TextSpan(
-        text: '',
-        style: DefaultTextStyle.of(context).style,
-        children: <TextSpan>[
-          new TextSpan(
-              text: voucher.establishment.data.attributes.name,
-              style: new TextStyle(fontWeight: FontWeight.bold)),
-          new TextSpan(
-              text:
-                  'offers an eclectic menu with imaginative, well-prepared and beautifully presented dishes from around the world. There is something to cater for all tastes with a wide range of vegetarian dishes. Our desserts are a special treat and have become famous over the years.'),
-        ],
+    return Container(
+      padding: EdgeInsets.all(12.0),
+      child: Text.rich(
+        TextSpan(
+          text: voucher.establishment.data.attributes.name,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+          children: <TextSpan>[
+            normalText(" "),
+            TextSpan(
+                text: voucher.description,
+                style:
+                    TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal)),
+            normalText("\n"),
+            normalText("\n"),
+          ],
+        ),
       ),
     );
   }
