@@ -18,6 +18,8 @@ class Endpoint {
 
   static String search = "$baseUrl/search/vouchers"; //POST
 
+  static String tags = "$baseUrl/discover/tags"; //GET
+
   static String favorites = "$baseUrl/favourites";
   static String addFavorite = "$baseUrl/favourites/add";
 }
