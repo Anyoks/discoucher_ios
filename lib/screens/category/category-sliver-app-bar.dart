@@ -1,37 +1,21 @@
+import 'dart:async';
+
+import 'package:discoucher/contollers/search-delegate.dart';
+import 'package:discoucher/models/voucher-data.dart';
+import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:flutter/material.dart';
 
-Widget _buildSearchTrigger(String type, Function triggerSearchFn) {
-  return GestureDetector(
-    onTap: () {
-      triggerSearchFn();
-    },
-    child: Stack(
-      alignment: Alignment(0.0, 1.0),
-      fit: StackFit.loose,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(bottom: 5.0),
-          child: Row(
-            children: <Widget>[
-              SizedBox(width: 10.0),
-              Icon(Icons.search, color: Colors.white),
-              SizedBox(width: 10.0),
-              Expanded(
-                child: Text("Search in ${type.toLowerCase()}",
-                    style: TextStyle(fontSize: 16.0),
-                    overflow: TextOverflow.ellipsis),
-              ),
-              SizedBox(width: 15.0)
-            ],
-          ),
-        ),
-        Container(
-            margin: EdgeInsets.only(right: 50.0),
-            height: 1.0,
-            color: Colors.white),
-      ],
-    ),
+final _searchDelegate = SearchDiscoucherSearchDelegate();
+
+Future openSearch(BuildContext context) async {
+  final VoucherData selected = await showSearch<VoucherData>(
+    context: context,
+    delegate: _searchDelegate,
   );
+
+  if (selected != null) {
+    Navigator.push(context, VoucherDetailsPageRoute(selected.attributes));
+  }
 }
 
 buildCategorySliverAppBar(
@@ -39,11 +23,6 @@ buildCategorySliverAppBar(
     String type,
     Function showFiltersFn,
     Function triggerSearchFn}) {
-// - images/establishments/hotels.jpeg
-// - images/establishments/hotels2.jpg
-// - images/establishments/restaurants.jpeg
-// - images/establishments/ribs.jpg
-// - images/establishments/salons.jpg
   String img = "images/establishments/mister.jpg";
   switch (type) {
     case "Restaurants":
@@ -70,25 +49,65 @@ buildCategorySliverAppBar(
       },
       icon: Icon(Icons.arrow_back_ios),
     ),
+    title: _buildSearchTrigger(context, type, triggerSearchFn),
     flexibleSpace: FlexibleSpaceBar(
-      title: _buildSearchTrigger(type, triggerSearchFn),
       background: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(img),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.4), BlendMode.overlay)),
+            image: AssetImage(img),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.2),
+              BlendMode.darken,
+            ),
+          ),
         ),
       ),
     ),
     actions: <Widget>[
       IconButton(
-        onPressed: () {
-          showFiltersFn();
-        },
+        onPressed: () => showFiltersFn(),
         icon: Icon(Icons.tune),
       )
     ],
+  );
+}
+
+Widget _buildSearchTrigger(
+    BuildContext context, String type, Function triggerSearchFn) {
+  return GestureDetector(
+    onTap: () {
+      // triggerSearchFn();
+      openSearch(context);
+    },
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(bottom: 5.0),
+          alignment: Alignment(0.0, 0.0),
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 10.0),
+              Icon(Icons.search, color: Colors.white),
+              SizedBox(width: 10.0),
+              Expanded(
+                child: Text(
+                  "Search in ${type.toLowerCase()}",
+                  style: TextStyle(fontSize: 16.0),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(width: 15.0)
+            ],
+          ),
+        ),
+        Container(
+            margin: EdgeInsets.only(right: 0.0),
+            height: 1.0,
+            color: Colors.white),
+      ],
+    ),
   );
 }

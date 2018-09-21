@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+class PlayPageRoute extends MaterialPageRoute {
+  PlayPageRoute() : super(builder: (context) => PlayPage());
+}
+
 class PlayPage extends StatefulWidget {
   final String title;
 
