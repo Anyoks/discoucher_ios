@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:discoucher/contollers/search-controller.dart';
 import 'package:discoucher/contollers/tags-controller.dart';
 import 'package:discoucher/models/tag-data.dart';
-import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/screens/discover/discover-grid.dart';
 import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:discoucher/screens/shared/search-app-bar.dart';
@@ -16,9 +14,7 @@ class DiscoverPage extends StatefulWidget {
 
 class _DiscoverPageState extends State<DiscoverPage> {
   TagsController _tagsController = new TagsController();
-  SearchController _searchController = new SearchController();
   Future<List<TagData>> _tagsFuture;
-  Future<List<VoucherData>> _searchResults;
 
   @override
   void initState() {
@@ -58,7 +54,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               );
             else
               return (snapshot.data as List<TagData>).length > 0
-                  ? buildDiscoverContent(snapshot.data)
+                  ? DiscoverGrid(tags: snapshot.data)
                   : HomeError(
                       onPressed: () {
                         handleRefresh();
@@ -71,25 +67,13 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
-  buildDiscoverContent(data) {
-    return DiscoverGrid(data);
-  }
-
   Future<List<TagData>> handleRefresh() async {
-    Future<List<TagData>> tagsF = _tagsController.loadTags();
+    Future<List<TagData>> tagsFuture = _tagsController.loadTags();
 
     setState(() {
-      _tagsFuture = tagsF;
+      _tagsFuture = tagsFuture;
     });
 
-    return tagsF;
-  }
-
-  void dispatchSearch() async {
-   _searchResults = _searchController.searchVoucher("searchTerm");
-
-    setState(() {
-      // _tagsFuture = tagsF;
-    });
+    return tagsFuture;
   }
 }

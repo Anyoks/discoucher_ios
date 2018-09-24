@@ -1,11 +1,12 @@
 import 'package:discoucher/models/tag-data.dart';
+import 'package:discoucher/screens/search/search-results-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class DiscoverGrid extends StatelessWidget {
-  DiscoverGrid(this.tags);
-
   final List<TagData> tags;
+
+  DiscoverGrid({this.tags});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,12 @@ class DiscoverGrid extends StatelessWidget {
       child: StaggeredGridView.countBuilder(
         crossAxisCount: 4,
         itemCount: tags.length,
-        itemBuilder: (BuildContext context, int index) => InkWell(
+        itemBuilder: (BuildContext context, int index) => GestureDetector(
               onTap: () {
-                print(tags[index].attributes.name);
+                Navigator.push(
+                  context,
+                  SearchResultsPageRoute(tags[index].attributes.name),
+                );
               },
               child: Container(
                 alignment: Alignment(0.0, 1.0),

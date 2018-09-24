@@ -1,6 +1,7 @@
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
 import 'package:discoucher/screens/details/sliver-list.dart';
+import 'package:discoucher/screens/shared/svg-picture.dart';
 import 'package:flutter/material.dart';
 
 class VoucherDetailsPageRoute extends MaterialPageRoute {
@@ -28,22 +29,26 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   @override
   Widget build(BuildContext context) {
     primaryColor = Theme.of(context).primaryColor;
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          buildSliverAppBar(context, widget.data),
-          buildSliverList(context, widget.data),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        tooltip: 'Redeem this offer',
-        onPressed: () {
-          showRedeemDialog(context);
-        },
-        label: const Text('Redeem'),
-        icon: const Icon(Icons.check),
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.white,
+    return Material(
+      type: MaterialType.transparency,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: <Widget>[
+            buildSliverAppBar(context, widget.data),
+            buildSliverList(context, widget.data),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          tooltip: 'Redeem this offer',
+          onPressed: () {
+            showRedeemDialog(context);
+          },
+          label: const Text('Redeem'),
+          icon: const Icon(Icons.check),
+          // icon: svgIcon("images/svg/scissors.svg"),
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+        ),
       ),
     );
   }

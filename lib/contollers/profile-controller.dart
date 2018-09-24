@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:discoucher/models/user.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+
+import 'package:discoucher/models/user.dart';
+import 'package:discoucher/constants/endpoints.dart';
 
 class ProfileController {
   //TODO: Update url
@@ -16,7 +18,7 @@ class ProfileController {
     try {
       String payload = json.encode(_user);
       final response =
-          await client.post(_serviceUrl, headers: _headers, body: payload);
+          await client.post(Endpoint.updateProfile, headers: _headers, body: payload);
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
       var user = User.fromJson(parsedJson);

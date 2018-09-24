@@ -1,21 +1,25 @@
 import 'dart:async';
 
 import 'package:discoucher/models/voucher-data.dart';
+import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/screens/search/results-card.dart';
 
-class BuildSearchRestults extends StatelessWidget {
-  final Future<dynamic> _future;
-  final SearchDelegate<VoucherData> _searchDelegate;
+class BuildSearchResults extends StatelessWidget {
+  final Future<List<VoucherData>> vouchersFuture;
+  final SearchDelegate<VoucherData> searchDelegate;
 
-  BuildSearchRestults(this._future, this._searchDelegate);
+  BuildSearchResults({
+    @required this.vouchersFuture,
+    @required this.searchDelegate,
+  });
 
   @override
   Widget build(BuildContext context) {
     List<Widget> resultsCards = [];
 
     return FutureBuilder(
-      future: _future,
+      future: vouchersFuture,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -25,18 +29,20 @@ class BuildSearchRestults extends StatelessWidget {
               child: Center(child: CircularProgressIndicator()),
             );
           default:
-            if (snapshot.hasError)
-              return Text("Error: $snapshot");
-            else
-              print(snapshot.data.length);
-
-            snapshot.data.forEach((result) => resultsCards.add(
-                  ResultCard(
-                    voucherData: result,
-                    searchDelegate: _searchDelegate,
-                  ),
-                ));
-            return new ListView(children: resultsCards);
+            if (snapshot.hasError || snapshot.data.length < 1)
+              return HomeError(
+                hideRetry: true,
+                message: "No results found :( ",
+              );
+            else {
+              snapshot.data.forEach((result) => resultsCards.add(
+                    ResultCard(
+                      voucherData: result,
+                      searchDelegate: searchDelegate,
+                    ),
+                  ));
+              return new ListView(children: resultsCards);
+            }
         }
       },
     );

@@ -38,6 +38,8 @@ buildSliverAppBar(BuildContext context, Voucher voucher) {
         )
       ],
       flexibleSpace: FlexibleSpaceBar(
+        // centerTitle: true,
+        collapseMode: CollapseMode.parallax,
         title: Text(voucher.establishment.data.attributes.name),
         background: DecoratedBox(
           decoration: BoxDecoration(

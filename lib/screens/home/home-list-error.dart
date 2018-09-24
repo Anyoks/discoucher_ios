@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class HomeError extends StatelessWidget {
   final Function onPressed;
   final String message;
+  final bool hideRetry;
 
-  HomeError({this.onPressed, this.message});
+  HomeError({this.onPressed, this.message, this.hideRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +30,14 @@ class HomeError extends StatelessWidget {
                 message,
                 style: TextStyle(color: Colors.black),
               ),
-              FlatButton(
-                onPressed: () {
-                  onPressed();
-                },
-                child: Text("Refresh"),
-              )
+              hideRetry
+                  ? new Container()
+                  : FlatButton(
+                      onPressed: () {
+                        onPressed();
+                      },
+                      child: Text("Refresh"),
+                    )
             ],
           ),
         ),

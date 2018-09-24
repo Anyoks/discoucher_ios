@@ -11,7 +11,7 @@ class SearchController extends BaseController {
 
   Future<List<VoucherData>> searchVoucher(String searchTerm) async {
     try {
-      Map<String, String> payload = {"query": searchTerm};
+      Map<String, String> payload = {"query": searchTerm.toLowerCase()};
 
       final response = await httpController.post(
           endPoint: Uri.encodeFull(Endpoint.search),
@@ -29,6 +29,4 @@ class SearchController extends BaseController {
       return [];
     }
   }
-
-
 }

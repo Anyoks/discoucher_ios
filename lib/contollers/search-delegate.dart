@@ -1,12 +1,8 @@
 import 'dart:async';
 
 import 'package:discoucher/contollers/search-controller.dart';
-import 'package:discoucher/models/data.dart';
-import 'package:discoucher/models/establishment.dart';
 import 'package:discoucher/models/voucher-data.dart';
-import 'package:discoucher/models/voucher-establishment.dart';
-import 'package:discoucher/models/voucher.dart';
-import 'package:discoucher/screens/search/results-card.dart';
+import 'package:discoucher/screens/search/build-search-restults.dart';
 import 'package:discoucher/screens/search/suggestions-list.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -66,42 +62,16 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<Widget> resultsCards = [];
-
-    return FutureBuilder(
-      future: fetchSearchResults(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return Text("Nothing to show :(");
-          case ConnectionState.waiting:
-            return Container(
-              child: Center(child: CircularProgressIndicator()),
-            );
-          default:
-            if (snapshot.hasError)
-              return Text("Error: $snapshot");
-            else
-            print(snapshot.data.length);
-
-              snapshot.data.forEach((result) => resultsCards.add(
-                    ResultCard(
-                      voucherData: result,
-                      searchDelegate: this,
-                    ),
-                  ));
-            return new ListView(children: resultsCards);
-        }
-      },
+    return BuildSearchResults(
+      vouchersFuture: fetchSearchResults(),
+      searchDelegate: this,
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final Iterable<String> suggestions = query.isEmpty
-        ? history
-        : [];
-        
+    final Iterable<String> suggestions = query.isEmpty ? history : [];
+
     return SuggestionList(
       query: query,
       suggestions: suggestions.map((String name) => name).toList(),

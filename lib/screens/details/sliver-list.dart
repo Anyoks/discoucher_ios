@@ -2,6 +2,7 @@ import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establihsment-description.dart';
 import 'package:discoucher/screens/details/establishment-item.dart';
 import 'package:discoucher/screens/details/map.dart';
+import 'package:discoucher/screens/shared/svg-picture.dart';
 import 'package:flutter/material.dart';
 
 buildSliverList(BuildContext context, Voucher voucher) {
@@ -11,10 +12,19 @@ buildSliverList(BuildContext context, Voucher voucher) {
         Center(
           child: Hero(
             tag: voucher.heroId,
-            child: Text(
-              voucher.description.toUpperCase(),
-              style: TextStyle(fontSize: 24.0),
-              textAlign: TextAlign.center,
+            child: Material(
+              type: MaterialType.transparency,
+              child: Card(
+                margin: EdgeInsets.all(12.0),
+                child: Container(
+                  child: Text(
+                    voucher.description.toUpperCase(),
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -26,6 +36,9 @@ buildSliverList(BuildContext context, Voucher voucher) {
             textAlign: TextAlign.center,
           ),
         ),
+
+        svgIcon(""),
+
         buildEstablishmentItem(Icons.info, voucher.description),
         buildEstablishmentItem(Icons.calendar_today,
             voucher.condition != null ? voucher.condition : ""),
