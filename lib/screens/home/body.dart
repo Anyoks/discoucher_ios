@@ -65,10 +65,9 @@ class _HomeBodyState extends State<HomeBody> {
   Future<Null> handleRefresh() async {
     setState(() {
       _homeFuture = _homeController.fetchHomeData();
-      ;
     });
 
-    return null;
+    return _homeFuture;
   }
 
   sectionBuilder(BuildContext context, List sections) {
