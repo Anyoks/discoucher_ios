@@ -80,27 +80,31 @@ class DiscoucherProcess extends StatelessWidget {
                 ),
                 SizedBox(height: 20.0),
                 buildRedeemingStep(
-                    icon: Icons.hourglass_empty,
-                    text:
-                        "You and a friend go to the restaurant, salon, spa etc of your choice"),
+                  iconPath: "images/process/visit.png",
+                  text:
+                      "You and a friend go to the restaurant, salon, spa etc of your choice",
+                ),
                 buildSeparator(),
                 buildRedeemingStep(
-                    icon: Icons.hourglass_empty,
-                    text:
-                        "Inform the service of your intent to use Discoucher"),
+                  iconPath: "images/process/inform.png",
+                  text: "Inform the service of your intent to use Discoucher",
+                ),
                 buildSeparator(),
                 buildRedeemingStep(
-                    icon: Icons.hourglass_empty,
-                    text:
-                        "Click redeem button and show code to the service provider"),
+                  iconPath: "images/process/redeem.png",
+                  text:
+                      "Click redeem button and show code to the service provider",
+                ),
                 buildSeparator(),
                 buildRedeemingStep(
-                    icon: Icons.hourglass_empty, text: "Purchase your product"),
+                  iconPath: "images/process/buy.png",
+                  text: "Purchase your product",
+                ),
                 buildSeparator(),
                 buildRedeemingStep(
-                    icon: Icons.hourglass_empty,
-                    text:
-                        "Redeem the offer on the voucher in return for Free!"),
+                  iconPath: "images/process/discount.png",
+                  text: "Redeem the offer on the voucher in return for Free!",
+                ),
                 SizedBox(height: 20.0),
                 boldGreenText("The Discoucher Offer"),
                 SizedBox(height: 25.0),
@@ -139,14 +143,10 @@ class DiscoucherProcess extends StatelessWidget {
     );
   }
 
-  buildRedeemingStep({IconData icon, String text}) {
+  buildRedeemingStep({String iconPath, String text}) {
     return Row(
       children: <Widget>[
-        Icon(
-          icon,
-          size: 40.0,
-          color: xDiscoucherIconGreen,
-        ),
+        Image.asset(iconPath, height: 40.0, color: xDiscoucherIconGreen),
         SizedBox(width: 10.0),
         Expanded(child: Text(text))
       ],
