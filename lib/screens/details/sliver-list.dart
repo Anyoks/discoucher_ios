@@ -2,7 +2,6 @@ import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establishment-description.dart';
 import 'package:discoucher/screens/details/establishment-item.dart';
 import 'package:discoucher/screens/details/map.dart';
-import 'package:discoucher/screens/shared/svg-picture.dart';
 import 'package:flutter/material.dart';
 
 buildSliverList(BuildContext context, Voucher voucher) {
@@ -37,10 +36,9 @@ buildSliverList(BuildContext context, Voucher voucher) {
           voucher.establishment.data.attributes.location,
         ),
         voucher.establishment.data.attributes.location != null
-            ? MapWidget(
-                voucher.establishment.data.attributes.location,
-              )
+            ? MapWidget(voucher.establishment.data.attributes)
             : Container(),
+        SizedBox(height: 80.0),
       ],
     ),
   );

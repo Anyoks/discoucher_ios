@@ -1,7 +1,7 @@
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
 import 'package:discoucher/screens/details/sliver-list.dart';
-import 'package:discoucher/screens/shared/svg-picture.dart';
+import 'package:discoucher/screens/redemption/redemptions.dart';
 import 'package:flutter/material.dart';
 
 class VoucherDetailsPageRoute extends MaterialPageRoute {
@@ -58,11 +58,13 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: Text(widget.data.code),
-            title: Text(widget.data.establishment.data.attributes.name),
+            content: RedemptionsPage(widget.data),
             actions: <Widget>[
               new FlatButton(
-                child: new Text("Close"),
+                child: Text(
+                  "Done",
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

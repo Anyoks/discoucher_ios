@@ -1,3 +1,4 @@
+import 'package:discoucher/constants/api-key.dart';
 import 'package:flutter/material.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
 // import 'package:firebase_analytics/observer.dart';
@@ -5,10 +6,8 @@ import 'package:discoucher/screens/theme.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:map_view/map_view.dart';
 
-const API_KEY = "AIzaSyCwwdZdbd-zVeLCeCwQrHLPpeHWYJO1XoY";
-
 void main() {
-  MapView.setApiKey(API_KEY);
+  MapView.setApiKey(APIKEY);
 
   runApp(new DiscoucherApp());
 }
