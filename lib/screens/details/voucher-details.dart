@@ -1,12 +1,10 @@
 import 'package:discoucher/contollers/establishment.dart';
-import 'package:discoucher/contollers/settings-controller.dart';
-import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher.dart';
+import 'package:discoucher/screens/details/redeem.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
 import 'package:discoucher/screens/details/sliver-list-placeholder.dart';
 import 'package:discoucher/screens/details/sliver-list.dart';
-import 'package:discoucher/screens/redemption/redemptions.dart';
 import 'package:flutter/material.dart';
 
 class VoucherDetailsPageRoute extends MaterialPageRoute {
@@ -81,7 +79,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-            content: RedemptionsPage(widget.data),
+            content: RedeemPage(widget.data),
             actions: <Widget>[
               new FlatButton(
                 child: Text(

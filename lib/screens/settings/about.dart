@@ -36,7 +36,7 @@ class AboutPage extends StatelessWidget {
                 Text(
                   "Welcome to the new DisCoucher!",
                   style: TextStyle(
-                      color: xDiscoucherIconGreen,
+                      color: xDiscoucherGreen,
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0),
                 ),
@@ -67,7 +67,7 @@ class AboutPage extends StatelessWidget {
                 Text(
                   "Get in touch with us",
                   style: TextStyle(
-                      color: xDiscoucherIconGreen,
+                      color: xDiscoucherGreen,
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0),
                 ),

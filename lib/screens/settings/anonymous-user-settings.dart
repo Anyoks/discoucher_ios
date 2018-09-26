@@ -12,7 +12,7 @@ Widget buildAnonymousSettings() {
             ),
             Icon(
               Icons.verified_user,
-              color: xDiscoucherIconGreen,
+              color: xDiscoucherGreen,
             ),
             SizedBox(
               width: 15.0,
