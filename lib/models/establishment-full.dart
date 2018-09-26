@@ -1,5 +1,5 @@
 
-class Establishment {
+class EstablishmentFull {
     String name;
     String area;
     String location;
@@ -14,7 +14,7 @@ class Establishment {
     String featuredImage;
     List<String> pictures;
 
-    Establishment({
+    EstablishmentFull({
         this.name,
         this.area,
         this.location,
@@ -30,7 +30,7 @@ class Establishment {
         this.pictures,
     });
 
-    factory Establishment.fromJson(Map<String, dynamic> json) => new Establishment(
+    factory EstablishmentFull.fromJson(Map<String, dynamic> json) => new EstablishmentFull(
         name: json["name"],
         area: json["area"],
         location: json["location"],

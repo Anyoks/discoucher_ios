@@ -85,7 +85,7 @@ Widget loggedInUserSettings(
       ),
       buildSettingItem(
         tapEvent: () {
-          controller.email();
+          controller.email(discoucherEmail);
         },
         icon: Icons.email,
         displayText: discoucherEmail,

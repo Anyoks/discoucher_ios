@@ -8,51 +8,67 @@ import 'package:discoucher/constants/strings.dart';
 
 class SettingsController {
   final SharedPrefefencedController prefs;
-  final GlobalKey<ScaffoldState> scaffoldKey;
 
-  SettingsController({@required this.prefs, @required this.scaffoldKey});
+  SettingsController({@required this.prefs});
 
-  Future<void> email() async {
-    final String url = 'mailto:$discoucherEmail';
-    await launchUrl(url);
+  Future<void> email(String email) async {
+    if (email != null) {
+      final String url = 'mailto:$email';
+      await launchUrl(url);
+    }
   }
 
-  Future<void> call(phone) async {
-    final String url = 'tel:$phone';
-    await launchUrl(url);
+  Future<void> call(String phone) async {
+    if (phone != null) {
+      final String url = 'tel:$phone';
+      await launchUrl(url);
+    }
+  }
+
+  Future<void> browse(String website) async {
+    if (website != null) {
+      print("website");
+
+      final String url =
+          website.contains("http://") ? "$website" : "http://$website";
+      print(url);
+      await launchUrl(url);
+    }
   }
 
   lauchSocial(SocialSite site) async {
-    String url = "";
+    if (site != null) {
+      String url = "";
 
-    switch (site) {
-      case SocialSite.Facebook:
-        {
-          url = discoucherFacebook;
-          break;
-        }
-      case SocialSite.Twitter:
-        {
-          url = discoucherTwitter;
-          break;
-        }
-      case SocialSite.Instagram:
-        {
-          url = discoucherInstagram;
-          break;
-        }
-      case SocialSite.Website:
-        {
-          url = "http://$discoucherWebsite";
-          break;
-        }
+      switch (site) {
+        case SocialSite.Facebook:
+          {
+            url = discoucherFacebook;
+            break;
+          }
+        case SocialSite.Twitter:
+          {
+            url = discoucherTwitter;
+            break;
+          }
+        case SocialSite.Instagram:
+          {
+            url = discoucherInstagram;
+            break;
+          }
+        case SocialSite.Website:
+          {
+            url = "http://$discoucherWebsite";
+            break;
+          }
+      }
+
+      await launchUrl(url);
     }
-
-    await launchUrl(url);
   }
 
   Future<void> launchUrl(String url) async {
-    if (await canLaunch(url)) {
+    if (await canLaunch(url.trim())) {
       await launch(url);
     }
   }
@@ -67,9 +83,9 @@ class SettingsController {
   }
 
   _logOut() {
-    scaffoldKey.currentState.showSnackBar(
-      new SnackBar(content: new Text("You have been logged out")),
-    );
-    scaffoldKey.currentState.setState(() {});
+    // scaffoldKey.currentState.showSnackBar(
+    //   new SnackBar(content: new Text("You have been logged out")),
+    // );
+    // scaffoldKey.currentState.setState(() {});
   }
 }

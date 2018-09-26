@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:discoucher/constants/api-key.dart';
+import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher-establishment.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/utils/composite-subscription.dart';
@@ -11,14 +12,15 @@ import 'package:google_maps_webservice/places.dart' as places;
 
 class MapWidget extends StatefulWidget {
   final Voucher voucher;
-  MapWidget(this.voucher);
+  final EstablishmentFull establishment;
+  MapWidget(this.voucher, this.establishment);
 
   @override
   _MapWidgetState createState() => _MapWidgetState();
 }
 
 class _MapWidgetState extends State<MapWidget> {
-  VoucherEstabishment _est;
+  EstablishmentFull _est;
   String _address;
 
   int _zoomLevel = 4;
@@ -44,8 +46,8 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   initializeMap() async {
-    _est = widget.voucher.establishment.data.attributes;
-    _address = "${_est.name}, ${_est.area}, ${_est.location}";
+    _est = widget.establishment;
+    _address = "${_est.name}, ${_est.area}, ${_est.location}, ${_est.address}";
     _location = await getLocation();
 
     if (_location != null) {
@@ -64,15 +66,6 @@ class _MapWidgetState extends State<MapWidget> {
       height: 250.0,
       child: Stack(
         children: <Widget>[
-          // Center(
-          //   child: Container(
-          //     child: Text(
-          //       "Map could not be loaded :(",
-          //       textAlign: TextAlign.center,
-          //     ),
-          //     padding: const EdgeInsets.all(20.0),
-          //   ),
-          // ),
           InkWell(
             child: Center(
               child: FadeInImage.assetNetwork(
@@ -110,7 +103,11 @@ class _MapWidgetState extends State<MapWidget> {
             location.latitude,
             location.longitude,
             color: Colors.redAccent,
-            markerIcon: MarkerIcon("images/map-pointer.png"),
+            markerIcon: MarkerIcon(
+              "images/map-pointer.png",
+              width: 120.0,
+              height: 120.0,
+            ),
           );
   }
 

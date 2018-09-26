@@ -17,7 +17,7 @@ buildEstablishmentItem(IconData icon, String title) {
                 Icon(icon, color: Colors.green[900]),
                 SizedBox(width: 15.0),
                 Text(
-                  title,
+                  title.trim(),
                   style: TextStyle(color: xSubtitileColor),
                   overflow: TextOverflow.ellipsis,
                 ),

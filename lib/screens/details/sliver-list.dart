@@ -1,11 +1,19 @@
+import 'package:discoucher/constants/colors.dart';
+import 'package:discoucher/contollers/settings-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
+import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher.dart';
+import 'package:discoucher/screens/details/build-contact-item.dart';
 import 'package:discoucher/screens/details/establishment-description.dart';
 import 'package:discoucher/screens/details/establishment-item.dart';
 import 'package:discoucher/screens/details/map.dart';
-import 'package:discoucher/screens/settings/logged-in-settings.dart';
 import 'package:flutter/material.dart';
 
-buildSliverList(BuildContext context, Voucher voucher) {
+SharedPrefefencedController _prefs = new SharedPrefefencedController();
+final SettingsController controller = new SettingsController(prefs: _prefs);
+
+buildSliverList(
+    BuildContext context, Voucher voucher, EstablishmentFull establishment) {
   return SliverList(
     delegate: SliverChildListDelegate(
       <Widget>[
@@ -24,44 +32,32 @@ buildSliverList(BuildContext context, Voucher voucher) {
           ),
         ),
         SizedBox(height: 20.0),
+        buildEstablishmentItem(Icons.info, voucher.condition),
         buildEstablishmentItem(
-          Icons.info,
-          voucher.condition,
+            Icons.map, "${establishment.area}, ${establishment.location}"),
+        buildEstablishmentItem(Icons.location_on, establishment.address),
+        buildEstablishmentContact(
+            tapEvent: () {
+              controller.call(establishment.phone.trim());
+            },
+            icon: Icons.phone,
+            displayText: establishment.phone),
+        buildEstablishmentContact(
+          tapEvent: () {
+            controller.email(establishment.email);
+          },
+          icon: Icons.email,
+          displayText: establishment.email,
         ),
-        buildEstablishmentItem(
-          Icons.map,
-          voucher.establishment.data.attributes.area,
+        buildEstablishmentContact(
+          tapEvent: () {
+            controller.browse(establishment.website);
+          },
+          icon: Icons.link,
+          displayText: establishment.website,
         ),
-        buildEstablishmentItem(
-          Icons.location_on,
-          voucher.establishment.data.attributes.location,
-        ),
-
-      //   buildSettingItem(
-      //   tapEvent: () {
-      //     controller.call(discoucherPhone1);
-      //   },
-      //   icon: Icons.phone,
-      //   displayText: discoucherPhone1,
-      // ),
-      // buildSettingItem(
-      //   tapEvent: () {
-      //     controller.email();
-      //   },
-      //   icon: Icons.email,
-      //   displayText: discoucherEmail,
-      // ),
-      // buildSettingItem(
-      //   tapEvent: () {
-      //     controller.lauchSocial(SocialSite.Website);
-      //   },
-      //   icon: Icons.link,
-      //   displayText: discoucherWebsite,
-      // ),
-
-        voucher.establishment.data.attributes.location != null
-            ? MapWidget(voucher)
-            : Container(),
+        buildEstablishmentDescription(establishment),
+        MapWidget(voucher, establishment),
         SizedBox(height: 80.0),
       ],
     ),

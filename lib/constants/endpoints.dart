@@ -5,6 +5,9 @@ class Endpoint {
   static String signUp = "$baseUrl/auth"; //POST
   static String updateProfile = "$baseUrl/auth"; //PATCH
 
+  static String allEstablishments =  "$baseUrl/establishments/est";
+  static String singleEstablishment =  "$baseUrl/establishments/get_est"; //POST
+  
   static String restaurantEstablishments =  "$baseUrl/establishments/restaurants";
   static String hotelEstablishments = "$baseUrl/establishments/hotels";
   static String spaEstablishments = "$baseUrl/establishments/spas";

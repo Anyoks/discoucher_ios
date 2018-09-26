@@ -7,15 +7,12 @@ import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/screens/settings/bottom-sections.dart';
 
 class SettingsPage extends StatelessWidget {
-  static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   static SharedPrefefencedController _prefs = new SharedPrefefencedController();
-  final SettingsController controller =
-      new SettingsController(prefs: _prefs, scaffoldKey: _scaffoldKey);
+  final SettingsController controller = new SettingsController(prefs: _prefs);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           appBarsettings,
@@ -37,7 +34,6 @@ class SettingsPage extends StatelessWidget {
                   return Text("Nothing to show :(");
                 case ConnectionState.waiting:
                   return Container(
-                      // color: Colors.amber,.
                       child: Center(
                     child: CircularProgressIndicator(),
                   ));

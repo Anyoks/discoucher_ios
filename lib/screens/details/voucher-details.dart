@@ -1,5 +1,10 @@
+import 'package:discoucher/contollers/establishment.dart';
+import 'package:discoucher/contollers/settings-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
+import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
+import 'package:discoucher/screens/details/sliver-list-placeholder.dart';
 import 'package:discoucher/screens/details/sliver-list.dart';
 import 'package:discoucher/screens/redemption/redemptions.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +12,6 @@ import 'package:flutter/material.dart';
 class VoucherDetailsPageRoute extends MaterialPageRoute {
   VoucherDetailsPageRoute(Voucher data)
       : super(builder: (context) => VoucherDetailsPage(data: data));
-
-  // @override
-  // Widget buildTransitions(BuildContext context, Animation<double> animation,
-  //     Animation<double> secondaryAnimation, Widget child) {
-  //   return FadeTransition(opacity: animation, child: child);
-  // }
 }
 
 class VoucherDetailsPage extends StatefulWidget {
@@ -25,6 +24,24 @@ class VoucherDetailsPage extends StatefulWidget {
 
 class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   Color primaryColor;
+  EstablishmentFull _establishmentFull;
+  Voucher _voucher = new Voucher();
+  EstablishmentController _controller = new EstablishmentController();
+
+  @override
+  initState() {
+    super.initState();
+    _voucher = widget.data;
+
+    // _establishmentFull = new EstablishmentFull(
+    //   name: _voucher.establishment.data.attributes.name,
+    //   area: _voucher.establishment.data.attributes.area,
+    //   location: _voucher.establishment.data.attributes.location,
+    //   featuredImage: _voucher.establishment.data.attributes.featuredImage,
+    // );
+
+    fetchEstablishmentDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +51,17 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
-            buildSliverAppBar(context, widget.data),
-            buildSliverList(context, widget.data),
+            buildSliverAppBar(context, _voucher),
+            _establishmentFull == null
+                ? buildSliverListPlaceHolder(
+                    context,
+                    _voucher
+                  )
+                : buildSliverList(
+                    context,
+                    _voucher,
+                    _establishmentFull,
+                  ),
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(
@@ -72,5 +98,15 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
             ]);
       },
     );
+  }
+
+  void fetchEstablishmentDetails() async {
+    var est =
+        await _controller.getEstablishement(widget.data.establishment.data.id);
+    setState(() {
+      if (est != null) {
+        _establishmentFull = est;
+      }
+    });
   }
 }
