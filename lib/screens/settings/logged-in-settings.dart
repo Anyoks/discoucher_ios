@@ -77,23 +77,26 @@ Widget loggedInUserSettings(
           padding: EdgeInsets.symmetric(vertical: 15.0),
           child: Text("CONTACT-US", style: TextStyle(fontSize: 18.0))),
       buildSettingItem(
-          tapEvent: () {
-            controller.call(discoucherPhone1);
-          },
-          icon: Icons.phone,
-          displayText: discoucherPhone1),
+        tapEvent: () {
+          controller.call(discoucherPhone1);
+        },
+        icon: Icons.phone,
+        displayText: discoucherPhone1,
+      ),
       buildSettingItem(
-          tapEvent: () {
-            controller.email();
-          },
-          icon: Icons.email,
-          displayText: discoucherEmail),
+        tapEvent: () {
+          controller.email();
+        },
+        icon: Icons.email,
+        displayText: discoucherEmail,
+      ),
       buildSettingItem(
-          tapEvent: () {
-            controller.lauchSocial(SocialSite.Website);
-          },
-          icon: Icons.link,
-          displayText: discoucherWebsite)
+        tapEvent: () {
+          controller.lauchSocial(SocialSite.Website);
+        },
+        icon: Icons.link,
+        displayText: discoucherWebsite,
+      )
     ],
   );
 }

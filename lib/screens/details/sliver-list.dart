@@ -2,6 +2,7 @@ import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establishment-description.dart';
 import 'package:discoucher/screens/details/establishment-item.dart';
 import 'package:discoucher/screens/details/map.dart';
+import 'package:discoucher/screens/settings/logged-in-settings.dart';
 import 'package:flutter/material.dart';
 
 buildSliverList(BuildContext context, Voucher voucher) {
@@ -35,6 +36,29 @@ buildSliverList(BuildContext context, Voucher voucher) {
           Icons.location_on,
           voucher.establishment.data.attributes.location,
         ),
+
+      //   buildSettingItem(
+      //   tapEvent: () {
+      //     controller.call(discoucherPhone1);
+      //   },
+      //   icon: Icons.phone,
+      //   displayText: discoucherPhone1,
+      // ),
+      // buildSettingItem(
+      //   tapEvent: () {
+      //     controller.email();
+      //   },
+      //   icon: Icons.email,
+      //   displayText: discoucherEmail,
+      // ),
+      // buildSettingItem(
+      //   tapEvent: () {
+      //     controller.lauchSocial(SocialSite.Website);
+      //   },
+      //   icon: Icons.link,
+      //   displayText: discoucherWebsite,
+      // ),
+
         voucher.establishment.data.attributes.location != null
             ? MapWidget(voucher)
             : Container(),

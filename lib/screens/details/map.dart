@@ -102,14 +102,16 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   buildMarker(Location location) {
-    return Marker(
-      widget.voucher.establishment.data.id,
-      _est.name,
-      location.latitude,
-      location.longitude,
-      color: Colors.redAccent,
-      markerIcon: MarkerIcon("images/map-pointer.png"),
-    );
+    return location == null
+        ? null
+        : Marker(
+            widget.voucher.establishment.data.id,
+            _est.name,
+            location.latitude,
+            location.longitude,
+            color: Colors.redAccent,
+            markerIcon: MarkerIcon("images/map-pointer.png"),
+          );
   }
 
   Future<Location> getLocation() async {
