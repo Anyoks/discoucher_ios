@@ -1,4 +1,5 @@
 import 'package:discoucher/models/voucher.dart';
+import 'package:discoucher/screens/details/redeem-dialog.dart';
 import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,7 @@ buildCategoryListItem(BuildContext context, Voucher data) {
         Expanded(child: buildCategoryContent(context, data)),
         InkWell(
           onTap: () {
-
+            showRedeemDialog(context, data);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

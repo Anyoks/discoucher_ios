@@ -1,6 +1,7 @@
 import 'package:discoucher/contollers/establishment.dart';
 import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher.dart';
+import 'package:discoucher/screens/details/redeem-dialog.dart';
 import 'package:discoucher/screens/details/redeem.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
 import 'package:discoucher/screens/details/sliver-list-placeholder.dart';
@@ -55,33 +56,17 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
         floatingActionButton: FloatingActionButton.extended(
           tooltip: 'Redeem this offer',
           onPressed: () {
-            showRedeemDialog(context);
+            showRedeemDialog(context, widget.data);
           },
           label: const Text('Redeem'),
-          icon: Image.asset("images/process/scissors-white.png", height: 24.0,),
+          icon: Image.asset(
+            "images/process/scissors-white.png",
+            height: 24.0,
+          ),
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
         ),
       ),
-    );
-  }
-
-  showRedeemDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(content: RedeemPage(widget.data), actions: <Widget>[
-          new FlatButton(
-            child: Text(
-              "Done",
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ]);
-      },
     );
   }
 
