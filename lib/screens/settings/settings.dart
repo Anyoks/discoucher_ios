@@ -1,5 +1,8 @@
+import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/settings/anonymous-user-settings.dart';
 import 'package:discoucher/screens/settings/logged-in-settings.dart';
+import 'package:discoucher/screens/settings/logged-out-settings.dart';
+import 'package:discoucher/screens/settings/user-avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/constants/strings.dart';
@@ -41,10 +44,7 @@ class SettingsPage extends StatelessWidget {
                   if (snapshot.hasError)
                     return buildAnonymousSettings();
                   else
-                    return buildLoggedInUser(
-                        context: context,
-                        controller: controller,
-                        user: snapshot.data);
+                    return buildSettingsSections(context, snapshot.data);
               }
             },
           ),
@@ -56,5 +56,22 @@ class SettingsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  buildSettingsSections(BuildContext context, LoggedInUser user) {
+    if (user != null) {
+      return Column(
+        children: <Widget>[
+          buildUserAvatar(user),
+          loggedInUserSettings(context, controller, user),
+        ],
+      );
+    } else {
+      return Column(
+        children: <Widget>[
+          loggedOutUserSettings(context, controller, user),
+        ],
+      );
+    }
   }
 }

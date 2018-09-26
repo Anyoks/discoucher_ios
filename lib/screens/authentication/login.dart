@@ -6,6 +6,15 @@ import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
+class LogInPageRoute extends MaterialPageRoute {
+  bool fromSplashScreen;
+
+  LogInPageRoute({@required this.fromSplashScreen})
+      : super(
+          builder: (context) => LoginPage(fromSplashScreen: fromSplashScreen),
+        );
+}
+
 class LoginPage extends StatefulWidget {
   final key;
   final bool fromSplashScreen;
@@ -66,10 +75,10 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             if (widget.fromSplashScreen) {
               //TODO: Find a better way to do this, a safe way
-              exit(0);
-              // SystemNavigator.pop();
+              // exit(0);
+               SystemNavigator.pop();
             } else {
-              SystemChrome.setEnabledSystemUIOverlays([]);
+              // SystemChrome.setEnabledSystemUIOverlays([]);
               Navigator.pop(context);
             }
           },

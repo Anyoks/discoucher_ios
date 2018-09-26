@@ -25,6 +25,7 @@ class _TutorialPageState extends State<TutorialPage> {
 
   @override
   void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     super.dispose();
   }
 

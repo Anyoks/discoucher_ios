@@ -3,6 +3,7 @@ import 'package:discoucher/constants/enums.dart';
 import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/screens/settings/logged-in-settings.dart';
+import 'package:discoucher/screens/settings/setting-item.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';
 import 'package:discoucher/screens/shared/styled-texts.dart';
