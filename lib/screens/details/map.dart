@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:discoucher/constants/api-key.dart';
 import 'package:discoucher/models/establishment-full.dart';
-import 'package:discoucher/models/voucher-establishment.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/utils/composite-subscription.dart';
 import 'package:discoucher/utils/google-places.dart';
@@ -27,6 +26,10 @@ class _MapWidgetState extends State<MapWidget> {
   int _mapHeight = 400;
   int _mapWidth = 900;
 
+  /// 1. Get location
+  /// 2. Iff successful, load map
+  /// 3. If null, don't load map
+
   Location _location;
   Marker _marker;
   Uri staticMapUri;
@@ -48,50 +51,50 @@ class _MapWidgetState extends State<MapWidget> {
   initializeMap() async {
     _est = widget.establishment;
     _address = "${_est.name}, ${_est.area}, ${_est.location}, ${_est.address}";
-    _location = await getLocation();
 
-    if (_location != null) {
-      cameraPosition = CameraPosition(_location, 2.0);
-      _marker = await buildMarker(_location);
+    getLocation().then((loc) async {
+      if (loc != null) {
+        _marker = buildMarker(loc);
 
-      staticMapUri = buildStaticMapUri();
-    }
+        print(loc);
+
+        cameraPosition = CameraPosition(loc, 2.0);
+        staticMapUri = buildStaticMapUri();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     staticMapUri = buildStaticMapUri();
-
-    return Container(
-      height: 250.0,
-      child: Stack(
-        children: <Widget>[
-          InkWell(
-            child: Center(
-              child: FadeInImage.assetNetwork(
-                placeholder: 'images/loading.gif',
-                image: staticMapUri.toString(),
-              ),
-              // child: Image.network(
-              //   staticMapUri.toString(),
-              // ),
+    return staticMapUri == null
+        ? Container()
+        : Container(
+            // height: 250.0,
+            child: Stack(
+              children: <Widget>[
+                InkWell(
+                  child: Center(
+                    child: Image.network(staticMapUri.toString()),
+                  ),
+                  onTap: showMap,
+                )
+              ],
             ),
-            onTap: showMap,
-          )
-        ],
-      ),
-    );
+          );
   }
 
   Uri buildStaticMapUri() {
-    return staticMapProvider.getStaticUriWithMarkersAndZoom(
-      [_marker],
-      center: _location,
-      zoomLevel: _zoomLevel,
-      width: _mapWidth,
-      height: _mapHeight,
-      maptype: StaticMapViewType.roadmap,
-    );
+    return _location == null
+        ? null
+        : staticMapProvider.getStaticUriWithMarkersAndZoom(
+            [_marker],
+            center: _location,
+            zoomLevel: _zoomLevel,
+            width: _mapWidth,
+            height: _mapHeight,
+            maptype: StaticMapViewType.roadmap,
+          );
   }
 
   buildMarker(Location location) {
@@ -112,12 +115,19 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   Future<Location> getLocation() async {
-    places.Location latLon = await googlePlaces.getLocation(_address);
-    if (latLon == null) {
+    try {
+      places.Location latLon = await googlePlaces.getLocation(_address);
+      Location loc = latLon == null ? null : Location(latLon.lat, latLon.lng);
+
+      if (this.mounted) {
+        setState(() {
+          _location = loc;
+        });
+      }
+      return loc;
+    } catch (e) {
       return null;
     }
-    Location location = Location(latLon.lat, latLon.lng);
-    return location;
   }
 
   showMap() async {
@@ -147,7 +157,9 @@ class _MapWidgetState extends State<MapWidget> {
     compositeSubscription.add(sub);
 
     sub = mapView.onCameraChanged.listen((cameraPosition) {
-      this.setState(() => this.cameraPosition = cameraPosition);
+      if (this.mounted) {
+        this.setState(() => this.cameraPosition = cameraPosition);
+      }
     });
     compositeSubscription.add(sub);
 
@@ -190,11 +202,11 @@ class _MapWidgetState extends State<MapWidget> {
       height: _mapHeight,
       maptype: StaticMapViewType.roadmap,
     );
-
-    setState(() {
-      staticMapUri = uri;
-    });
-
+    if (this.mounted) {
+      setState(() {
+        staticMapUri = uri;
+      });
+    }
     mapView.dismiss();
     compositeSubscription.cancel();
   }

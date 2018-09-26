@@ -53,10 +53,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
           slivers: <Widget>[
             buildSliverAppBar(context, _voucher),
             _establishmentFull == null
-                ? buildSliverListPlaceHolder(
-                    context,
-                    _voucher
-                  )
+                ? buildSliverListPlaceHolder(context, _voucher)
                 : buildSliverList(
                     context,
                     _voucher,
@@ -103,10 +100,12 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   void fetchEstablishmentDetails() async {
     var est =
         await _controller.getEstablishement(widget.data.establishment.data.id);
-    setState(() {
-      if (est != null) {
-        _establishmentFull = est;
-      }
-    });
+    if (this.mounted) {
+      setState(() {
+        if (est != null) {
+          _establishmentFull = est;
+        }
+      });
+    }
   }
 }

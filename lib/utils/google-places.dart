@@ -10,24 +10,21 @@ class GooglePlaces {
   final _places = new GoogleMapsPlaces(APIKEY);
 
   Future<Location> getLocation(String address) async {
-    String _address = address.contains("kenya") ? address : "$address, Kenya";
-    GeocodingResponse response = await _geocoding.searchByAddress(_address);
+    try {
+      String _address = address.contains("kenya") ? address : "$address, Kenya";
+      GeocodingResponse response = await _geocoding.searchByAddress(_address);
+      Location latLon = response.results.first.geometry.location;
 
-    Location latLon = response.results.first.geometry.location;
-    return latLon;
+      return latLon;
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<PlacesSearchResult> getPlace(String address) async {
     try {
       PlacesSearchResponse reponse = await _places.searchByText(address);
-
-      if (reponse.hasNoResults) {
-        return null;
-      }
-
-      var results = reponse.results.first;
-
-      return results;
+      return reponse.hasNoResults ? null : reponse.results.first;
     } catch (e) {
       return null;
     }

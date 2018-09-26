@@ -12,7 +12,8 @@ buildEstablishmentContact(
   return displayText.length < 1
       ? Container()
       : GestureDetector(
-          onTap: tapEvent,
+          // onTap: tapEvent
+          onTap: () {},
           child: buildEstablishmentItem(icon, displayText),
         );
 
