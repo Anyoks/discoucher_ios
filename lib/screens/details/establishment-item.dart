@@ -16,12 +16,14 @@ buildEstablishmentItem(IconData icon, String title) {
                 SizedBox(width: 15.0),
                 Icon(icon, color: Colors.green[900]),
                 SizedBox(width: 15.0),
-                Text(
-                  title.trim(),
-                  style: TextStyle(color: xSubtitileColor),
-                  overflow: TextOverflow.ellipsis,
+                Flexible(
+                  child: Text(
+                    title.trim(),
+                    style: TextStyle(color: xSubtitileColor),
+                  ),
+                  fit: FlexFit.tight,
                 ),
-                SizedBox(width: 15.0)
+                SizedBox(width: 15.0),
               ],
             ),
             SizedBox(width: 10.0),

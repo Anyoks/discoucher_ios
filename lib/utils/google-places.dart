@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:discoucher/constants/api-key.dart';
-import 'package:discoucher/utils/device-location.dart';
 import "package:google_maps_webservice/geocoding.dart";
 import 'package:google_maps_webservice/places.dart';
 

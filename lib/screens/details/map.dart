@@ -55,9 +55,6 @@ class _MapWidgetState extends State<MapWidget> {
     getLocation().then((loc) async {
       if (loc != null) {
         _marker = buildMarker(loc);
-
-        print(loc);
-
         cameraPosition = CameraPosition(loc, 2.0);
         staticMapUri = buildStaticMapUri();
       }
@@ -102,14 +99,14 @@ class _MapWidgetState extends State<MapWidget> {
         ? null
         : Marker(
             widget.voucher.establishment.data.id,
-            _est.name,
+            "${_est.name}",
             location.latitude,
             location.longitude,
             color: Colors.redAccent,
             markerIcon: MarkerIcon(
               "images/map-pointer.png",
-              width: 120.0,
-              height: 120.0,
+              width: 150.0,
+              height: 150.0,
             ),
           );
   }
