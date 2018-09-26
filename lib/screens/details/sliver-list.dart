@@ -24,7 +24,7 @@ buildSliverList(
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 15.0),
               child: Text(
-                voucher.description.toUpperCase(),
+                voucher.description.replaceAll("\n", " ").toUpperCase(),
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
                 textAlign: TextAlign.left,
               ),
@@ -58,7 +58,7 @@ buildSliverList(
         ),
         buildEstablishmentDescription(establishment),
         MapWidget(voucher, establishment),
-        SizedBox(height: 80.0),
+        SizedBox(height: 40.0),
       ],
     ),
   );

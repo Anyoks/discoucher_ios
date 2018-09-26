@@ -18,11 +18,12 @@ Future openSearch(BuildContext context) async {
   }
 }
 
-buildCategorySliverAppBar(
-    {BuildContext context,
-    String type,
-    Function showFiltersFn,
-    Function triggerSearchFn}) {
+buildCategorySliverAppBar({
+  BuildContext context,
+  String type,
+  Function showFiltersFn,
+  Function triggerSearchFn,
+}) {
   String img = "images/establishments/mister.jpg";
   switch (type) {
     case "Restaurants":
@@ -42,7 +43,7 @@ buildCategorySliverAppBar(
     centerTitle: true,
     pinned: true,
     primary: true,
-    expandedHeight: 200.0,
+    expandedHeight: 120.0,
     leading: IconButton(
       onPressed: () {
         Navigator.pop(context);

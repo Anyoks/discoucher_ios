@@ -30,7 +30,6 @@ class _CategoryPageState extends State<CategoryPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          // buildCategorySliverAppBar(context:context,  widget.type, openFilters),
           buildCategorySliverAppBar(
               context: context, type: widget.type, showFiltersFn: openFilters, triggerSearchFn: showSearch),
           buildCategorySliverList(widget.category),

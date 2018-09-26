@@ -12,7 +12,9 @@ buildCategorySliverList(List<Voucher> vouchers) {
     itemExtent: 135.0,
     delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) {
-        var data = vouchers[index];
+        Voucher data = vouchers[index];
+        data.description = data.description.replaceAll("\n", " ");
+
         return Center(
           child: GestureDetector(
             onTap: () {
@@ -29,10 +31,11 @@ buildCategorySliverList(List<Voucher> vouchers) {
 
 buildCategoryListItem(BuildContext context, Voucher data) {
   return Container(
+    padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+    margin: EdgeInsets.symmetric(vertical: 5.0),
     decoration: BoxDecoration(
       color: Colors.white,
       shape: BoxShape.rectangle,
-      // borderRadius: BorderRadius.circular(8.0),
       boxShadow: <BoxShadow>[
         BoxShadow(
           color: Colors.black12,
@@ -41,13 +44,9 @@ buildCategoryListItem(BuildContext context, Voucher data) {
         ),
       ],
     ),
-    // height: xHeight,
-    padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-    margin: EdgeInsets.symmetric(vertical: 5.0),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        //buildSectonContent(data),
         Container(
           height: 120.0,
           width: 130.0,
@@ -61,29 +60,29 @@ buildCategoryListItem(BuildContext context, Voucher data) {
             ),
           ),
         ),
-        SizedBox(width: 7.0),
-        Flexible(
-            fit: FlexFit.loose, child: buildCategoryContent(context, data)),
-        // Container(
-        //   // color: Colors.red,
-        //   child: Column(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //     children: <Widget>[
-        //       Icon(Icons.next_week, color: Theme.of(context).primaryColor),
-        //       SizedBox(height: 19.0),
-        //       Text(
-        //         "Redeem",
-        //         overflow: TextOverflow.ellipsis,
-        //         maxLines: 1,
-        //         style: TextStyle(
-        //             color: Theme.of(context).primaryColor,
-        //             fontSize: 18.0,
-        //             fontWeight: FontWeight.w500),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+        SizedBox(width: 5.0),
+        Expanded(child: buildCategoryContent(context, data)),
+        InkWell(
+          onTap: () {
+
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.asset("images/process/redeem.png", height: 25.0),
+              SizedBox(height: 19.0),
+              Text(
+                "Redeem",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     ),
   );
@@ -91,8 +90,9 @@ buildCategoryListItem(BuildContext context, Voucher data) {
 
 buildCategoryContent(BuildContext context, Voucher data) {
   return Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.stretch,
+    mainAxisSize: MainAxisSize.max,
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       Text(
         data.establishment.data.attributes.name,
@@ -120,51 +120,15 @@ buildCategoryContent(BuildContext context, Voucher data) {
                 style: TextStyle(color: Colors.black, fontSize: 11.0),
               ),
             ),
-            SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.calendar_today,
-                  size: 16.0,
-                  color: xlighterTextColor,
-                ),
-                SizedBox(width: 5.0),
-                Container(
-                    width: xBottomTextBoxWidth,
-                    child: Text(data.condition != null ? data.condition : "",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            color: xlighterTextColor, fontSize: 11.0))),
-              ],
+            SizedBox(height: 5.0),
+            buildDetailItem(
+              Icons.location_on,
+              data.establishment.data.attributes.location,
             ),
             SizedBox(height: 5.0),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.location_on,
-                    size: 16.0,
-                    color: xlighterTextColor,
-                  ),
-                  SizedBox(width: 5.0),
-                  Container(
-                    width: xBottomTextBoxWidth,
-                    child: Text(
-                        data.establishment.data.attributes.location != null
-                            ? data.establishment.data.attributes.location
-                            : "",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            color: xlighterTextColor, fontSize: 11.0)),
-                  ),
-                ],
-              ),
+            buildDetailItem(
+              Icons.calendar_today,
+              data.condition,
             ),
           ],
         ),
@@ -173,36 +137,29 @@ buildCategoryContent(BuildContext context, Voucher data) {
   );
 }
 
-buildSectonContent(Voucher data) {
-  final double xInnerHeight = 150.0;
-  return Container(
-    height: xInnerHeight,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      shape: BoxShape.rectangle,
-      image: DecorationImage(
-        fit: BoxFit.cover,
-        image: buildItemImage(data.establishment.data.attributes.featuredImage),
-      ),
-    ),
-    child: Container(
-      foregroundDecoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        shape: BoxShape.rectangle,
-      ),
-      child: Container(
-        alignment: Alignment(0.0, 1.0),
-        constraints: BoxConstraints.expand(height: 44.0),
-        padding: EdgeInsets.all(4.0),
-        child: Text(
-          data.establishment.data.attributes.name,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-              color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ),
-  );
+buildDetailItem(IconData icon, String item) {
+  return item == null
+      ? Container()
+      : Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(icon, size: 16.0, color: xlighterTextColor),
+              SizedBox(width: 5.0),
+              Container(
+                width: xBottomTextBoxWidth,
+                child: Text(
+                  item,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: xlighterTextColor,
+                    fontSize: 11.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
 }

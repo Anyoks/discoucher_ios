@@ -31,13 +31,6 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     super.initState();
     _voucher = widget.data;
 
-    // _establishmentFull = new EstablishmentFull(
-    //   name: _voucher.establishment.data.attributes.name,
-    //   area: _voucher.establishment.data.attributes.area,
-    //   location: _voucher.establishment.data.attributes.location,
-    //   featuredImage: _voucher.establishment.data.attributes.featuredImage,
-    // );
-
     fetchEstablishmentDetails();
   }
 
@@ -65,8 +58,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
             showRedeemDialog(context);
           },
           label: const Text('Redeem'),
-          icon: const Icon(Icons.check),
-          // icon: svgIcon("images/svg/scissors.svg"),
+          icon: Image.asset("images/process/scissors-white.png", height: 24.0,),
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
         ),
@@ -78,19 +70,17 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-            content: RedeemPage(widget.data),
-            actions: <Widget>[
-              new FlatButton(
-                child: Text(
-                  "Done",
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ]);
+        return AlertDialog(content: RedeemPage(widget.data), actions: <Widget>[
+          new FlatButton(
+            child: Text(
+              "Done",
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ]);
       },
     );
   }
@@ -98,6 +88,8 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   void fetchEstablishmentDetails() async {
     var est =
         await _controller.getEstablishement(widget.data.establishment.data.id);
+    est.description = est.description.replaceAll("\n", " ");
+    est.address = est.address.replaceAll("\n", " ");
     if (this.mounted) {
       setState(() {
         if (est != null) {
