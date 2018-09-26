@@ -6,8 +6,9 @@ buildEstablishmentItem(IconData icon, String title) {
     title = "";
   }
 
-  return title.length > 0
-      ? Column(
+  return title.length < 1
+      ? Container()
+      : Column(
           children: <Widget>[
             SizedBox(width: 10.0),
             Row(
@@ -26,6 +27,5 @@ buildEstablishmentItem(IconData icon, String title) {
             SizedBox(width: 10.0),
             Divider(color: Colors.green),
           ],
-        )
-      : Container();
+        );
 }

@@ -36,7 +36,7 @@ buildSliverList(BuildContext context, Voucher voucher) {
           voucher.establishment.data.attributes.location,
         ),
         voucher.establishment.data.attributes.location != null
-            ? MapWidget(voucher.establishment.data.attributes)
+            ? MapWidget(voucher)
             : Container(),
         SizedBox(height: 80.0),
       ],

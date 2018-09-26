@@ -8,11 +8,11 @@ class VoucherDetailsPageRoute extends MaterialPageRoute {
   VoucherDetailsPageRoute(Voucher data)
       : super(builder: (context) => VoucherDetailsPage(data: data));
 
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return FadeTransition(opacity: animation, child: child);
-  }
+  // @override
+  // Widget buildTransitions(BuildContext context, Animation<double> animation,
+  //     Animation<double> secondaryAnimation, Widget child) {
+  //   return FadeTransition(opacity: animation, child: child);
+  // }
 }
 
 class VoucherDetailsPage extends StatefulWidget {

@@ -9,37 +9,27 @@ class GooglePlaces {
   final _geocoding = new GoogleMapsGeocoding(APIKEY);
   final _places = new GoogleMapsPlaces(APIKEY);
 
-// final geocoding2 = new GoogleMapsGeocoding(APIKEY, new BrowserClient());
+  Future<Location> getLocation(String address) async {
+    String _address = address.contains("kenya") ? address : "$address, Kenya";
+    GeocodingResponse response = await _geocoding.searchByAddress(_address);
 
-  Future<GeocodingResult> geocodeAddress(String address) async {
-    GeocodingResponse response =
-        await _geocoding.searchByAddress(address + ", Kenya");
-
-    print("---------------------------------------------");
-
-    print(response.results.first.formattedAddress);
-    print(response.status);
-    print(response.errorMessage);
-
-    return response.results.first;
+    Location latLon = response.results.first.geometry.location;
+    return latLon;
   }
 
-  Future<PlacesDetailsResponse> getPlace(String address) async {
-    var place = DeviceLocation.location.then((location) {
-// PlacesSearchResponse reponse = await places.searchNearbyWithRadius(new Location(31.0424, 42.421), 500);
-// PlacesSearchResponse reponse = await places.searchNearbyWithRankby(new Location(31.0424, 42.421), "distance");
-// PlacesSearchResponse reponse = await places.searchByText("123 Main Street");
+  Future<PlacesSearchResult> getPlace(String address) async {
+    try {
+      PlacesSearchResponse reponse = await _places.searchByText(address);
 
-// PlacesDetailsResponse response = await places.getDetailsByPlaceId("PLACE_ID");
-// PlacesDetailsResponse response = await places.getDetailsByReference("REF");
+      if (reponse.hasNoResults) {
+        return null;
+      }
 
-      print(location);
-      return location;
-    });
-    print("PLACE---------------------------------------------");
+      var results = reponse.results.first;
 
-    print(place);
-
-    return null;
+      return results;
+    } catch (e) {
+      return null;
+    }
   }
 }
