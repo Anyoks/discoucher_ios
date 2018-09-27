@@ -1,4 +1,5 @@
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
+import 'package:discoucher/models/carousel-content.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
 import 'package:discoucher/screens/home/entry.dart';
 import 'package:discoucher/screens/routes.dart';
@@ -187,14 +188,4 @@ class _TutorialPageState extends State<TutorialPage> {
       ),
     );
   }
-}
-
-class CarouselContent {
-  final String imagePath;
-  final String title;
-  final String description;
-
-  CarouselContent({this.imagePath, this.title, this.description});
-
-  // CarouselContent.getContent()
 }

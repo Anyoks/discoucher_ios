@@ -1,4 +1,3 @@
-import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/establishment-item.dart';
 import 'package:flutter/material.dart';

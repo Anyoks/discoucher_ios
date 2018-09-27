@@ -1,4 +1,3 @@
-import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/establishment-full.dart';

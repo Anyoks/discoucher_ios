@@ -43,7 +43,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
-            buildSliverAppBar(context, _voucher),
+            buildSliverAppBar(context, _voucher, _establishmentFull ),
             _establishmentFull == null
                 ? buildSliverListPlaceHolder(context, _voucher)
                 : buildSliverList(
