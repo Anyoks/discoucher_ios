@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 
 Widget loggedOutUserSettings(
-    BuildContext context, SettingsController controller, LoggedInUser user) {
+    BuildContext context, SettingsController controller) {
   return Column(
     children: <Widget>[
       SizedBox(height: 20.0),
@@ -26,7 +26,7 @@ Widget loggedOutUserSettings(
       buildSettingItem(
           tapEvent: () {
             Navigator.push(
-                context, DiscoucherProcessRoute(user: user, ctrl: controller));
+                context, DiscoucherProcessRoute(user: null, ctrl: controller));
           },
           icon: Icons.help,
           displayText: "Discoucher process"),

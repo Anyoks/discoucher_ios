@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:discoucher/models/shared.dart';
-import 'package:discoucher/screens/settings/anonymous-user-settings.dart';
 import 'package:discoucher/screens/settings/logged-in-settings.dart';
 import 'package:discoucher/screens/settings/logged-out-settings.dart';
 import 'package:discoucher/screens/settings/user-avatar.dart';
@@ -9,9 +10,22 @@ import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/screens/settings/bottom-sections.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   static SharedPrefefencedController _prefs = new SharedPrefefencedController();
   final SettingsController controller = new SettingsController(prefs: _prefs);
+  Future<LoggedInUser> loggedInUser;
+
+  @override
+  initState() {
+    super.initState();
+
+    loggedInUser = controller.checkLoggedIn();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +44,18 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           FutureBuilder(
-            future: controller.checkLoggedIn(),
+            future: loggedInUser,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
-                  return Text("Nothing to show :(");
+                  return loggedOutUserSettings(context, controller);
                 case ConnectionState.waiting:
                   return Container(
                       child: Center(
                     child: CircularProgressIndicator(),
                   ));
                 default:
-                  if (snapshot.hasError)
-                    return buildAnonymousSettings();
-                  else
-                    return buildSettingsSections(context, snapshot.data);
+                  return buildSettingsSections(context, snapshot.data);
               }
             },
           ),
@@ -63,15 +74,24 @@ class SettingsPage extends StatelessWidget {
       return Column(
         children: <Widget>[
           buildUserAvatar(user),
-          loggedInUserSettings(context, controller, user),
+          loggedInUserSettings(
+            context,
+            controller,
+            user,
+            () => logOut(),
+          ),
         ],
       );
     } else {
-      return Column(
-        children: <Widget>[
-          loggedOutUserSettings(context, controller, user),
-        ],
-      );
+      return loggedOutUserSettings(context, controller);
+    }
+  }
+
+  logOut() {
+    if (this.mounted) {
+      setState(() {
+        loggedInUser = null;
+      });
     }
   }
 }

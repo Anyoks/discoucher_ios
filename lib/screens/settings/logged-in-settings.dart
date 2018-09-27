@@ -16,13 +16,17 @@ openProfilePage(BuildContext context, LoggedInUser user) {
   }));
 }
 
-Widget buildLoggedInUser(
-    {BuildContext context, SettingsController controller, LoggedInUser user}) {
+Widget buildLoggedInUser({
+  BuildContext context,
+  SettingsController controller,
+  LoggedInUser user,
+  Function logOut,
+}) {
   if (user != null) {
     return Column(
       children: <Widget>[
         buildUserAvatar(user),
-        loggedInUserSettings(context, controller, user),
+        loggedInUserSettings(context, controller, user, logOut),
       ],
     );
   } else {
@@ -32,7 +36,11 @@ Widget buildLoggedInUser(
 }
 
 Widget loggedInUserSettings(
-    BuildContext context, SettingsController controller, LoggedInUser user) {
+  BuildContext context,
+  SettingsController controller,
+  LoggedInUser user,
+  Function logOut,
+) {
   return Column(
     children: <Widget>[
       buildSettingItem(
@@ -68,7 +76,7 @@ Widget loggedInUserSettings(
           displayText: "About Discoucher"),
       buildSettingItem(
           tapEvent: () {
-            controller.logOut();
+            controller.logOut().then((onValue) => logOut());
           },
           icon: Icons.exit_to_app,
           displayText: "Log out"),
