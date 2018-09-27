@@ -1,7 +1,7 @@
 class Endpoint {
   static String baseUrl = "http://159.89.103.53/api/v1";
 
-  static String login = "$baseUrl/auth/sign_in";
+  static String signIn = "$baseUrl/auth/sign_in";
   static String signUp = "$baseUrl/auth"; //POST
   static String updateProfile = "$baseUrl/auth"; //PATCH
 

@@ -7,6 +7,7 @@ import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/settings/user-avatar.dart';
 import 'package:discoucher/contollers/profile-controller.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
+import 'package:discoucher/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,6 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final TextEditingController _dateController = TextEditingController();
+  final Validators _validators = Validators();
+
   final int maxTexInput = 40;
 
   User user = new User();
@@ -43,8 +46,8 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
 
     user.id = widget.currentUser.id;
-    user.first_name = widget.currentUser.fullName.split(" ")[0];
-    user.last_name = widget.currentUser.fullName.split(" ")[1];
+    user.firstName = widget.currentUser.fullName.split(" ")[0];
+    user.lastName = widget.currentUser.fullName.split(" ")[1];
     user.email = widget.currentUser.email;
     user.dob = DateTime.now();
   }
@@ -85,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
-        tooltip: 'Select search filters',
+        tooltip: 'Save Profile details',
         onPressed: () {
           _submit();
         },
@@ -131,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   _buildFirstName() {
     return TextFormField(
-      initialValue: user.first_name,
+      initialValue: user.firstName,
       autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       decoration: const InputDecoration(
@@ -139,13 +142,13 @@ class _ProfilePageState extends State<ProfilePage> {
           hintText: 'Enter your first and last name',
           labelText: 'First Name'),
       validator: (val) => val.isEmpty ? 'First name is required' : null,
-      onSaved: (val) => user.first_name = val,
+      onSaved: (val) => user.firstName = val,
     );
   }
 
   _buildLastName() {
     return TextFormField(
-      initialValue: user.last_name,
+      initialValue: user.lastName,
       autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       decoration: const InputDecoration(
@@ -153,7 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
           hintText: 'Enter last name',
           labelText: 'Last Name'),
       validator: (val) => val.isEmpty ? 'Last name is required' : null,
-      onSaved: (val) => user.last_name = val,
+      onSaved: (val) => user.lastName = val,
     );
   }
 
@@ -169,10 +172,10 @@ class _ProfilePageState extends State<ProfilePage> {
             labelText: 'Date of birth',
           ),
           keyboardType: TextInputType.datetime,
-          validator: (val) => (_controller.isValidDob(val) || val.length < 1)
+          validator: (val) => (_validators.isValidDob(val) || val.length < 1)
               ? null
               : 'Not a valid date',
-          onSaved: (val) => user.dob = _controller.convertToDate(val),
+          onSaved: (val) => user.dob = _validators.convertToDate(val),
         ),
       ),
       new IconButton(
@@ -194,16 +197,16 @@ class _ProfilePageState extends State<ProfilePage> {
           hintText: 'Enter your email address',
           labelText: 'Email address'),
       keyboardType: TextInputType.emailAddress,
-      validator: (value) => _controller.isValidEmail(value)
+      validator: (value) => _validators.isValidEmail(value)
           ? null
           : 'Please enter a valid email address',
-      onSaved: (val) => user.first_name = val,
+      onSaved: (val) => user.firstName = val,
     );
   }
 
   _buildPhone() {
     return TextFormField(
-      initialValue: user.phone_number,
+      initialValue: user.phoneNumber,
       autovalidate: true,
       decoration: const InputDecoration(
           icon: const Icon(Icons.phone, color: xDiscoucherGreen),
@@ -218,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future _chooseDate(BuildContext context, String initialDateString) async {
     var now = new DateTime.now();
-    var initialDate = _controller.convertToDate(initialDateString) ?? now;
+    var initialDate = _validators.convertToDate(initialDateString) ?? now;
     initialDate = (initialDate.year >= 1900 && initialDate.isBefore(now)
         ? initialDate
         : now);
@@ -232,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (result == null) return;
 
     setState(() {
-      _dateController.text = _controller.fomatDate(result);
+      _dateController.text = _validators.fomatDate(result);
     });
   }
 

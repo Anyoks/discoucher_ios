@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:discoucher/constants/strings.dart';
 
+class HomePageRoute extends MaterialPageRoute {
+  HomePageRoute() : super(builder: (context) => HomePage());
+}
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
