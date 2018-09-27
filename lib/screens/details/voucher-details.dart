@@ -2,7 +2,6 @@ import 'package:discoucher/contollers/establishment.dart';
 import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/redeem-dialog.dart';
-import 'package:discoucher/screens/details/redeem.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
 import 'package:discoucher/screens/details/sliver-list-placeholder.dart';
 import 'package:discoucher/screens/details/sliver-list.dart';
@@ -11,6 +10,12 @@ import 'package:flutter/material.dart';
 class VoucherDetailsPageRoute extends MaterialPageRoute {
   VoucherDetailsPageRoute(Voucher data)
       : super(builder: (context) => VoucherDetailsPage(data: data));
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(opacity: animation, child: child);
+  }
 }
 
 class VoucherDetailsPage extends StatefulWidget {

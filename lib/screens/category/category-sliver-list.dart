@@ -113,12 +113,15 @@ buildCategoryContent(BuildContext context, Voucher data) {
           children: <Widget>[
             Hero(
               tag: data.heroId,
-              child: Text(
-                data.description,
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 3,
-                style: TextStyle(color: Colors.black, fontSize: 11.0),
+              child: Material(
+                type: MaterialType.transparency,
+                child: Text(
+                  data.description,
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: TextStyle(color: Colors.black, fontSize: 11.0),
+                ),
               ),
             ),
             SizedBox(height: 5.0),

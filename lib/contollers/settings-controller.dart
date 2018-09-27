@@ -7,7 +7,7 @@ import 'package:discoucher/constants/enums.dart';
 import 'package:discoucher/constants/strings.dart';
 
 class SettingsController {
-  final SharedPrefefencedController prefs;
+  final SharedPreferencesController prefs;
 
   SettingsController({@required this.prefs});
 

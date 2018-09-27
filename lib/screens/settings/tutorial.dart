@@ -13,7 +13,7 @@ class TutorialPage extends StatefulWidget {
 }
 
 class _TutorialPageState extends State<TutorialPage> {
-  SharedPrefefencedController prefs = new SharedPrefefencedController();
+  SharedPreferencesController prefs = new SharedPreferencesController();
   DiscoucherRoutes routes = DiscoucherRoutes();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

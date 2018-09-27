@@ -8,20 +8,19 @@ import 'package:discoucher/models/user.dart';
 class AuthController extends BaseController {
   Future<User> login(String email, String password) async {
     try {
-      Map<String, String> credentials = {
+      Map<String, String> payload = {
         "email": "$email",
         "password": "$password"
       };
 
-      final payload = json.encode(credentials);
-
       final response = await httpController.post(
-        endPoint: Uri.encodeFull(Endpoint.signIn),
+        endPoint: Endpoint.signIn,
         headers: anonymousHeaders,
         payload: payload,
       );
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
+
       final Map<String, dynamic> data = parsedJson['data'];
       final Map<String, dynamic> userObj = data['user'];
 

@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<LoggedInUser> checkLoggedIn() async {
-    final SharedPrefefencedController prefs = new SharedPrefefencedController();
+    final SharedPreferencesController prefs = new SharedPreferencesController();
     return await prefs.fetchLoggedInUser();
   }
 

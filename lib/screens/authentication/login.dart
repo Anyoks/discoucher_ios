@@ -34,10 +34,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  SharedPrefefencedController prefs = new SharedPrefefencedController();
-  DiscoucherRoutes routes = DiscoucherRoutes();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
+  SharedPreferencesController prefs = new SharedPreferencesController();
+  final DiscoucherRoutes routes = DiscoucherRoutes();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final AuthController _controller = new AuthController();
   final Validators _validators = Validators();
 

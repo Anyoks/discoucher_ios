@@ -12,7 +12,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class SocialLoginButtons extends StatelessWidget {
   SocialLoginButtons(this._routes, this._scaffoldKey, this._prefs);
 
-  final SharedPrefefencedController _prefs;
+  final SharedPreferencesController _prefs;
   final DiscoucherRoutes _routes;
   final GlobalKey<ScaffoldState> _scaffoldKey;
   final FacebookLoginController fb = new FacebookLoginController();

@@ -8,7 +8,7 @@ import 'package:discoucher/screens/details/establishment-item.dart';
 import 'package:discoucher/screens/details/map.dart';
 import 'package:flutter/material.dart';
 
-SharedPrefefencedController _prefs = new SharedPrefefencedController();
+SharedPreferencesController _prefs = new SharedPreferencesController();
 final SettingsController controller = new SettingsController(prefs: _prefs);
 
 buildSliverList(

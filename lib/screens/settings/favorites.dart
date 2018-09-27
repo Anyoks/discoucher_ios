@@ -5,12 +5,6 @@ import 'package:flutter/material.dart';
 
 class FavoritesRoute extends MaterialPageRoute {
   FavoritesRoute() : super(builder: (context) => Favorites());
-
-  // @override
-  // Widget buildTransitions(BuildContext context, Animation<double> animation,
-  //     Animation<double> secondaryAnimation, Widget child) {
-  //   return FadeTransition(opacity: animation, child: child);
-  // }
 }
 
 class Favorites extends StatelessWidget {

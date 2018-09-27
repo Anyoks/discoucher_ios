@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 buildSectionContent(Voucher data) {
   final double xHeight = 120.0;
-  final double xWidth = 159.0; 
+  final double xWidth = 159.0;
   return Container(
     height: xHeight,
     width: xWidth,
@@ -44,6 +44,7 @@ buildSectionContent(Voucher data) {
 }
 
 buildGenericListItem(BuildContext context, Voucher data) {
+  data.description = data.description.trim().replaceAll("\n", " ");
   return Container(
     width: 160.0,
     margin: EdgeInsets.only(right: 10.0),
@@ -52,19 +53,19 @@ buildGenericListItem(BuildContext context, Voucher data) {
         Navigator.push(context, VoucherDetailsPageRoute(data));
       },
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           buildSectionContent(data),
           SizedBox(height: 7.0),
-          Expanded(
-            child: Hero(
-              tag: data.heroId,
-              child: Text(
-                data.description,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: TextStyle(color: Colors.black, fontSize: 11.0),
-                textAlign: TextAlign.center,
-              ),
+          Hero(
+            tag: data.heroId,
+            child: Text(
+              data.description,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(color: Colors.black, fontSize: 11.0),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
