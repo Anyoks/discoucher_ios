@@ -1,35 +1,44 @@
+import 'dart:async';
+import 'dart:convert';
 
-// import 'dart:async';
+import 'package:discoucher/constants/endpoints.dart';
+import 'package:discoucher/contollers/base-controller.dart';
+import 'package:discoucher/models/voucher.dart';
 
-// import 'package:discoucher/contollers/base-controller.dart';
+class FavoritesController extends BaseController {
+  Future<List<Voucher>> getFavorites() async {
+    try {
+      final response = await httpController.fetch(
+        endPoint: Uri.encodeFull(Endpoint.favorites),
+        headers: headers,
+      );
 
-// class FavoritesController extends BaseController{
-// Future<Favorite> signUp(Favorite _user) async {
-//     try {
-//       final newUser = {
-//         "email": "${_user.email}",
-//         "password": "${_user.password}",
-//         "password_confirmation": "${_user.passwordConfirmation}",
-//         "first_name": "${_user.firstName}",
-//         "last_name": "${_user.lastName}",
-//         "phone_number": "${_user.phoneNumber}"
-//       };
-//       final payload = json.encode(newUser);
+      final Map<String, dynamic> parsedJson = json.decode(response.body);
+      final List<dynamic> data = parsedJson['data'];
 
-//       final response = await httpController.post(
-//         endPoint: Uri.encodeFull(Endpoint.signIn),
-//         headers: anonymousHeaders,
-//         payload: payload,
-//       );
+      var vouchers =
+          data.map<Voucher>((item) => Voucher.fromJson(item)).toList();
 
-//       final Map<String, dynamic> parsedJson = json.decode(response.body);
-//       final Map<String, dynamic> data = parsedJson['data'];
-//       final Map<String, dynamic> userObj = data['user'];
+      return vouchers;
+    } catch (e) {
+      return null;
+    }
+  }
 
-//       User user = User.fromJson(userObj);
+  Future<Voucher> addFavorite() async {
+    try {
+      final response = await httpController.post(
+        endPoint: Uri.encodeFull(Endpoint.addFavorite),
+        headers: headers,
+      );
 
-//       return user;
-//     } catch (e) {
-//       return null;
-//     }
-// }
+      final Map<String, dynamic> parsedJson = json.decode(response.body);
+      final data = parsedJson['data'];
+      final vouchers = Voucher.fromJson(data);
+
+      return vouchers;
+    } catch (e) {
+      return null;
+    }
+  }
+}

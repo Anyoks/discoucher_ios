@@ -1,4 +1,5 @@
 import 'package:discoucher/contollers/establishment.dart';
+import 'package:discoucher/contollers/favorites.dart';
 import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/redeem-dialog.dart';
@@ -31,6 +32,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   EstablishmentFull _establishmentFull;
   Voucher _voucher = new Voucher();
   EstablishmentController _controller = new EstablishmentController();
+  FavoritesController favoritesController = new FavoritesController();
 
   @override
   initState() {
@@ -48,7 +50,12 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
-            buildSliverAppBar(context, _voucher, _establishmentFull ),
+            buildSliverAppBar(
+              context: context,
+              voucher: _voucher,
+              est: _establishmentFull,
+              addFavorite: addFavorite(),
+            ),
             _establishmentFull == null
                 ? buildSliverListPlaceHolder(context, _voucher)
                 : buildSliverList(
@@ -88,4 +95,6 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
       });
     }
   }
+
+  addFavorite() {}
 }

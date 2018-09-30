@@ -4,11 +4,15 @@ import 'package:discoucher/screens/shared/app-bar-title.dart';
 import 'package:flutter/material.dart';
 
 class FavoritesRoute extends MaterialPageRoute {
-  FavoritesRoute() : super(builder: (context) => Favorites());
+  FavoritesRoute() : super(builder: (context) => FavoritesPage());
 }
 
-class Favorites extends StatelessWidget {
+class FavoritesPage extends StatefulWidget {
   @override
+  _FavoritesPageState createState() => _FavoritesPageState();
+}
+
+class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

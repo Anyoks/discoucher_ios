@@ -12,7 +12,6 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
   final searchController = new SearchController();
 
   final List<String> history = <String>[
-    "Kilimanjaro",
     "About Thyme",
     "Serena",
     "pizza",

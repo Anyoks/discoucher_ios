@@ -16,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  static SharedPrefefencedController _prefs = new SharedPrefefencedController();
+  static SharedPreferencesController _prefs = new SharedPreferencesController();
   final SettingsController controller = new SettingsController(prefs: _prefs);
   Future<LoggedInUser> loggedInUser;
 
@@ -24,11 +24,13 @@ class _SettingsPageState extends State<SettingsPage> {
   initState() {
     super.initState();
 
-    loggedInUser = controller.checkLoggedIn();
+    checkUser();
   }
 
   @override
   Widget build(BuildContext context) {
+    checkUser();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -91,6 +93,14 @@ class _SettingsPageState extends State<SettingsPage> {
     if (this.mounted) {
       setState(() {
         loggedInUser = null;
+      });
+    }
+  }
+
+  checkUser() {
+    if (this.mounted) {
+      setState(() {
+        loggedInUser = controller.checkLoggedIn();
       });
     }
   }

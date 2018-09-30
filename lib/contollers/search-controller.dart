@@ -14,9 +14,10 @@ class SearchController extends BaseController {
       Map<String, String> payload = {"query": searchTerm.toLowerCase()};
 
       final response = await httpController.post(
-          endPoint: Uri.encodeFull(Endpoint.search),
-          headers: headers,
-          payload: payload);
+        endPoint: Uri.encodeFull(Endpoint.search),
+        headers: headers,
+        payload: payload,
+      );
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
       final List<dynamic> data = parsedJson['data'];

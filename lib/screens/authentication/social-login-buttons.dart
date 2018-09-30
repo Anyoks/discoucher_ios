@@ -3,18 +3,16 @@ import 'package:discoucher/contollers/google-signIn.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/facebook-user.dart';
 import 'package:discoucher/models/shared.dart';
-import 'package:discoucher/screens/home/entry.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SocialLoginButtons extends StatelessWidget {
-  SocialLoginButtons(this._routes, this._scaffoldKey, this._prefs);
+  SocialLoginButtons(this._routes, this._prefs);
 
   final SharedPreferencesController _prefs;
   final DiscoucherRoutes _routes;
-  final GlobalKey<ScaffoldState> _scaffoldKey;
   final FacebookLoginController fb = new FacebookLoginController();
   final GoogleSignInController google = new GoogleSignInController();
 
@@ -41,15 +39,9 @@ class SocialLoginButtons extends StatelessWidget {
               onPressed: () => attemptGoogleLogin(context),
               child: Row(
                 children: <Widget>[
-                  Image.asset(
-                    "images/social/google.png",
-                    width: 20.0,
-                  ),
+                  Image.asset("images/social/google.png", width: 20.0),
                   Padding(padding: EdgeInsets.only(left: 3.0)),
-                  Text(
-                    "Google",
-                    style: TextStyle(fontSize: 14.0),
-                  )
+                  Text("Google", style: TextStyle(fontSize: 14.0))
                 ],
               )),
         ],
@@ -64,12 +56,13 @@ class SocialLoginButtons extends StatelessWidget {
         case true:
           goHome(context);
           GoogleSignInAccount profile = results.profile;
-          saveLoggedInUser(new LoggedInUser(
-              id: profile.id,
-              email: profile.email,
-              fullName: profile.displayName,
-              photoUrl: profile.photoUrl,
-              token: results.token));
+          saveLoggedInUser(LoggedInUser(
+            id: profile.id,
+            email: profile.email,
+            fullName: profile.displayName,
+            photoUrl: profile.photoUrl,
+            token: results.token,
+          ));
           break;
         default:
           showErrorMessage(context, results.message);
@@ -88,7 +81,7 @@ class SocialLoginButtons extends StatelessWidget {
           FacebookAccessToken token = results.token;
           FacebookProfile profile = results.profile;
 
-          saveLoggedInUser(new LoggedInUser(
+          saveLoggedInUser(LoggedInUser(
               id: profile.id,
               email: profile.email,
               fullName: profile.name,
@@ -130,10 +123,7 @@ class SocialLoginButtons extends StatelessWidget {
   }
 
   goHome(BuildContext context) {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (BuildContext context) {
-      return HomePage();
-    }));
+    Navigator.pushReplacementNamed(context, _routes.homeRoute);
   }
 
   saveLoggedInUser(LoggedInUser user) async =>

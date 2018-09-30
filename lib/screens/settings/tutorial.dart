@@ -1,7 +1,7 @@
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/carousel-content.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
-import 'package:discoucher/screens/home/entry.dart';
+import 'package:discoucher/screens/home/home.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +15,6 @@ class TutorialPage extends StatefulWidget {
 class _TutorialPageState extends State<TutorialPage> {
   SharedPreferencesController prefs = new SharedPreferencesController();
   DiscoucherRoutes routes = DiscoucherRoutes();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -59,7 +58,7 @@ class _TutorialPageState extends State<TutorialPage> {
                     "|",
                     style: TextStyle(fontSize: 22.0),
                   ),
-                  SocialLoginButtons(routes, scaffoldKey, prefs),
+                  SocialLoginButtons(routes, prefs),
                 ],
               ),
             ),

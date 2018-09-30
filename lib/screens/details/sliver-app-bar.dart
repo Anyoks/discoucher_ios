@@ -3,10 +3,13 @@ import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/build-carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
-buildSliverAppBar(
-    BuildContext context, Voucher voucher, EstablishmentFull est) {
+buildSliverAppBar({
+  BuildContext context,
+  Voucher voucher,
+  EstablishmentFull est,
+  Function addFavorite,
+}) {
   return SliverAppBar(
     title: Text(voucher.establishment.data.attributes.name),
     pinned: true,
@@ -26,20 +29,7 @@ buildSliverAppBar(
         },
         icon: Icon(Icons.share),
       ),
-      IconButton(
-        onPressed: () {
-          // TODO: Add proper favorites
-
-          Duration timeout = new Duration(seconds: 3);
-          final snackBar = SnackBar(
-            duration: timeout,
-            content: Text(
-                "${voucher.establishment.data.attributes.name} added to favorites"),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
-        },
-        icon: Icon(Icons.favorite_border),
-      )
+      IconButton(onPressed: addFavorite, icon: Icon(Icons.favorite_border))
     ],
     flexibleSpace: FlexibleSpaceBar(
       collapseMode: CollapseMode.parallax,

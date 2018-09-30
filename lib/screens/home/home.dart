@@ -26,10 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-
-    // TODO: check auth
   }
 
   @override
@@ -52,8 +49,9 @@ class _HomePageState extends State<HomePage> {
                   new FlatButton(
                     onPressed: () {
                       // TODO: Change this for iOs
-                      // Navigator.of(context).pop(true);
-                      exit(0);
+                      Navigator.of(context).pop(true);
+                      //exit(0);
+                      // Navigator.of(context).canPop();
                     },
                     child: new Text('Yes'),
                   ),
@@ -81,9 +79,7 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: new BottomNavigationBar(
           currentIndex: this.index,
           onTap: (int index) {
-            setState(() {
-              this.index = index;
-            });
+            setState(() => this.index = index);
           },
           type: BottomNavigationBarType.shifting,
           fixedColor: Colors.yellow,
@@ -100,10 +96,7 @@ class _HomePageState extends State<HomePage> {
   buildOffStageItem(int position, Widget child) {
     return new Offstage(
       offstage: this.index != position,
-      child: new TickerMode(
-        enabled: this.index == position,
-        child: child,
-      ),
+      child: new TickerMode(enabled: this.index == position, child: child),
     );
   }
 
@@ -111,14 +104,8 @@ class _HomePageState extends State<HomePage> {
     final rangi = const Color(0xFF4f4f4f);
 
     return BottomNavigationBarItem(
-      icon: Icon(
-        icon,
-        color: rangi,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(color: rangi),
-      ),
+      icon: Icon(icon, color: rangi),
+      title: Text(title, style: TextStyle(color: rangi)),
     );
   }
 }

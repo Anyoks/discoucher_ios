@@ -2,6 +2,7 @@ import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
+import 'package:discoucher/screens/shared/wavy-header-image.dart';
 import 'package:discoucher/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -126,7 +127,7 @@ class _SignUpPageState extends State<SignUpPage> {
   _buildFirstName() {
     return TextFormField(
       initialValue: user.firstName,
-      autovalidate: true,
+      // autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       decoration: const InputDecoration(
           icon: const Icon(Icons.person, color: xDiscoucherGreen),
@@ -140,7 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
   _buildLastName() {
     return TextFormField(
       initialValue: user.lastName,
-      autovalidate: true,
+      // autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       decoration: const InputDecoration(
           icon: const Icon(Icons.person, color: xDiscoucherGreen),
@@ -154,7 +155,7 @@ class _SignUpPageState extends State<SignUpPage> {
   _buildEmail() {
     return TextFormField(
       initialValue: user.email,
-      autovalidate: true,
+      // autovalidate: true,
       decoration: const InputDecoration(
           icon: const Icon(Icons.email, color: xDiscoucherGreen),
           hintText: 'Enter your email address',
@@ -163,22 +164,21 @@ class _SignUpPageState extends State<SignUpPage> {
       validator: (value) => _validators.isValidEmail(value)
           ? null
           : 'Please enter a valid email address',
-      onSaved: (val) => user.firstName = val,
+      onSaved: (val) => user.email = val,
     );
   }
 
   _buildPhone() {
     return TextFormField(
       initialValue: user.phoneNumber,
-      autovalidate: true,
+      // autovalidate: true,
       decoration: const InputDecoration(
           icon: const Icon(Icons.phone, color: xDiscoucherGreen),
           hintText: 'Enter you phone number',
           labelText: 'Phone'),
       keyboardType: TextInputType.phone,
-      inputFormatters: [
-        WhitelistingTextInputFormatter.digitsOnly,
-      ],
+      inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+      onSaved: (val) => user.phoneNumber = val,
     );
   }
 
@@ -186,10 +186,10 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       initialValue: user.password,
       obscureText: true,
-      autovalidate: true,
+      // autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       decoration: const InputDecoration(
-          icon: const Icon(Icons.person, color: xDiscoucherGreen),
+          icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
           hintText: 'Enter password',
           labelText: 'Password'),
       validator: (val) => val.length < 5 ? 'Valid password is required' : null,
@@ -201,14 +201,14 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       initialValue: user.password,
       obscureText: true,
-      autovalidate: true,
+      // autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       decoration: const InputDecoration(
-          icon: const Icon(Icons.person, color: xDiscoucherGreen),
+          icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
           hintText: 'Enter password',
-          labelText: 'Password'),
+          labelText: 'Confirm Password'),
       validator: (val) => val.length < 5 ? 'Valid password is required' : null,
-      onSaved: (val) => user.password = val,
+      onSaved: (val) => user.passwordConfirmation = val,
     );
   }
 }
