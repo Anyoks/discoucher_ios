@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/auth-controller.dart';
@@ -6,11 +5,11 @@ import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/authentication/sign-up.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
-import 'package:discoucher/screens/home/entry.dart';
+import 'package:discoucher/screens/home/home.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';
-import 'package:discoucher/screens/shared/wavy-header-imae.dart';
+import 'package:discoucher/screens/shared/wavy-header-image.dart';
 import 'package:discoucher/utils/validators.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -145,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   elevation: 4.0,
                 ),
               ),
-              SocialLoginButtons(routes, scaffoldKey, prefs),
+              SocialLoginButtons(routes, prefs),
               Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

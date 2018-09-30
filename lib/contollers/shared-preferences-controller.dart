@@ -87,4 +87,24 @@ class SharedPreferencesController {
       return null;
     }
   }
+
+  Future<bool> updateInitialLaunch(bool isFirstTime) async {
+    try {
+      if (isFirstTime != null) {
+        return await prefs.setBool(PrefPaths.isInitialLaunch, isFirstTime);
+      } else {
+        return await prefs.remove(PrefPaths.isInitialLaunch);
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> fetchInitialLaunch() async {
+    try {
+      return prefs.getBool(PrefPaths.isInitialLaunch);
+    } catch (e) {
+      return false;
+    }
+  }
 }

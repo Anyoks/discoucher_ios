@@ -1,13 +1,15 @@
 import 'dart:async';
 
+import 'package:discoucher/constants/pref-paths.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/authentication/login.dart';
-import 'package:discoucher/screens/home/entry.dart';
+import 'package:discoucher/screens/home/home.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/screens/settings/tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -24,11 +26,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     SystemChrome.setEnabledSystemUIOverlays([]);
 
-    startTimer();
+    _startTimer();
   }
 
   @override
   void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     super.dispose();
   }
 
@@ -37,48 +40,17 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(body: Center(child: Text("Welcome to Discoucher")));
   }
 
-  Future<LoggedInUser> checkLoggedIn() async {
-    final SharedPreferencesController prefs = new SharedPreferencesController();
-    return await prefs.fetchLoggedInUser();
-  }
+  _startTimer() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isfirstTimeUsingApp = prefs.getBool(PrefPaths.isInitialLaunch);
 
-  startTimer() async {
-    final hasUser = await checkLoggedIn();
-    if (hasUser != null) {
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (BuildContext context) {
-          return _homePage;
-        },
-      ));
-    } else {
-      final Duration timeout = const Duration(seconds: 1, milliseconds: 500);
-
+    if (isfirstTimeUsingApp != null && isfirstTimeUsingApp) {
+      Duration timeout = Duration(seconds: 1, milliseconds: 500);
       Timer(timeout, () {
-        try {
-          var firstTimeUsingApp = true;
-
-          if (firstTimeUsingApp) {
-            //Navigator.of(context).pushReplacementNamed('/tutorials');
-            Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (BuildContext context) {
-                return TutorialPage();
-              },
-            ));
-          } else {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (BuildContext context) {
-                return LoginPage(fromSplashScreen: true);
-              },
-            ));
-          }
-        } catch (error) {
-          Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (BuildContext context) {
-              return LoginPage(fromSplashScreen: true);
-            },
-          ));
-        }
+        Navigator.pushReplacementNamed(context, routes.tutorialsRoute);
       });
+    } else {
+      Navigator.pushReplacementNamed(context, routes.homeRoute);
     }
   }
 }

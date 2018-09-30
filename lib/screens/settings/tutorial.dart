@@ -29,12 +29,6 @@ class _TutorialPageState extends State<TutorialPage> {
     super.dispose();
   }
 
-  toggleTopBarVisibility(bool isHidden) {
-    isHidden
-        ? SystemChrome.setEnabledSystemUIOverlays([])
-        : SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,12 +148,13 @@ class _TutorialPageState extends State<TutorialPage> {
 
   buildBottomText(String text) {
     return Center(
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
-      ),
+      child: Text(text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontSize: 20.0,
+          )),
     );
   }
 
@@ -170,10 +165,9 @@ class _TutorialPageState extends State<TutorialPage> {
         padding: const EdgeInsets.all(18.0),
         color: Theme.of(context).primaryColor,
         onPressed: () {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (BuildContext context) {
-            return HomePage();
-          }));
+          prefs.updateInitialLaunch(false);
+          Navigator.pushReplacementNamed(context, routes.homeRoute);
+          // Navigator.pushNamed(context, routes.homeRoute);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

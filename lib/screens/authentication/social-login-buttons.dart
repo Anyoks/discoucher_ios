@@ -122,9 +122,8 @@ class SocialLoginButtons extends StatelessWidget {
     );
   }
 
-  goHome(BuildContext context) {
-    Navigator.pushReplacementNamed(context, _routes.homeRoute);
-  }
+  goHome(BuildContext context) =>
+      Navigator.pushReplacementNamed(context, _routes.homeRoute);
 
   saveLoggedInUser(LoggedInUser user) async =>
       await _prefs.updateLoggedInUser(user);

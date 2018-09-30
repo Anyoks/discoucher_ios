@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:discoucher/screens/discover/discover.dart';
 import 'package:discoucher/screens/home/body.dart';
@@ -40,19 +39,14 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext context) {
               return new AlertDialog(
                 title: new Text('Are you sure you want to exit?'),
-                content: new Text('Press yes again to exit'),
+                content: new Text('Press yes to exit'),
                 actions: <Widget>[
                   new FlatButton(
                     onPressed: () => Navigator.of(context).pop(false),
                     child: new Text('No'),
                   ),
                   new FlatButton(
-                    onPressed: () {
-                      // TODO: Change this for iOs
-                      Navigator.of(context).pop(true);
-                      //exit(0);
-                      // Navigator.of(context).canPop();
-                    },
+                    onPressed: () => Navigator.of(context).pop(true), //exit(0);
                     child: new Text('Yes'),
                   ),
                 ],

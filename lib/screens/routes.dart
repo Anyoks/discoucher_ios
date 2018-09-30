@@ -1,5 +1,5 @@
 import 'package:discoucher/screens/authentication/login.dart';
-import 'package:discoucher/screens/home/entry.dart';
+import 'package:discoucher/screens/home/home.dart';
 import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/settings/settings.dart';
 import 'package:discoucher/screens/settings/tutorial.dart';
@@ -8,6 +8,12 @@ import 'package:flutter/material.dart';
 
 class DiscoucherRoutes {
   SplashScreen splashScreen;
+
+  String homeRoute = '/home';
+  String splashScreenRoute = '/splashScreen';
+  String tutorialsRoute = '/tutorial';
+  String loginRoute = '/login';
+
   Map<String, WidgetBuilder> routes;
 
   DiscoucherRoutes() {
@@ -17,10 +23,10 @@ class DiscoucherRoutes {
 
   Map<String, WidgetBuilder> _buildRoutes() {
     return <String, WidgetBuilder>{
-      '/home': (BuildContext context) => HomePage(),
-      '/splashScreen': (BuildContext context) => SplashScreen(),
-      '/tutorial': (BuildContext context) => TutorialPage(),
-      '/login': (BuildContext context) => LoginPage(
+      homeRoute: (BuildContext context) => HomePage(),
+      splashScreenRoute: (BuildContext context) => SplashScreen(),
+      tutorialsRoute: (BuildContext context) => TutorialPage(),
+      loginRoute: (BuildContext context) => LoginPage(
             fromSplashScreen: false,
           )
     };
