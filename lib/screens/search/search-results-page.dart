@@ -7,12 +7,18 @@ import 'package:discoucher/screens/shared/app-bar-title.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultsPageRoute extends MaterialPageRoute {
-  SearchResultsPageRoute(String _searchTerm)
-      : super(builder: (context) => SearchResultsPage(_searchTerm));
+  SearchResultsPageRoute({String searchTerm, bool closeSearchDelegate})
+      : super(
+          builder: (context) => SearchResultsPage(
+                searchTerm: searchTerm,
+                closeSearchDelegate: closeSearchDelegate,
+              ),
+        );
 }
 
 class SearchResultsPage extends StatelessWidget {
   final String searchTerm;
+  final bool closeSearchDelegate;
 
   final SearchDelegate<VoucherData> searchDelegate =
       new SearchDiscoucherSearchDelegate();
@@ -24,7 +30,7 @@ class SearchResultsPage extends StatelessWidget {
   //   @required this.searchController,
   // });
 
-  SearchResultsPage(this.searchTerm);
+  SearchResultsPage({this.searchTerm, this.closeSearchDelegate});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +43,7 @@ class SearchResultsPage extends StatelessWidget {
       body: BuildSearchResults(
         vouchersFuture: searchController.searchVoucher(searchTerm),
         searchDelegate: searchDelegate,
+        closeSearchDelegate: closeSearchDelegate,
       ),
     );
   }

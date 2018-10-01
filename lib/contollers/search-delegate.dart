@@ -55,8 +55,7 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
   }
 
   Future<List<VoucherData>> fetchSearchResults() async {
-    final results = await searchController.searchVoucher(query);
-    return results;
+    return await searchController.searchVoucher(query);
   }
 
   @override
@@ -64,6 +63,7 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
     return BuildSearchResults(
       vouchersFuture: fetchSearchResults(),
       searchDelegate: this,
+      closeSearchDelegate: true,
     );
   }
 
@@ -80,4 +80,6 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
       },
     );
   }
+
+  
 }

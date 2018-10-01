@@ -8,10 +8,12 @@ import 'package:discoucher/screens/search/results-card.dart';
 class BuildSearchResults extends StatelessWidget {
   final Future<List<VoucherData>> vouchersFuture;
   final SearchDelegate<VoucherData> searchDelegate;
+  final bool closeSearchDelegate;
 
   BuildSearchResults({
     @required this.vouchersFuture,
     @required this.searchDelegate,
+    @required this.closeSearchDelegate,
   });
 
   @override
@@ -39,9 +41,10 @@ class BuildSearchResults extends StatelessWidget {
                     ResultCard(
                       voucherData: result,
                       searchDelegate: searchDelegate,
+                      closeSearchDelegate: closeSearchDelegate,
                     ),
                   ));
-              return new ListView(children: resultsCards);
+              return ListView(children: resultsCards);
             }
         }
       },

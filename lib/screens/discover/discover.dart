@@ -46,12 +46,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
           default:
             if (snapshot.hasError)
               return HomeError(
-                onPressed: () {
-                  handleRefresh();
-                },
-                message:
-                    "Search for a voucher, restarant, hotel, spa, location...",
-              );
+                  onPressed: () {
+                    handleRefresh();
+                  },
+                  message:
+                      "Search for a voucher, restarant, hotel, spa, location...",);
             else
               return (snapshot.data as List<TagData>).length > 0
                   ? DiscoverGrid(tags: snapshot.data)

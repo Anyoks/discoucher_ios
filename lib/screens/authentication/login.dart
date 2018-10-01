@@ -1,11 +1,9 @@
-
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/authentication/sign-up.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
-import 'package:discoucher/screens/home/home.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';
@@ -33,10 +31,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  SharedPreferencesController prefs = new SharedPreferencesController();
-  final DiscoucherRoutes routes = DiscoucherRoutes();
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  SharedPreferencesController _prefs = new SharedPreferencesController();
+  final DiscoucherRoutes _routes = DiscoucherRoutes();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final AuthController _controller = new AuthController();
   final Validators _validators = Validators();
 
@@ -45,13 +43,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    super.initState();
-
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    super.initState();
   }
 
   void _submit() {
-    final form = formKey.currentState;
+    final form = _formKey.currentState;
 
     if (form.validate()) {
       form.save();
@@ -65,35 +62,35 @@ class _LoginPageState extends State<LoginPage> {
     var loggedInUser = await _controller.login(_email, _password);
 
     if (loggedInUser != null) {
-      final isUserSaved = prefs.updateLoggedInUser(new LoggedInUser(
-          id: "${loggedInUser.id}",
-          fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
-          email: "${loggedInUser.email}"));
+      final isUserSaved = _prefs.updateLoggedInUser(
+        new LoggedInUser(
+            id: "${loggedInUser.id}",
+            fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
+            email: "${loggedInUser.email}"),
+      );
 
       print(isUserSaved);
 
-      if (widget.fromSplashScreen) {
-        Navigator.push(context, HomePageRoute());
-      } else {
-        Navigator.pop(context);
-      }
+      widget.fromSplashScreen
+          ? Navigator.popAndPushNamed(context, _routes.homeRoute)
+          : Navigator.pop(context);
     } else {
       _showMessage(
-        'There was an error loggin in. Please check your network or try again later',
-        Colors.red,
-      );
+          'There was an error loggin in. Please check your network or try again later',
+          Colors.red);
     }
   }
 
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
-    scaffoldKey.currentState.showSnackBar(
-        new SnackBar(backgroundColor: color, content: new Text(message)));
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(backgroundColor: color, content: Text(message)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: AppBackButton(),
@@ -144,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                   elevation: 4.0,
                 ),
               ),
-              SocialLoginButtons(routes, prefs),
+              SocialLoginButtons(_routes, _prefs),
               Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -168,14 +165,14 @@ class _LoginPageState extends State<LoginPage> {
 
   buildLoginForm() {
     return Form(
-      key: formKey,
+      key: _formKey,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextFormField(
             initialValue: "",
-            autovalidate: true,
+            // autovalidate: true,
             decoration: const InputDecoration(
                 icon: const Icon(Icons.email, color: xDiscoucherGreen),
                 hintText: 'Enter your email address',
@@ -188,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextFormField(
             initialValue: "",
-            autovalidate: true,
+            // autovalidate: true,
             decoration: const InputDecoration(
                 icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
                 hintText: 'Enter your password',

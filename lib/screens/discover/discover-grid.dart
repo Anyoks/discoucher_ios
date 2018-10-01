@@ -19,7 +19,9 @@ class DiscoverGrid extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  SearchResultsPageRoute(tags[index].attributes.name),
+                  SearchResultsPageRoute(
+                      searchTerm: tags[index].attributes.name,
+                      closeSearchDelegate: false),
                 );
               },
               child: Container(

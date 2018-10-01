@@ -14,7 +14,7 @@ class SearchController extends BaseController {
       Map<String, String> payload = {"query": searchTerm.toLowerCase()};
 
       final response = await httpController.post(
-        endPoint: Uri.encodeFull(Endpoint.search),
+        endPoint: Endpoint.search,
         headers: headers,
         payload: payload,
       );
@@ -22,8 +22,13 @@ class SearchController extends BaseController {
       final Map<String, dynamic> parsedJson = json.decode(response.body);
       final List<dynamic> data = parsedJson['data'];
 
-      var list =
-          data.map<VoucherData>((item) => VoucherData.fromJson(item)).toList();
+      var list = data.map<VoucherData>((item) {
+        VoucherData _voucherData = VoucherData.fromJson(item);
+        _voucherData.attributes.description =
+            _voucherData.attributes.description.trim().replaceAll("\n", " ");
+            
+        return _voucherData;
+      }).toList();
 
       return list;
     } catch (e) {

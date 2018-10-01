@@ -46,7 +46,8 @@ buildCategoryListItem(BuildContext context, Voucher data) {
       ],
     ),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
           height: 120.0,
@@ -57,16 +58,15 @@ buildCategoryListItem(BuildContext context, Voucher data) {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: buildItemImage(
-                  data.establishment.data.attributes.featuredImage),
+                data.establishment.data.attributes.featuredImage,
+              ),
             ),
           ),
         ),
         SizedBox(width: 5.0),
         Expanded(child: buildCategoryContent(context, data)),
         InkWell(
-          onTap: () {
-            showRedeemDialog(context, data);
-          },
+          onTap: () => showRedeemDialog(context, data),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -91,8 +91,7 @@ buildCategoryListItem(BuildContext context, Voucher data) {
 
 buildCategoryContent(BuildContext context, Voucher data) {
   return Column(
-    mainAxisSize: MainAxisSize.max,
-    mainAxisAlignment: MainAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       Text(
@@ -126,14 +125,9 @@ buildCategoryContent(BuildContext context, Voucher data) {
             ),
             SizedBox(height: 5.0),
             buildDetailItem(
-              Icons.location_on,
-              data.establishment.data.attributes.location,
-            ),
+                Icons.location_on, data.establishment.data.attributes.location),
             SizedBox(height: 5.0),
-            buildDetailItem(
-              Icons.calendar_today,
-              data.condition,
-            ),
+            buildDetailItem(Icons.calendar_today, data.condition),
           ],
         ),
       ),
