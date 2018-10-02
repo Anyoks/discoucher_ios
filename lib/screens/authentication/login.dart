@@ -71,9 +71,11 @@ class _LoginPageState extends State<LoginPage> {
 
       print(isUserSaved);
 
-      widget.fromSplashScreen
-          ? Navigator.popAndPushNamed(context, _routes.homeRoute)
-          : Navigator.pop(context);
+      Navigator.pop(context);
+
+      // widget.fromSplashScreen
+      //     ? Navigator.popAndPushNamed(context, _routes.homeRoute)
+      //     : Navigator.pop(context);
     } else {
       _showMessage(
           'There was an error loggin in. Please check your network or try again later',

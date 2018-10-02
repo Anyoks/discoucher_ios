@@ -6,6 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesController {
   SharedPreferences prefs;
+  final List<String> initialHistory = [
+    "Main course",
+    "Free lunch",
+    "massage",
+    "date night",
+    "cake"
+  ];
 
   SharedPreferencesController() {
     initPref();
@@ -106,5 +113,57 @@ class SharedPreferencesController {
     } catch (e) {
       return false;
     }
+  }
+  
+  // TODO: Refine this
+
+  updateSearchHistory(String searchTerm) async {
+    if (searchTerm == null || searchTerm.length < 1) {
+      return;
+    }
+
+    var prefs = await SharedPreferences.getInstance();
+    try {
+      List<String> history = await fetchSearchHistory();
+      // print("before edit.....................");
+      // print(history);
+      if (history != null) {
+        for (int i = 4; i >= 0; i--) {
+          if (i == 0) {
+            history[i] = searchTerm;
+          } else {
+            history[i] = history[i - 1];
+          }
+        }
+        // print("after edit.....................");
+        // print(history);
+        prefs.setStringList(PrefPaths.searchHistory, history);
+      } else {
+        prefs.setStringList(PrefPaths.searchHistory, initialHistory);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<String>> fetchSearchHistory() async {
+    List<String> ret = [];
+    try {
+      var prefs = await SharedPreferences.getInstance();
+
+      var _searchHistory = prefs.getStringList(PrefPaths.searchHistory);
+
+      if (_searchHistory == null) {
+        prefs.setStringList(PrefPaths.searchHistory, initialHistory);
+        ret = initialHistory;
+      } else {
+        ret = _searchHistory;
+      }
+    } catch (e) {
+      prefs.setStringList(PrefPaths.searchHistory, initialHistory);
+      ret = initialHistory;
+    }
+
+    return ret;
   }
 }

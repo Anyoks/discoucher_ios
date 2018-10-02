@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:discoucher/contollers/search-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/screens/search/build-search-restults.dart';
 import 'package:discoucher/screens/search/suggestions-list.dart';
@@ -10,18 +11,23 @@ import 'package:uuid/uuid.dart';
 class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
   final uuid = new Uuid();
   final searchController = new SearchController();
+  SharedPreferencesController prefs = new SharedPreferencesController();
+  List<String> history = [];
 
-  final List<String> history = <String>[
-    "About Thyme",
-    "Serena",
-    "pizza",
-    "main",
-  ];
+  SearchDiscoucherSearchDelegate() {
+    initializeSearchHistory();
+  }
 
-  Future<List<VoucherData>> searchVouchers(String query) async {
-    List<VoucherData> _searchResults =
-        await searchController.searchVoucher(query);
-    return _searchResults;
+  initializeSearchHistory() async {
+    final _searchHistory = await prefs.fetchSearchHistory();
+
+    if (_searchHistory != null) {
+      _searchHistory.forEach((item) {
+        if (item.length > 1) {
+          history.add(item);
+        }
+      });
+    }
   }
 
   @override
@@ -69,7 +75,7 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final Iterable<String> suggestions = query.isEmpty ? history : [];
+    final List<String> suggestions = query.isEmpty ? history : [];
 
     return SuggestionList(
       query: query,
@@ -80,6 +86,4 @@ class SearchDiscoucherSearchDelegate extends SearchDelegate<VoucherData> {
       },
     );
   }
-
-  
 }
