@@ -47,9 +47,6 @@ class SharedPreferencesController {
       final user = json.decode(localUser);
       LoggedInUser returnUser = LoggedInUser.fromJsonMap(user);
 
-      print("returnUser");
-      print(returnUser.toJson());
-
       return returnUser;
     } catch (e) {
       return null;

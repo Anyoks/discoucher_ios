@@ -67,6 +67,8 @@ class _LoginPageState extends State<LoginPage> {
       LoggedInUser _userToSave = new LoggedInUser(
           id: "${loggedInUser.id}",
           fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
+          firstName: "${loggedInUser.firstName}",
+          lastName: "${loggedInUser.firstName}",
           email: "${loggedInUser.email}");
 
       _prefs.updateLoggedInUser(_userToSave);
@@ -86,9 +88,8 @@ class _LoginPageState extends State<LoginPage> {
 
   goHome(BuildContext context) {
     widget.fromSplashScreen
-          ? Navigator.popAndPushNamed(context, _routes.homeRoute)
-          : Navigator.pop(context);
-  
+        ? Navigator.popAndPushNamed(context, _routes.homeRoute)
+        : Navigator.pop(context);
 
     // Navigator.popAndPushNamed(context, _routes.homeRoute);
     // Navigator.pushReplacementNamed(context, _routes.homeRoute);

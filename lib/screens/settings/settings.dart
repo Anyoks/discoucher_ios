@@ -56,9 +56,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: CircularProgressIndicator(),
                   ));
                 default:
-                  print("snapshot.data.toString()");
-                  print(snapshot.data.toString());
-
                   return buildSettingsSections(context, snapshot.data);
                 // if (snapshot.hasError || !snapshot.hasData) {
                 //   return buildSettingsSections(context, snapshot.data);
