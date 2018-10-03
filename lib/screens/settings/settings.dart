@@ -28,6 +28,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    checkUser();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -54,7 +56,15 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: CircularProgressIndicator(),
                   ));
                 default:
+                  print("snapshot.data.toString()");
+                  print(snapshot.data.toString());
+
                   return buildSettingsSections(context, snapshot.data);
+                // if (snapshot.hasError || !snapshot.hasData) {
+                //   return buildSettingsSections(context, snapshot.data);
+                // } else {
+                //   return loggedOutUserSettings(context, controller);
+                // }
               }
             },
           ),
@@ -89,6 +99,14 @@ class _SettingsPageState extends State<SettingsPage> {
   logOut() {
     if (this.mounted) {
       setState(() => loggedInUser = null);
+    }
+  }
+
+  checkUser() {
+    if (this.mounted) {
+      setState(() {
+        loggedInUser = controller.checkLoggedIn();
+      });
     }
   }
 }

@@ -69,22 +69,12 @@ class _LoginPageState extends State<LoginPage> {
           fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
           email: "${loggedInUser.email}");
 
-      final isUserSaved = await _prefs.updateLoggedInUser(_userToSave);
-
-      print("isUserSaved");
-      print(isUserSaved);
-      print("_userToSave");
-      print(_userToSave.toJson());
-
-      // Navigator.pop(context);
-
-      // widget.fromSplashScreen
-      //     ? Navigator.popAndPushNamed(context, _routes.homeRoute)
-      //     : Navigator.pop(context);
+      _prefs.updateLoggedInUser(_userToSave);
     } else {
       _showMessage(
-          'There was an error loggin in. Please check your network or try again later',
-          Colors.red);
+        'There was an error loggin in. Please check your network or try again later',
+        Colors.red,
+      );
     }
   }
 
@@ -95,7 +85,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   goHome(BuildContext context) {
-    Navigator.popAndPushNamed(context, _routes.homeRoute);
+    widget.fromSplashScreen
+          ? Navigator.popAndPushNamed(context, _routes.homeRoute)
+          : Navigator.pop(context);
+  
+
+    // Navigator.popAndPushNamed(context, _routes.homeRoute);
     // Navigator.pushReplacementNamed(context, _routes.homeRoute);
   }
 

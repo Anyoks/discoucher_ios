@@ -12,7 +12,10 @@ SharedPreferencesController _prefs = new SharedPreferencesController();
 final SettingsController controller = new SettingsController(prefs: _prefs);
 
 buildSliverList(
-    BuildContext context, Voucher voucher, EstablishmentFull establishment) {
+  BuildContext context,
+  Voucher voucher,
+  EstablishmentFull establishment,
+) {
   return SliverList(
     delegate: SliverChildListDelegate(
       <Widget>[

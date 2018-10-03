@@ -30,7 +30,6 @@ Widget buildLoggedInUser({
       ],
     );
   } else {
-    // TODO: Add placeholder image
     return Container();
   }
 }
