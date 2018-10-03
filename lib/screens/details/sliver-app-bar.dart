@@ -21,10 +21,19 @@ buildSliverAppBar({
     actions: <Widget>[
       IconButton(
         onPressed: () {
-          //TODO: Add proper sharing
-          // Share.share(voucher.attributes.name);
+          String des = "";
+          int lastDotIndex = voucher.description.lastIndexOf(".");
+          if (lastDotIndex == voucher.description.runes.length - 1) {
+            des = voucher.description.substring(0, lastDotIndex);
+          } else {
+            des = voucher.description;
+          }
+
+          String shareMessage =
+              "$des at ${voucher.establishment.data.attributes.name} \n \n\nView more deals like these at https://www.discoucher.com";
+
           final RenderBox box = context.findRenderObject();
-          Share.share(voucher.establishment.data.attributes.name,
+          Share.share(shareMessage,
               sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
         },
         icon: Icon(Icons.share),

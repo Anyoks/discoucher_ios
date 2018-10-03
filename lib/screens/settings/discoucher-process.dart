@@ -58,7 +58,7 @@ class DiscoucherProcess extends StatelessWidget {
                 Text.rich(
                   TextSpan(
                     text:
-                        "DisCoucher offers you exclusive ‘Buy One Get One  Free’ discounts, along with other forms of discounts, to some of the best restaurants, hotels, beauty spas and more across Kenya. We want you ",
+                        "DisCoucher offers you exclusive ‘Buy One Get One  Free’ discounts, along with other forms of discounts, to some of the best restaurants, hotels, beauty spas and more across Kenya. We want you",
                     style: TextStyle(fontSize: 16.0),
                     children: <TextSpan>[
                       firstName != null && firstName.length > 0

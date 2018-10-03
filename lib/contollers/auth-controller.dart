@@ -14,7 +14,7 @@ class SignUpResults {
 }
 
 class AuthController extends BaseController {
-  final _anonymousHeaders = {"Content-Type": "application/json"};
+  static const _anonymousHeaders = {"Content-Type": "application/json"};
 
   Future<User> login(String email, String password) async {
     try {

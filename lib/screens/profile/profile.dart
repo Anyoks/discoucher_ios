@@ -257,8 +257,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (savedUser != null) {
       _showMessage('Profile successfully updated', Colors.blue);
     } else {
-      _showMessage(
-          'There was an error saving the profile. Try again later', Colors.red);
+      _showMessage('There was an error saving the profile. Try again later');
     }
   }
 

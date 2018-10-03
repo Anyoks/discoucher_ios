@@ -7,12 +7,11 @@ import 'package:discoucher/contollers/http-controller.dart';
 import 'package:discoucher/models/voucher-data.dart';
 
 class SearchController extends BaseController {
-  HttpController httpController = new HttpController();
   Future<List<VoucherData>> searchVoucher(String searchTerm) async {
     try {
       Map<String, String> payload = {"query": searchTerm.toLowerCase()};
 
-      final response = await httpController.post(
+      final response = await post(
         endPoint: Endpoint.search,
         payload: payload,
       );

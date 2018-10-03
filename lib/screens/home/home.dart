@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               buildOffStageItem(0, homePage),
               buildOffStageItem(1, discoverPage),
-              buildOffStageItem(2, settingsPage),
+              buildOffStageItem(2, SettingsPage()),
             ],
           ),
         ),
