@@ -20,7 +20,7 @@ class BaseController {
   Future<Response> post({
     String endPoint,
     Map<String, String> headers,
-    dynamic payload,
+    Map<String, dynamic> payload,
   }) =>
       _httpController.post(
         endPoint: endPoint,
@@ -31,7 +31,7 @@ class BaseController {
   Future<Response> patch({
     String endPoint,
     Map<String, String> headers,
-    dynamic payload,
+    Map<String, dynamic> payload,
   }) =>
       _httpController.patch(
         endPoint: endPoint,

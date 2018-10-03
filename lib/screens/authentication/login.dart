@@ -65,11 +65,13 @@ class _LoginPageState extends State<LoginPage> {
       goHome(context);
 
       LoggedInUser _userToSave = new LoggedInUser(
-          id: "${loggedInUser.id}",
-          fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
-          firstName: "${loggedInUser.firstName}",
-          lastName: "${loggedInUser.firstName}",
-          email: "${loggedInUser.email}");
+        id: loggedInUser.id,
+        fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
+        firstName: loggedInUser.firstName,
+        lastName: loggedInUser.firstName,
+        email: loggedInUser.email,
+        phoneNumber: loggedInUser.phoneNumber,
+      );
 
       _prefs.updateLoggedInUser(_userToSave);
     } else {
@@ -87,11 +89,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   goHome(BuildContext context) {
-    widget.fromSplashScreen
-        ? Navigator.popAndPushNamed(context, _routes.homeRoute)
-        : Navigator.pop(context);
+    // widget.fromSplashScreen
+    //     ? Navigator.popAndPushNamed(context, _routes.homeRoute)
+    //     : Navigator.pop(context);
 
-    // Navigator.popAndPushNamed(context, _routes.homeRoute);
+    Navigator.popAndPushNamed(context, _routes.homeRoute);
     // Navigator.pushReplacementNamed(context, _routes.homeRoute);
   }
 

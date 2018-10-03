@@ -8,7 +8,7 @@ import 'package:discoucher/constants/endpoints.dart';
 class ProfileController extends BaseController {
   Future<User> updateUser(User _user) async {
     try {
-      String payload = json.encode(_user);
+      var payload =  _user.toJson();
 
       final response = await patch(
         endPoint: Endpoint.updateProfile,

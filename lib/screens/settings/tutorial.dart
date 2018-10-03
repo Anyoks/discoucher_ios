@@ -54,7 +54,7 @@ class _TutorialPageState extends State<TutorialPage> {
                     "|",
                     style: TextStyle(fontSize: 22.0),
                   ),
-                  SocialLoginButtons(),
+                  SocialLoginButtons(fromTutorialPage: true),
                 ],
               ),
             ),

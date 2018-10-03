@@ -56,7 +56,7 @@ class HttpController {
     final Response response = await client.post(
       Uri.encodeFull(endPoint),
       headers: headers,
-      body: json.encode(payload),
+      body: payload,
     );
 
     client.close();
@@ -70,10 +70,10 @@ class HttpController {
   }) async {
     Client client = new Client();
 
-    final Response response = await client.post(
+    final Response response = await client.patch(
       Uri.encodeFull(endPoint),
       headers: headers,
-      body: json.encode(payload),
+      body: payload,
     );
 
     client.close();

@@ -21,6 +21,7 @@ class LoggedInUser {
 
   Uint8List bytes;
   String token;
+  String phoneNumber;
 
   LoggedInUser({
     this.id,
@@ -29,6 +30,7 @@ class LoggedInUser {
     this.lastName,
     this.dob,
     this.email,
+    this.phoneNumber,
     this.photoUrl,
     this.bytes,
     this.token,
@@ -41,6 +43,7 @@ class LoggedInUser {
         lastName = map['lastName'],
         dob = map['dob'],
         email = map['email'],
+        phoneNumber = map['phoneNumber'],
         photoUrl = map['photoUrl'],
         bytes = map['bytes'],
         token = map['token'];
@@ -52,6 +55,7 @@ class LoggedInUser {
         "lastName": lastName,
         "dob": dob,
         "email": email,
+        "emphoneNumberail": phoneNumber,
         "photoUrl": photoUrl,
         "bytes": bytes,
         "token": token,

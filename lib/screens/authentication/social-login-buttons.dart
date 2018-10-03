@@ -12,6 +12,9 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SocialLoginButtons extends StatelessWidget {
+  SocialLoginButtons({this.fromTutorialPage});
+
+  final bool fromTutorialPage;
   final AuthController _controller = new AuthController();
   final DiscoucherRoutes _routes = new DiscoucherRoutes();
   final FacebookLoginController fb = new FacebookLoginController();
@@ -74,7 +77,7 @@ class SocialLoginButtons extends StatelessWidget {
           showErrorMessage(context, results.message);
       }
     } catch (errorMessage) {
-      showErrorMessage(context, errorMessage);
+      showErrorMessage(context, "There was an error logging in using Google");
     }
   }
 
@@ -140,10 +143,15 @@ class SocialLoginButtons extends StatelessWidget {
     );
   }
 
- 
   goHome(BuildContext context) {
+    // print("fromTutorialPage");
+    // print(fromTutorialPage);
+
+    // fromTutorialPage != null && fromTutorialPage
+    //     ? Navigator.popAndPushNamed(context, _routes.homeRoute)
+    //     : Navigator.pop(context);
+
     Navigator.popAndPushNamed(context, _routes.homeRoute);
     // Navigator.pushReplacementNamed(context, _routes.homeRoute);
   }
-
 }

@@ -77,15 +77,7 @@ class SettingsController {
     return await prefs.fetchLoggedInUser();
   }
 
-  Future logOut() async {
-    // TODO: Implement this
-    await prefs.updateLoggedInUser(null).whenComplete(() => _logOut());
-  }
-
-  _logOut() {
-    // scaffoldKey.currentState.showSnackBar(
-    //   new SnackBar(content: new Text("You have been logged out")),
-    // );
-    // scaffoldKey.currentState.setState(() {});
+  Future<bool> logOut() async {
+    return await prefs.updateLoggedInUser(null);
   }
 }

@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
             _buildSeparatorText("Personal Information"),
             _buildFirstName(),
             _buildLastName(),
-            _buildBirthday(),
+            // _buildBirthday(),
             _buildSeparatorText("Contact Information"),
             _buildEmail(),
             _buildPhone()

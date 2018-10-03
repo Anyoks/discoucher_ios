@@ -1,8 +1,8 @@
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/models/user.dart';
+import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
-import 'package:discoucher/screens/shared/wavy-header-image.dart';
 import 'package:discoucher/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +18,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final DiscoucherRoutes _routes = DiscoucherRoutes();
   final AuthController _controller = new AuthController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -53,24 +54,22 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _saveProfile() async {
-    var newUser = await _controller.signUp(user);
+    SignUpResults signUpResults = await _controller.signUp(user);
 
-    if (newUser != null) {
-      _showMessage(
-        '${newUser.firstName}, welcome to Discoucher',
-        Colors.blue,
-      );
+    if (signUpResults != null && signUpResults.status) {
+      goHome();
     } else {
-      _showMessage(
-        'There was an error signing you up. You can continue viewing the deals and try again later',
-        Colors.red,
-      );
+      _showMessage("${signUpResults.message}");
     }
   }
 
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
     scaffoldKey.currentState.showSnackBar(
         new SnackBar(backgroundColor: color, content: new Text(message)));
+  }
+
+  goHome() {
+    Navigator.popAndPushNamed(context, _routes.homeRoute);
   }
 
   @override

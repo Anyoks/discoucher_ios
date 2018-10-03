@@ -39,10 +39,6 @@ class DiscoucherRoutes {
   go(BuildContext context, String pageName) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       switch (pageName) {
-        case "PlayPage":
-          {
-            return PlayPage(title: "Play Page");
-          }
         case "LoginPage":
           {
             return LoginPage(

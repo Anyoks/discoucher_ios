@@ -1,4 +1,4 @@
-import 'package:discoucher/contollers/establishment.dart';
+import 'package:discoucher/contollers/establishment-controller.dart';
 import 'package:discoucher/contollers/favorites.dart';
 import 'package:discoucher/models/establishment-full.dart';
 import 'package:discoucher/models/voucher-data.dart';
@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 
 class VoucherDetailsPageRoute extends MaterialPageRoute {
   VoucherDetailsPageRoute(VoucherData voucherData)
-      : super(builder: (context) => VoucherDetailsPage(voucherData: voucherData));
+      : super(
+            builder: (context) => VoucherDetailsPage(voucherData: voucherData));
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
@@ -88,9 +89,9 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   }
 
   void fetchEstablishmentDetails() async {
-    var est = await _controller.getEstablishement(widget.voucherData.attributes.establishment.data.id);
+    var est = await _controller
+        .getEstablishement(widget.voucherData.attributes.establishment.data.id);
 
-    print(est.toJson());
 
     if (this.mounted) {
       setState(() {

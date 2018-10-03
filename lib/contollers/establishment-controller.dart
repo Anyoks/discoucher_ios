@@ -13,8 +13,7 @@ class EstablishmentController extends BaseController {
     try {
       Map<String, String> payload = {"establishment_id": id};
 
-      final response =
-          await post(endPoint: Endpoint.singleEstablishment, payload: payload);
+      final response = await post(endPoint: Endpoint.singleEstablishment, payload: payload);
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
       final Map<String, dynamic> data = parsedJson['data'];
@@ -30,7 +29,7 @@ class EstablishmentController extends BaseController {
 
       return est;
     } catch (e) {
-      return null;
+      return EstablishmentFull();
     }
   }
 }
