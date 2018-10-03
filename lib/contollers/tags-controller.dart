@@ -13,13 +13,12 @@ class TagsController extends BaseController {
     try {
       final response = await httpController.fetch(
         endPoint: Endpoint.tags.trim(),
-        headers: headers,
       );
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
       final List<dynamic> data = parsedJson['data'];
 
-      var tags =  data.map<TagData>((item) => TagData.fromJson(item)).toList();
+      var tags = data.map<TagData>((item) => TagData.fromJson(item)).toList();
 
       return tags;
     } catch (e) {

@@ -15,10 +15,7 @@ class HomeController extends BaseController {
     ];
 
     List<Response> responses = await Future.wait(
-      _endpoints.map((endpoint) => fetch(
-            endPoint: endpoint,
-            headers: headers,
-          )),
+      _endpoints.map((endpoint) => fetch(endPoint: endpoint)),
     );
 
     var sectionsLists =
@@ -34,9 +31,10 @@ class HomeController extends BaseController {
     try {
       var list = data.map<VoucherData>((item) {
         VoucherData _voucherData = VoucherData.fromJson(item);
-        _voucherData.attributes.description =
-            _voucherData.attributes.description.trim().replaceAll("\n", " ");
-
+        if (_voucherData.attributes.description != null) {
+          _voucherData.attributes.description =
+              _voucherData.attributes.description.trim().replaceAll("\n", " ");
+        }
         return _voucherData;
       }).toList();
 

@@ -36,17 +36,8 @@ String _createInitials(String fullName) {
 
 Widget _buldProfPic(LoggedInUser user) {
   return user.photoUrl == null
-      ? null
-      : CircleAvatar(
-          backgroundImage: new NetworkImage(user.photoUrl),
-        );
-  // user.bytes == null
-  //     ? CircleAvatar(
-  //         backgroundImage: new NetworkImage(user.photoUrl),
-  //       )
-  //     : CircleAvatar(
-  //         backgroundImage: new MemoryImage(user.bytes),
-  //       ),
+      ? Container()
+      : CircleAvatar(backgroundImage: NetworkImage(user.photoUrl));
 }
 
 buildUserAvatar(LoggedInUser user) {

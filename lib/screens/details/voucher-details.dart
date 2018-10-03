@@ -88,10 +88,10 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   }
 
   void fetchEstablishmentDetails() async {
-    var est =
-        await _controller.getEstablishement(widget.voucherData.attributes.establishment.data.id);
-    est.description = est.description.replaceAll("\n", " ");
-    est.address = est.address.replaceAll("\n", " ");
+    var est = await _controller.getEstablishement(widget.voucherData.attributes.establishment.data.id);
+
+    print(est.toJson());
+
     if (this.mounted) {
       setState(() {
         if (est != null) {

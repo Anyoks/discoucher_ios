@@ -10,9 +10,8 @@ class ProfileController extends BaseController {
     try {
       String payload = json.encode(_user);
 
-      final response = await httpController.post(
-        endPoint: Uri.encodeFull(Endpoint.updateProfile),
-        headers: headers,
+      final response = await patch(
+        endPoint: Endpoint.updateProfile,
         payload: payload,
       );
 

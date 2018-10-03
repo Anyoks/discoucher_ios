@@ -7,26 +7,23 @@ import 'package:http/http.dart';
 
 class HttpController {
   static SharedPreferencesController prefs = new SharedPreferencesController();
-  final _headers = {
+
+  static const headers = {
     "Content-Type": "application/json",
     "access-token": "v-Grn-DL7hKFY14PH26pKw",
     "client": "nko10Oif0mo_XRhjNyW82A",
     "uid": "testing672@api.com"
   };
 
-  final _anonymousHeaders = {
-    "Content-Type": "application/json",
-  };
-
   // Future<Map<String, String>> get _headers async => await prefs.fetchHeaders();
 
-  updateHeaders(User user, headers){
-   prefs.updateHeaders(headers);
-
+  updateHeaders(User user, headers) {
+    prefs.updateHeaders(headers);
   }
+
   Future<Response> fetch({
     String endPoint,
-    Map<String, String> headers,
+    Map<String, String> headers = headers,
   }) async {
     Client client = new Client();
     final Response response = await client.get(endPoint, headers: headers);
@@ -37,7 +34,7 @@ class HttpController {
   Future<Map<String, dynamic>> fetch2(String endPoint) async {
     try {
       Client client = new Client();
-      final Response response = await client.get(endPoint, headers: _headers);
+      final Response response = await client.get(endPoint, headers: headers);
       client.close();
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
@@ -51,7 +48,7 @@ class HttpController {
 
   Future<Response> post({
     String endPoint,
-    Map<String, String> headers,
+    Map<String, String> headers = headers,
     dynamic payload,
   }) async {
     Client client = new Client();
@@ -61,7 +58,6 @@ class HttpController {
       headers: headers,
       body: json.encode(payload),
     );
-
 
     client.close();
     return response;

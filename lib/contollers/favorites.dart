@@ -9,10 +9,7 @@ import 'package:discoucher/models/voucher.dart';
 class FavoritesController extends BaseController {
   Future<List<Voucher>> getFavorites() async {
     try {
-      final response = await httpController.fetch(
-        endPoint: Endpoint.favorites,
-        headers: headers,
-      );
+      final response = await fetch(endPoint: Endpoint.favorites);
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
       final List<dynamic> data = parsedJson['data'];
@@ -29,10 +26,9 @@ class FavoritesController extends BaseController {
   Future<bool> addFavorite(VoucherData voucherData) async {
     try {
       final _payload = {"voucher_id": voucherData.id};
-      
-      final response = await httpController.post(
+
+      final response = await post(
         endPoint: Endpoint.addFavorite,
-        headers: headers,
         payload: _payload,
       );
 

@@ -13,16 +13,20 @@ class EstablishmentController extends BaseController {
     try {
       Map<String, String> payload = {"establishment_id": id};
 
-      final response = await httpController.post(
-          endPoint: Uri.encodeFull(Endpoint.singleEstablishment),
-          headers: headers,
-          payload: payload);
+      final response =
+          await post(endPoint: Endpoint.singleEstablishment, payload: payload);
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
       final Map<String, dynamic> data = parsedJson['data'];
       final Map<String, dynamic> establishment = data['attributes'];
 
       EstablishmentFull est = EstablishmentFull.fromJson(establishment);
+      if (est.description != null) {
+        est.description = est.description.trim().replaceAll("\n", " ");
+      }
+      if (est.address != null) {
+        est.address = est.address.trim().replaceAll("\n", " ");
+      }
 
       return est;
     } catch (e) {

@@ -14,7 +14,6 @@ class SearchController extends BaseController {
 
       final response = await httpController.post(
         endPoint: Endpoint.search,
-        headers: headers,
         payload: payload,
       );
 
@@ -23,8 +22,10 @@ class SearchController extends BaseController {
 
       var list = data.map<VoucherData>((item) {
         VoucherData _voucherData = VoucherData.fromJson(item);
-        _voucherData.attributes.description =
-            _voucherData.attributes.description.trim().replaceAll("\n", " ");
+        if (_voucherData.attributes.description != null) {
+          _voucherData.attributes.description =
+              _voucherData.attributes.description.trim().replaceAll("\n", " ");
+        }
 
         return _voucherData;
       }).toList();

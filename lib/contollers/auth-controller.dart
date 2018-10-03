@@ -7,6 +7,8 @@ import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
 
 class AuthController extends BaseController {
+  final _anonymousHeaders = {"Content-Type": "application/json"};
+
   Future<User> login(String email, String password) async {
     try {
       Map<String, String> payload = {
@@ -16,7 +18,7 @@ class AuthController extends BaseController {
 
       final response = await post(
         endPoint: Endpoint.signIn,
-        headers: anonymousHeaders,
+        headers: _anonymousHeaders,
         payload: payload,
       );
 
@@ -47,7 +49,7 @@ class AuthController extends BaseController {
 
       final response = await post(
         endPoint: Uri.encodeFull(Endpoint.signIn),
-        headers: anonymousHeaders,
+        headers: _anonymousHeaders,
         payload: payload,
       );
 

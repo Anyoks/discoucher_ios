@@ -62,16 +62,21 @@ class _LoginPageState extends State<LoginPage> {
     var loggedInUser = await _controller.login(_email, _password);
 
     if (loggedInUser != null) {
-      final isUserSaved = _prefs.updateLoggedInUser(
-        new LoggedInUser(
-            id: "${loggedInUser.id}",
-            fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
-            email: "${loggedInUser.email}"),
-      );
+      goHome(context);
 
+      LoggedInUser _userToSave = new LoggedInUser(
+          id: "${loggedInUser.id}",
+          fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
+          email: "${loggedInUser.email}");
+
+      final isUserSaved = await _prefs.updateLoggedInUser(_userToSave);
+
+      print("isUserSaved");
       print(isUserSaved);
+      print("_userToSave");
+      print(_userToSave.toJson());
 
-      Navigator.pop(context);
+      // Navigator.pop(context);
 
       // widget.fromSplashScreen
       //     ? Navigator.popAndPushNamed(context, _routes.homeRoute)
@@ -87,6 +92,11 @@ class _LoginPageState extends State<LoginPage> {
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(backgroundColor: color, content: Text(message)),
     );
+  }
+
+  goHome(BuildContext context) {
+    Navigator.popAndPushNamed(context, _routes.homeRoute);
+    // Navigator.pushReplacementNamed(context, _routes.homeRoute);
   }
 
   @override
@@ -143,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                   elevation: 4.0,
                 ),
               ),
-              SocialLoginButtons(_routes, _prefs),
+              SocialLoginButtons(),
               Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

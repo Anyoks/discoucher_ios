@@ -55,9 +55,11 @@ class SocialLoginButtons extends StatelessWidget {
       LoginResults results = await google.signIn();
       switch (results.success) {
         case true:
+          goHome(context);
+
           GoogleSignInAccount profile = results.profile;
 
-          LoggedInUser loggedinUSer = LoggedInUser(
+          LoggedInUser loggedinUSer = new LoggedInUser(
             id: profile.id,
             email: profile.email,
             fullName: profile.displayName,
@@ -76,55 +78,43 @@ class SocialLoginButtons extends StatelessWidget {
     }
   }
 
-  // loginToFacebook(BuildContext context) async {
-  //   // waitForLogin(context);
-  //   try {
-  //     LoginResults results = await fb.loginToFacebook();
-  //     switch (results.success) {
-  //       case true:
-  //         FacebookAccessToken token = results.token;
-  //         FacebookProfile profile = results.profile;
-
-  //         LoggedInUser loggedinUSer = LoggedInUser(
-  //           id: profile.id,
-  //           email: profile.email,
-  //           fullName: profile.name,
-  //           photoUrl: profile.picture.data.url,
-  //           bytes: profile.bytes,
-  //           token: token.token,
-  //         );
-
-  //         await _controller.saveLoggedInUser(loggedinUSer);
-  //         goHome(context);
-  //         break;
-  //       default:
-  //         showErrorMessage(context, results.message);
-  //     }
-  //   } catch (errorMessage) {
-  //     showErrorMessage(context, errorMessage);
-  //   }
-  // }
-
   loginToFacebook(BuildContext context) async {
-    bool results = await fb.attemptFacebookLogin();
+    try {
+      LoginResults results = await fb.loginToFacebook();
+      switch (results.success) {
+        case true:
+          goHome(context);
 
-    results
-        ? goHome(context)
-        : showErrorMessage(
-            context, "Error: Unable to login with facebook at the moment");
+          FacebookAccessToken token = results.token;
+          FacebookProfile profile = results.profile;
+
+          LoggedInUser loggedinUSer = LoggedInUser(
+            id: profile.id,
+            email: profile.email,
+            fullName: profile.name,
+            photoUrl: profile.picture.data.url,
+            bytes: profile.bytes,
+            token: token.token,
+          );
+
+          await _controller.saveLoggedInUser(loggedinUSer);
+          break;
+        default:
+          showErrorMessage(context, results.message);
+      }
+    } catch (errorMessage) {
+      showErrorMessage(context, errorMessage);
+    }
   }
 
-  Future<dynamic> _showDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          content: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
+  // loginToFacebook(BuildContext context) async {
+  //   bool results = await fb.attemptFacebookLogin();
+
+  //   results
+  //       ? goHome(context)
+  //       : showErrorMessage(
+  //           context, "Error: Unable to login with facebook at the moment");
+  // }
 
   showErrorMessage(BuildContext context, String error) {
     if (error.runtimeType == String) {
@@ -150,7 +140,10 @@ class SocialLoginButtons extends StatelessWidget {
     );
   }
 
+ 
   goHome(BuildContext context) {
-    Navigator.pushReplacementNamed(context, _routes.homeRoute);
+    Navigator.popAndPushNamed(context, _routes.homeRoute);
+    // Navigator.pushReplacementNamed(context, _routes.homeRoute);
   }
+
 }
