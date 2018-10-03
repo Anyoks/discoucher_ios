@@ -24,10 +24,7 @@ class AuthController extends BaseController {
       };
 
       final response = await post(
-        endPoint: Endpoint.signIn,
-        headers: _anonymousHeaders,
-        payload: payload,
-      );
+          endPoint: Endpoint.signIn, headers: null, payload: payload);
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
 
@@ -55,7 +52,7 @@ class AuthController extends BaseController {
 
       final response = await post(
         endPoint: Endpoint.signUp,
-        headers: _anonymousHeaders,
+        headers: null,
         payload: newUser,
       );
 
@@ -85,9 +82,13 @@ class AuthController extends BaseController {
             message: "You have registered successfully to Discoucher");
       } else {
         final errors = parsedJson['errors'];
-        final List<String> errorMessages = errors['full_messages'];
-        String errorMessage = errorMessages.join("\n");
-        return SignUpResults(status: false, message: errorMessage);
+        final List<dynamic> errorMessages = errors['full_messages'];
+        String _errorMessage = "";
+        errorMessages.forEach((msg) {
+          _errorMessage = "$_errorMessage \n $msg";
+        });
+
+        return SignUpResults(status: false, message: _errorMessage.trim());
       }
     } catch (e) {
       return SignUpResults(

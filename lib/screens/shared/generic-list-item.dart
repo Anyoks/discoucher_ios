@@ -45,7 +45,7 @@ buildSectionContent(Voucher data) {
 }
 
 buildGenericListItem(BuildContext context, VoucherData voucherData) {
-  voucherData.attributes.description = voucherData.attributes.description.trim().replaceAll("\n", " ");
+  // voucherData.attributes.description = voucherData.attributes.description.trim().replaceAll("\n", " ");
   return Container(
     width: 160.0,
     margin: EdgeInsets.only(right: 10.0),

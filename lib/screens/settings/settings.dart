@@ -25,28 +25,6 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
 
     loggedInUser = controller.checkLoggedIn();
-
-    checkUser();
-
-    print("Creating a sample stream...");
-    Stream<String> stream = new Stream.fromFuture(getData());
-    print("Created the stream");
-
-    stream.listen((data) {
-      print("DataReceived: " + data);
-    }, onDone: () {
-      print("Task Done");
-    }, onError: (error) {
-      print("Some Error");
-    });
-
-    print("code controller is here");
-  }
-
-  Future<String> getData() async {
-    await Future.delayed(Duration(seconds: 5)); //Mock delay
-    print("Fetched Data");
-    return "This a test data";
   }
 
   @override

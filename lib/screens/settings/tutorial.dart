@@ -170,10 +170,7 @@ class _TutorialPageState extends State<TutorialPage> {
           // prefs.updateInitialLaunch(false);
 
           final SharedPreferences prefs = await SharedPreferences.getInstance();
-          bool hasEverBeenLaunched =
-              await prefs.setBool(PrefPaths.isInitialLaunch, true);
-
-          print(hasEverBeenLaunched);
+          prefs.setBool(PrefPaths.isInitialLaunch, true);
 
           Navigator.pushReplacementNamed(context, routes.homeRoute);
           // Navigator.pushNamed(context, routes.homeRoute);

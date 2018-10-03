@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:discoucher/contollers/search-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/voucher-data.dart';
-import 'package:discoucher/screens/search/build-search-restults.dart';
+import 'package:discoucher/screens/search/build-search-results.dart';
 import 'package:discoucher/screens/search/suggestions-list.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';

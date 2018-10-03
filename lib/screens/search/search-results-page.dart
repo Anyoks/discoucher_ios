@@ -1,7 +1,7 @@
 import 'package:discoucher/contollers/search-controller.dart';
 import 'package:discoucher/contollers/search-delegate.dart';
 import 'package:discoucher/models/voucher-data.dart';
-import 'package:discoucher/screens/search/build-search-restults.dart';
+import 'package:discoucher/screens/search/build-search-results.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';
 import 'package:flutter/material.dart';

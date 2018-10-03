@@ -17,8 +17,8 @@ class HttpController {
 
   // Future<Map<String, String>> get _headers async => await prefs.fetchHeaders();
 
-  updateHeaders(User user, Map<String, String> headers) {
-    prefs.updateHeaders(user, headers);
+  updateHeaders(String accessToken, String client, String uid) {
+    // prefs.updateHeaders(user, headers);
   }
 
   Future<Response> fetch({

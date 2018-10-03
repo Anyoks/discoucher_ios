@@ -49,6 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
     user.firstName = widget.currentUser.fullName.split(" ")[0];
     user.lastName = widget.currentUser.fullName.split(" ")[1];
     user.email = widget.currentUser.email;
+    user.phoneNumber = widget.currentUser.phoneNumber;
     user.dob = DateTime.now();
   }
 
