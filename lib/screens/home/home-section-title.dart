@@ -1,9 +1,10 @@
 import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/category/category-main.dart';
 import 'package:flutter/material.dart';
 
-openCategoryPage(BuildContext context, List<Voucher> categoryData, String type) {
+openCategoryPage(BuildContext context, List<VoucherData> categoryData, String type) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
     return CategoryPage(
       category: categoryData,
@@ -13,7 +14,7 @@ openCategoryPage(BuildContext context, List<Voucher> categoryData, String type) 
 }
 
 buildHomeSectionTitle(
-    BuildContext context, List<Voucher> categoryData, String type) {
+    BuildContext context, List<VoucherData> categoryData, String type) {
   return Container(
     padding: EdgeInsets.symmetric(vertical: 10.0),
     child: Row(

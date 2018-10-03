@@ -1,6 +1,7 @@
 import 'package:discoucher/contollers/establishment.dart';
 import 'package:discoucher/contollers/favorites.dart';
 import 'package:discoucher/models/establishment-full.dart';
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/redeem-dialog.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
@@ -9,8 +10,8 @@ import 'package:discoucher/screens/details/sliver-list.dart';
 import 'package:flutter/material.dart';
 
 class VoucherDetailsPageRoute extends MaterialPageRoute {
-  VoucherDetailsPageRoute(Voucher data)
-      : super(builder: (context) => VoucherDetailsPage(data: data));
+  VoucherDetailsPageRoute(VoucherData voucherData)
+      : super(builder: (context) => VoucherDetailsPage(voucherData: voucherData));
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
@@ -20,24 +21,25 @@ class VoucherDetailsPageRoute extends MaterialPageRoute {
 }
 
 class VoucherDetailsPage extends StatefulWidget {
-  VoucherDetailsPage({Key key, @required this.data}) : super(key: key);
-  final Voucher data;
+  VoucherDetailsPage({Key key, @required this.voucherData}) : super(key: key);
+  final VoucherData voucherData;
 
   @override
   _VoucherDetailsPageState createState() => new _VoucherDetailsPageState();
 }
 
 class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Color primaryColor;
   EstablishmentFull _establishmentFull;
   Voucher _voucher = new Voucher();
   EstablishmentController _controller = new EstablishmentController();
-  FavoritesController favoritesController = new FavoritesController();
+  FavoritesController _favoritesController = new FavoritesController();
 
   @override
   initState() {
     super.initState();
-    _voucher = widget.data;
+    _voucher = widget.voucherData.attributes;
 
     fetchEstablishmentDetails();
   }
@@ -48,13 +50,16 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     return Material(
       type: MaterialType.transparency,
       child: Scaffold(
+        key: _scaffoldKey,
         body: CustomScrollView(
           slivers: <Widget>[
             buildSliverAppBar(
               context: context,
               voucher: _voucher,
               est: _establishmentFull,
-              addFavorite: addFavorite(),
+              addFavorite: () {
+                addFavorite();
+              },
             ),
             _establishmentFull == null
                 ? buildSliverListPlaceHolder(context, _voucher)
@@ -68,7 +73,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
         floatingActionButton: FloatingActionButton.extended(
           tooltip: 'Redeem this offer',
           onPressed: () {
-            showRedeemDialog(context, widget.data);
+            showRedeemDialog(context, widget.voucherData.attributes);
           },
           label: const Text('Redeem'),
           icon: Image.asset(
@@ -84,7 +89,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
 
   void fetchEstablishmentDetails() async {
     var est =
-        await _controller.getEstablishement(widget.data.establishment.data.id);
+        await _controller.getEstablishement(widget.voucherData.attributes.establishment.data.id);
     est.description = est.description.replaceAll("\n", " ");
     est.address = est.address.replaceAll("\n", " ");
     if (this.mounted) {
@@ -96,5 +101,20 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     }
   }
 
-  addFavorite() {}
+  addFavorite() async {
+    final bool addFavResults =
+        await _favoritesController.addFavorite(widget.voucherData);
+    addFavResults == true
+        ? _showMessage("Voucher added to favorites successfully")
+        : _showMessage("There was an error adding voucher to favorites");
+  }
+
+  void _showMessage(String message, [MaterialColor color = Colors.orange]) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        backgroundColor: color,
+        content: new Text(message),
+      ),
+    );
+  }
 }

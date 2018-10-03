@@ -1,11 +1,12 @@
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
 import 'package:flutter/material.dart';
 
-openEstablishmentDetails(BuildContext context, Voucher data) {
+openEstablishmentDetails(BuildContext context, VoucherData voucherData) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return VoucherDetailsPage(data: data);
+    return VoucherDetailsPage(voucherData: voucherData);
   }));
 }
 
@@ -32,7 +33,7 @@ buildCategorySliverGrid(List<Voucher> vouchers) {
   );
 }
 
-buildCategorySliverGrid2(List<Voucher> vouchers) {
+buildCategorySliverGrid2(List<VoucherData> voucherDataList) {
   return SliverGrid(
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
@@ -41,17 +42,17 @@ buildCategorySliverGrid2(List<Voucher> vouchers) {
     ),
     delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) {
-        var data = vouchers[index];
+        var _data = voucherDataList[index];
         return Center(
           child: GestureDetector(
             onTap: () {
-              openEstablishmentDetails(context, data);
+              openEstablishmentDetails(context, _data);
             },
-            child: buildCategoryListItem(context, data),
+            child: buildCategoryListItem(context, _data.attributes),
           ),
         );
       },
-      childCount: vouchers.length,
+      childCount: voucherDataList.length,
     ),
   );
 }

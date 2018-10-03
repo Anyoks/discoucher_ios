@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:discoucher/contollers/home-controller.dart';
-import 'package:discoucher/models/datum.dart';
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:discoucher/screens/home/horizontal-list.dart';
@@ -18,7 +18,7 @@ class HomeBody extends StatefulWidget {
 class _HomeBodyState extends State<HomeBody> {
   final _homeController = new HomeController();
 
-  Future<List<List<Voucher>>> _homeFuture;
+  Future<List<List<VoucherData>>> _homeFuture;
 
   @override
   void initState() {
@@ -38,8 +38,8 @@ class _HomeBodyState extends State<HomeBody> {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               return HomeError(
-                  onPressed: () {
-                    handleRefresh();
+                  onPressed: () async {
+                    return await handleRefresh();
                   },
                   message: "You are offline");
             case ConnectionState.waiting:
@@ -49,20 +49,26 @@ class _HomeBodyState extends State<HomeBody> {
             default:
               if (snapshot.hasError)
                 return HomeError(
-                  onPressed: () {
-                    handleRefresh();
+                  onPressed: () async {
+                    return await handleRefresh();
                   },
                   message: "Nothing to see",
                 );
               else
-                return sectionBuilder(context, snapshot.data);
+                return snapshot.data.length > 0
+                    ? sectionBuilder(context, snapshot.data)
+                    : HomeError(
+                        onPressed: () async {
+                          return await handleRefresh();
+                        },
+                        message: "There are no vouchers to load at the moment");
           }
         },
       ),
     );
   }
 
-  Future<Null> handleRefresh() async {
+  Future<List<List<VoucherData>>> handleRefresh() async {
     setState(() {
       _homeFuture = _homeController.fetchHomeData();
     });
@@ -70,7 +76,7 @@ class _HomeBodyState extends State<HomeBody> {
     return _homeFuture;
   }
 
-  sectionBuilder(BuildContext context, List sections) {
+  sectionBuilder(BuildContext context, List<List<VoucherData>> sections) {
     return ListView(
       children: <Widget>[
         SizedBox(height: 5.0),

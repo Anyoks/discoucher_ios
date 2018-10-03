@@ -1,3 +1,4 @@
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/redeem-dialog.dart';
 import 'package:discoucher/screens/details/voucher-details.dart';
@@ -8,24 +9,24 @@ final double xHeight = 157.0;
 final double xBottomTextBoxWidth = 200.0;
 final xlighterTextColor = Color(0xFF4F4F4F);
 
-buildCategorySliverList(List<Voucher> vouchers) {
+buildCategorySliverList(List<VoucherData> voucherDataList) {
   return SliverFixedExtentList(
     itemExtent: 135.0,
     delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) {
-        Voucher data = vouchers[index];
+        Voucher data = voucherDataList[index].attributes;
         data.description = data.description.replaceAll("\n", " ");
 
         return Center(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(context, VoucherDetailsPageRoute(data));
+              Navigator.push(context, VoucherDetailsPageRoute( voucherDataList[index]));
             },
             child: buildCategoryListItem(context, data),
           ),
         );
       },
-      childCount: vouchers.length,
+      childCount: voucherDataList.length,
     ),
   );
 }

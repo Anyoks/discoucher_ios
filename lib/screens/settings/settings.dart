@@ -23,14 +23,11 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   initState() {
     super.initState();
-
-    checkUser();
+    loggedInUser = controller.checkLoggedIn();
   }
 
   @override
   Widget build(BuildContext context) {
-    checkUser();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -91,17 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   logOut() {
     if (this.mounted) {
-      setState(() {
-        loggedInUser = null;
-      });
-    }
-  }
-
-  checkUser() {
-    if (this.mounted) {
-      setState(() {
-        loggedInUser = controller.checkLoggedIn();
-      });
+      setState(() => loggedInUser = null);
     }
   }
 }

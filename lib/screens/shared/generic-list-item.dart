@@ -1,3 +1,4 @@
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:discoucher/screens/shared/build-image.dart';
@@ -43,25 +44,25 @@ buildSectionContent(Voucher data) {
   );
 }
 
-buildGenericListItem(BuildContext context, Voucher data) {
-  data.description = data.description.trim().replaceAll("\n", " ");
+buildGenericListItem(BuildContext context, VoucherData voucherData) {
+  voucherData.attributes.description = voucherData.attributes.description.trim().replaceAll("\n", " ");
   return Container(
     width: 160.0,
     margin: EdgeInsets.only(right: 10.0),
     child: new GestureDetector(
       onTap: () {
-        Navigator.push(context, VoucherDetailsPageRoute(data));
+        Navigator.push(context, VoucherDetailsPageRoute(voucherData));
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          buildSectionContent(data),
+          buildSectionContent(voucherData.attributes),
           SizedBox(height: 7.0),
           Hero(
-            tag: data.heroId,
+            tag: voucherData.attributes.heroId,
             child: Text(
-              data.description,
+              voucherData.attributes.description,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
               style: TextStyle(color: Colors.black, fontSize: 11.0),

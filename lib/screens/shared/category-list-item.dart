@@ -1,24 +1,25 @@
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:flutter/material.dart';
 
-openEstablishmentDetails(BuildContext context, Voucher data) {
+openEstablishmentDetails(BuildContext context, VoucherData data) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return VoucherDetailsPage(data: data);
+    return VoucherDetailsPage(voucherData: data);
   }));
 }
 
-buildListItemCategory(BuildContext context, Voucher data) {
+buildListItemCategory(BuildContext context, VoucherData voucherData) {
   return Container(
     // color: Colors.redAccent,
     width: 160.0,
     margin: EdgeInsets.only(right: 12.0),
     child: new GestureDetector(
       onTap: () {
-        openEstablishmentDetails(context, data);
+        openEstablishmentDetails(context, voucherData);
       },
       child: Hero(
-        tag: data.heroId,
+        tag: voucherData.attributes.heroId,
         child: Column(
           children: <Widget>[
             Container(
@@ -30,8 +31,8 @@ buildListItemCategory(BuildContext context, Voucher data) {
                 shape: BoxShape.rectangle,
                 image: new DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(data.establishment.data.attributes.featuredImage.length > 0
-                      ? data.establishment.data.attributes.featuredImage
+                  image: NetworkImage(voucherData.attributes.establishment.data.attributes.featuredImage.length > 0
+                      ? voucherData.attributes.establishment.data.attributes.featuredImage
                       : null),
                 ),
               ),

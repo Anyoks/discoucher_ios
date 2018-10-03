@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:discoucher/constants/endpoints.dart';
 import 'package:discoucher/contollers/base-controller.dart';
+import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
 
 class AuthController extends BaseController {
@@ -13,7 +14,7 @@ class AuthController extends BaseController {
         "password": "$password"
       };
 
-      final response = await httpController.post(
+      final response = await post(
         endPoint: Endpoint.signIn,
         headers: anonymousHeaders,
         payload: payload,
@@ -44,7 +45,7 @@ class AuthController extends BaseController {
       };
       final payload = json.encode(newUser);
 
-      final response = await httpController.post(
+      final response = await post(
         endPoint: Uri.encodeFull(Endpoint.signIn),
         headers: anonymousHeaders,
         payload: payload,
@@ -60,5 +61,9 @@ class AuthController extends BaseController {
     } catch (e) {
       return null;
     }
+  }
+
+  Future<bool> saveLoggedInUser(LoggedInUser user) async {
+    return await prefs.updateLoggedInUser(user);
   }
 }

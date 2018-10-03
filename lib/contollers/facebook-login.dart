@@ -1,17 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:discoucher/models/facebook-user.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
-class FacebookLoginController {
+class FacebookLoginController extends AuthController {
   final String grapghUrl =
       "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture&access_token=";
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
-  Future<LoginResults> login() async {
+  Future<LoginResults> loginToFacebook() async {
     LoginResults logInAttempt = new LoginResults();
 
     final FacebookLoginResult result =
@@ -61,11 +62,37 @@ class FacebookLoginController {
     }
   }
 
-  Future<bool> logOut() async {
+  Future<bool> logOutFacebook() async {
     try {
       await facebookSignIn.logOut();
       return true;
     } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> attemptFacebookLogin() async {
+    try {
+      LoginResults results = await loginToFacebook();
+      if (results.success) {
+        FacebookAccessToken token = results.token;
+        FacebookProfile profile = results.profile;
+
+        LoggedInUser loggedinUSer = LoggedInUser(
+          id: profile.id,
+          email: profile.email,
+          fullName: profile.name,
+          photoUrl: profile.picture.data.url,
+          bytes: profile.bytes,
+          token: token.token,
+        );
+
+        await saveLoggedInUser(loggedinUSer);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (errorMessage) {
       return false;
     }
   }

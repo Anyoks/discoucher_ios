@@ -27,7 +27,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
     );
 
     if (selected != null) {
-      Navigator.push(context, VoucherDetailsPageRoute(selected.attributes));
+      Navigator.push(context, VoucherDetailsPageRoute(selected));
     }
   }
 

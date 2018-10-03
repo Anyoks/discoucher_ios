@@ -3,13 +3,14 @@ import 'dart:convert';
 
 import 'package:discoucher/constants/endpoints.dart';
 import 'package:discoucher/contollers/base-controller.dart';
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 
 class FavoritesController extends BaseController {
   Future<List<Voucher>> getFavorites() async {
     try {
       final response = await httpController.fetch(
-        endPoint: Uri.encodeFull(Endpoint.favorites),
+        endPoint: Endpoint.favorites,
         headers: headers,
       );
 
@@ -25,20 +26,27 @@ class FavoritesController extends BaseController {
     }
   }
 
-  Future<Voucher> addFavorite() async {
+  Future<bool> addFavorite(VoucherData voucherData) async {
     try {
+      final _payload = {"voucher_id": voucherData.id};
+      
       final response = await httpController.post(
-        endPoint: Uri.encodeFull(Endpoint.addFavorite),
+        endPoint: Endpoint.addFavorite,
         headers: headers,
+        payload: _payload,
       );
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
-      final data = parsedJson['data'];
-      final vouchers = Voucher.fromJson(data);
+      // {
+      //     "success": true,
+      //     "message": "Voucher marked as favourite"
+      // }
 
-      return vouchers;
+      final bool success = parsedJson['success'];
+
+      return success;
     } catch (e) {
-      return null;
+      return false;
     }
   }
 }

@@ -1,47 +1,47 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:http/http.dart';
 
 import 'package:discoucher/constants/endpoints.dart';
 import 'package:discoucher/contollers/base-controller.dart';
-import 'package:discoucher/models/voucher.dart';
 
 class HomeController extends BaseController {
-  var client = new Client();
-
-  Future<List<List<Voucher>>> fetchHomeData() async {
-    List<String> endpoints = [
+  Future<List<List<VoucherData>>> fetchHomeData() async {
+    List<String> _endpoints = [
       Endpoint.restaurantVouchers,
       Endpoint.hotelVouchers,
       Endpoint.spaVouchers
     ];
 
     List<Response> responses = await Future.wait(
-      endpoints.map((endpoint) => client.get(
-            Uri.encodeFull(endpoint),
+      _endpoints.map((endpoint) => fetch(
+            endPoint: endpoint,
             headers: headers,
           )),
     );
 
-    List<List<Voucher>> sectionsLists =
+    var sectionsLists =
         responses.map((response) => parseSectionData(response.body)).toList();
 
-    client.close();
     return sectionsLists;
   }
 
-  List<Voucher> parseSectionData(String responseBody) {
-    final Map<String, dynamic> parsedJson = json.decode(responseBody);
-    final List<dynamic> data = parsedJson['data'];
+  List<VoucherData> parseSectionData(String responseBody) {
+    Map<String, dynamic> parsedJson = json.decode(responseBody);
+    var data = parsedJson['data'];
 
-    if (data != null) {
-      var dataItems = data.map<Voucher>((item) {
-        final Map<String, dynamic> attributes = item['attributes'];
-        return Voucher.fromJson(attributes);
+    try {
+      var list = data.map<VoucherData>((item) {
+        VoucherData _voucherData = VoucherData.fromJson(item);
+        _voucherData.attributes.description =
+            _voucherData.attributes.description.trim().replaceAll("\n", " ");
+
+        return _voucherData;
       }).toList();
 
-      return dataItems;
-    } else {
+      return list;
+    } catch (e) {
       return [];
     }
   }

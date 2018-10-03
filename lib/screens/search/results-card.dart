@@ -22,7 +22,7 @@ class ResultCard extends StatelessWidget {
           if (closeSearchDelegate != null && closeSearchDelegate) {
             searchDelegate.close(context, voucherData);
           } else {
-            Navigator.push(context, VoucherDetailsPageRoute(voucherData.attributes));
+            Navigator.push(context, VoucherDetailsPageRoute(voucherData));
           }
         },
         child: buildCategoryListItem(context, voucherData.attributes));

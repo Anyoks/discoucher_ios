@@ -1,3 +1,4 @@
+import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/category/category-sliver-app-bar.dart';
 import 'package:discoucher/screens/category/category-sliver-list.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 class CategoryPage extends StatefulWidget {
   CategoryPage({Key key, @required this.category, @required this.type})
       : super(key: key);
-  final List<Voucher> category;
+  final List<VoucherData> category;
   final String type;
 
   @override

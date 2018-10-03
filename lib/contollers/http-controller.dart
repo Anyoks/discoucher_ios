@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
+import 'package:discoucher/models/user.dart';
 import 'package:http/http.dart';
 
 class HttpController {
@@ -19,6 +20,10 @@ class HttpController {
 
   // Future<Map<String, String>> get _headers async => await prefs.fetchHeaders();
 
+  updateHeaders(User user, headers){
+   prefs.updateHeaders(headers);
+
+  }
   Future<Response> fetch({
     String endPoint,
     Map<String, String> headers,
@@ -56,6 +61,7 @@ class HttpController {
       headers: headers,
       body: json.encode(payload),
     );
+
 
     client.close();
     return response;

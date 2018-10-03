@@ -14,7 +14,7 @@ Future openSearch(BuildContext context) async {
   );
 
   if (selected != null) {
-    Navigator.push(context, VoucherDetailsPageRoute(selected.attributes));
+    Navigator.push(context, VoucherDetailsPageRoute(selected));
   }
 }
 
@@ -65,12 +65,12 @@ buildCategorySliverAppBar({
         ),
       ),
     ),
-    actions: <Widget>[
-      IconButton(
-        onPressed: () => showFiltersFn(),
-        icon: Icon(Icons.tune),
-      )
-    ],
+    // actions: <Widget>[
+    //   IconButton(
+    //     onPressed: () => showFiltersFn(),
+    //     icon: Icon(Icons.tune),
+    //   )
+    // ],
   );
 }
 

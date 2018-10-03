@@ -1,3 +1,4 @@
+import 'package:discoucher/constants/pref-paths.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/carousel-content.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
@@ -6,6 +7,7 @@ import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TutorialPage extends StatefulWidget {
   @override
@@ -52,7 +54,7 @@ class _TutorialPageState extends State<TutorialPage> {
                     "|",
                     style: TextStyle(fontSize: 22.0),
                   ),
-                  SocialLoginButtons(routes, prefs),
+                  SocialLoginButtons(),
                 ],
               ),
             ),
@@ -164,8 +166,15 @@ class _TutorialPageState extends State<TutorialPage> {
       child: FlatButton(
         padding: const EdgeInsets.all(18.0),
         color: Theme.of(context).primaryColor,
-        onPressed: () {
-          prefs.updateInitialLaunch(false);
+        onPressed: () async {
+          // prefs.updateInitialLaunch(false);
+
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          bool hasEverBeenLaunched =
+              await prefs.setBool(PrefPaths.isInitialLaunch, true);
+
+          print(hasEverBeenLaunched);
+
           Navigator.pushReplacementNamed(context, routes.homeRoute);
           // Navigator.pushNamed(context, routes.homeRoute);
         },
