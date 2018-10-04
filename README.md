@@ -68,4 +68,21 @@ This behavior persists until you explicitly disable Debug mode by executing the 
 adb shell setprop debug.firebase.analytics.app .none.
 ```
 
-echo y | keytool -genkeypair -dname "cn=Dennis Riungu, ou=Developer, o=Nairobi, c=KE" -alias business -keypass ab987c -keystore C:/Users/dennis.riungu/Documents/Code/flutter/discoucher_android/pub/android.keystore -storepass ab987c -validity 20000
+
+# Generate release key
+keytool -genkey -v -keystore C:/Users/dennis.riungu/Documents/Code/flutter/discoucher_android/pub/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias discoucherKey -dname " CN=Bespoke Fusion, OU=Development, O=Bespoke Fusion, L=Nairobi, ST=Kenya, C=KE"
+
+
+echo y | keytool -genkeypair -dname "cn=Bespoke Fusion, ou=Development, o=Nairobi, c=KE" -alias bespoke-discoucher -keypass bespoke-discoucher-keypass -keystore C:/Users/dennis.riungu/Documents/Code/flutter/discoucher_android/pub/android.keystore -storepass ab987c -validity 20000
+
+# Generate Facebook Release key SHA-1 Fingerprint
+keytool -exportcert -alias discoucherKey -keystore C:/Users/dennis.riungu/Documents/Code/flutter/discoucher_android/pub/key.jks | openssl sha1 -binary | openssl base64
+
+```
+ZblIOGoaWJd50XHFKNdTXv8VL38=
+```
+
+# Generate Release key SHA-1
+
+keytool -exportcert -list -v -alias discoucherKey -keystore C:/Users/dennis.riungu/Documents/Code/flutter/discoucher_android/pub/key.jks
+keytool -list -v -alias discoucherKey -keystore C:/Users/dennis.riungu/Documents/Code/flutter/discoucher_android/pub/key.jks
