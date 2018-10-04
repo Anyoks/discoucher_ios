@@ -14,8 +14,6 @@ class SignUpResults {
 }
 
 class AuthController extends BaseController {
-  static const _anonymousHeaders = {"Content-Type": "application/json"};
-
   Future<User> login(String email, String password) async {
     try {
       Map<String, String> payload = {
@@ -23,8 +21,8 @@ class AuthController extends BaseController {
         "password": "$password"
       };
 
-      final response = await post(
-          endPoint: Endpoint.signIn, headers: null, payload: payload);
+      final response =
+          await postAnonymous(endPoint: Endpoint.signIn, payload: payload);
 
       final Map<String, dynamic> parsedJson = json.decode(response.body);
 
@@ -50,9 +48,8 @@ class AuthController extends BaseController {
         "phone_number": "${_user.phoneNumber}"
       };
 
-      final response = await post(
+      final response = await postAnonymous(
         endPoint: Endpoint.signUp,
-        headers: null,
         payload: newUser,
       );
 

@@ -20,11 +20,20 @@ class BaseController {
   Future<Response> post({
     String endPoint,
     Map<String, String> headers,
-    Map<String, dynamic> payload,
+    dynamic payload,
   }) =>
       _httpController.post(
         endPoint: endPoint,
         headers: headers,
+        payload: payload,
+      );
+
+  Future<Response> postAnonymous({
+    String endPoint,
+    dynamic payload,
+  }) =>
+      _httpController.postAnonymous(
+        endPoint: endPoint,
         payload: payload,
       );
 

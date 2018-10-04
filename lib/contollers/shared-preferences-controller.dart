@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:discoucher/constants/pref-paths.dart';
+import 'package:discoucher/models/header-params.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,7 +54,7 @@ class SharedPreferencesController {
     }
   }
 
-  Future<bool> updateHeaders(User user, Map<String, String> headers) async {
+  Future<bool> updateHeaders(HeaderParams headers) async {
     var results = false;
 
     try {
@@ -73,10 +74,21 @@ class SharedPreferencesController {
   Future<Map<String, String>> fetchHeaders() async {
     try {
       final String localHeaders = prefs.getString(PrefPaths.headers);
-      final Map<String, String> _headers = json.decode(localHeaders);
+      final Map<String, dynamic> _headers = json.decode(localHeaders);
 
-      return _headers;
+      final Map<String, String> _stringHeaders = {
+        "Accept": "${_headers['Accept']}",
+        "access-token": "${_headers['access-token']}",
+        "client": "${_headers['client']}",
+        "uid": "${_headers['uid']}"
+      };
+
+      print(_stringHeaders);
+
+      return _stringHeaders;
     } catch (e) {
+      // const _anonymousHeaders = {"Content-Type": "application/json"};
+      // return _anonymousHeaders;
       return null;
     }
   }
