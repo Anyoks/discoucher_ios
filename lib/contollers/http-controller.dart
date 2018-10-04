@@ -12,7 +12,7 @@ class HttpController {
   _updateHeaders(headers) {
     final uid = headers["uid"];
     if (uid != null) {
-      incomingHeaders.accept = "application/json";
+      incomingHeaders.contentType = "application/json";
       incomingHeaders.client = headers["client"];
       incomingHeaders.accessToken = headers["access-token"];
       incomingHeaders.uid = headers["uid"];
@@ -78,11 +78,12 @@ class HttpController {
 
   Future<Response> postAnonymous({String endPoint, dynamic payload}) async {
     try {
+      const _anonymousHeaders = {"Content-Type": "application/json"};
       Client client = new Client();
 
       final Response response = await client.post(
         Uri.encodeFull(endPoint),
-        headers: null,
+        headers: _anonymousHeaders,
         body: json.encode(payload),
       );
 

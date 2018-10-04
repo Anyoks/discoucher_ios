@@ -1,25 +1,25 @@
 class HeaderParams {
-  String accept;
+  String contentType;
   String accessToken;
   String client;
   String uid;
 
   HeaderParams({
-    this.accept,
+    this.contentType,
     this.accessToken,
     this.client,
     this.uid,
   });
 
   factory HeaderParams.fromJson(Map<String, dynamic> json) => new HeaderParams(
-        accept: json["Accept"],
+        contentType: json["Content-Type"],
         accessToken: json["access-token"],
         client: json["client"],
         uid: json["uid"],
       );
 
   Map<String, dynamic> toJson() => {
-        "Accept": accept,
+        "Content-Type": contentType,
         "access-token": accessToken,
         "client": client,
         "uid": uid,

@@ -77,7 +77,7 @@ class SharedPreferencesController {
       final Map<String, dynamic> _headers = json.decode(localHeaders);
 
       final Map<String, String> _stringHeaders = {
-        "Accept": "${_headers['Accept']}",
+        "Content-Type": "${_headers['Content-Type']}",
         "access-token": "${_headers['access-token']}",
         "client": "${_headers['client']}",
         "uid": "${_headers['uid']}"
@@ -87,9 +87,9 @@ class SharedPreferencesController {
 
       return _stringHeaders;
     } catch (e) {
-      // const _anonymousHeaders = {"Content-Type": "application/json"};
-      // return _anonymousHeaders;
-      return null;
+      const _anonymousHeaders = {"Content-Type": "application/json"};
+      return _anonymousHeaders;
+      // return null;
     }
   }
 
