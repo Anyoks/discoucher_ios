@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 // import 'package:firebase_analytics/observer.dart';
 import 'package:discoucher/screens/theme.dart';
 import 'package:discoucher/screens/routes.dart';
-import 'package:map_view/map_view.dart';
+// import 'package:map_view/map_view.dart';
 
 void main() {
-  MapView.setApiKey(APIKEY);
+  // MapView.setApiKey(APIKEY);
 
   runApp(new DiscoucherApp());
 }

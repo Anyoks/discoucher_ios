@@ -59,7 +59,7 @@ buildSliverList(
           displayText: establishment.website,
         ),
         buildEstablishmentDescription(establishment),
-        MapWidget(voucher, establishment),
+        // MapWidget(voucher, establishment),
         SizedBox(height: 40.0),
       ],
     ),
