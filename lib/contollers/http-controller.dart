@@ -21,7 +21,7 @@ class HttpController {
     }
   }
 
-  fetch({
+  Future<Response> fetch({
     String endPoint,
     Map<String, String> headers,
   }) async {
