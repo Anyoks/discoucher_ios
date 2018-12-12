@@ -9,6 +9,8 @@ class HttpController {
   static SharedPreferencesController prefs = new SharedPreferencesController();
   HeaderParams incomingHeaders = new HeaderParams();
 
+
+// headers change each time there's an http request. so update them often!
   _updateHeaders(headers) {
     final uid = headers["uid"];
     if (uid != null) {
@@ -21,6 +23,7 @@ class HttpController {
     }
   }
 
+// make an http get request. Requires an endpoint and headers
   Future<Response> fetch({
     String endPoint,
     Map<String, String> headers,
@@ -76,6 +79,7 @@ class HttpController {
     }
   }
 
+//  Make http post without headers
   Future<Response> postAnonymous({String endPoint, dynamic payload}) async {
     try {
       const _anonymousHeaders = {"Content-Type": "application/json"};

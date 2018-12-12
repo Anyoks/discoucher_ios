@@ -61,6 +61,8 @@ class _LoginPageState extends State<LoginPage> {
   void _performLogin() async {
     var loggedInUser = await _controller.login(_email, _password);
 
+    print("This is the response $loggedInUser");
+    // Add a better error message for failed loggins due to wrong credentials
     if (loggedInUser != null) {
       goHome(context);
 
