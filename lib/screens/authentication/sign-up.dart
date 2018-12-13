@@ -70,7 +70,8 @@ class _SignUpPageState extends State<SignUpPage> {
     SignUpResults signUpResults = await _controller.signUp(user);
 
     if (signUpResults != null && signUpResults.status) {
-      goHome();
+      goToPaymentPrompt();
+      // goHome();
     } else {
       _showMessage("${signUpResults.message}");
     }
@@ -82,7 +83,17 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   goHome() {
+  
     Navigator.popAndPushNamed(context, _routes.homeRoute);
+  }
+
+  goToPaymentPrompt(){
+    String hR = _routes.homeRoute.toString();
+    String pR = _routes.signUpPaymentRoute.toString();
+  
+    print("This is the home route  $hR");
+    print("THis is the payment route $pR");
+    Navigator.popAndPushNamed(context, _routes.signUpPaymentRoute);
   }
 
   @override

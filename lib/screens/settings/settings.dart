@@ -10,6 +10,7 @@ import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/screens/settings/bottom-sections.dart';
 
+// settings page for a logged in User
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
