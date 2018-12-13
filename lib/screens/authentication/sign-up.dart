@@ -29,12 +29,12 @@ class _SignUpPageState extends State<SignUpPage> {
   // Initially password is obscure
   bool _obscureText = true;
   // add toggle view password
-  _toggle() {
-    setState(() {
-      _obscureText = !_obscureText;
-      print("INSIDE OBSCURE TEXT $_obscureText");
-    });
-  }
+  // _toggle() {
+  //   setState(() {
+  //     _obscureText = !_obscureText;
+  //     print("INSIDE OBSCURE TEXT $_obscureText");
+  //   });
+  // }
 
   final int maxTexInput = 40;
   User user = new User();
@@ -152,10 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
             _buildEmail(),
             _buildPhone(),
             _buildPassword(),
-            // new FlatButton(
-            //     onPressed: _toggle,
-            //     child: new Text(_obscureText ? "Show" : "Hide")),
-            _buildConfirmPassword(),
+            // _buildConfirmPassword(), // no need for this now...
           ],
         ),
       ),
@@ -231,10 +228,13 @@ class _SignUpPageState extends State<SignUpPage> {
           suffixIcon: Padding(
             padding: const EdgeInsetsDirectional.only(end: 12.0),
             child: IconButton(
-              icon: Icon(Icons.remove_red_eye),
+              icon: Icon( _obscureText ? Icons.visibility_off : Icons.visibility ),
               onPressed: () {
-                _obscureText = !_obscureText;
-                print("inside OBSCURE TEXT $_obscureText");
+                setState(() {
+                  _obscureText = !_obscureText;
+                  print("inside OBSCURE TEXT $_obscureText");
+                });
+                
               }, //null // _toggle(),//_toggle(),
             ), // icon is 48px widget.
           ),
@@ -242,22 +242,23 @@ class _SignUpPageState extends State<SignUpPage> {
           labelText: 'Password'),
       obscureText: _obscureText,
       validator: (val) => val.length < 5 ? 'Valid password is required' : null,
-      onSaved: (val) => user.password = val,
+      onSaved: (val){ user.password = val;user.passwordConfirmation = val; }, 
+      //onSaved: (val) => user.passwordConfirmation = val
     );
   }
 
-  _buildConfirmPassword() {
-    return TextFormField(
-      initialValue: user.password,
-      obscureText: true,
-      // autovalidate: true,
-      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
-      decoration: const InputDecoration(
-          icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
-          hintText: 'Enter password',
-          labelText: 'Confirm Password'),
-      validator: (val) => val.length < 5 ? 'Valid password is required' : null,
-      onSaved: (val) => user.passwordConfirmation = val,
-    );
-  }
+  // _buildConfirmPassword() {
+  //   return TextFormField(
+  //     initialValue: user.password,
+  //     obscureText: true,
+  //     // autovalidate: true,
+  //     inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
+  //     decoration: const InputDecoration(
+  //         icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
+  //         hintText: 'Enter password',
+  //         labelText: 'Confirm Password'),
+  //     validator: (val) => val.length < 5 ? 'Valid password is required' : null,
+  //     onSaved: (val) => user.passwordConfirmation = val,
+  //   );
+  // }
 }
