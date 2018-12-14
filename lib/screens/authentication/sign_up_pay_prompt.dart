@@ -54,10 +54,10 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> {
           child: RaisedButton(
             onPressed: _submit,
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
               child: Text(
                 'CONTINUE TO FREE VOUCHER',
-                style: TextStyle(color: Colors.white, fontSize: 17.0),
+                style: TextStyle(color: Colors.white, fontSize: 15.0),
               ),
             ),
             color: Theme.of(context).primaryColor,
@@ -79,10 +79,12 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> {
           height: 20.0,
         ),
         Container(
-          child: Text('Unlock & start redeeming all our vouchers!',
+          margin:
+              EdgeInsets.only(left: 10.0, right: 10.0),
+          child: Text('Unlock & start redeeming all vouchers!',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 18)),
+              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 15.0)),
         ),
         Container(
           margin:
