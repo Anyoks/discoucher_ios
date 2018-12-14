@@ -70,6 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
     SignUpResults signUpResults = await _controller.signUp(user);
 
     if (signUpResults != null && signUpResults.status) {
+      // if the user is signing up, then he has not paid! 
       goToPaymentPrompt();
       // goHome();
     } else {
