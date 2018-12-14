@@ -39,5 +39,9 @@ flutter:
     - images/establishments/
     - images/social/
     - images/uvp/
+  fonts:
+    - family: Futura
+      fonts:
+        - asset: fonts/futura_medium.ttf
 
  
