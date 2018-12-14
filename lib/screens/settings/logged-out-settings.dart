@@ -3,6 +3,7 @@ import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/authentication/login.dart';
 import 'package:discoucher/screens/authentication/sign-up.dart';
 import 'package:discoucher/screens/authentication/sign_up_pay_prompt.dart';
+import 'package:discoucher/screens/authentication/pay_prompt.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/screens/settings/about.dart';
 import 'package:discoucher/screens/settings/contacts-section.dart';
@@ -21,19 +22,20 @@ Widget loggedOutUserSettings(
       SizedBox(height: 20.0),
       RaisedButton(
         onPressed: () {
-          // Navigator.push(context, SignUpPageRoute());
-          Navigator.push(context, SignUpPayPromptRoute());
+          Navigator.push(context, SignUpPageRoute());
+          // Navigator.push(context, SignUpPayPromptRoute());
+          // Navigator.push(context, PayPromptRoute());
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 12.0),
           child: Text(
             // Note, the spaces here are to make sure the buttons are of the same size.
-            '        Sign Up         ',
+            '       Sign Up        ',
             style: TextStyle(color: Colors.white, fontSize: 17.0),
           ),
         ),
         color: Theme.of(context).primaryColor,
-        elevation: 4.0,
+        elevation: 1.0,
       ),
       SizedBox(height: 5.0),
       OutlineButton(
