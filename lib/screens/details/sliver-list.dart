@@ -60,7 +60,7 @@ buildSliverList(
         ),
         buildEstablishmentDescription(establishment),
         MapWidget(voucher, establishment),
-        SizedBox(height: 40.0),
+        SizedBox(height: 70.0),
       ],
     ),
   );
