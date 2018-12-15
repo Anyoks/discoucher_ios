@@ -6,6 +6,7 @@ import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:discoucher/screens/shared/wavy-header-image.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';
 
 class SignUpPageRoute extends MaterialPageRoute {
@@ -24,6 +25,16 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController _dateController = TextEditingController();
   final Validators _validators = Validators();
+
+  // Initially password is obscure
+  bool _obscureText = true;
+  // add toggle view password
+  // _toggle() {
+  //   setState(() {
+  //     _obscureText = !_obscureText;
+  //     print("INSIDE OBSCURE TEXT $_obscureText");
+  //   });
+  // }
 
   final int maxTexInput = 40;
   User user = new User();
@@ -52,6 +63,8 @@ class _SignUpPageState extends State<SignUpPage> {
       );
     }
   }
+
+  // Toggles the password show status
 
   void _saveProfile() async {
     SignUpResults signUpResults = await _controller.signUp(user);
@@ -83,21 +96,44 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       body: ListView(
         children: <Widget>[
+          WavyHeaderImage(
+            child: Image.asset(
+              "images/banner.jpg",
+              fit: BoxFit.cover,
+              height: 200.0,
+            ),
+          ),
           SizedBox(width: 15.0),
-          Container(height: 1.0, color: Colors.grey),
+          // Container(height: 1.0, color: Colors.grey),
           buildSignUpForm(),
-          SizedBox(height: 100.0),
+          // SizedBox(height: 100.0),
+          Container(
+            margin: EdgeInsets.only(
+                left: 45.0, top: 15.0, bottom: 15.0, right: 15.0),
+            child: RaisedButton(
+              onPressed: _submit,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Sign Up',
+                  style: TextStyle(color: Colors.white, fontSize: 17.0),
+                ),
+              ),
+              color: Theme.of(context).primaryColor,
+              elevation: 4.0,
+            ),
+          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Theme.of(context).primaryColor,
-        tooltip: 'Submit details',
-        onPressed: () {
-          _submit();
-        },
-        label: const Text('Submit'),
-        icon: const Icon(Icons.check),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   backgroundColor: Theme.of(context).primaryColor,
+      //   tooltip: 'Submit details',
+      //   onPressed: () {
+      //     _submit();
+      //   },
+      //   label: const Text('Submit'),
+      //   icon: const Icon(Icons.check),
+      // ),
     );
   }
 
@@ -116,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
             _buildEmail(),
             _buildPhone(),
             _buildPassword(),
-            _buildConfirmPassword(),
+            // _buildConfirmPassword(), // no need for this now...
           ],
         ),
       ),
@@ -173,7 +209,7 @@ class _SignUpPageState extends State<SignUpPage> {
       // autovalidate: true,
       decoration: const InputDecoration(
           icon: const Icon(Icons.phone, color: xDiscoucherGreen),
-          hintText: 'Enter you phone number',
+          hintText: 'Enter your phone number',
           labelText: 'Phone'),
       keyboardType: TextInputType.phone,
       inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -184,30 +220,45 @@ class _SignUpPageState extends State<SignUpPage> {
   _buildPassword() {
     return TextFormField(
       initialValue: user.password,
-      obscureText: true,
+
       // autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
           icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
+          suffixIcon: Padding(
+            padding: const EdgeInsetsDirectional.only(end: 12.0),
+            child: IconButton(
+              icon: Icon( _obscureText ? Icons.visibility_off : Icons.visibility ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                  print("inside OBSCURE TEXT $_obscureText");
+                });
+                
+              }, //null // _toggle(),//_toggle(),
+            ), // icon is 48px widget.
+          ),
           hintText: 'Enter password',
           labelText: 'Password'),
+      obscureText: _obscureText,
       validator: (val) => val.length < 5 ? 'Valid password is required' : null,
-      onSaved: (val) => user.password = val,
+      onSaved: (val){ user.password = val;user.passwordConfirmation = val; }, 
+      //onSaved: (val) => user.passwordConfirmation = val
     );
   }
 
-  _buildConfirmPassword() {
-    return TextFormField(
-      initialValue: user.password,
-      obscureText: true,
-      // autovalidate: true,
-      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
-      decoration: const InputDecoration(
-          icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
-          hintText: 'Enter password',
-          labelText: 'Confirm Password'),
-      validator: (val) => val.length < 5 ? 'Valid password is required' : null,
-      onSaved: (val) => user.passwordConfirmation = val,
-    );
-  }
+  // _buildConfirmPassword() {
+  //   return TextFormField(
+  //     initialValue: user.password,
+  //     obscureText: true,
+  //     // autovalidate: true,
+  //     inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
+  //     decoration: const InputDecoration(
+  //         icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
+  //         hintText: 'Enter password',
+  //         labelText: 'Confirm Password'),
+  //     validator: (val) => val.length < 5 ? 'Valid password is required' : null,
+  //     onSaved: (val) => user.passwordConfirmation = val,
+  //   );
+  // }
 }

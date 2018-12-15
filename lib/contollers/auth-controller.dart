@@ -15,24 +15,41 @@ class SignUpResults {
 
 class AuthController extends BaseController {
   Future<User> login(String email, String password) async {
+     print("I am in the login func $email  , $password");
     try {
+      // make a json hash of the details
       Map<String, String> payload = {
         "email": "$email",
         "password": "$password"
       };
 
-      final response =
-          await postAnonymous(endPoint: Endpoint.signIn, payload: payload);
+      print("This is the payload $payload  ");
 
+      final response = await postAnonymous(endPoint: Endpoint.signIn, payload: payload);
+
+     
+
+
+      // decode the recieved json response
       final Map<String, dynamic> parsedJson = json.decode(response.body);
 
+      // Need to add corrent error response for wrong credentials
+      print("This is the response after payload check $parsedJson");
       final Map<String, dynamic> data = parsedJson['data'];
       final Map<String, dynamic> userObj = data['user'];
 
       User user = User.fromJson(userObj);
 
+      print("This is the response $response");
+      print("This is the parsed json $parsedJson");
+      print("This is the data $data");
+      print("This is the user object $userObj");
+      print("This is the user $user");
+
       return user;
     } catch (e) {
+
+      // return better error response
       return null;
     }
   }

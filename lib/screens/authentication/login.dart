@@ -38,6 +38,8 @@ class _LoginPageState extends State<LoginPage> {
   final AuthController _controller = new AuthController();
   final Validators _validators = Validators();
 
+  bool _obscureText = true;
+
   String _email;
   String _password;
 
@@ -61,6 +63,8 @@ class _LoginPageState extends State<LoginPage> {
   void _performLogin() async {
     var loggedInUser = await _controller.login(_email, _password);
 
+    print("This is the response $loggedInUser");
+    // Add a better error message for failed loggins due to wrong credentials
     if (loggedInUser != null) {
       goHome(context);
 
@@ -195,16 +199,30 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextFormField(
             initialValue: "",
+            
             // autovalidate: true,
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
                 icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
+                suffixIcon: Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 12.0),
+                  child: IconButton(
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                        print("inside OBSCURE TEXT $_obscureText");
+                      });
+                    }, //null // _toggle(),//_toggle(),
+                  ), // icon is 48px widget.
+                ),
                 hintText: 'Enter your password',
                 labelText: 'Password'),
+            obscureText: _obscureText,
             keyboardType: TextInputType.text,
             validator: (val) => val.length < 6
                 ? 'Your password is too short. \n Enter a password with 6 characters or more'
                 : null,
-            obscureText: true,
             onSaved: (val) => _password = val,
           ),
         ],
