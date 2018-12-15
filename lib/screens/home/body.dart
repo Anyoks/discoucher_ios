@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:discoucher/contollers/home-controller.dart';
 import 'package:discoucher/models/voucher-data.dart';
-import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:discoucher/screens/home/horizontal-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';

@@ -2,7 +2,6 @@ import 'package:discoucher/constants/pref-paths.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/carousel-content.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
-import 'package:discoucher/screens/home/home.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

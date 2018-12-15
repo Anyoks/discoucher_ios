@@ -22,7 +22,6 @@ buildHomeSectionTitle(
             alignment: Alignment(-1.0, 0.0),
             child: GestureDetector(
               onTap: () {
-                //TODO: Implement arrow click
                 openCategoryPage(context, categoryData, type);
               },
               child: Text(

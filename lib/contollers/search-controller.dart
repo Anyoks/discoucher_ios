@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:discoucher/constants/endpoints.dart';
 import 'package:discoucher/contollers/base-controller.dart';
-import 'package:discoucher/contollers/http-controller.dart';
 import 'package:discoucher/models/voucher-data.dart';
 
 class SearchController extends BaseController {

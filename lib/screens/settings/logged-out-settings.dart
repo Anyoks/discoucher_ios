@@ -1,5 +1,4 @@
 import 'package:discoucher/constants/colors.dart';
-import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/authentication/login.dart';
 import 'package:discoucher/screens/settings/about.dart';
 import 'package:discoucher/screens/settings/contacts-section.dart';

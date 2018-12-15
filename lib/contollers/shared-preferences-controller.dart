@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:discoucher/constants/pref-paths.dart';
 import 'package:discoucher/models/header-params.dart';
 import 'package:discoucher/models/shared.dart';
-import 'package:discoucher/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesController {
