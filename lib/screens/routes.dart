@@ -6,6 +6,7 @@ import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/settings/settings.dart';
 import 'package:discoucher/screens/settings/tutorial.dart';
 import 'package:discoucher/screens/splash.screen.dart';
+import 'package:discoucher/models/user.dart';
 import 'package:flutter/material.dart';
 
 class DiscoucherRoutes {
