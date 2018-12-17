@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:discoucher/screens/shared/wavy-header-image.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';
+import 'package:discoucher/screens/authentication/sign_up_pay_prompt.dart';
 
 class SignUpPageRoute extends MaterialPageRoute {
   SignUpPageRoute() : super(builder: (context) => SignUpPage());
@@ -25,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController _dateController = TextEditingController();
   final Validators _validators = Validators();
+
 
   // Initially password is obscure
   bool _obscureText = true;
@@ -71,7 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     if (signUpResults != null && signUpResults.status) {
       // if the user is signing up, then he has not paid! 
-      goToPaymentPrompt();
+      goToPaymentPrompt(user);
       // goHome();
     } else {
       _showMessage("${signUpResults.message}");
@@ -88,13 +90,16 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.popAndPushNamed(context, _routes.homeRoute);
   }
 
-  goToPaymentPrompt(){
-    String hR = _routes.homeRoute.toString();
-    String pR = _routes.signUpPaymentRoute.toString();
+  goToPaymentPrompt(User user){
+    // String hR = _routes.homeRoute.toString();
+    // String pR = _routes.signUpPaymentRoute.toString();
   
-    print("This is the home route  $hR");
-    print("THis is the payment route $pR");
-    Navigator.popAndPushNamed(context, _routes.signUpPaymentRoute);
+    // print("This is the home route  $hR");
+    // print("THis is the payment route $pR");
+    // Navigator.popAndPushNamed(context, _routes.signUpPaymentRoute);
+    print("USer in SIgn Up SCREEN $user");
+    Navigator.push(context, MaterialPageRoute(
+            builder: (context) => SignUpPayPrompt(user: user)));
   }
 
   @override
