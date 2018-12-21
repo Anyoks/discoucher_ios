@@ -13,7 +13,7 @@ class PaymentResponse {
   factory PaymentResponse.fromJson(Map<String, dynamic> json) =>
     new PaymentResponse(
       success: json['success'],
-      message: json['message'] ?? json['errror'], // if message is null, then assign the error message
+      message: json['message'] == null ?  json['error'] : json['message'] , // if message is null, then assign the error message
       checkoutRequestId: json['checkout_req_id'] ?? null,
   );
 

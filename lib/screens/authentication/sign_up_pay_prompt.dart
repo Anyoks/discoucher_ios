@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:discoucher/loader/loader.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
@@ -17,28 +20,64 @@ import 'package:discoucher/models/payment_response.dart';
 class SignUpPayPrompt extends StatefulWidget {
   final User user;
 
-  SignUpPayPrompt({Key key, @required User this.user}) : super(key: key) ;
-  
+  SignUpPayPrompt({Key key, @required User this.user}) : super(key: key);
+
   // SignUpPayPrompt({Key key, this.user}) : super(key: key);
- 
+
   @override
   _SignUpPayPromptState createState() => _SignUpPayPromptState(user);
 }
 
-class _SignUpPayPromptState extends State<SignUpPayPrompt> {
+class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingObserver {
   // getting the user from the sign up screen
-  
+
   _SignUpPayPromptState(user);
   static User user = user;
   final DiscoucherRoutes _routes = DiscoucherRoutes();
-  final PaymentController _controller= new PaymentController();
+  final PaymentController _controller = new PaymentController();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  bool checkPaymentStatus;
+  String checkoutRequestId;
+  Timer _timer;
+  bool goneToMpesaScreen; // only true when the pay now button is clicked
+  AppLifecycleState _notification;
+   var counter = 0; 
 
   @override
   void initState() {
-    //  print("THIS IS THE USER IN PAYMENT state $user");
-  
-    
     super.initState();
+    goneToMpesaScreen = false; // used to check whether the user is back from payment screen after clickin the pay the button 
+    checkPaymentStatus = false; // will be used for loading progress
+    print("mpesa state $goneToMpesaScreen");
+    WidgetsBinding.instance
+        .addObserver(this); // checking if the app just came from the background
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _notification = state;
+      print("CURRENT APP STATE from system $_notification");
+    });
+  }
+
+  void updateProgress() {
+    setState(() {
+      checkPaymentStatus = !checkPaymentStatus;
+    });
+  }
+
+  void updateGoneToMpesaScreen(){
+    print("UPDATING THE MPESA STATE FROM  $goneToMpesaScreen");
+    goneToMpesaScreen = !goneToMpesaScreen;
+    print("UPDATING THE MPESA STATE to  $goneToMpesaScreen");
   }
 
   void _submit() {
@@ -46,49 +85,164 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> {
   }
 
   // This method will call the payment url
-   _pay(User user){
-    //  LoggedInUser user = user;
-    // User u = SignUpPayPrompt.user ;
-    print("THIS IS THE USER IN PAYMENT SCREEN $user.firstName");
-    print(user.firstName);
-     String phoneNumber = user.phoneNumber;
-     String desc = "$phoneNumber purchase";
-     String uid = user.email;
+   void _pay(User user) {
+    updateProgress();
+    _notification = null;
+    updateGoneToMpesaScreen(); // make it true
+    // goHome();
+    print("USer in SIgn Up SCREEN ${user.lastName}");
+     print("APP STATE AFTER CLICKING PAY  $_notification");
+    String phoneNumber = '254711430817'; //user.phoneNumber;
+    String desc = "$phoneNumber mpurchase";
+    String uid = user.email;
 
     // print("$user");
-      _makePayment(uid, desc, '0711430817');
-    //return null;
+    _makePayment(uid, desc, phoneNumber);
   }
 
-  void _makePayment(uid,desc,phoneNumber) async {
-    var payemntResponse = await _controller.makeMobilePayment(uid, desc, phoneNumber);
-    print("${payemntResponse.toString()}");
+  _makePayment(uid, desc, phoneNumber) async {
+    var payemntResponse =
+        await _controller.makeMobilePayment(uid, desc, phoneNumber);
 
-    print("VIEW NOWmade payment ${payemntResponse.status} ");
+    if (payemntResponse == null) {
+      // error reaching the server
+      updateProgress();
+      _showMessage(
+          "Sorry we could not reach our servers. Check your connection and try again.");
+    } else {
+      //there's internet
+      if (payemntResponse.success == false) {
+        //error Making the payment, could be offline, or bad phone number, phone locked etc etc
+        print(" The number is $phoneNumber");
+        updateProgress();
+        _showMessage("Sorry we could not Make the payment, try again.");
+      } else {
+        //add a loading thing here , to now check if the user's payment was successful
+        //set the request ID
+        checkoutRequestId = payemntResponse.checkoutRequestId;
 
-    // if (payemntResponse.success == 'true') {
-    //   // if the user is signing up, then he has not paid! 
-    //   // goToPaymentPrompt();
-    //   print("PAYMENT");
-    //   print(payemntResponse);
-    //   goHome();
-    //   // goHome();
-    // } else {
-    //   _showMessage("${payemntResponse.message}");
-    // }
+        checkPayment(checkoutRequestId);
+        
+
+        _showSuccessMessage(
+            "$_notification Your request is being processed, Kindly wait for a few seconds... ${payemntResponse.checkoutRequestId}");
+      }
+    }
   }
 
+  // this should be refactored to be re used
+  checkPayment(String checkoutRequestId) async {
+    // _timer ??  _timer.cancel();
+    print("CHECKING THE CURRENT STATE $_notification");
+    print("CHECKING THE MPESA STATE $goneToMpesaScreen");
+  if (_notification == AppLifecycleState.resumed && goneToMpesaScreen == true) {
+      _notification = null; // clear the notification
+      print("JUST CAME NBACK FROM MPESA SCREEN SO UPDATE MPESA STATE");
+      updateGoneToMpesaScreen(); // change the status so that some other resume doesn't use this.
+      if (checkoutRequestId != null) {
+        // _timer = new Timer(const Duration(seconds: 5), () {});
+        print("CHECKING THE STATE $checkPaymentStatus");
+        var checkPaymentResponse =
+            await _controller.checkPayment(checkoutRequestId);
+
+        if (checkPaymentResponse.success == true) {
+          print("CHECKING THE PAYMENT SUCCESS");
+          print("PROGRESS STATE $checkPaymentStatus");
+          checkoutRequestId = null;
+
+          // updateProgress();
+          goHome();
+          //go home
+        } else {
+          print("CHECKING THE PAYMENT ERROR ${checkPaymentResponse.message}");
+          _notification = null;
+          updateProgress();
+          //error payment was not successful
+          // end progress bar
+          // go to error page with contact details
+          //  ${checkPaymentResponse.message}"
+          _showErrorMessageDissmiss(
+              "Sorry we could not Make the payment. You entered the wrong password, Kindly try again");
+        }
+      }
+    } else {
+      // call itself again till the sate actually cahnges
+      print("STATE HAS NOT YET CHANGED $_notification");
+      _timer = new Timer(const Duration(seconds: 5), () {
+       
+       // stop because it has taken too long.
+        if(counter >= 5){
+          counter = 0; // reset the counter
+          updateProgress();
+          print("took too long waiting for the state to change so..update mpesa state");
+          updateGoneToMpesaScreen();
+          // exit here
+          _showMessageDissmiss(
+              "Sorry we could not Make the payment. Mpesa took too long to respond. Wait afew seconds and Try again.");
+          return;
+        }
+        checkPayment(checkoutRequestId);
+        print("Inside timeer");
+        counter++;
+      });
+    }
+  }
 
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
-    Scaffold.of(context).showSnackBar(
+    // return
+    scaffoldKey.currentState.showSnackBar(
         new SnackBar(backgroundColor: color, content: new Text(message)));
   }
+
+   void _showMessageDissmiss(String message,
+      [MaterialColor color = Colors.orange]) {
+    // return
+    scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      duration: Duration(seconds: 30),
+      content: new Text(message),
+      action: SnackBarAction(
+        label: 'Dismiss',
+        onPressed: () {
+          // Some code to undo the change!
+
+        },
+      ),
+    ));
+  }
+
+  void _showErrorMessageDissmiss(String message,
+      [MaterialColor color = Colors.red]) {
+    // return
+    scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      duration: Duration(seconds: 30),
+      content: new Text(message),
+      action: SnackBarAction(
+        label: 'Dismiss',
+        onPressed: () {
+          // Some code to undo the change!
+
+        },
+      ),
+    ));
+  }
+
+  void _showSuccessMessage(String message,
+      [MaterialColor color = Colors.green]) {
+    // return
+    scaffoldKey.currentState.showSnackBar(
+        new SnackBar(backgroundColor: color, content: new Text(message)));
+  }
+
+
   void goHome() {
     Navigator.popAndPushNamed(context, _routes.homeRoute);
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: ListView(children: <Widget>[
         WavyHeaderImage(
           child: Image.asset(
@@ -134,8 +288,7 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> {
           height: 20.0,
         ),
         Container(
-          margin:
-              EdgeInsets.only(left: 10.0, right: 10.0),
+          margin: EdgeInsets.only(left: 10.0, right: 10.0),
           child: Text('Unlock & start redeeming all vouchers!',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
@@ -147,23 +300,23 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> {
           padding: const EdgeInsets.all(3.0),
           decoration:
               new BoxDecoration(border: new Border.all(color: Colors.grey)),
-          child: Column(          
+          child: Column(
             children: <Widget>[
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[                    
-                    Container(                    
-                      child: Row(                      
+                  children: <Widget>[
+                    Container(
+                      child: Row(
                         children: <Widget>[
-                          Container(                              
+                          Container(
                               padding: EdgeInsets.all(3.0),
                               child: Text('KES',
                                   style: TextStyle(
                                       fontStyle: FontStyle.normal,
                                       fontSize: 20))),
-                          Container(                              
+                          Container(
                               padding: EdgeInsets.all(0),
-                              child: Text('3,000',                                  
+                              child: Text('3,000',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 55.0))),
@@ -184,9 +337,12 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> {
               ),
               SizedBox(
                 width: double.infinity,
-                child: OutlineButton(
-                  onPressed:_pay(widget.user),
-                  padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 12.0),
+                child: checkPaymentStatus
+                    ? Loader()
+                    : OutlineButton(
+                  onPressed:()=> _pay(widget.user),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 36.0, vertical: 12.0),
                   borderSide: BorderSide(color: xDiscoucherGreen, width: 1.0),
                   child: boldGreenText("Pay Now"),
                 ),

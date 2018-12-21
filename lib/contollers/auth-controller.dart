@@ -15,7 +15,7 @@ class SignUpResults {
 
 class AuthController extends BaseController {
   Future<User> login(String email, String password) async {
-     print("I am in the login func $email  , $password");
+    print("I am in the login func $email  , $password");
     try {
       // make a json hash of the details
       Map<String, String> payload = {
@@ -25,18 +25,21 @@ class AuthController extends BaseController {
 
       print("This is the payload $payload  ");
 
-      final response = await postAnonymous(endPoint: Endpoint.signIn, payload: payload);
-
-     
-
+      final response =
+          await postAnonymous(endPoint: Endpoint.signIn, payload: payload);
 
       // decode the recieved json response
       final Map<String, dynamic> parsedJson = json.decode(response.body);
 
       // Need to add corrent error response for wrong credentials
       print("This is the response after payload check $parsedJson");
+      // print("This is the response after payload check ${parsedJson[]}");
       final Map<String, dynamic> data = parsedJson['data'];
       final Map<String, dynamic> userObj = data['user'];
+      final Map<String, dynamic> vouchers = {"vouchers": data['vouchers']};
+
+      // adding vouchers to the user object
+      userObj.addAll(vouchers);
 
       User user = User.fromJson(userObj);
 
@@ -48,7 +51,6 @@ class AuthController extends BaseController {
 
       return user;
     } catch (e) {
-
       // return better error response
       return null;
     }
@@ -77,6 +79,10 @@ class AuthController extends BaseController {
       if (status == "success") {
         final Map<String, dynamic> data = parsedJson['data'];
         final Map<String, dynamic> userObj = data['user'];
+        final Map<String, dynamic> vouchers = {"vouchers": data['vouchers']};
+
+        // adding vouchers to the user object
+        userObj.addAll(vouchers);
 
         User user = User.fromJson(userObj);
 
@@ -87,6 +93,7 @@ class AuthController extends BaseController {
           lastName: user.lastName,
           email: user.email,
           phoneNumber: user.phoneNumber,
+          vouchers: user.vouchers,
         );
 
         saveLoggedInUser(loggedinUSer);

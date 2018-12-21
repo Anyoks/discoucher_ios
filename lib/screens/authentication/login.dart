@@ -75,7 +75,9 @@ class _LoginPageState extends State<LoginPage> {
         lastName: loggedInUser.firstName,
         email: loggedInUser.email,
         phoneNumber: loggedInUser.phoneNumber,
+        vouchers: loggedInUser.vouchers,
       );
+      print("WWWWWWWWW ${loggedInUser.vouchers}");
 
       _prefs.updateLoggedInUser(_userToSave);
     } else {

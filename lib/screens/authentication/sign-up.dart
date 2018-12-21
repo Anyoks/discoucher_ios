@@ -1,5 +1,6 @@
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/auth-controller.dart';
+import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
@@ -40,6 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final int maxTexInput = 40;
   User user = new User();
+  // LoggedInUser loggedInUser;
 
   @override
   void initState() {

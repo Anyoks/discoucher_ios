@@ -28,4 +28,5 @@ class Endpoint {
   static String addFavorite = "$baseUrl/favourites/add";
 
   static String pay = "$baseUrl/pay/mobile"; // POST
+  static String checkPayment = "$baseUrl/pay/check_status"; //POST
 }

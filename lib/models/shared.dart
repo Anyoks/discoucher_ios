@@ -23,6 +23,8 @@ class LoggedInUser {
   String token;
   String phoneNumber;
 
+  String vouchers;
+
   LoggedInUser({
     this.id,
     this.fullName,
@@ -34,6 +36,7 @@ class LoggedInUser {
     this.photoUrl,
     this.bytes,
     this.token,
+    this.vouchers,
   });
 
   LoggedInUser.fromJsonMap(Map map)
@@ -46,7 +49,8 @@ class LoggedInUser {
         phoneNumber = map['phoneNumber'],
         photoUrl = map['photoUrl'],
         bytes = map['bytes'],
-        token = map['token'];
+        token = map['token'],
+        vouchers = map['vouchers'];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
@@ -59,5 +63,6 @@ class LoggedInUser {
         "photoUrl": photoUrl,
         "bytes": bytes,
         "token": token,
+        "vouchers":vouchers,
       };
 }
