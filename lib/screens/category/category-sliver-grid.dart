@@ -58,13 +58,7 @@ buildCategorySliverGrid2(List<VoucherData> voucherDataList) {
 }
 
 buildCategoryListItem(BuildContext context, Voucher data) {
-  final double xHeight = 190.0;
-  final double xWidth = 189.0;
   return Container(
-    // height: xHeight,
-    // width: xWidth, 
-    // color: Colors.red,
-    // constraints: BoxConstraints.expand(),
     padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
     child: Hero(
       tag: data.heroId,

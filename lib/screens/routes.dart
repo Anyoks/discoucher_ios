@@ -2,7 +2,6 @@ import 'package:discoucher/screens/authentication/login.dart';
 import 'package:discoucher/screens/authentication/sign_up_pay_prompt.dart';
 import 'package:discoucher/screens/authentication/pay_prompt.dart';
 import 'package:discoucher/screens/home/home.dart';
-import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/settings/settings.dart';
 import 'package:discoucher/screens/settings/tutorial.dart';
 import 'package:discoucher/screens/splash.screen.dart';

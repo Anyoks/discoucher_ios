@@ -1,4 +1,3 @@
-import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';

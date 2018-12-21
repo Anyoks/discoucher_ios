@@ -9,7 +9,6 @@ class HttpController {
   static SharedPreferencesController prefs = new SharedPreferencesController();
   HeaderParams incomingHeaders = new HeaderParams();
 
-
 // headers change each time there's an http request. so update them often!
   _updateHeaders(headers) {
     final uid = headers["uid"];

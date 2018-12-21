@@ -1,9 +1,7 @@
-import 'dart:async';
 
 import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/contollers/facebook-login.dart';
 import 'package:discoucher/contollers/google-signIn.dart';
-import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/facebook-user.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/screens/routes.dart';
