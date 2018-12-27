@@ -6,7 +6,7 @@ showRedeemDialog(BuildContext context, Voucher voucher) {
   showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(content: RedeemPage(voucher), actions: <Widget>[
+      return AlertDialog(content: RedeemPage(voucher: voucher,), actions: <Widget>[
         new FlatButton(
           child: Text(
             "Done",
