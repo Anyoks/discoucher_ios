@@ -2,6 +2,9 @@ import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/redeem_voucher_controller.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
+import 'package:discoucher/loader/loader.dart';
+import 'package:discoucher/models/shared.dart';
+import 'package:discoucher/models/user.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/shared/styled-texts.dart';
 import 'package:discoucher/utils/validators.dart';
@@ -26,12 +29,113 @@ class _RedeemPageState extends State<RedeemPage> {
   static SharedPreferencesController _prefs = new SharedPreferencesController();
   final SettingsController controller = new SettingsController(prefs: _prefs);
 
-  String password = '';
+  bool checkRedeemStatus;
+
+  Future<LoggedInUser> loggedInUser;
+  LoggedInUser loggedInUser2;
+  LoggedInUser user;
+
+  String est_pin = '';
+  String email;
+
+  var error = new TextEditingController();
+
+  int counter = 0;
+
+  @override
+  initState() {
+    super.initState();
+    checkRedeemStatus = false;
+    loggedInUser = controller.checkLoggedIn();
+    // loggedInUser2 = _prefs.fetchLoggedInUser();
+    getuser();
+  }
+
+  void updateProgress() {
+    setState(() {
+      checkRedeemStatus = !checkRedeemStatus;
+    });
+  }
+
+  void getuser() async {
+    await controller.checkLoggedIn().then((data) {
+      if (this.mounted) {
+        if (data != null) {
+          setState(() {
+            user = data;
+          });
+        } else {
+          // check again because the first check always retursn null
+          // this is a work around.
+          if (counter < 2) {
+            counter++;
+            getuser();
+          } else {
+            counter = 0;
+            setState(() {
+              error.text = "User not Logged IN";
+            });
+          }
+        }
+      }
+    });
+  }
 
   void _submit() {
-    print("object");
-    
+    var k = getuser();
+    // loggedInUser2.then((data) {
+    //   email = data.email;
+    //   user = data;
+    //   // print(email);
+    // });
+    // check if user is logged in first
+    FocusScope.of(context).requestFocus(new FocusNode());
+    updateProgress();
+
+    if (user != null) {
+      // user os logged in proceed
+      final FormState form = formKey.currentState;
+      print(voucher.code);
+      print(user.email);
+      if (form.validate()) {
+        form.save();
+        print("final est_pin" + est_pin);
+        _performRedeem(user.email, est_pin, voucher.code);
+        est_pin = ""; // clear the est_pin
+        // _saveProfile();
+      } else {
+        updateProgress();
+        // _showMessage(
+        //   'Mhh!! Something in your details doesn\'t sound right. Please review and correct.',
+        // );
+        print("eRROR VALIDATING FORM");
+      }
+    }
   }
+
+  _performRedeem(uid, est_pin, voucher_code) async {
+    var redeemStatus =
+        await _controller.redeemVoucer(uid, voucher_code, est_pin);
+
+    if (redeemStatus == null) {
+      // couldn't reach searvers
+      print("NO NWTEORK ACCESS");
+    } else if (redeemStatus.success == true) {
+      //success redeeming voucher
+      // show success redeem page
+      print("SUCCESS");
+    } else if (redeemStatus.success == false) {
+      // voucher not valid or wrong pin
+      //show failed redemption page with error
+      // display error message.
+      updateProgress();
+      print("PIN / VOUCHER ERROR");
+      setState(() {
+        error.text = "${redeemStatus.message}";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,23 +155,18 @@ class _RedeemPageState extends State<RedeemPage> {
         ),
         Divider(color: Colors.green[900]),
         SizedBox(height: 10.0),
-        Text("Show the following codes:"),
-        SizedBox(height: 20.0),
-        // Container(
-        //   child: Column(
-        //     mainAxisSize: MainAxisSize.min,
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //     children: <Widget>[
-        //       buildRedeemSection(
-        //           Icons.chrome_reader_mode, "Book code:", "code"),
-        //       SizedBox(height: 20.0),
-        //       buildRedeemSection(
-        //           Icons.bookmark_border, "Voucher code:", "${voucher.code}")
-        //     ],
-        //   ),
-        // )
+        Text("Show this Page to the Establishment",
+            textAlign: TextAlign.center),
         Container(
-          child: buildEstablishmentPasswordInput(),
+          child: new TextField(
+            decoration: InputDecoration(border: InputBorder.none),
+            style: new TextStyle(color: Colors.red),
+            controller: error,
+          ),
+        ),
+        SizedBox(height: 8.0),
+        Container(
+          child: buildEstablishmentest_pinInput(),
           // child:buildTextField(),
         ),
       ],
@@ -100,11 +199,13 @@ class _RedeemPageState extends State<RedeemPage> {
     );
   }
 
-  buildEstablishmentPasswordInput() {
+  buildEstablishmentest_pinInput() {
     return Form(
         key: formKey,
         child: Container(
           child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Row(
                 children: <Widget>[
@@ -121,18 +222,21 @@ class _RedeemPageState extends State<RedeemPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 15.0),
-                child: RaisedButton(
-                  onPressed: _submit,
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      '    Done    ',
-                      style: TextStyle(color: Colors.white, fontSize: 17.0),
-                    ),
-                  ),
-                  color: Theme.of(context).primaryColor,
-                  elevation: 4.0,
-                ),
+                child: checkRedeemStatus
+                    ? Loader()
+                    : RaisedButton(
+                        onPressed: _submit,
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text(
+                            '    Done    ',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 17.0),
+                          ),
+                        ),
+                        color: Theme.of(context).primaryColor,
+                        elevation: 4.0,
+                      ),
               ),
             ],
           ),
@@ -156,10 +260,10 @@ class _RedeemPageState extends State<RedeemPage> {
         //     hintText: 'x',
         //     ),
         keyboardType: TextInputType.number,
-        validator: (val) => val.isEmpty ? 'input Required' : null,
+        validator: (val) => val.isEmpty ? 'X' : null,
         onSaved: (val) {
-          password = password + val;
-          print("this is the passwprd " + password);
+          est_pin = est_pin + val;
+          print("this is the passwprd " + est_pin);
         },
       ),
     ));
