@@ -1,5 +1,7 @@
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/auth-controller.dart';
+import 'package:discoucher/contollers/settings-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/routes.dart';
@@ -27,7 +29,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController _dateController = TextEditingController();
   final Validators _validators = Validators();
-
+   static SharedPreferencesController _prefs = new SharedPreferencesController();
+  final SettingsController controller = new SettingsController(prefs: _prefs);
+   var counter = 0;
 
   // Initially password is obscure
   bool _obscureText = true;
@@ -41,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final int maxTexInput = 40;
   User user = new User();
-  // LoggedInUser loggedInUser;
+  LoggedInUser loggedInUser;
 
   @override
   void initState() {
@@ -72,14 +76,40 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void _saveProfile() async {
     SignUpResults signUpResults = await _controller.signUp(user);
-
+   
     if (signUpResults != null && signUpResults.status) {
       // if the user is signing up, then he has not paid! 
-      goToPaymentPrompt(user);
+      getuser().then((data){
+        goToPaymentPrompt(loggedInUser);
+      });
+      // goToPaymentPrompt(loggedInUser);
       // goHome();
     } else {
       _showMessage("${signUpResults.message}");
     }
+  }
+  Future getuser() async {
+    await controller.checkLoggedIn().then((data) {
+      if (this.mounted) {
+        if (data != null) {
+          setState(() {
+            loggedInUser = data;
+          });
+        } else {
+          // check again because the first check always retursn null
+          // this is a work around.
+          if (counter < 2) {
+            counter++;
+            getuser();
+          } else {
+            counter = 0;
+            setState(() {
+              // error.text = "LoggedInUser not Logged IN";
+            });
+          }
+        }
+      }
+    });
   }
 
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
@@ -92,16 +122,16 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.popAndPushNamed(context, _routes.homeRoute);
   }
 
-  goToPaymentPrompt(User user){
+  goToPaymentPrompt(LoggedInUser loggedInUser){
     // String hR = _routes.homeRoute.toString();
     // String pR = _routes.signUpPaymentRoute.toString();
   
     // print("This is the home route  $hR");
     // print("THis is the payment route $pR");
     // Navigator.popAndPushNamed(context, _routes.signUpPaymentRoute);
-    print("USer in SIgn Up SCREEN $user");
+    print("USer in SIgn Up SCREEN $loggedInUser");
     Navigator.push(context, MaterialPageRoute(
-            builder: (context) => SignUpPayPrompt(user: user)));
+            builder: (context) => SignUpPayPrompt(loggedInUser: loggedInUser)));
   }
 
   @override

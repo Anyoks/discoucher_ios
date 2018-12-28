@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:discoucher/contollers/settings-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/loader/loader.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/routes.dart';
@@ -13,42 +15,47 @@ import 'package:discoucher/contollers/paymet_controller.dart';
 import 'package:discoucher/models/payment_response.dart';
 // this it the first sign up payment prompt
 
-// class SignUpPayPromptRoute extends MaterialPageRoute {
-//   SignUpPayPromptRoute() : super(builder: (context) => SignUpPayPrompt(User));
-// }
+class SignUpPayPromptRoute extends MaterialPageRoute {
+  SignUpPayPromptRoute() : super(builder: (context) => SignUpPayPrompt());
+}
 
 class SignUpPayPrompt extends StatefulWidget {
-  final User user;
+  final LoggedInUser loggedInUser;
 
-  SignUpPayPrompt({Key key, @required User this.user}) : super(key: key);
+  SignUpPayPrompt({Key key, @required LoggedInUser this.loggedInUser}) : super(key: key);
 
   // SignUpPayPrompt({Key key, this.user}) : super(key: key);
 
   @override
-  _SignUpPayPromptState createState() => _SignUpPayPromptState(user);
+  _SignUpPayPromptState createState() => _SignUpPayPromptState(loggedInUser);
 }
 
-class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingObserver {
+class _SignUpPayPromptState extends State<SignUpPayPrompt>
+    with WidgetsBindingObserver {
   // getting the user from the sign up screen
-
-  _SignUpPayPromptState(user);
-  static User user = user;
+  _SignUpPayPromptState(loggedInUser);
+  static LoggedInUser loggedInUser = loggedInUser;
   final DiscoucherRoutes _routes = DiscoucherRoutes();
   final PaymentController _controller = new PaymentController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  // SharedPreferencesController _prefs = new SharedPreferencesController();
+  static SharedPreferencesController _prefs = new SharedPreferencesController();
+  final SettingsController controller = new SettingsController(prefs: _prefs);
   // final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkPaymentStatus;
   String checkoutRequestId;
   Timer _timer;
   bool goneToMpesaScreen; // only true when the pay now button is clicked
   AppLifecycleState _notification;
-   var counter = 0; 
+  var counter = 0;
 
   @override
   void initState() {
     super.initState();
-    goneToMpesaScreen = false; // used to check whether the user is back from payment screen after clickin the pay the button 
+    goneToMpesaScreen =
+        false; // used to check whether the user is back from payment screen after clickin the pay the button
     checkPaymentStatus = false; // will be used for loading progress
+     getuser();
     print("mpesa state $goneToMpesaScreen");
     WidgetsBinding.instance
         .addObserver(this); // checking if the app just came from the background
@@ -68,13 +75,37 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
     });
   }
 
+  void getuser() async {
+    await controller.checkLoggedIn().then((data) {
+      if (this.mounted) {
+        if (data != null) {
+          setState(() {
+            loggedInUser = data;
+          });
+        } else {
+          // check again because the first check always retursn null
+          // this is a work around.
+          if (counter < 2) {
+            counter++;
+            getuser();
+          } else {
+            counter = 0;
+            setState(() {
+              // error.text = "LoggedInUser not Logged IN";
+            });
+          }
+        }
+      }
+    });
+  }
+
   void updateProgress() {
     setState(() {
       checkPaymentStatus = !checkPaymentStatus;
     });
   }
 
-  void updateGoneToMpesaScreen(){
+  void updateGoneToMpesaScreen() {
     print("UPDATING THE MPESA STATE FROM  $goneToMpesaScreen");
     goneToMpesaScreen = !goneToMpesaScreen;
     print("UPDATING THE MPESA STATE to  $goneToMpesaScreen");
@@ -85,13 +116,13 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
   }
 
   // This method will call the payment url
-   void _pay(User user) {
+  void _pay(LoggedInUser user) {
     updateProgress();
     _notification = null;
     updateGoneToMpesaScreen(); // make it true
     // goHome();
     print("USer in SIgn Up SCREEN ${user.lastName}");
-     print("APP STATE AFTER CLICKING PAY  $_notification");
+    print("APP STATE AFTER CLICKING PAY  $_notification");
     String phoneNumber = '254711430817'; //user.phoneNumber;
     String desc = "$phoneNumber mpurchase";
     String uid = user.email;
@@ -122,7 +153,6 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
         checkoutRequestId = payemntResponse.checkoutRequestId;
 
         checkPayment(checkoutRequestId);
-        
 
         _showSuccessMessage(
             "$_notification Your request is being processed, Kindly wait for a few seconds... ${payemntResponse.checkoutRequestId}");
@@ -135,7 +165,8 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
     // _timer ??  _timer.cancel();
     print("CHECKING THE CURRENT STATE $_notification");
     print("CHECKING THE MPESA STATE $goneToMpesaScreen");
-  if (_notification == AppLifecycleState.resumed && goneToMpesaScreen == true) {
+    if (_notification == AppLifecycleState.resumed &&
+        goneToMpesaScreen == true) {
       _notification = null; // clear the notification
       print("JUST CAME NBACK FROM MPESA SCREEN SO UPDATE MPESA STATE");
       updateGoneToMpesaScreen(); // change the status so that some other resume doesn't use this.
@@ -150,8 +181,12 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
           print("PROGRESS STATE $checkPaymentStatus");
           checkoutRequestId = null;
 
+          // goHome();
+          // now the user has valid voucher so update.
+          updateLoggedInUser();
+          // update user.vouchers here.
           // updateProgress();
-          goHome();
+
           //go home
         } else {
           print("CHECKING THE PAYMENT ERROR ${checkPaymentResponse.message}");
@@ -169,12 +204,12 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
       // call itself again till the sate actually cahnges
       print("STATE HAS NOT YET CHANGED $_notification");
       _timer = new Timer(const Duration(seconds: 5), () {
-       
-       // stop because it has taken too long.
-        if(counter >= 5){
+        // stop because it has taken too long.
+        if (counter >= 5) {
           counter = 0; // reset the counter
           updateProgress();
-          print("took too long waiting for the state to change so..update mpesa state");
+          print(
+              "took too long waiting for the state to change so..update mpesa state");
           updateGoneToMpesaScreen();
           // exit here
           _showMessageDissmiss(
@@ -188,13 +223,35 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
     }
   }
 
+  updateLoggedInUser() async {
+    print("UPDATIN USER   DONEEEEEE " + loggedInUser.email);
+    if (loggedInUser != null) {
+      print("UPDATIN USER   DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+      LoggedInUser _userToSave = new LoggedInUser(
+        id: loggedInUser.id,
+        fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
+        firstName: loggedInUser.firstName,
+        lastName: loggedInUser.firstName,
+        email: loggedInUser.email,
+        phoneNumber: loggedInUser.phoneNumber,
+        vouchers: 'valid',
+      );
+      print("WWWWWWWWW ${loggedInUser.vouchers}");
+
+       var save = await _prefs.updateLoggedInUser(_userToSave);
+
+       print("UPDATIN USER   DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE $save");
+      goHome();
+    }
+  }
+
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
     // return
     scaffoldKey.currentState.showSnackBar(
         new SnackBar(backgroundColor: color, content: new Text(message)));
   }
 
-   void _showMessageDissmiss(String message,
+  void _showMessageDissmiss(String message,
       [MaterialColor color = Colors.orange]) {
     // return
     scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -205,7 +262,6 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
         label: 'Dismiss',
         onPressed: () {
           // Some code to undo the change!
-
         },
       ),
     ));
@@ -222,7 +278,6 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
         label: 'Dismiss',
         onPressed: () {
           // Some code to undo the change!
-
         },
       ),
     ));
@@ -234,7 +289,6 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
     scaffoldKey.currentState.showSnackBar(
         new SnackBar(backgroundColor: color, content: new Text(message)));
   }
-
 
   void goHome() {
     Navigator.popAndPushNamed(context, _routes.homeRoute);
@@ -340,12 +394,13 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt> with WidgetsBindingOb
                 child: checkPaymentStatus
                     ? Loader()
                     : OutlineButton(
-                  onPressed:()=> _pay(widget.user),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 36.0, vertical: 12.0),
-                  borderSide: BorderSide(color: xDiscoucherGreen, width: 1.0),
-                  child: boldGreenText("Pay Now"),
-                ),
+                        onPressed: () => _pay(widget.loggedInUser),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 36.0, vertical: 12.0),
+                        borderSide:
+                            BorderSide(color: xDiscoucherGreen, width: 1.0),
+                        child: boldGreenText("Pay Now"),
+                      ),
               ),
             ],
           ),
