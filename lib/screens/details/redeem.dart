@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/redeem_voucher_controller.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
@@ -6,6 +8,7 @@ import 'package:discoucher/loader/loader.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/models/voucher.dart';
+import 'package:discoucher/screens/details/redeem_success_dialog.dart';
 import 'package:discoucher/screens/shared/styled-texts.dart';
 import 'package:discoucher/utils/validators.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +31,10 @@ class _RedeemPageState extends State<RedeemPage> {
   final RedeemVoucherController _controller = new RedeemVoucherController();
   static SharedPreferencesController _prefs = new SharedPreferencesController();
   final SettingsController controller = new SettingsController(prefs: _prefs);
+  Timer _timer;
+  
 
+  bool _isButtonDisabled;
   bool checkRedeemStatus;
 
   Future<LoggedInUser> loggedInUser;
@@ -46,14 +52,26 @@ class _RedeemPageState extends State<RedeemPage> {
   initState() {
     super.initState();
     checkRedeemStatus = false;
+    _isButtonDisabled = false;
     loggedInUser = controller.checkLoggedIn();
     // loggedInUser2 = _prefs.fetchLoggedInUser();
     getuser();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void updateProgress() {
     setState(() {
       checkRedeemStatus = !checkRedeemStatus;
+    });
+  }
+
+  void disableButton() {
+    setState(() {
+      _isButtonDisabled = !_isButtonDisabled;
     });
   }
 
@@ -102,7 +120,6 @@ class _RedeemPageState extends State<RedeemPage> {
         print("final est_pin" + est_pin);
         _performRedeem(user.email, est_pin, voucher.code);
         est_pin = ""; // clear the est_pin
-        // _saveProfile();
       } else {
         updateProgress();
         // _showMessage(
@@ -123,6 +140,14 @@ class _RedeemPageState extends State<RedeemPage> {
     } else if (redeemStatus.success == true) {
       //success redeeming voucher
       // show success redeem page
+      closeDialog();
+      // showSuccessRedeemDialog(context, voucher);
+
+      setState(() {
+        error.text = "${redeemStatus.message}";
+      });
+      // Navigator.of(context).popAndPushNamed(showSuccessRedeemDialog( context, voucher) );
+
       print("SUCCESS");
     } else if (redeemStatus.success == false) {
       // voucher not valid or wrong pin
@@ -134,6 +159,29 @@ class _RedeemPageState extends State<RedeemPage> {
         error.text = "${redeemStatus.message}";
       });
     }
+  }
+
+  closeDialog() {
+    disableButton();
+    showSuccessRedeemDialog(context, voucher);
+    // close the pin dialog after 20 seconds because I can't figure out how to close it as I leave
+    // to the comment dialog.
+    _timer = new Timer(const Duration(seconds: 20), () {
+      // stop because it has taken too long.
+      // if (counter >= 5) {
+      //   counter = 0; // reset the counter
+      print("Inside timeer");
+      print(counter);
+      updateProgress();
+      print(
+          "took too long waiting for the state to change so..update mpesa state");
+      Navigator.of(context).pop();
+      // exit here
+      // return;
+      // }
+
+      // counter++;
+    });
   }
 
   @override
@@ -225,7 +273,7 @@ class _RedeemPageState extends State<RedeemPage> {
                 child: checkRedeemStatus
                     ? Loader()
                     : RaisedButton(
-                        onPressed: _submit,
+                        onPressed: _isButtonDisabled ? null : _submit,
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text(
