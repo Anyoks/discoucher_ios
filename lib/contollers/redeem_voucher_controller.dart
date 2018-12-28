@@ -34,7 +34,7 @@ class RedeemVoucherController extends BaseController{
           RedeemResponse redeemResponse =
               RedeemResponse.fromJson(parsedJson);
 
-          print("MAKING PAYMENT $parsedJson");
+          print("MAKING redeemption response $parsedJson");
 
           if (redeemResponse.success == true) {
             // payment is being processed.
