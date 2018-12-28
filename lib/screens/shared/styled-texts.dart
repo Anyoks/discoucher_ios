@@ -17,6 +17,14 @@ boldGreenText(text) {
         color: xDiscoucherGreen, fontWeight: FontWeight.bold, fontSize: 18.0),
   );
 }
+boldGreenCenterText(text) {
+  return Text(
+    text,
+    style: TextStyle(
+        color: xDiscoucherGreen, fontWeight: FontWeight.bold, fontSize: 18.0),
+        textAlign: TextAlign.center,
+  );
+}
 
 boldGreenTitleText(text) {
   return Text(
