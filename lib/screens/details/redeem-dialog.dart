@@ -6,17 +6,22 @@ showRedeemDialog(BuildContext context, Voucher voucher) {
   showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(content: RedeemPage(voucher: voucher,), actions: <Widget>[
-        new FlatButton(
-          child: Text(
-            "Done",
-            style: TextStyle(color: Theme.of(context).primaryColor),
+      return AlertDialog(
+          content: RedeemPage(
+            voucher: voucher,
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ]);
+          // actions: <Widget>[
+          //   new FlatButton(
+          //     child: Text(
+          //       "Done",
+          //       style: TextStyle(color: Theme.of(context).primaryColor),
+          //     ),
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+          // ]
+          );
     },
   );
 }
