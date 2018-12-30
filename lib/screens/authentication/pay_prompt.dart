@@ -85,7 +85,7 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
     _makePayment(uid, desc, phoneNumber);
   }
 
-  //this too should be refactored
+  // TODO REFACTOR THIS CODE
 
   _makePayment(uid, desc, phoneNumber) async {
     var payemntResponse =
@@ -107,7 +107,7 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
         //add a loading thing here , to now check if the user's payment was successful
         //set the request ID
         checkoutRequestId = payemntResponse.checkoutRequestId;
-
+        // TODO ADDED UPDATE USER HERE TO MAKE SURE THE VOUCHERS ARE VALID NOW
         checkPayment(checkoutRequestId);
         
 
