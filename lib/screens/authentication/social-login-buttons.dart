@@ -18,6 +18,8 @@ class SocialLoginButtons extends StatelessWidget {
   final FacebookLoginController fb = new FacebookLoginController();
   final GoogleSignInController google = new GoogleSignInController();
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +53,11 @@ class SocialLoginButtons extends StatelessWidget {
     );
   }
 
+
+
   attemptGoogleLogin(BuildContext context) async {
+
+
     try {
       LoginResults results = await google.signIn();
       switch (results.success) {
@@ -88,27 +94,33 @@ class SocialLoginButtons extends StatelessWidget {
       LoginResults results = await fb.loginToFacebook();
       switch (results.success) {
         case true:
+          
+           print("BACK FROM FACEBOOK LOGIN");
+          // FacebookAccessToken token = results.token;
+          // FacebookProfile profile = results.profile;
+          User user = results.profile;
+
+          if (user != null) {
+            // only does this for logged in users because the login method does not do it!
+            LoggedInUser loggedinUSer2 = new LoggedInUser(
+              id: user.id,
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              fullName: "${user.firstName} ${user.firstName}",
+              vouchers: user.vouchers,
+            );
+
+            await _controller.saveLoggedInUser(loggedinUSer2);
+          }
+
           goHome(context);
-
-          FacebookAccessToken token = results.token;
-          FacebookProfile profile = results.profile;
-
-          LoggedInUser loggedinUSer = LoggedInUser(
-            id: profile.id,
-            email: profile.email,
-            fullName: profile.name,
-            photoUrl: profile.picture.data.url,
-            bytes: profile.bytes,
-            token: token.token,
-          );
-
-          await _controller.saveLoggedInUser(loggedinUSer);
           break;
         default:
           showErrorMessage(context, results.message);
       }
     } catch (errorMessage) {
-      showErrorMessage(context, errorMessage);
+      showErrorMessage(context, errorMessage.toString());
     }
   }
 
