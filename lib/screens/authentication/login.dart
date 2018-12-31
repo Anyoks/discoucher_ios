@@ -160,12 +160,20 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SocialLoginButtons(),
               Divider(),
+
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text("Don't have an account yet?"),
-                  FlatButton(
+                  SizedBox(
+                    width: 15.0,
+                  ),
+                  Text("Or you can Just..."),
+                  SizedBox(
+                    width: 15.0,
+                  ),
+                  OutlineButton(
+                    borderSide: BorderSide(color: Colors.grey),
                     onPressed: () {
                       Navigator.pushReplacement(context, SignUpPageRoute());
                     },
@@ -202,9 +210,9 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextFormField(
             initialValue: "",
-            
+
             // autovalidate: true,
-            decoration:  InputDecoration(
+            decoration: InputDecoration(
                 icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
                 suffixIcon: Padding(
                   padding: const EdgeInsetsDirectional.only(end: 12.0),

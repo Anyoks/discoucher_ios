@@ -18,46 +18,57 @@ class SocialLoginButtons extends StatelessWidget {
   final FacebookLoginController fb = new FacebookLoginController();
   final GoogleSignInController google = new GoogleSignInController();
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5.0),
       color: Colors.white,
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text("Continue With"),
-          FlatButton(
-            onPressed: () => loginToFacebook(context),
-            child: Row(
-              children: <Widget>[
-                Image.asset("images/social/facebook.png", width: 20.0),
-                Padding(padding: EdgeInsets.only(left: 3.0)),
-                Text("Facebook")
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Continue With..."),
+            ],
           ),
-          FlatButton(
-              onPressed: () => attemptGoogleLogin(context),
-              child: Row(
-                children: <Widget>[
-                  Image.asset("images/social/google.png", width: 20.0),
-                  Padding(padding: EdgeInsets.only(left: 3.0)),
-                  Text("Google", style: TextStyle(fontSize: 14.0))
-                ],
-              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              OutlineButton(
+                onPressed: () => loginToFacebook(context),
+                 borderSide: BorderSide(color: Colors.grey),
+                child: Row(
+                  children: <Widget>[
+                    Image.asset("images/social/facebook.png", width: 20.0),
+                    Padding(padding: EdgeInsets.only(left: 3.0)),
+                    Text("Facebook")
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 4.0,
+              ),
+              OutlineButton(
+                  onPressed: () => attemptGoogleLogin(context),
+                  borderSide: BorderSide(color: Colors.grey),
+                  child: Row(
+                    children: <Widget>[
+                      Image.asset("images/social/google.png", width: 20.0),
+                      Padding(padding: EdgeInsets.only(left: 3.0)),
+                      Text("Google", style: TextStyle(fontSize: 14.0))
+                    ],
+                  )),
+            ],
+          ),
+          // Text("Continue With"),
         ],
       ),
     );
   }
 
-
-
   attemptGoogleLogin(BuildContext context) async {
-
-
     try {
       LoginResults results = await google.signIn();
       switch (results.success) {
@@ -94,8 +105,7 @@ class SocialLoginButtons extends StatelessWidget {
       LoginResults results = await fb.loginToFacebook();
       switch (results.success) {
         case true:
-          
-           print("BACK FROM FACEBOOK LOGIN");
+          print("BACK FROM FACEBOOK LOGIN");
           // FacebookAccessToken token = results.token;
           // FacebookProfile profile = results.profile;
           User user = results.profile;

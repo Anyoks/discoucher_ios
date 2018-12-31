@@ -4,6 +4,7 @@ import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
+import 'package:discoucher/screens/authentication/social-login-buttons.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/utils/validators.dart';
@@ -172,6 +173,7 @@ class _SignUpPageState extends State<SignUpPage> {
               elevation: 4.0,
             ),
           ),
+           SocialLoginButtons(),
         ],
       ),
       // floatingActionButton: FloatingActionButton.extended(
