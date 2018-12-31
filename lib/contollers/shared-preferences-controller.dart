@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:discoucher/constants/pref-paths.dart';
 import 'package:discoucher/models/header-params.dart';
 import 'package:discoucher/models/shared.dart';
+import 'package:discoucher/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesController {
@@ -40,6 +41,41 @@ class SharedPreferencesController {
 
     return results;
   }
+
+
+  Future<bool> updateLoggedInUserWithUserObject(User user) async {
+    var results = false;
+    
+
+    try {
+      if (user != null) {
+
+        LoggedInUser loggedinUser = LoggedInUser(
+          id: user.id,
+          fullName: "${user.firstName} ${user.lastName}",
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          vouchers: user.vouchers,
+        );
+
+        print(" POHONE DURING LOGIN UPDATE xxxxx  " + json.encode(loggedinUser));
+
+        String localUser = jsonEncode(loggedinUser);
+        results = await prefs.setString(PrefPaths.loggedInUser, localUser);
+        print("Logged IN USER STORATE" + localUser);
+      } else {
+        results = await prefs.remove(PrefPaths.loggedInUser);
+      }
+    } catch (e) {
+      results = false;
+    }
+
+    return results;
+  }
+
+
 
   Future<LoggedInUser> fetchLoggedInUser() async {
     try {
