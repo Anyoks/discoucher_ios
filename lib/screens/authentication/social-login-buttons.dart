@@ -1,9 +1,9 @@
-
 import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/contollers/facebook-login.dart';
 import 'package:discoucher/contollers/google-signIn.dart';
 import 'package:discoucher/models/facebook-user.dart';
 import 'package:discoucher/models/shared.dart';
+import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -56,26 +56,30 @@ class SocialLoginButtons extends StatelessWidget {
       LoginResults results = await google.signIn();
       switch (results.success) {
         case true:
-          goHome(context);
+          User user = results.profile;
 
-          GoogleSignInAccount profile = results.profile;
+          print("BACK FROM GOOGLE LOGIN");
+          print(user);
+          if (user != null) {
+            LoggedInUser loggedinUSer2 = new LoggedInUser(
+              id: user.id,
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              fullName: "${user.firstName} ${user.firstName}",
+              vouchers: user.vouchers,
+            );
 
-          LoggedInUser loggedinUSer = new LoggedInUser(
-            id: profile.id,
-            email: profile.email,
-            fullName: profile.displayName,
-            photoUrl: profile.photoUrl,
-            token: results.token,
-          );
+            await _controller.saveLoggedInUser(loggedinUSer2);
+          }
 
-          await _controller.saveLoggedInUser(loggedinUSer);
           goHome(context);
           break;
         default:
           showErrorMessage(context, results.message);
       }
     } catch (errorMessage) {
-      showErrorMessage(context, "There was an error logging in using Google");
+      showErrorMessage(context, "${errorMessage.toString()}");
     }
   }
 

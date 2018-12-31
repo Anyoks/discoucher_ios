@@ -56,6 +56,30 @@ class AuthController extends BaseController {
     }
   }
 
+  Future<String> checkUser(String email) async {
+    Map<String, String> payload = {"email": "$email"};
+
+    try {
+      final response =
+          await postAnonymous(endPoint: Endpoint.checkUser, payload: payload);
+
+      final Map<String, dynamic> parsedJson = json.decode(response.body);
+
+      final bool status = parsedJson['success'];
+
+      print("This is the response $response");
+      print("This is the status $status");
+
+      if (status == true) {
+        return 'true';
+      } else {
+        return 'false';
+      }
+    } catch (e) {
+      return 'error';
+    }
+  }
+
   Future<SignUpResults> signUp(User _user) async {
     try {
       final newUser = {

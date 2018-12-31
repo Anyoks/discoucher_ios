@@ -30,4 +30,6 @@ class Endpoint {
   static String pay = "$baseUrl/pay/mobile"; // POST
   static String checkPayment = "$baseUrl/pay/check_status"; //POST
   static String redeemVoucher = "$baseUrl/redeem/voucher"; // POST
+
+  static String checkUser = "$baseUrl/check"; // POST
 }

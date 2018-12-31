@@ -68,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
     if (loggedInUser != null) {
       goHome(context);
 
+      // TODO REFACTOR LOGGING IN USER TO SAVE LOGGED IN USER WITHIN THE LOGIN METHOD
       LoggedInUser _userToSave = new LoggedInUser(
         id: loggedInUser.id,
         fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",

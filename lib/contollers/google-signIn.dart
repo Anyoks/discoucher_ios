@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:discoucher/models/shared.dart';
+import 'package:discoucher/models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'auth-controller.dart';
 
 class GoogleSignInController {
   GoogleSignIn _googleSignIn = new GoogleSignIn(
@@ -10,15 +12,106 @@ class GoogleSignInController {
     ],
   );
 
+  final AuthController _controller = new AuthController();
+  String email;
+
+  User user = new User();
+
+  Future<bool> signUpUser(GoogleSignInAccount account) async {
+    user.email = account.email;
+    user.firstName = account.displayName.split(' ')[0];
+    user.lastName = account.displayName.split(' ')[1];
+    user.password = user.firstName;
+    user.passwordConfirmation = user.firstName;
+
+     print(" SIgn up FIrst name " + account.displayName);
+
+    
+    SignUpResults signUpResults = await _controller.signUp(user);
+    if (signUpResults != null && signUpResults.status) {
+      // success
+      print(" Inside  Sing up SUCCESS");
+      return true;
+    } else {
+      // error
+      print(" Inside  Sing up ERROR");
+      return false;
+    }
+  }
+
+  Future<User> loginUser(account) async {
+    String password = account.displayName.split(' ')[0];
+    var loggedInUser = await _controller.login(email, password);
+
+    if (loggedInUser != null) {
+      LoggedInUser _userToSave = new LoggedInUser(
+        id: loggedInUser.id,
+        fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
+        firstName: loggedInUser.firstName,
+        lastName: loggedInUser.firstName,
+        email: loggedInUser.email,
+        phoneNumber: loggedInUser.phoneNumber,
+        vouchers: loggedInUser.vouchers,
+      );
+      print(" Inside  LOGIN SUCCESS" + loggedInUser.email);
+      return loggedInUser;
+    } else {
+      //error
+       print(" Inside  LOGIN ERROR");
+      return null;
+    }
+  }
+
   Future<LoginResults> signIn() async {
     try {
       GoogleSignInAccount account = await _googleSignIn.signIn();
+
       if (account != null) {
-        return new LoginResults(
-          success: true,
-          profile: account,
-          message: "Login successful",
-        );
+        // check if user exists in db then sign them in with difault password
+        // if not present, sign them up.
+        email = account.email;
+
+        String result = await _controller.checkUser(email);
+
+        if (result == 'true') {
+          // login user
+          var login = await loginUser(account);
+
+          if (login != null) {
+            // success
+             print(" Inside  GOOGLE SUCCESS" + login.email);
+            return new LoginResults(
+              success: true,
+              profile: login,
+              message: "Login successful",
+            );
+          } else {
+            // failure
+            return new LoginResults(
+              success: false,
+              profile: null,
+              message: "Error Logging in",
+            );
+          }
+        } else if (result == 'false') {
+          // sign up user
+          bool status = await signUpUser(account);
+
+          if (status) {
+            return new LoginResults(
+              success: true,
+              profile: null,
+              message: "Login successful",
+            );
+          }
+        } else {
+          // error connecting.
+          return new LoginResults(
+              success: true,
+              profile: null,
+              message: " Error connecting to Server",
+            );
+        }
       } else {
         return new LoginResults(
           success: false,
