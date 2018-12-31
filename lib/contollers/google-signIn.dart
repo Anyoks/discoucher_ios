@@ -23,10 +23,10 @@ class GoogleSignInController {
     user.lastName = account.displayName.split(' ')[1];
     user.password = user.firstName;
     user.passwordConfirmation = user.firstName;
+    user.provider = "google";
 
-     print(" SIgn up FIrst name " + account.displayName);
+    print(" SIgn up FIrst name " + account.displayName);
 
-    
     SignUpResults signUpResults = await _controller.signUp(user);
     if (signUpResults != null && signUpResults.status) {
       // success
@@ -41,23 +41,23 @@ class GoogleSignInController {
 
   Future<User> loginUser(account) async {
     String password = account.displayName.split(' ')[0];
-    var loggedInUser = await _controller.login(email, password);
+    var user = await _controller.login(email, password);
 
-    if (loggedInUser != null) {
+    if (user != null) {
       LoggedInUser _userToSave = new LoggedInUser(
-        id: loggedInUser.id,
-        fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
-        firstName: loggedInUser.firstName,
-        lastName: loggedInUser.firstName,
-        email: loggedInUser.email,
-        phoneNumber: loggedInUser.phoneNumber,
-        vouchers: loggedInUser.vouchers,
+        id: user.id,
+        fullName: "${user.firstName} ${user.lastName}",
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        vouchers: user.vouchers,
       );
-      print(" Inside  LOGIN SUCCESS" + loggedInUser.email);
-      return loggedInUser;
+      print(" Inside  LOGIN SUCCESS" + user.email);
+      return user;
     } else {
       //error
-       print(" Inside  LOGIN ERROR");
+      print(" Inside  LOGIN ERROR");
       return null;
     }
   }
@@ -79,7 +79,7 @@ class GoogleSignInController {
 
           if (login != null) {
             // success
-             print(" Inside  GOOGLE SUCCESS" + login.email);
+            print(" Inside  GOOGLE SUCCESS" + login.email);
             return new LoginResults(
               success: true,
               profile: login,
@@ -107,10 +107,10 @@ class GoogleSignInController {
         } else {
           // error connecting.
           return new LoginResults(
-              success: true,
-              profile: null,
-              message: " Error connecting to Server",
-            );
+            success: true,
+            profile: null,
+            message: " Error connecting to Server",
+          );
         }
       } else {
         return new LoginResults(
