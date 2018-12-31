@@ -59,7 +59,7 @@ class LoggedInUser {
         "lastName": lastName,
         "dob": dob,
         "email": email,
-        "emphoneNumberail": phoneNumber,
+        "phoneNumber": phoneNumber,
         "photoUrl": photoUrl,
         "bytes": bytes,
         "token": token,
