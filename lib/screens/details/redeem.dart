@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:discoucher/constants/colors.dart';
+import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/contollers/redeem_voucher_controller.dart';
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
@@ -31,14 +32,13 @@ class _RedeemPageState extends State<RedeemPage> {
   final RedeemVoucherController _controller = new RedeemVoucherController();
   static SharedPreferencesController _prefs = new SharedPreferencesController();
   final SettingsController controller = new SettingsController(prefs: _prefs);
+  final AuthController authController = new AuthController();
   Timer _timer;
-  
 
   bool _isButtonDisabled;
   bool checkRedeemStatus;
 
   Future<LoggedInUser> loggedInUser;
-  LoggedInUser loggedInUser2;
   LoggedInUser user;
 
   String est_pin = '';
@@ -130,6 +130,21 @@ class _RedeemPageState extends State<RedeemPage> {
     }
   }
 
+  updateLoggedInUser(String vouchers) async {
+    if (user != null) {
+      LoggedInUser loggedinUSer2 = new LoggedInUser(
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        fullName: "${user.firstName} ${user.firstName}",
+        vouchers: vouchers,
+      );
+
+      return await authController.saveLoggedInUser(loggedinUSer2);
+    }
+  }
+
   _performRedeem(uid, est_pin, voucher_code) async {
     var redeemStatus =
         await _controller.redeemVoucer(uid, voucher_code, est_pin);
@@ -139,8 +154,18 @@ class _RedeemPageState extends State<RedeemPage> {
       print("NO NWTEORK ACCESS");
     } else if (redeemStatus.success == true) {
       //success redeeming voucher
+      //upDATE The logged in user so that we are in the know!
+      var update = await updateLoggedInUser(redeemStatus.vouchers);
+
+      if (update) {
+        closeDialog();
+      } else {
+        setState(() {
+          error.text = "ERROR SAVING LOGGED INUSER";
+        });
+      }
       // show success redeem page
-      closeDialog();
+      // closeDialog();
       // showSuccessRedeemDialog(context, voucher);
 
       setState(() {
