@@ -33,6 +33,7 @@ class _RedeemPageState extends State<RedeemPage> {
   static SharedPreferencesController _prefs = new SharedPreferencesController();
   final SettingsController controller = new SettingsController(prefs: _prefs);
   final AuthController authController = new AuthController();
+  final focus = FocusNode();
   Timer _timer;
 
   bool _isButtonDisabled;
@@ -46,6 +47,21 @@ class _RedeemPageState extends State<RedeemPage> {
 
   var error = new TextEditingController();
 
+  var _pin1 = new TextEditingController();
+  final FocusNode _focusPin1 = FocusNode();
+
+  var _pin2 = new TextEditingController();
+  final FocusNode _focusPin2 = FocusNode();
+
+  var _pin3 = new TextEditingController();
+  final FocusNode _focusPin3 = FocusNode();
+
+  var _pin4 = new TextEditingController();
+  final FocusNode _focusPin4 = FocusNode();
+
+  var _pin5 = new TextEditingController();
+  final FocusNode _focusPin5 = FocusNode();
+
   int counter = 0;
 
   @override
@@ -54,12 +70,19 @@ class _RedeemPageState extends State<RedeemPage> {
     checkRedeemStatus = false;
     _isButtonDisabled = false;
     loggedInUser = controller.checkLoggedIn();
-    // loggedInUser2 = _prefs.fetchLoggedInUser();
+
     getuser();
   }
 
+  
+
   @override
   void dispose() {
+    _focusPin1.dispose();
+    _focusPin2.dispose();
+    _focusPin3.dispose();
+    _focusPin4.dispose();
+    _focusPin5.dispose();
     super.dispose();
   }
 
@@ -282,15 +305,15 @@ class _RedeemPageState extends State<RedeemPage> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  buildTextField(),
+                  buildTextField("1"),
                   new SizedBox(width: 5.0),
-                  buildTextField(),
+                  buildTextField("2"),
                   new SizedBox(width: 5.0),
-                  buildTextField(),
+                  buildTextField("3"),
                   new SizedBox(width: 5.0),
-                  buildTextField(),
+                  buildTextField("4"),
                   new SizedBox(width: 5.0),
-                  buildTextField()
+                  buildTextField("5")
                 ],
               ),
               Container(
@@ -316,29 +339,185 @@ class _RedeemPageState extends State<RedeemPage> {
         ));
   }
 
-  buildTextField() {
-    return new Flexible(
-        child: Container(
-      height: 50.0,
-      width: 40.0,
-      decoration: new BoxDecoration(border: new Border.all(color: Colors.grey)),
-      // padding: EdgeInsets.all(3.0),
-      padding: EdgeInsets.only(left: 10, right: 10),
-      child: TextFormField(
-        initialValue: "",
-        inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
-        // autovalidate: true,
-        // decoration: const InputDecoration(
-        //     icon: const Icon(Icons.email, color: xDiscoucherGreen),
-        //     hintText: 'x',
-        //     ),
-        keyboardType: TextInputType.number,
-        validator: (val) => val.isEmpty ? 'X' : null,
-        onSaved: (val) {
-          est_pin = est_pin + val;
-          print("this is the passwprd " + est_pin);
-        },
-      ),
-    ));
+  buildTextField(String text) {
+    switch (text) {
+      case "1":
+        {
+          return new Flexible(
+              child: Container(
+            height: 50.0,
+            width: 40.0,
+            decoration:
+                new BoxDecoration(border: new Border.all(color: Colors.grey)),
+            // padding: EdgeInsets.all(3.0),
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: textFormField(),
+          ));
+        }
+      case "2":
+        {
+          return new Flexible(
+              child: Container(
+            height: 50.0,
+            width: 40.0,
+            decoration:
+                new BoxDecoration(border: new Border.all(color: Colors.grey)),
+            // padding: EdgeInsets.all(3.0),
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: textFormField2(),
+          ));
+        }
+      case "3":
+        {
+          return new Flexible(
+              child: Container(
+            height: 50.0,
+            width: 40.0,
+            decoration:
+                new BoxDecoration(border: new Border.all(color: Colors.grey)),
+            // padding: EdgeInsets.all(3.0),
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: textFormField3(),
+          ));
+        }
+      case "4":
+        {
+          return new Flexible(
+              child: Container(
+            height: 50.0,
+            width: 40.0,
+            decoration:
+                new BoxDecoration(border: new Border.all(color: Colors.grey)),
+            // padding: EdgeInsets.all(3.0),
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: textFormField4(),
+          ));
+        }
+      case "5":
+        {
+          return new Flexible(
+              child: Container(
+            height: 50.0,
+            width: 40.0,
+            decoration:
+                new BoxDecoration(border: new Border.all(color: Colors.grey)),
+            // padding: EdgeInsets.all(3.0),
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: textFormField5(),
+          ));
+        }
+    }
+
+    // return new Flexible(
+    //     child: Container(
+    //   height: 50.0,
+    //   width: 40.0,
+    //   decoration: new BoxDecoration(border: new Border.all(color: Colors.grey)),
+    //   // padding: EdgeInsets.all(3.0),
+    //   padding: EdgeInsets.only(left: 10, right: 10),
+    //   child: textFormField(),
+    // ));
+  }
+
+  _fieldFocusChange(FocusNode current, FocusNode next) {
+    current.unfocus();
+    FocusScope.of(context).requestFocus(next);
+  }
+
+  textFormField() {
+    return TextFormField(
+      autofocus: true,
+      // initialValue: "",
+      controller: _pin1,
+      focusNode: _focusPin1,
+      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (term) {
+        _fieldFocusChange(_focusPin1, _focusPin2 );
+      },
+      keyboardType: TextInputType.number,
+      validator: (val) => val.isEmpty ? 'X' : null,
+      onSaved: (val) {
+        est_pin = est_pin + val;
+        print("this is the passwprd " + est_pin);
+      },
+    );
+  }
+
+  textFormField2() {
+    return TextFormField(
+      autofocus: true,
+      // initialValue: "",
+      controller: _pin2,
+      focusNode: _focusPin2,
+      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
+      textInputAction: TextInputAction.next,
+       onFieldSubmitted: (term) {
+        _fieldFocusChange(_focusPin2, _focusPin3 );
+      },
+      keyboardType: TextInputType.number,
+      validator: (val) => val.isEmpty ? 'X' : null,
+      onSaved: (val) {
+        est_pin = est_pin + val;
+        print("this is the passwprd " + est_pin);
+      },
+    );
+  }
+
+  textFormField3() {
+    return TextFormField(
+      autofocus: true,
+      // initialValue: "",
+      controller: _pin3,
+      focusNode: _focusPin3,
+      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
+      textInputAction: TextInputAction.next,
+       onFieldSubmitted: (term) {
+        _fieldFocusChange(_focusPin3, _focusPin4 );
+      },
+      keyboardType: TextInputType.number,
+      validator: (val) => val.isEmpty ? 'X' : null,
+      onSaved: (val) {
+        est_pin = est_pin + val;
+        print("this is the passwprd " + est_pin);
+      },
+    );
+  }
+
+  textFormField4() {
+    return TextFormField(
+      autofocus: true,
+      // initialValue: "",
+      controller: _pin4,
+      focusNode: _focusPin4,
+      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (term) {
+        _fieldFocusChange(_focusPin4, _focusPin5 );
+      },
+      keyboardType: TextInputType.number,
+      validator: (val) => val.isEmpty ? 'X' : null,
+      onSaved: (val) {
+        est_pin = est_pin + val;
+        print("this is the passwprd " + est_pin);
+      },
+    );
+  }
+
+  textFormField5() {
+    return TextFormField(
+      autofocus: true,
+      // initialValue: "",
+      controller: _pin5,
+      focusNode: _focusPin5,
+      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
+      textInputAction: TextInputAction.done,
+      keyboardType: TextInputType.number,
+      validator: (val) => val.isEmpty ? 'X' : null,
+      onSaved: (val) {
+        est_pin = est_pin + val;
+        print("this is the passwprd " + est_pin);
+      },
+    );
   }
 }
