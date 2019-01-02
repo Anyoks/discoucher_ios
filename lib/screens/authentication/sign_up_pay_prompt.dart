@@ -300,7 +300,7 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
       body: ListView(children: <Widget>[
         WavyHeaderImage(
           child: Image.asset(
-            "images/banner.jpg",
+            "images/almost.png",
             fit: BoxFit.cover,
             height: 200.0,
           ),

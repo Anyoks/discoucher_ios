@@ -217,12 +217,13 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
       body: ListView(children: <Widget>[
         WavyHeaderImage(
           child: Image.asset(
-            "images/banner.jpg",
+            "images/eat.png",
             fit: BoxFit.cover,
             height: 200.0,
           ),
+          
         ),
-        SizedBox(width: 15.0),
+        // SizedBox(width: 15.0),
         SizedBox(
           width: 15.0,
           height: 10.0,
