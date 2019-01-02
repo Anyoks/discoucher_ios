@@ -76,32 +76,45 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
   }
 
   void _submit(LoggedInUser user) {
+    if (user.phoneNumber == null ||
+        user.phoneNumber == "null" ||
+        user.phoneNumber == "") {
+      _showMessageDissmiss(
+          "You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
 
-    if (user.phoneNumber != "null") {
-      print("User  FROM GET OFFERS / REDEEM " + widget.user.fullName);
-      updateProgress();
-      _notification = null;
-      updateGoneToMpesaScreen(); // make it true
-      // goHome();
-      
-      print("APP STATE AFTER CLICKING PAY  $_notification");
-
-      // process user phone Number to mpesa format 254722112233
-      var phoneWithoutZero = new List<String>.from(user.phoneNumber.split(""));
-      phoneWithoutZero.removeAt(0); // remove the 0
-      String phoneNumber = countryCode + phoneWithoutZero.join() ; //'254711430817'; //user.phoneNumber;
-      print("USer in SIgn Up SCREEN ${phoneNumber}");
-      String desc = "$phoneNumber mpurchase";
-      String uid = user.email;
-
-      // print("$user");
-      _makePayment(uid, desc, phoneNumber);
-    }else{
-      _showMessageDissmiss("You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
-
-      Future.delayed(const Duration(seconds: 5), (){
+      Future.delayed(const Duration(seconds: 5), () {
         Navigator.push(context, ProfilePageRoute(user));
-      } );
+      });
+    } else {
+      try {
+        print("User  FROM GET OFFERS / REDEEM " + widget.user.fullName);
+        updateProgress();
+        _notification = null;
+        updateGoneToMpesaScreen(); // make it true
+        // goHome();
+
+        print("APP STATE AFTER CLICKING PAY  $_notification");
+
+        // process user phone Number to mpesa format 254722112233
+        var phoneWithoutZero =
+            new List<String>.from(user.phoneNumber.split(""));
+        phoneWithoutZero.removeAt(0); // remove the 0
+        String phoneNumber = countryCode +
+            phoneWithoutZero.join(); //'254711430817'; //user.phoneNumber;
+        print("USer in SIgn Up SCREEN ${phoneNumber}");
+        String desc = "$phoneNumber mpurchase";
+        String uid = user.email;
+
+        // print("$user");
+        _makePayment(uid, desc, phoneNumber);
+      } catch (e) {
+        _showMessageDissmiss(
+            "You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
+
+        Future.delayed(const Duration(seconds: 5), () {
+          Navigator.push(context, ProfilePageRoute(user));
+        });
+      }
     }
   }
 
