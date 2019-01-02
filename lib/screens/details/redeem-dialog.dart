@@ -8,22 +8,18 @@ showRedeemDialog(BuildContext context, Voucher voucher) {
     context: context,
     builder: (context) {
       return AlertDialog(
-          content: //SuccessfulRedemptionPage( voucher: voucher,),
-          RedeemPage(
-            voucher: voucher,
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: ListView(
+            children: <Widget>[
+              RedeemPage(
+                voucher: voucher,
+              ),
+            ],
           ),
-          // actions: <Widget>[
-          //   new FlatButton(
-          //     child: Text(
-          //       "Done",
-          //       style: TextStyle(color: Theme.of(context).primaryColor),
-          //     ),
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //   ),
-          // ]
-          );
+        ), //SuccessfulRedemptionPage( voucher: voucher,),
+      );
     },
   );
 }
