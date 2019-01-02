@@ -25,8 +25,10 @@ class VoucherDetailsPageRoute extends MaterialPageRoute {
 }
 
 class VoucherDetailsPage extends StatefulWidget {
-  VoucherDetailsPage({Key key, @required this.voucherData}) : super(key: key);
+  VoucherDetailsPage({Key key, @required this.voucherData, this.user})
+      : super(key: key);
   final VoucherData voucherData;
+  final LoggedInUser user;
 
   @override
   _VoucherDetailsPageState createState() => new _VoucherDetailsPageState();
@@ -52,7 +54,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     getuser();
   }
 
-   void getuser() async {
+  void getuser() async {
     await controller.checkLoggedIn().then((data) {
       if (this.mounted) {
         if (data != null) {
@@ -76,27 +78,34 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     });
   }
 
-   processRedemption(){
-      Voucher voucher =  widget.voucherData.attributes;
-    if(user != null){
+  _processRedemption(LoggedInUser user) {
+    Voucher voucher = widget.voucherData.attributes;
+    if (user != null) {
       // check if they have valid vouchers
-      if(user.vouchers == 'valid' || user.vouchers == 'free'){
+      if (user.vouchers == 'valid' || user.vouchers == 'free') {
         // redeem
         print(user.vouchers);
         showRedeemDialog(context, voucher);
-      }else{
+      } else {
         // send pay prompt
-         Navigator.push(context, PayPromptRoute());
+        Navigator.push(context, PayPromptRoute(user));
       }
-    }else{
+    } else {
       // send them to settings page to log in
-      routes.go(context,"LoginPage");
+      routes.go(context, "LoginPage");
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // getuser();
     primaryColor = Theme.of(context).primaryColor;
+    print(user.fullName);
+    return buildRedeem(context, user);
+  }
+
+  Widget buildRedeem(BuildContext context, LoggedInUser user) {
+    // print(widget.user);
     return Material(
       type: MaterialType.transparency,
       child: Scaffold(
@@ -122,9 +131,9 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           tooltip: 'Redeem this offer',
-          onPressed: processRedemption,//() {
-          //   showRedeemDialog(context, widget.voucherData.attributes);
-          // },
+          onPressed: () {
+            _processRedemption(user);
+          },
           label: const Text('Redeem'),
           icon: Image.asset(
             "images/process/scissors-white.png",
@@ -140,7 +149,6 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   void fetchEstablishmentDetails() async {
     var est = await _controller
         .getEstablishement(widget.voucherData.attributes.establishment.data.id);
-
 
     if (this.mounted) {
       setState(() {

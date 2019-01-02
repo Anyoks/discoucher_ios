@@ -45,7 +45,7 @@ void _submit(LoggedInUser user, BuildContext context) {
   } else {
     // depleted or none
     // user has no vouchers they should make a purchase
-    Navigator.push(context, PayPromptRoute());
+    Navigator.push(context, PayPromptRoute(user));
   }
 }
 
@@ -61,7 +61,7 @@ Widget buildGetOffers(
               onPressed: () {
                 //check if the user has valid offers  if not, they need to pay if yes, go to home page
                 print("qqqqqqqq ${user.vouchers}");
-                Navigator.push(context, PayPromptRoute());
+                Navigator.push(context, PayPromptRoute(user));
                 // _submit(user,context);
 
                 // Navigator.push(context, SignUpPayPromptRoute());

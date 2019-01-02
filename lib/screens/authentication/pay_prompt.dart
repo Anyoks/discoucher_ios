@@ -11,7 +11,8 @@ import 'dart:async';
 // this it the  payment prompt for an existing User
 
 class PayPromptRoute extends MaterialPageRoute {
-  PayPromptRoute() : super(builder: (context) => PayPrompt());
+  // final LoggedInUser user;
+  PayPromptRoute(user) : super(builder: (context) => PayPrompt( user: user));
 }
 
 class PayPrompt extends StatefulWidget {
@@ -71,6 +72,7 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
   }
 
   void _submit(LoggedInUser user) {
+    print("User  FROM GET OFFERS / REDEEM " + widget.user.fullName);
     updateProgress();
     _notification = null;
     updateGoneToMpesaScreen(); // make it true
