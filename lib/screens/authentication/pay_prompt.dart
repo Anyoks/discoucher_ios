@@ -1,5 +1,6 @@
 import 'package:discoucher/contollers/paymet_controller.dart';
 import 'package:discoucher/models/user.dart';
+import 'package:discoucher/screens/profile/profile.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:discoucher/screens/shared/wavy-header-image.dart';
@@ -75,7 +76,8 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
   }
 
   void _submit(LoggedInUser user) {
-    if (user.phoneNumber != null) {
+
+    if (user.phoneNumber != "null") {
       print("User  FROM GET OFFERS / REDEEM " + widget.user.fullName);
       updateProgress();
       _notification = null;
@@ -95,7 +97,11 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
       // print("$user");
       _makePayment(uid, desc, phoneNumber);
     }else{
-      _showMessageDissmiss("Kindly Update your phone Number in the profile with your current Phone Number");
+      _showMessageDissmiss("You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
+
+      Future.delayed(const Duration(seconds: 5), (){
+        Navigator.push(context, ProfilePageRoute(user));
+      } );
     }
   }
 
@@ -201,7 +207,7 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
     // return
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       backgroundColor: color,
-      duration: Duration(seconds: 30),
+      duration: Duration(seconds: 10),
       content: new Text(message),
       action: SnackBarAction(
         label: 'Dismiss',
