@@ -12,7 +12,7 @@ import 'dart:async';
 
 class PayPromptRoute extends MaterialPageRoute {
   // final LoggedInUser user;
-  PayPromptRoute(user) : super(builder: (context) => PayPrompt( user: user));
+  PayPromptRoute(user) : super(builder: (context) => PayPrompt(user: user));
 }
 
 class PayPrompt extends StatefulWidget {
@@ -33,12 +33,15 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
   Timer _timer;
   bool goneToMpesaScreen; // only true when the pay now button is clicked
   AppLifecycleState _notification;
-   var counter = 0; 
+  final String countryCode = ("254".split("")).join(); // 254
+
+  var counter = 0;
 
   @override
   void initState() {
     super.initState();
-    goneToMpesaScreen = false; // used to check whether the user is back from payment screen after clickin the pay the button 
+    goneToMpesaScreen =
+        false; // used to check whether the user is back from payment screen after clickin the pay the button
     checkPaymentStatus = false; // will be used for loading progress
     print("mpesa state $goneToMpesaScreen");
     WidgetsBinding.instance
@@ -65,26 +68,35 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
     });
   }
 
-  void updateGoneToMpesaScreen(){
+  void updateGoneToMpesaScreen() {
     print("UPDATING THE MPESA STATE FROM  $goneToMpesaScreen");
     goneToMpesaScreen = !goneToMpesaScreen;
     print("UPDATING THE MPESA STATE to  $goneToMpesaScreen");
   }
 
   void _submit(LoggedInUser user) {
-    print("User  FROM GET OFFERS / REDEEM " + widget.user.fullName);
-    updateProgress();
-    _notification = null;
-    updateGoneToMpesaScreen(); // make it true
-    // goHome();
-    print("USer in SIgn Up SCREEN ${user.lastName}");
-     print("APP STATE AFTER CLICKING PAY  $_notification");
-    String phoneNumber = '254711430817'; //user.phoneNumber;
-    String desc = "$phoneNumber mpurchase";
-    String uid = user.email;
+    if (user.phoneNumber != null) {
+      print("User  FROM GET OFFERS / REDEEM " + widget.user.fullName);
+      updateProgress();
+      _notification = null;
+      updateGoneToMpesaScreen(); // make it true
+      // goHome();
+      
+      print("APP STATE AFTER CLICKING PAY  $_notification");
 
-    // print("$user");
-    _makePayment(uid, desc, phoneNumber);
+      // process user phone Number to mpesa format 254722112233
+      var phoneWithoutZero = new List<String>.from(user.phoneNumber.split(""));
+      phoneWithoutZero.removeAt(0); // remove the 0
+      String phoneNumber = countryCode + phoneWithoutZero.join() ; //'254711430817'; //user.phoneNumber;
+      print("USer in SIgn Up SCREEN ${phoneNumber}");
+      String desc = "$phoneNumber mpurchase";
+      String uid = user.email;
+
+      // print("$user");
+      _makePayment(uid, desc, phoneNumber);
+    }else{
+      _showMessageDissmiss("Kindly Update your phone Number in the profile with your current Phone Number");
+    }
   }
 
   // TODO REFACTOR THIS CODE
@@ -111,7 +123,6 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
         checkoutRequestId = payemntResponse.checkoutRequestId;
         // TODO ADDED UPDATE USER HERE TO MAKE SURE THE VOUCHERS ARE VALID NOW
         checkPayment(checkoutRequestId);
-        
 
         _showSuccessMessage(
             "$_notification Your request is being processed, Kindly wait for a few seconds... ${payemntResponse.checkoutRequestId}");
@@ -122,11 +133,11 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
   // this should be refactored to be re used
   checkPayment(String checkoutRequestId) async {
     // _timer ??  _timer.cancel();
-    
 
     print("CHECKING THE CURRENT STATE $_notification");
     print("CHECKING THE MPESA STATE $goneToMpesaScreen");
-  if (_notification == AppLifecycleState.resumed && goneToMpesaScreen == true) {
+    if (_notification == AppLifecycleState.resumed &&
+        goneToMpesaScreen == true) {
       _notification = null; // clear the notification
       print("JUST CAME NBACK FROM MPESA SCREEN SO UPDATE MPESA STATE");
       updateGoneToMpesaScreen(); // change the status so that some other resume doesn't use this.
@@ -160,12 +171,12 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
       // call itself again till the sate actually cahnges
       print("STATE HAS NOT YET CHANGED $_notification");
       _timer = new Timer(const Duration(seconds: 5), () {
-       
-       // stop because it has taken too long.
-        if(counter >= 5){
+        // stop because it has taken too long.
+        if (counter >= 5) {
           counter = 0; // reset the counter
           updateProgress();
-          print("took too long waiting for the state to change so..update mpesa state");
+          print(
+              "took too long waiting for the state to change so..update mpesa state");
           updateGoneToMpesaScreen();
           // exit here
           _showMessageDissmiss(
@@ -196,7 +207,6 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
         label: 'Dismiss',
         onPressed: () {
           // Some code to undo the change!
-
         },
       ),
     ));
@@ -223,7 +233,6 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
             fit: BoxFit.cover,
             height: 200.0,
           ),
-          
         ),
         // SizedBox(width: 15.0),
         SizedBox(

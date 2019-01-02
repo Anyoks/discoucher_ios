@@ -100,7 +100,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   Widget build(BuildContext context) {
     // getuser();
     primaryColor = Theme.of(context).primaryColor;
-    print(user.fullName);
+    // print(user.fullName);
     return buildRedeem(context, user);
   }
 

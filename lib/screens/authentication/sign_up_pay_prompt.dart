@@ -47,6 +47,7 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
   Timer _timer;
   bool goneToMpesaScreen; // only true when the pay now button is clicked
   AppLifecycleState _notification;
+   final String countryCode = ("254".split("")).join(); // 254
   var counter = 0;
 
   @override
@@ -117,18 +118,28 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
 
   // This method will call the payment url
   void _pay(LoggedInUser user) {
-    updateProgress();
-    _notification = null;
-    updateGoneToMpesaScreen(); // make it true
-    // goHome();
-    print("USer in SIgn Up SCREEN ${user.lastName}");
-    print("APP STATE AFTER CLICKING PAY  $_notification");
-    String phoneNumber = '254711430817'; //user.phoneNumber;
-    String desc = "$phoneNumber mpurchase";
-    String uid = user.email;
+  if (user.phoneNumber != null) {
+      
+      updateProgress();
+      _notification = null;
+      updateGoneToMpesaScreen(); // make it true
+      // goHome();
+      
+      print("APP STATE AFTER CLICKING PAY  $_notification");
 
-    // print("$user");
-    _makePayment(uid, desc, phoneNumber);
+      // process user phone Number to mpesa format 254722112233
+      var phoneWithoutZero = new List<String>.from(user.phoneNumber.split(""));
+      phoneWithoutZero.removeAt(0); // remove the 0
+      String phoneNumber = countryCode + phoneWithoutZero.join() ; //'254711430817'; //user.phoneNumber;
+      print("USer in SIgn Up SCREEN ${phoneNumber}");
+      String desc = "$phoneNumber mpurchase";
+      String uid = user.email;
+
+      // print("$user");
+      _makePayment(uid, desc, phoneNumber);
+    }else{
+      _showMessageDissmiss("Kindly Update your phone Number in the profile with your current Phone Number");
+    }
   }
 
   _makePayment(uid, desc, phoneNumber) async {
