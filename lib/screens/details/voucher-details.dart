@@ -1,12 +1,15 @@
 import 'package:discoucher/contollers/establishment-controller.dart';
 import 'package:discoucher/contollers/favorites-controller.dart';
 import 'package:discoucher/models/establishment-full.dart';
+import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
+import 'package:discoucher/screens/authentication/pay_prompt.dart';
 import 'package:discoucher/screens/details/redeem-dialog.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
 import 'package:discoucher/screens/details/sliver-list-placeholder.dart';
 import 'package:discoucher/screens/details/sliver-list.dart';
+import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 
 class VoucherDetailsPageRoute extends MaterialPageRoute {
@@ -36,6 +39,9 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   Voucher _voucher = new Voucher();
   EstablishmentController _controller = new EstablishmentController();
   FavoritesController _favoritesController = new FavoritesController();
+  DiscoucherRoutes routes = new DiscoucherRoutes();
+  LoggedInUser user;
+  int counter = 0;
 
   @override
   initState() {
@@ -43,6 +49,49 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     _voucher = widget.voucherData.attributes;
 
     fetchEstablishmentDetails();
+    getuser();
+  }
+
+   void getuser() async {
+    await controller.checkLoggedIn().then((data) {
+      if (this.mounted) {
+        if (data != null) {
+          setState(() {
+            user = data;
+          });
+        } else {
+          // check again because the first check always retursn null
+          // this is a work around.
+          if (counter < 2) {
+            counter++;
+            getuser();
+          } else {
+            counter = 0;
+            // setState(() {
+            //   error.text = "User not Logged IN";
+            // });
+          }
+        }
+      }
+    });
+  }
+
+   processRedemption(){
+      Voucher voucher =  widget.voucherData.attributes;
+    if(user != null){
+      // check if they have valid vouchers
+      if(user.vouchers == 'valid' || user.vouchers == 'free'){
+        // redeem
+        print(user.vouchers);
+        showRedeemDialog(context, voucher);
+      }else{
+        // send pay prompt
+         Navigator.push(context, PayPromptRoute());
+      }
+    }else{
+      // send them to settings page to log in
+      routes.go(context,"LoginPage");
+    }
   }
 
   @override
@@ -73,9 +122,9 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           tooltip: 'Redeem this offer',
-          onPressed: () {
-            showRedeemDialog(context, widget.voucherData.attributes);
-          },
+          onPressed: processRedemption,//() {
+          //   showRedeemDialog(context, widget.voucherData.attributes);
+          // },
           label: const Text('Redeem'),
           icon: Image.asset(
             "images/process/scissors-white.png",
