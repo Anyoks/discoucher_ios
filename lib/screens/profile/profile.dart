@@ -125,13 +125,13 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            _buildSeparatorText("Contact Information"),
+            _buildEmail(),
+            _buildPhone(),
             _buildSeparatorText("Personal Information"),
             _buildFirstName(),
             _buildLastName(),
             // _buildBirthday(),
-            _buildSeparatorText("Contact Information"),
-            _buildEmail(),
-            _buildPhone()
           ],
         ),
       ),
@@ -266,7 +266,6 @@ class _ProfilePageState extends State<ProfilePage> {
     var savedUser = await _controller.updateUser(user);
 
     if (savedUser != null) {
-
       print(" POHONE NUMBER AFTER SEVER UPDATRE" + savedUser.phoneNumber);
       bool save = await _prefs.updateLoggedInUserWithUserObject(savedUser);
       if (save) {
