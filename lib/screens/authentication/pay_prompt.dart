@@ -284,7 +284,7 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
                                       fontSize: 20))),
                           Container(
                               padding: EdgeInsets.all(0),
-                              child: Text('3,000',
+                              child: Text('2,000',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 55.0))),

@@ -48,29 +48,35 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    // signingConfigs {
-        
-    //     //  release {
-    //     //     // TODO: Add your own signing config for the release build.
-    //     //     // Signing with the debug keys for now, so `flutter run --release` works.
-    //     //     signingConfig signingConfigs.debug
-    //     // }
+    // Enable this for release signing
 
-    //     release {
-    //         keyAlias keystoreProperties['keyAlias']
-    //         keyPassword keystoreProperties['keyPassword']
-    //         storeFile file(keystoreProperties['storeFile'])
-    //         storePassword keystoreProperties['storePassword']
-    //     }
-    // }
+    signingConfigs {
+        
+        //  release {
+        //     // TODO: Add your own signing config for the release build.
+        //     // Signing with the debug keys for now, so `flutter run --release` works.
+        //     signingConfig signingConfigs.debug
+        // }
+
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
 
     buildTypes {
-        release {
-            signingConfig signingConfigs.debug
-        }
+
+        //// debug signing
         // release {
-        //     signingConfig signingConfigs.release
+        //     signingConfig signingConfigs.debug
         // }
+
+        //// release signing
+        release {
+            signingConfig signingConfigs.release
+        }
     }
 
 }
