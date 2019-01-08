@@ -23,7 +23,8 @@ class SignUpPayPromptRoute extends MaterialPageRoute {
 class SignUpPayPrompt extends StatefulWidget {
   final LoggedInUser loggedInUser;
 
-  SignUpPayPrompt({Key key, @required LoggedInUser this.loggedInUser}) : super(key: key);
+  SignUpPayPrompt({Key key, @required LoggedInUser this.loggedInUser})
+      : super(key: key);
 
   // SignUpPayPrompt({Key key, this.user}) : super(key: key);
 
@@ -48,8 +49,9 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
   Timer _timer;
   bool goneToMpesaScreen; // only true when the pay now button is clicked
   AppLifecycleState _notification;
-   final String countryCode = ("254".split("")).join(); // 254
+  final String countryCode = ("254".split("")).join(); // 254
   var counter = 0;
+  LoggedInUser loggedInUser2;
 
   @override
   void initState() {
@@ -57,7 +59,7 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
     goneToMpesaScreen =
         false; // used to check whether the user is back from payment screen after clickin the pay the button
     checkPaymentStatus = false; // will be used for loading progress
-     getuser();
+    getuser();
     print("mpesa state $goneToMpesaScreen");
     WidgetsBinding.instance
         .addObserver(this); // checking if the app just came from the background
@@ -82,7 +84,8 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
       if (this.mounted) {
         if (data != null) {
           setState(() {
-            loggedInUser = data;
+            loggedInUser2 = data;
+            // print("Updated Ulser 1" + loggedInUser2.phoneNumber);
           });
         } else {
           // check again because the first check always retursn null
@@ -117,42 +120,44 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
     goHome();
   }
 
-  
-
   // This method will call the payment url
   void _pay(LoggedInUser user) {
-  if (user.phoneNumber == null ||
-        user.phoneNumber == "null" ||
-        user.phoneNumber == "") {
+    getuser(); // need to update the state  just incase this is a oogle or fb login back from updating the profile.
 
-      
-      _showMessageDissmiss(
-          "You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
+    // there is a tarrying time before the second coming, so that all that can be saved, mustn't be lost.
+    Future.delayed(const Duration(seconds: 2), () {
+      if (loggedInUser2.phoneNumber == null ||
+          loggedInUser2.phoneNumber == "null" ||
+          loggedInUser2.phoneNumber == "") {
+        _showMessageDissmiss(
+            "You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
 
-      Future.delayed(const Duration(seconds: 5), () {
-        Navigator.push(context, ProfilePageRoute(user));
-      });
-     
-    }else{
-      
-      updateProgress();
-      _notification = null;
-      updateGoneToMpesaScreen(); // make it true
-      // goHome();
-      
-      print("APP STATE AFTER CLICKING PAY  $_notification");
+        Future.delayed(const Duration(seconds: 5), () {
+          Navigator.push(context, ProfilePageRoute(user));
+        });
+      } else {
+        updateProgress();
+        _notification = null;
+        updateGoneToMpesaScreen(); // make it true
+        // goHome();
 
-      // process user phone Number to mpesa format 254722112233
-      var phoneWithoutZero = new List<String>.from(user.phoneNumber.split(""));
-      phoneWithoutZero.removeAt(0); // remove the 0
-      String phoneNumber = countryCode + phoneWithoutZero.join() ; //'254711430817'; //user.phoneNumber;
-      print("USer in SIgn Up SCREEN ${phoneNumber}");
-      String desc = "$phoneNumber mpurchase";
-      String uid = user.email;
+        print("APP STATE AFTER CLICKING PAY  $_notification");
 
-      // print("$user");
-      _makePayment(uid, desc, phoneNumber);
-    }
+        // process user phone Number to mpesa format 254722112233
+        var phoneWithoutZero = new List<String>.from(user.phoneNumber == null
+            ? loggedInUser2.phoneNumber.split("")
+            : user.phoneNumber.split(""));
+        phoneWithoutZero.removeAt(0); // remove the 0
+        String phoneNumber = countryCode +
+            phoneWithoutZero.join(); //'254711430817'; //user.phoneNumber;
+        print("USer in SIgn Up SCREEN ${phoneNumber}");
+        String desc = "$phoneNumber mpurchase";
+        String uid = user.email;
+
+        // print("$user");
+        _makePayment(uid, desc, phoneNumber);
+      }
+    });
   }
 
   _makePayment(uid, desc, phoneNumber) async {
@@ -262,9 +267,9 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
       );
       print("WWWWWWWWW ${loggedInUser.vouchers}");
 
-       var save = await _prefs.updateLoggedInUser(_userToSave);
+      var save = await _prefs.updateLoggedInUser(_userToSave);
 
-       print("UPDATIN USER   DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE $save");
+      print("UPDATIN USER   DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE $save");
       goHome();
     }
   }
