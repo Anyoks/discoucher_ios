@@ -30,7 +30,7 @@ buildSliverAppBar({
           }
 
           String shareMessage =
-              "$des at ${voucher.establishment.data.attributes.name} \n \n\nView more deals like these at https://www.discoucher.com";
+              "$des at ${voucher.establishment.data.attributes.name} \n \n\nView more deals like these by downloading the DisCoucher app at  \n https://play.google.com/store/apps/details?id=com.discoucher.deals   \n or get more info at  \n https://www.discoucher.com";
 
           final RenderBox box = context.findRenderObject();
           Share.share(shareMessage,
