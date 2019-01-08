@@ -119,7 +119,9 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
 
   // This method will call the payment url
   void _pay(LoggedInUser user) {
-  if (user.phoneNumber != null) {
+  if (user.phoneNumber == null ||
+        user.phoneNumber == "null" ||
+        user.phoneNumber == "") {
       
       updateProgress();
       _notification = null;
