@@ -1,9 +1,12 @@
 import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/contollers/facebook-login.dart';
 import 'package:discoucher/contollers/google-signIn.dart';
+import 'package:discoucher/contollers/settings-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/facebook-user.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
+import 'package:discoucher/screens/authentication/sign_up_pay_prompt.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -17,6 +20,11 @@ class SocialLoginButtons extends StatelessWidget {
   final DiscoucherRoutes _routes = new DiscoucherRoutes();
   final FacebookLoginController fb = new FacebookLoginController();
   final GoogleSignInController google = new GoogleSignInController();
+  static SharedPreferencesController _prefs = new SharedPreferencesController();
+  final SettingsController controller = new SettingsController(prefs: _prefs);
+
+  LoggedInUser loggedInUser;
+  int counter;
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +92,15 @@ class SocialLoginButtons extends StatelessWidget {
               firstName: user.firstName,
               lastName: user.lastName,
               fullName: "${user.firstName} ${user.firstName}",
+              phoneNumber: user.phoneNumber,
               vouchers: user.vouchers,
             );
 
             await _controller.saveLoggedInUser(loggedinUSer2);
           }
 
-          goHome(context);
+          // goHome(context);
+          goToPaymentPrompt(context);
           break;
         default:
           showErrorMessage(context, results.message);
@@ -118,13 +128,15 @@ class SocialLoginButtons extends StatelessWidget {
               firstName: user.firstName,
               lastName: user.lastName,
               fullName: "${user.firstName} ${user.firstName}",
+              phoneNumber: user.phoneNumber,
               vouchers: user.vouchers,
             );
 
             await _controller.saveLoggedInUser(loggedinUSer2);
           }
 
-          goHome(context);
+          // goHome(context);
+          goToPaymentPrompt(context);
           break;
         default:
           showErrorMessage(context, results.message);
@@ -134,14 +146,40 @@ class SocialLoginButtons extends StatelessWidget {
     }
   }
 
-  // loginToFacebook(BuildContext context) async {
-  //   bool results = await fb.attemptFacebookLogin();
+   goToPaymentPrompt(BuildContext context){
+    // var g = getuser(context);
+    getuser(context);
+    // print("USer in Social login SCREEN $g");
+    // Navigator.push(context, MaterialPageRoute(
+    //         builder: (context) => SignUpPayPrompt(loggedInUser: loggedInUser)));
+  }
 
-  //   results
-  //       ? goHome(context)
-  //       : showErrorMessage(
-  //           context, "Error: Unable to login with facebook at the moment");
-  // }
+
+  getuser(BuildContext context) async {
+    await controller.checkLoggedIn().then((data) {
+      
+        if (data != null) {
+            loggedInUser = data;
+            print( "Social login check  user"+ loggedInUser.email);
+            // return loggedInUser;
+            Navigator.push(context, MaterialPageRoute(
+            builder: (context) => SignUpPayPrompt(loggedInUser: loggedInUser)));
+        } else {
+          // check again because the first check always retursn null
+          // this is a work around.
+          if (counter < 2) {
+            counter++;
+            getuser(context);
+          } else {
+            counter = 0;
+            // loggedInUser = null;
+          }
+        }
+     
+    });
+  }
+
+
 
   showErrorMessage(BuildContext context, String error) {
     if (error.runtimeType == String) {

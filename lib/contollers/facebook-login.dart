@@ -44,6 +44,7 @@ class FacebookLoginController extends AuthController {
     user.lastName = account.lastName;
     user.password = user.firstName;
     user.passwordConfirmation = user.firstName;
+    user.phoneNumber = null;
     user.provider = "facebook";
 
     print(" SIgn up FIrst name " + account.firstName);
