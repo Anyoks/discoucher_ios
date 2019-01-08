@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/constants/strings.dart';
+import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
@@ -38,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _dateController = TextEditingController();
   final Validators _validators = Validators();
   SharedPreferencesController _prefs = new SharedPreferencesController();
+  final AuthController _authController = new AuthController();
 
   final int maxTexInput = 40;
 
@@ -55,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
     user.dob = DateTime.now();
 
     print("users pone number");
-    print(widget.currentUser.firstName);
+    print(widget.currentUser.phoneNumber);
   }
 
   @override
@@ -267,13 +269,29 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (savedUser != null) {
       print(" POHONE NUMBER AFTER SEVER UPDATRE" + savedUser.phoneNumber);
+       
+     
       bool save = await _prefs.updateLoggedInUserWithUserObject(savedUser);
-      if (save) {
+     bool saveprof =  await updateLoggedInUser();
+      if (save && saveprof) {
         _showMessage('Profile successfully updated', Colors.blue);
       }
     } else {
       _showMessage('There was an error saving the profile. Try again later');
     }
+  }
+
+  updateLoggedInUser() async{
+    LoggedInUser loggedinUser = new LoggedInUser(
+              id: user.id,
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              fullName: "${user.firstName} ${user.firstName}",
+              phoneNumber: user.phoneNumber,
+              vouchers: user.vouchers,
+            );
+    return  await _authController.saveLoggedInUser(loggedinUser);
   }
 
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
