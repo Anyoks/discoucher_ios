@@ -4,6 +4,7 @@ import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/loader/loader.dart';
 import 'package:discoucher/models/user.dart';
+import 'package:discoucher/screens/profile/profile.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -138,7 +139,10 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
       // print("$user");
       _makePayment(uid, desc, phoneNumber);
     }else{
-      _showMessageDissmiss("Kindly Update your phone Number in the profile with your current Phone Number");
+      _showMessageDissmiss("You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
+       Future.delayed(const Duration(seconds: 5), () {
+          Navigator.push(context, ProfilePageRoute(user));
+        });
     }
   }
 
