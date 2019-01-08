@@ -117,11 +117,23 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
     goHome();
   }
 
+  
+
   // This method will call the payment url
   void _pay(LoggedInUser user) {
   if (user.phoneNumber == null ||
         user.phoneNumber == "null" ||
         user.phoneNumber == "") {
+
+      
+      _showMessageDissmiss(
+          "You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
+
+      Future.delayed(const Duration(seconds: 5), () {
+        Navigator.push(context, ProfilePageRoute(user));
+      });
+     
+    }else{
       
       updateProgress();
       _notification = null;
@@ -140,11 +152,6 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
 
       // print("$user");
       _makePayment(uid, desc, phoneNumber);
-    }else{
-      _showMessageDissmiss("You will be directed to you profile, Kindly update your phone Number with the Number you'll use for payments.");
-       Future.delayed(const Duration(seconds: 5), () {
-          Navigator.push(context, ProfilePageRoute(user));
-        });
     }
   }
 
