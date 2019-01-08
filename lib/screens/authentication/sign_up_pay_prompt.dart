@@ -381,8 +381,8 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
           margin:
               EdgeInsets.only(left: 35.0, top: 15.0, bottom: 15.0, right: 35.0),
           padding: const EdgeInsets.all(3.0),
-          decoration:
-              new BoxDecoration(border: new Border.all(color: Colors.grey)),
+          // decoration:
+          //     new BoxDecoration(border: new Border.all(color: Colors.grey)),
           child: Column(
             children: <Widget>[
               Row(
