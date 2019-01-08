@@ -1,4 +1,5 @@
 import 'package:discoucher/screens/authentication/login.dart';
+import 'package:discoucher/screens/authentication/sign-up.dart';
 import 'package:discoucher/screens/authentication/sign_up_pay_prompt.dart';
 import 'package:discoucher/screens/authentication/pay_prompt.dart';
 import 'package:discoucher/screens/home/home.dart';
@@ -15,6 +16,7 @@ class DiscoucherRoutes {
   String splashScreenRoute = '/splashScreen';
   String tutorialsRoute = '/tutorial';
   String loginRoute = '/login';
+  String signUpRoute = '/signUp';
   String signUpPaymentRoute = '/signUpay';
   String payPromptRoute = '/payPrompt';
 
@@ -34,6 +36,7 @@ class DiscoucherRoutes {
       loginRoute: (BuildContext context) => LoginPage(
             fromSplashScreen: false,
           ),
+      signUpRoute: (BuildContext context) => SignUpPage(),
       signUpPaymentRoute: (BuildContext context) => SignUpPayPrompt(),
       payPromptRoute: (BuildContext context) => PayPrompt(),
     };
@@ -51,6 +54,10 @@ class DiscoucherRoutes {
             return LoginPage(
               fromSplashScreen: false,
             );
+          }
+          case "SignUpPage":
+          {
+            return SignUpPage();
           }
         case "HomePage":
           {

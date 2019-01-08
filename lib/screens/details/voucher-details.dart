@@ -91,8 +91,8 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
         Navigator.push(context, PayPromptRoute(user));
       }
     } else {
-      // send them to settings page to log in
-      routes.go(context, "LoginPage");
+      // send them to sign up page
+      routes.go(context, "SignUpPage");
     }
   }
 
