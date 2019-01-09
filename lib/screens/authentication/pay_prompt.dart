@@ -144,7 +144,7 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
         checkPayment(checkoutRequestId);
 
         _showSuccessMessage(
-            "$_notification Your request is being processed, Kindly wait for a few seconds...");
+            "Your request is being processed, Kindly wait for a few seconds...");
       }
     }
   }
