@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/favorites-controller.dart';
 import 'package:discoucher/models/voucher-data.dart';
+import 'package:discoucher/screens/category/category-sliver-grid.dart';
+import 'package:discoucher/screens/category/category-sliver-list.dart';
 import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';
@@ -67,6 +69,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
             else if (!snapshot.hasData) {
               return _nofavoritesYet(context);
             } else {
+              print(snapshot.data);
               return _buildFavorites(snapshot.data);
             }
         }
@@ -114,6 +117,18 @@ class _FavoritesPageState extends State<FavoritesPage> {
               return buildGenericListItem(context, _voucherDataList[index]);
             },
           );
+  }
+
+   _buildFavorites2(List<VoucherData> _voucherDataList) {
+    return buildCategorySliverList(_voucherDataList);
+    //  ListView.builder(
+    //         key: new Key(new Uuid().v1()),
+    //         scrollDirection: Axis.horizontal,
+    //         itemCount: _voucherDataList.length,
+    //         itemBuilder: (BuildContext context, int index) {
+    //           return buildCategorySliverGrid2( _voucherDataList);
+    //         },
+    //       );
   }
   
   Future<List<VoucherData>> handleRefresh() async {
