@@ -33,6 +33,11 @@ class HttpController {
     final Response response = await client.get(endPoint, headers: _headers);
     client.close();
 
+    if(response.headers['access-token'] != null ){
+      // print("UPDATING HEADERS");
+      _updateHeaders(response.headers);
+    }
+
     return response;
   }
 
