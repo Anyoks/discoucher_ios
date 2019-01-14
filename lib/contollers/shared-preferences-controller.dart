@@ -133,7 +133,7 @@ class SharedPreferencesController {
      
       const _anonymousHeaders = {"Content-Type": "application/json"};
        print("ANANYMOUSE HEaders from prefs ");
-       print(e.message);
+      //  print(e.message);
        print(_anonymousHeaders);
       return _anonymousHeaders;
       // return null;
