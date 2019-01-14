@@ -74,8 +74,6 @@ class _RedeemPageState extends State<RedeemPage> {
     getuser();
   }
 
-  
-
   @override
   void dispose() {
     _focusPin1.dispose();
@@ -177,6 +175,10 @@ class _RedeemPageState extends State<RedeemPage> {
       print("NO NWTEORK ACCESS");
     } else if (redeemStatus.success == true) {
       //success redeeming voucher
+      setState(() {
+        widget.voucher.redeemed = "true";
+      });
+
       //upDATE The logged in user so that we are in the know!
       var update = await updateLoggedInUser(redeemStatus.vouchers);
 
@@ -184,7 +186,7 @@ class _RedeemPageState extends State<RedeemPage> {
         closeDialog();
       } else {
         setState(() {
-          error.text = "ERROR SAVING LOGGED INUSER";
+          // error.text = "ERROR SAVING LOGGED INUSER";
         });
       }
       // show success redeem page
@@ -433,7 +435,7 @@ class _RedeemPageState extends State<RedeemPage> {
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (term) {
-        _fieldFocusChange(_focusPin1, _focusPin2 );
+        _fieldFocusChange(_focusPin1, _focusPin2);
       },
       keyboardType: TextInputType.number,
       validator: (val) => val.isEmpty ? 'X' : null,
@@ -452,8 +454,8 @@ class _RedeemPageState extends State<RedeemPage> {
       focusNode: _focusPin2,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       textInputAction: TextInputAction.next,
-       onFieldSubmitted: (term) {
-        _fieldFocusChange(_focusPin2, _focusPin3 );
+      onFieldSubmitted: (term) {
+        _fieldFocusChange(_focusPin2, _focusPin3);
       },
       keyboardType: TextInputType.number,
       validator: (val) => val.isEmpty ? 'X' : null,
@@ -472,8 +474,8 @@ class _RedeemPageState extends State<RedeemPage> {
       focusNode: _focusPin3,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       textInputAction: TextInputAction.next,
-       onFieldSubmitted: (term) {
-        _fieldFocusChange(_focusPin3, _focusPin4 );
+      onFieldSubmitted: (term) {
+        _fieldFocusChange(_focusPin3, _focusPin4);
       },
       keyboardType: TextInputType.number,
       validator: (val) => val.isEmpty ? 'X' : null,
@@ -493,7 +495,7 @@ class _RedeemPageState extends State<RedeemPage> {
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (term) {
-        _fieldFocusChange(_focusPin4, _focusPin5 );
+        _fieldFocusChange(_focusPin4, _focusPin5);
       },
       keyboardType: TextInputType.number,
       validator: (val) => val.isEmpty ? 'X' : null,
