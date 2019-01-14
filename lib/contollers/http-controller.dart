@@ -72,6 +72,7 @@ class HttpController {
 
   Future<Response> post(
       {String endPoint, Map<String, String> headers, dynamic payload}) async {
+      //  SharedPreferencesController prefs = new SharedPreferencesController();
     try {
       print("HEADERS BBBBBBB");
       var _headers = await prefs.fetchHeaders();
@@ -87,7 +88,9 @@ class HttpController {
       );
 
       client.close();
-      if (response.headers['access-token'] != null) {
+      if (response.headers['access-token'] != null &&
+        response.headers['access-token'] != '' &&
+        response.headers['access-token'] != " ") {
         print("UPDATING POST HEADERS HEADERS BBBBBBB");
         _updateHeaders(response.headers);
       }
