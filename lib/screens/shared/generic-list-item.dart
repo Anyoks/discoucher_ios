@@ -51,6 +51,8 @@ buildGenericListItem(BuildContext context, VoucherData voucherData) {
     margin: EdgeInsets.only(right: 10.0),
     child: new GestureDetector(
       onTap: () {
+        // print("XXXXXXXXXX");
+        // print(voucherData.toJson());
         Navigator.push(context, VoucherDetailsPageRoute(voucherData));
       },
       child: Column(

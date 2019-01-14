@@ -95,6 +95,11 @@ class SharedPreferencesController {
     try {
       if (headers != null) {
         var _headers = json.encode(headers);
+        // _headers
+        print("DDEEEP HEADERS UPDATE");
+          print(headers.accessToken);
+        print(_headers);
+       
         results = await prefs.setString(PrefPaths.headers, _headers);
       } else {
         results = await prefs.remove(PrefPaths.headers);
@@ -118,11 +123,18 @@ class SharedPreferencesController {
         "uid": "${_headers['uid']}"
       };
 
+      print("HEaders from prefs");
+       print(_headers);
       print(_stringHeaders);
 
       return _stringHeaders;
     } catch (e) {
+
+     
       const _anonymousHeaders = {"Content-Type": "application/json"};
+       print("ANANYMOUSE HEaders from prefs ");
+       print(e.message);
+       print(_anonymousHeaders);
       return _anonymousHeaders;
       // return null;
     }
