@@ -9,6 +9,7 @@ buildSliverAppBar({
   Voucher voucher,
   EstablishmentFull est,
   Function addFavorite,
+  bool isFavourite,
 }) {
   return SliverAppBar(
     title: Text(voucher.establishment.data.attributes.name),
@@ -38,7 +39,7 @@ buildSliverAppBar({
         },
         icon: Icon(Icons.share),
       ),
-      IconButton(onPressed: addFavorite, icon: voucher.favourite == "true" ? Icon(Icons.favorite, color: Colors.red, ): Icon(Icons.favorite_border))
+      IconButton(onPressed: isFavourite == true ? null : addFavorite, icon: isFavourite == true ? Icon(Icons.favorite, color: Colors.red, ): Icon(Icons.favorite_border))
     ],
     flexibleSpace: FlexibleSpaceBar(
       collapseMode: CollapseMode.parallax,
