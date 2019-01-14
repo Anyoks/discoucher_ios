@@ -5,6 +5,8 @@ class Voucher {
   String code;
   String description;
   String condition;
+  String redeemed;
+  String favourite;
   Establishment establishment;
 
   String heroId = new Uuid().v4();
@@ -13,6 +15,8 @@ class Voucher {
     this.code,
     this.description,
     this.condition,
+    this.redeemed,
+    this.favourite,
     this.establishment,
   });
 
@@ -20,6 +24,8 @@ class Voucher {
         code: json["code"],
         description: json["description"],
         condition: json["condition"],
+        redeemed: json["redeemed"],
+        favourite: json["favourite"],
         establishment: Establishment.fromJson(json["establishment"]),
       );
 
@@ -27,6 +33,8 @@ class Voucher {
         "code": code,
         "description": description,
         "condition": condition,
+        "redeemed": redeemed,
+        "favourite": favourite,
         "establishment": establishment.toJson(),
       };
 }

@@ -14,7 +14,8 @@ openCategoryPage(BuildContext context, List<VoucherData> categoryData, String ty
 buildHomeSectionTitle(
     BuildContext context, List<VoucherData> categoryData, String type) {
   return Container(
-    padding: EdgeInsets.symmetric(vertical: 10.0),
+    // padding: EdgeInsets.symmetric(vertical: 10.0),
+    padding: EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0, bottom:  10.0),
     child: Row(
       children: <Widget>[
         Expanded(

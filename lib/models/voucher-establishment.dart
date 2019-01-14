@@ -29,8 +29,8 @@ class VoucherEstabishment {
         phone: json["phone"],
         email: json["email"],
         website: json["website"],
-        socialMedia: json["social_media"],
-        featuredImage: json["featured_image"],
+        socialMedia: json["social-media"],
+        featuredImage: json["featured-image"],
     );
 
     Map<String, dynamic> toJson() => {

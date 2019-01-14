@@ -28,11 +28,25 @@ class HttpController {
     Map<String, String> headers,
   }) async {
     var _headers = await prefs.fetchHeaders();
+    //  Future.delayed(const Duration(seconds: 2), () {
+    //    var k;
+    //  });
+
+    print("THESE ARE THE HEADERS FROM HOME PAGE ****");
+    print(_headers);
 
     Client client = new Client();
     final Response response = await client.get(endPoint, headers: _headers);
     client.close();
+    print("THESE ARE THE HEADERS FROM HOME PAGE" + _headers.toString());
+    if (response.headers['access-token'] != null && response.headers['access-token'] != ''  && response.headers['access-token'] != " ") {
+      print("UPDATING HEADERS");
+      print(response.headers);
+      _updateHeaders(response.headers);
+    }
 
+    print("****");
+    print(response.body);
     return response;
   }
 
@@ -58,7 +72,10 @@ class HttpController {
   Future<Response> post(
       {String endPoint, Map<String, String> headers, dynamic payload}) async {
     try {
+       print("HEADERS BBBBBBB");
       var _headers = await prefs.fetchHeaders();
+
+       print(_headers);
 
       Client client = new Client();
 
@@ -69,8 +86,11 @@ class HttpController {
       );
 
       client.close();
-
-      _updateHeaders(response.headers);
+      if (response.headers['access-token'] != null) {
+        print("UPDATING POST HEADERS HEADERS BBBBBBB");
+        _updateHeaders(response.headers);
+      }
+      // _updateHeaders(response.headers);
 
       return response;
     } catch (e) {

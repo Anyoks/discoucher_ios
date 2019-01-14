@@ -43,13 +43,16 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   FavoritesController _favoritesController = new FavoritesController();
   DiscoucherRoutes routes = new DiscoucherRoutes();
   LoggedInUser user;
+  bool _isButtonDisabled, isFavourite = false;
   int counter = 0;
 
   @override
   initState() {
     super.initState();
+    _isButtonDisabled = widget.voucherData.attributes.redeemed == "true" ? true : false;
     _voucher = widget.voucherData.attributes;
-
+    isFavourite =  widget.voucherData.attributes.favourite == "true" ? true : false;
+    // print(_voucher.toJson());
     fetchEstablishmentDetails();
     getuser();
   }
@@ -116,7 +119,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
               context: context,
               voucher: _voucher,
               est: _establishmentFull,
-              addFavorite: () {
+              addFavorite:  () {
                 addFavorite();
               },
             ),
@@ -131,16 +134,17 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           tooltip: 'Redeem this offer',
-          onPressed: () {
+          onPressed: _isButtonDisabled ? null : () {
             _processRedemption(user);
           },
-          label: const Text('Redeem'),
+          label: _isButtonDisabled ?  const Text('Redeemed') : const Text('Redeem'),
           icon: Image.asset(
             "images/process/scissors-white.png",
             height: 24.0,
           ),
-          backgroundColor: primaryColor,
+          backgroundColor: _isButtonDisabled ?  Colors.grey :primaryColor,
           foregroundColor: Colors.white,
+          
         ),
       ),
     );
@@ -160,6 +164,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   }
 
   addFavorite() async {
+    print("${widget.voucherData.toString()}");
     final bool addFavResults =
         await _favoritesController.addFavorite(widget.voucherData);
     addFavResults == true
