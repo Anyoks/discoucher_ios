@@ -49,9 +49,11 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
   @override
   initState() {
     super.initState();
-    _isButtonDisabled = widget.voucherData.attributes.redeemed == "true" ? true : false;
+    _isButtonDisabled =
+        widget.voucherData.attributes.redeemed == "true" ? true : false;
     _voucher = widget.voucherData.attributes;
-    isFavourite =  widget.voucherData.attributes.favourite == "true" ? true : false;
+    isFavourite =
+        widget.voucherData.attributes.favourite == "true" ? true : false;
     // print(_voucher.toJson());
     fetchEstablishmentDetails();
     getuser();
@@ -88,7 +90,15 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
       if (user.vouchers == 'valid' || user.vouchers == 'free') {
         // redeem
         print(user.vouchers);
-        showRedeemDialog(context, voucher);
+        if (widget.voucherData.attributes.redeemed == "false") {
+          showRedeemDialog(context, voucher);
+        }
+        if (voucher.redeemed == "true") {
+          setState(() {
+            _isButtonDisabled = true;
+            widget.voucherData.attributes.redeemed = "true";
+          });
+        }
       } else {
         // send pay prompt
         Navigator.push(context, PayPromptRoute(user));
@@ -119,9 +129,10 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
               context: context,
               voucher: _voucher,
               est: _establishmentFull,
-              addFavorite:  () {
+              addFavorite: () {
                 addFavorite();
               },
+              isFavourite: isFavourite,
             ),
             _establishmentFull == null
                 ? buildSliverListPlaceHolder(context, _voucher)
@@ -134,17 +145,19 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           tooltip: 'Redeem this offer',
-          onPressed: _isButtonDisabled ? null : () {
-            _processRedemption(user);
-          },
-          label: _isButtonDisabled ?  const Text('Redeemed') : const Text('Redeem'),
+          onPressed: _isButtonDisabled
+              ? null
+              : () {
+                  _processRedemption(user);
+                },
+          label:
+              _isButtonDisabled ? const Text('Redeemed') : const Text('Redeem'),
           icon: Image.asset(
             "images/process/scissors-white.png",
             height: 24.0,
           ),
-          backgroundColor: _isButtonDisabled ?  Colors.grey :primaryColor,
+          backgroundColor: _isButtonDisabled ? Colors.grey : primaryColor,
           foregroundColor: Colors.white,
-          
         ),
       ),
     );
@@ -165,11 +178,18 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
 
   addFavorite() async {
     print("${widget.voucherData.toString()}");
+
     final bool addFavResults =
         await _favoritesController.addFavorite(widget.voucherData);
-    addFavResults == true
-        ? _showMessage("Voucher added to favorites successfully")
-        : _showMessage("There was an error adding voucher to favorites");
+    if (addFavResults == true) {
+      setState(() {
+        isFavourite = true;
+        widget.voucherData.attributes.favourite = "true";
+      });
+      _showMessage("Voucher added to favorites successfully");
+    } else {
+      _showMessage("There was an error adding voucher to favorites");
+    }
   }
 
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
