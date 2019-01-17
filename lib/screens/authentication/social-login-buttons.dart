@@ -1,11 +1,12 @@
-import 'dart:async';
-
 import 'package:discoucher/contollers/auth-controller.dart';
 import 'package:discoucher/contollers/facebook-login.dart';
 import 'package:discoucher/contollers/google-signIn.dart';
+import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/facebook-user.dart';
 import 'package:discoucher/models/shared.dart';
+import 'package:discoucher/models/user.dart';
+import 'package:discoucher/screens/authentication/sign_up_pay_prompt.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -19,35 +20,57 @@ class SocialLoginButtons extends StatelessWidget {
   final DiscoucherRoutes _routes = new DiscoucherRoutes();
   final FacebookLoginController fb = new FacebookLoginController();
   final GoogleSignInController google = new GoogleSignInController();
+  static SharedPreferencesController _prefs = new SharedPreferencesController();
+  final SettingsController controller = new SettingsController(prefs: _prefs);
+
+  LoggedInUser loggedInUser;
+  int counter;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5.0),
       color: Colors.white,
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text("Continue With"),
-          FlatButton(
-            onPressed: () => loginToFacebook(context),
-            child: Row(
-              children: <Widget>[
-                Image.asset("images/social/facebook.png", width: 20.0),
-                Padding(padding: EdgeInsets.only(left: 3.0)),
-                Text("Facebook")
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Continue With..."),
+            ],
           ),
-          FlatButton(
-              onPressed: () => attemptGoogleLogin(context),
-              child: Row(
-                children: <Widget>[
-                  Image.asset("images/social/google.png", width: 20.0),
-                  Padding(padding: EdgeInsets.only(left: 3.0)),
-                  Text("Google", style: TextStyle(fontSize: 14.0))
-                ],
-              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              OutlineButton(
+                onPressed: () => loginToFacebook(context),
+                 borderSide: BorderSide(color: Colors.grey),
+                child: Row(
+                  children: <Widget>[
+                    Image.asset("images/social/facebook.png", width: 20.0),
+                    Padding(padding: EdgeInsets.only(left: 3.0)),
+                    Text("Facebook")
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 4.0,
+              ),
+              OutlineButton(
+                  onPressed: () => attemptGoogleLogin(context),
+                  borderSide: BorderSide(color: Colors.grey),
+                  child: Row(
+                    children: <Widget>[
+                      Image.asset("images/social/google.png", width: 20.0),
+                      Padding(padding: EdgeInsets.only(left: 3.0)),
+                      Text("Google", style: TextStyle(fontSize: 14.0))
+                    ],
+                  )),
+            ],
+          ),
+          // Text("Continue With"),
         ],
       ),
     );
@@ -58,26 +81,32 @@ class SocialLoginButtons extends StatelessWidget {
       LoginResults results = await google.signIn();
       switch (results.success) {
         case true:
-          goHome(context);
+          User user = results.profile;
 
-          GoogleSignInAccount profile = results.profile;
+          print("BACK FROM GOOGLE LOGIN");
+          print(user);
+          if (user != null) {
+            LoggedInUser loggedinUSer2 = new LoggedInUser(
+              id: user.id,
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              fullName: "${user.firstName} ${user.firstName}",
+              phoneNumber: user.phoneNumber,
+              vouchers: user.vouchers,
+            );
 
-          LoggedInUser loggedinUSer = new LoggedInUser(
-            id: profile.id,
-            email: profile.email,
-            fullName: profile.displayName,
-            photoUrl: profile.photoUrl,
-            token: results.token,
-          );
+            await _controller.saveLoggedInUser(loggedinUSer2);
+          }
 
-          await _controller.saveLoggedInUser(loggedinUSer);
-          goHome(context);
+          // goHome(context);
+          goToPaymentPrompt(context);
           break;
         default:
           showErrorMessage(context, results.message);
       }
     } catch (errorMessage) {
-      showErrorMessage(context, "There was an error logging in using Google");
+      showErrorMessage(context, "${errorMessage.toString()}");
     }
   }
 
@@ -86,38 +115,71 @@ class SocialLoginButtons extends StatelessWidget {
       LoginResults results = await fb.loginToFacebook();
       switch (results.success) {
         case true:
-          goHome(context);
+          print("BACK FROM FACEBOOK LOGIN");
+          // FacebookAccessToken token = results.token;
+          // FacebookProfile profile = results.profile;
+          User user = results.profile;
 
-          FacebookAccessToken token = results.token;
-          FacebookProfile profile = results.profile;
+          if (user != null) {
+            // only does this for logged in users because the login method does not do it!
+            LoggedInUser loggedinUSer2 = new LoggedInUser(
+              id: user.id,
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              fullName: "${user.firstName} ${user.firstName}",
+              phoneNumber: user.phoneNumber,
+              vouchers: user.vouchers,
+            );
 
-          LoggedInUser loggedinUSer = LoggedInUser(
-            id: profile.id,
-            email: profile.email,
-            fullName: profile.name,
-            photoUrl: profile.picture.data.url,
-            bytes: profile.bytes,
-            token: token.token,
-          );
+            await _controller.saveLoggedInUser(loggedinUSer2);
+          }
 
-          await _controller.saveLoggedInUser(loggedinUSer);
+          // goHome(context);
+          goToPaymentPrompt(context);
           break;
         default:
           showErrorMessage(context, results.message);
       }
     } catch (errorMessage) {
-      showErrorMessage(context, errorMessage);
+      showErrorMessage(context, errorMessage.toString());
     }
   }
 
-  // loginToFacebook(BuildContext context) async {
-  //   bool results = await fb.attemptFacebookLogin();
+   goToPaymentPrompt(BuildContext context){
+    // var g = getuser(context);
+    getuser(context);
+    // print("USer in Social login SCREEN $g");
+    // Navigator.push(context, MaterialPageRoute(
+    //         builder: (context) => SignUpPayPrompt(loggedInUser: loggedInUser)));
+  }
 
-  //   results
-  //       ? goHome(context)
-  //       : showErrorMessage(
-  //           context, "Error: Unable to login with facebook at the moment");
-  // }
+
+  getuser(BuildContext context) async {
+    await controller.checkLoggedIn().then((data) {
+      
+        if (data != null) {
+            loggedInUser = data;
+            print( "Social login check  user"+ loggedInUser.email);
+            // return loggedInUser;
+            Navigator.push(context, MaterialPageRoute(
+            builder: (context) => SignUpPayPrompt(loggedInUser: loggedInUser)));
+        } else {
+          // check again because the first check always retursn null
+          // this is a work around.
+          if (counter < 2) {
+            counter++;
+            getuser(context);
+          } else {
+            counter = 0;
+            // loggedInUser = null;
+          }
+        }
+     
+    });
+  }
+
+
 
   showErrorMessage(BuildContext context, String error) {
     if (error.runtimeType == String) {

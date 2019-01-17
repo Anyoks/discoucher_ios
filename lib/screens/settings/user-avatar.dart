@@ -40,6 +40,8 @@ Widget _buldProfPic(LoggedInUser user) {
       : CircleAvatar(backgroundImage: NetworkImage(user.photoUrl));
 }
 
+
+
 buildUserAvatar(LoggedInUser user) {
   return Column(
     children: <Widget>[

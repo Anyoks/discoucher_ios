@@ -66,25 +66,25 @@ buildCategoryListItem(BuildContext context, Voucher data) {
         ),
         SizedBox(width: 5.0),
         Expanded(child: buildCategoryContent(context, data)),
-        InkWell(
-          onTap: () => showRedeemDialog(context, data),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Image.asset("images/process/redeem.png", height: 25.0),
-              SizedBox(height: 19.0),
-              Text(
-                "Redeem",
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
+        // InkWell(
+        //   onTap: () => showRedeemDialog(context, data),
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: <Widget>[
+        //       Image.asset("images/process/redeem.png", height: 25.0),
+        //       SizedBox(height: 19.0),
+        //       Text(
+        //         "Redeem",
+        //         style: TextStyle(
+        //           color: Theme.of(context).primaryColor,
+        //           fontSize: 12.0,
+        //           fontWeight: FontWeight.w500,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     ),
   );

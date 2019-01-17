@@ -1,5 +1,4 @@
 import 'package:discoucher/models/voucher-data.dart';
-import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/voucher-details.dart';
 import 'package:flutter/material.dart';
 

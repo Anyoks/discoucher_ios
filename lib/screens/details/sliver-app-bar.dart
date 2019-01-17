@@ -9,6 +9,7 @@ buildSliverAppBar({
   Voucher voucher,
   EstablishmentFull est,
   Function addFavorite,
+  bool isFavourite,
 }) {
   return SliverAppBar(
     title: Text(voucher.establishment.data.attributes.name),
@@ -30,7 +31,7 @@ buildSliverAppBar({
           }
 
           String shareMessage =
-              "$des at ${voucher.establishment.data.attributes.name} \n \n\nView more deals like these at https://www.discoucher.com";
+              "$des at ${voucher.establishment.data.attributes.name} \n \n\nView more deals like these by downloading the DisCoucher app at  \n https://play.google.com/store/apps/details?id=com.discoucher.deals   \n or get more info at  \n https://www.discoucher.com";
 
           final RenderBox box = context.findRenderObject();
           Share.share(shareMessage,
@@ -38,7 +39,7 @@ buildSliverAppBar({
         },
         icon: Icon(Icons.share),
       ),
-      IconButton(onPressed: addFavorite, icon: Icon(Icons.favorite_border))
+      IconButton(onPressed: isFavourite == true ? null : addFavorite, icon: isFavourite == true ? Icon(Icons.favorite, color: Colors.red, ): Icon(Icons.favorite_border))
     ],
     flexibleSpace: FlexibleSpaceBar(
       collapseMode: CollapseMode.parallax,

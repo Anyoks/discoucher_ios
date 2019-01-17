@@ -1,12 +1,18 @@
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/contollers/auth-controller.dart';
+import 'package:discoucher/contollers/settings-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
+import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
+import 'package:discoucher/screens/authentication/social-login-buttons.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:discoucher/screens/shared/app-back-button.dart';
 import 'package:discoucher/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:discoucher/screens/shared/wavy-header-image.dart';
 import 'package:discoucher/screens/shared/app-bar-title.dart';
+import 'package:discoucher/screens/authentication/sign_up_pay_prompt.dart';
 
 class SignUpPageRoute extends MaterialPageRoute {
   SignUpPageRoute() : super(builder: (context) => SignUpPage());
@@ -24,9 +30,23 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController _dateController = TextEditingController();
   final Validators _validators = Validators();
+   static SharedPreferencesController _prefs = new SharedPreferencesController();
+  final SettingsController controller = new SettingsController(prefs: _prefs);
+   var counter = 0;
+
+  // Initially password is obscure
+  bool _obscureText = true;
+  // add toggle view password
+  // _toggle() {
+  //   setState(() {
+  //     _obscureText = !_obscureText;
+  //     print("INSIDE OBSCURE TEXT $_obscureText");
+  //   });
+  // }
 
   final int maxTexInput = 40;
   User user = new User();
+  LoggedInUser loggedInUser;
 
   @override
   void initState() {
@@ -53,14 +73,44 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
+  // Toggles the password show status
+
   void _saveProfile() async {
     SignUpResults signUpResults = await _controller.signUp(user);
-
+   
     if (signUpResults != null && signUpResults.status) {
-      goHome();
+      // if the user is signing up, then he has not paid! 
+      getuser().then((data){
+        goToPaymentPrompt(loggedInUser);
+      });
+      // goToPaymentPrompt(loggedInUser);
+      // goHome();
     } else {
       _showMessage("${signUpResults.message}");
     }
+  }
+  Future getuser() async {
+    await controller.checkLoggedIn().then((data) {
+      if (this.mounted) {
+        if (data != null) {
+          setState(() {
+            loggedInUser = data;
+          });
+        } else {
+          // check again because the first check always retursn null
+          // this is a work around.
+          if (counter < 2) {
+            counter++;
+            getuser();
+          } else {
+            counter = 0;
+            setState(() {
+              // error.text = "LoggedInUser not Logged IN";
+            });
+          }
+        }
+      }
+    });
   }
 
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
@@ -69,7 +119,20 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   goHome() {
+  
     Navigator.popAndPushNamed(context, _routes.homeRoute);
+  }
+
+  goToPaymentPrompt(LoggedInUser loggedInUser){
+    // String hR = _routes.homeRoute.toString();
+    // String pR = _routes.signUpPaymentRoute.toString();
+  
+    // print("This is the home route  $hR");
+    // print("THis is the payment route $pR");
+    // Navigator.popAndPushNamed(context, _routes.signUpPaymentRoute);
+    print("USer in SIgn Up SCREEN $loggedInUser");
+    Navigator.push(context, MaterialPageRoute(
+            builder: (context) => SignUpPayPrompt(loggedInUser: loggedInUser)));
   }
 
   @override
@@ -83,21 +146,45 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       body: ListView(
         children: <Widget>[
+          WavyHeaderImage(
+            child: Image.asset(
+              "images/banner.jpg",
+              fit: BoxFit.cover,
+              height: 200.0,
+            ),
+          ),
           SizedBox(width: 15.0),
-          Container(height: 1.0, color: Colors.grey),
+          // Container(height: 1.0, color: Colors.grey),
           buildSignUpForm(),
-          SizedBox(height: 100.0),
+          // SizedBox(height: 100.0),
+          Container(
+            margin: EdgeInsets.only(
+                left: 45.0, top: 15.0, bottom: 15.0, right: 15.0),
+            child: RaisedButton(
+              onPressed: _submit,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Sign Up',
+                  style: TextStyle(color: Colors.white, fontSize: 17.0),
+                ),
+              ),
+              color: Theme.of(context).primaryColor,
+              elevation: 4.0,
+            ),
+          ),
+           SocialLoginButtons(),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Theme.of(context).primaryColor,
-        tooltip: 'Submit details',
-        onPressed: () {
-          _submit();
-        },
-        label: const Text('Submit'),
-        icon: const Icon(Icons.check),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   backgroundColor: Theme.of(context).primaryColor,
+      //   tooltip: 'Submit details',
+      //   onPressed: () {
+      //     _submit();
+      //   },
+      //   label: const Text('Submit'),
+      //   icon: const Icon(Icons.check),
+      // ),
     );
   }
 
@@ -116,7 +203,7 @@ class _SignUpPageState extends State<SignUpPage> {
             _buildEmail(),
             _buildPhone(),
             _buildPassword(),
-            _buildConfirmPassword(),
+            // _buildConfirmPassword(), // no need for this now...
           ],
         ),
       ),
@@ -173,7 +260,7 @@ class _SignUpPageState extends State<SignUpPage> {
       // autovalidate: true,
       decoration: const InputDecoration(
           icon: const Icon(Icons.phone, color: xDiscoucherGreen),
-          hintText: 'Enter you phone number',
+          hintText: 'Enter your phone number',
           labelText: 'Phone'),
       keyboardType: TextInputType.phone,
       inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -184,30 +271,45 @@ class _SignUpPageState extends State<SignUpPage> {
   _buildPassword() {
     return TextFormField(
       initialValue: user.password,
-      obscureText: true,
+
       // autovalidate: true,
       inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
           icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
+          suffixIcon: Padding(
+            padding: const EdgeInsetsDirectional.only(end: 12.0),
+            child: IconButton(
+              icon: Icon( _obscureText ? Icons.visibility_off : Icons.visibility ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                  print("inside OBSCURE TEXT $_obscureText");
+                });
+                
+              }, //null // _toggle(),//_toggle(),
+            ), // icon is 48px widget.
+          ),
           hintText: 'Enter password',
           labelText: 'Password'),
+      obscureText: _obscureText,
       validator: (val) => val.length < 5 ? 'Valid password is required' : null,
-      onSaved: (val) => user.password = val,
+      onSaved: (val){ user.password = val;user.passwordConfirmation = val; }, 
+      //onSaved: (val) => user.passwordConfirmation = val
     );
   }
 
-  _buildConfirmPassword() {
-    return TextFormField(
-      initialValue: user.password,
-      obscureText: true,
-      // autovalidate: true,
-      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
-      decoration: const InputDecoration(
-          icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
-          hintText: 'Enter password',
-          labelText: 'Confirm Password'),
-      validator: (val) => val.length < 5 ? 'Valid password is required' : null,
-      onSaved: (val) => user.passwordConfirmation = val,
-    );
-  }
+  // _buildConfirmPassword() {
+  //   return TextFormField(
+  //     initialValue: user.password,
+  //     obscureText: true,
+  //     // autovalidate: true,
+  //     inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput)],
+  //     decoration: const InputDecoration(
+  //         icon: const Icon(Icons.vpn_key, color: xDiscoucherGreen),
+  //         hintText: 'Enter password',
+  //         labelText: 'Confirm Password'),
+  //     validator: (val) => val.length < 5 ? 'Valid password is required' : null,
+  //     onSaved: (val) => user.passwordConfirmation = val,
+  //   );
+  // }
 }

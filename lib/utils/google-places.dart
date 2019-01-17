@@ -5,8 +5,10 @@ import "package:google_maps_webservice/geocoding.dart";
 import 'package:google_maps_webservice/places.dart';
 
 class GooglePlaces {
-  final _geocoding = new GoogleMapsGeocoding(APIKEY);
-  final _places = new GoogleMapsPlaces(APIKEY);
+
+  final _geocoding = new GoogleMapsGeocoding();//new GoogleMapsGeocoding(APIKEY);
+  final _places = new GoogleMapsPlaces();//new GoogleMapsPlaces(APIKEY);
+
 
   Future<Location> getLocation(String address) async {
     try {

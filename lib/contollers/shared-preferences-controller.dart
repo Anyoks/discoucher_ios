@@ -42,6 +42,37 @@ class SharedPreferencesController {
     return results;
   }
 
+  Future<bool> updateLoggedInUserWithUserObject(User user) async {
+    var results = false;
+
+    try {
+      if (user != null) {
+        LoggedInUser loggedinUser = LoggedInUser(
+          id: user.id,
+          fullName: "${user.firstName} ${user.lastName}",
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          vouchers: user.vouchers,
+        );
+
+        print(
+            " POHONE DURING LOGIN UPDATE xxxxx  " + json.encode(loggedinUser));
+
+        String localUser = jsonEncode(loggedinUser);
+        results = await prefs.setString(PrefPaths.loggedInUser, localUser);
+        print("Logged IN USER STORATE" + localUser);
+      } else {
+        results = await prefs.remove(PrefPaths.loggedInUser);
+      }
+    } catch (e) {
+      results = false;
+    }
+
+    return results;
+  }
+
   Future<LoggedInUser> fetchLoggedInUser() async {
     try {
       final String localUser = prefs.getString(PrefPaths.loggedInUser);
@@ -60,6 +91,11 @@ class SharedPreferencesController {
     try {
       if (headers != null) {
         var _headers = json.encode(headers);
+        // _headers
+        print("DDEEEP HEADERS UPDATE");
+        print(headers.accessToken);
+        print(_headers);
+
         results = await prefs.setString(PrefPaths.headers, _headers);
       } else {
         results = await prefs.remove(PrefPaths.headers);
@@ -72,8 +108,9 @@ class SharedPreferencesController {
   }
 
   Future<Map<String, String>> fetchHeaders() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      final String localHeaders = prefs.getString(PrefPaths.headers);
+      final String localHeaders =  prefs.getString(PrefPaths.headers);
       final Map<String, dynamic> _headers = json.decode(localHeaders);
 
       final Map<String, String> _stringHeaders = {
@@ -83,15 +120,21 @@ class SharedPreferencesController {
         "uid": "${_headers['uid']}"
       };
 
+      print("HEaders from prefs");
+      print(_headers);
       print(_stringHeaders);
 
       return _stringHeaders;
     } catch (e) {
       const _anonymousHeaders = {"Content-Type": "application/json"};
+      print("ANANYMOUSE HEaders from prefs ");
+      //  print(e.message);
+      print(_anonymousHeaders);
       return _anonymousHeaders;
       // return null;
     }
   }
+
 
   Future<bool> updateInitialLaunch(bool isFirstTime) async {
     try {

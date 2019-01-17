@@ -1,55 +1,115 @@
 {
-  "project_info": {
-    "project_number": "7752475752",
-    "firebase_url": "https://discoucher-test.firebaseio.com",
-    "project_id": "discoucher-test",
-    "storage_bucket": "discoucher-test.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:7752475752:android:c89c6ffb03287b0f",
-        "android_client_info": {
-          "package_name": "com.discoucher"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "7752475752-31bk4oddh8cs94gepgfbdpmhadue99e1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.discoucher",
-            "certificate_hash": "bfbb09d2136ae40a8d84708f21a5dc157b872f94"
+    "project_info": {
+      "project_number": "176427278220",
+      "firebase_url": "https://discoucher.firebaseio.com",
+      "project_id": "discoucher",
+      "storage_bucket": "discoucher.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:176427278220:android:c89c6ffb03287b0f",
+          "android_client_info": {
+            "package_name": "com.discoucher"
           }
         },
-        {
-          "client_id": "7752475752-rb16ksc6i3r0mnllmlfs98ajjt7gl9kh.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBiDA6QiQxX_-xGgzcMuRI5EIw22t4mE6E"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "7752475752-rb16ksc6i3r0mnllmlfs98ajjt7gl9kh.apps.googleusercontent.com",
-              "client_type": 3
+        "oauth_client": [
+          {
+            "client_id": "176427278220-g1167jtgvhou07egmmcmp21hdkv0phku.apps.googleusercontent.com",
+            "client_type": 1,
+            "android_info": {
+              "package_name": "com.discoucher",
+              "certificate_hash": "e436664a9aabb1e6d7e0fac939f03cb9fbfc8c71"
             }
-          ]
+          },
+          {
+            "client_id": "176427278220-ii4p6d1o1vg1qsjb62fqsk5eg9d8g1b2.apps.googleusercontent.com",
+            "client_type": 1,
+            "android_info": {
+              "package_name": "com.discoucher",
+              "certificate_hash": "f25ea5c09dc52c95805be77d5788fdda216abb9e"
+            }
+          },
+          {
+            "client_id": "176427278220-1qbtsdgt24v9tbjjkhhqtrcf9u4f8612.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyAdToBLcmyfAj5cK9VNzVTHZcKDxMDO5h8"
+          }
+        ],
+        "services": {
+          "analytics_service": {
+            "status": 1
+          },
+          "appinvite_service": {
+            "status": 2,
+            "other_platform_oauth_client": [
+              {
+                "client_id": "176427278220-1qbtsdgt24v9tbjjkhhqtrcf9u4f8612.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          },
+          "ads_service": {
+            "status": 2
+          }
+        }
+      },
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:176427278220:android:93cad3b62b2097e8",
+          "android_client_info": {
+            "package_name": "com.discoucher.deals"
+          }
         },
-        "ads_service": {
-          "status": 2
+        "oauth_client": [
+          {
+            "client_id": "176427278220-oei20g5rfk5t3se3at38g0vrtvfcn4jc.apps.googleusercontent.com",
+            "client_type": 1,
+            "android_info": {
+              "package_name": "com.discoucher.deals",
+              "certificate_hash": "ebab2331174b0f515d12a78ee2d69864f1a12d49"
+            }
+          },
+          {
+            "client_id": "176427278220-4agg7ffc6atk9a74mjuthnv868bjrj19.apps.googleusercontent.com",
+            "client_type": 1,
+            "android_info": {
+              "package_name": "com.discoucher.deals",
+              "certificate_hash": "f25ea5c09dc52c95805be77d5788fdda216abb9e"
+            }
+          },
+          {
+            "client_id": "176427278220-1qbtsdgt24v9tbjjkhhqtrcf9u4f8612.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyAdToBLcmyfAj5cK9VNzVTHZcKDxMDO5h8"
+          }
+        ],
+        "services": {
+          "analytics_service": {
+            "status": 1
+          },
+          "appinvite_service": {
+            "status": 2,
+            "other_platform_oauth_client": [
+              {
+                "client_id": "176427278220-1qbtsdgt24v9tbjjkhhqtrcf9u4f8612.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          },
+          "ads_service": {
+            "status": 2
+          }
         }
       }
-    }
-  ],
-  "configuration_version": "1"
-}
+    ],
+    "configuration_version": "1"
+  }

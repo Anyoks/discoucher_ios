@@ -26,10 +26,10 @@ class Validators {
     return regex.hasMatch(input);
   }
 
-  // TODO: Validate Kenyan phone number
-  // validator: (value) => isValidPhoneNumber(value) ? null : 'Phone number must be entered as (###)###-####',
+  
+  // validator: (value) => isValidPhoneNumber(value) ? null : 'Phone number must be entered as (####)###-###',
   bool isValidPhoneNumber(String input) {
-    final RegExp regex = new RegExp(r'^\(\d\d\d\)\d\d\d\-\d\d\d\d$');
+    final RegExp regex = new RegExp(r"^(?:254|\+254|0)?(7(?:(?:[129][0-9])|(?:0[0-8])|(4[0-1]))[0-9]{6})$");
     return regex.hasMatch(input);
   }
 }

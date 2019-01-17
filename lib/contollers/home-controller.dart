@@ -18,6 +18,8 @@ class HomeController extends BaseController {
       _endpoints.map((endpoint) => fetch(endPoint: endpoint)),
     );
 
+    // print("QQQQQQQQQQQQQ");
+    // print(responses.toString());
     var sectionsLists =
         responses.map((response) => parseSectionData(response.body)).toList();
 
@@ -27,7 +29,8 @@ class HomeController extends BaseController {
   List<VoucherData> parseSectionData(String responseBody) {
     Map<String, dynamic> parsedJson = json.decode(responseBody);
     var data = parsedJson['data'];
-
+     
+    //  print("GOT JUST DATA" + data);
     try {
       var list = data.map<VoucherData>((item) {
         VoucherData _voucherData = VoucherData.fromJson(item);

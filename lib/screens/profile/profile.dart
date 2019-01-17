@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/constants/strings.dart';
+import 'package:discoucher/contollers/auth-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/settings/user-avatar.dart';
@@ -36,6 +38,8 @@ class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final TextEditingController _dateController = TextEditingController();
   final Validators _validators = Validators();
+  SharedPreferencesController _prefs = new SharedPreferencesController();
+  final AuthController _authController = new AuthController();
 
   final int maxTexInput = 40;
 
@@ -51,6 +55,9 @@ class _ProfilePageState extends State<ProfilePage> {
     user.email = widget.currentUser.email;
     user.phoneNumber = widget.currentUser.phoneNumber;
     user.dob = DateTime.now();
+
+    print("users pone number");
+    print(widget.currentUser.phoneNumber);
   }
 
   @override
@@ -120,13 +127,13 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            _buildSeparatorText("Contact Information"),
+            _buildEmail(),
+            _buildPhone(),
             _buildSeparatorText("Personal Information"),
             _buildFirstName(),
             _buildLastName(),
             // _buildBirthday(),
-            _buildSeparatorText("Contact Information"),
-            _buildEmail(),
-            _buildPhone()
           ],
         ),
       ),
@@ -201,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
       validator: (value) => _validators.isValidEmail(value)
           ? null
           : 'Please enter a valid email address',
-      onSaved: (val) => user.firstName = val,
+      onSaved: (val) => user.email = val,
     );
   }
 
@@ -217,6 +224,10 @@ class _ProfilePageState extends State<ProfilePage> {
       inputFormatters: [
         WhitelistingTextInputFormatter.digitsOnly,
       ],
+      validator: (value) => _validators.isValidPhoneNumber(value)
+          ? null
+          : 'Phone Number must be entered as 07## ### ###',
+      onSaved: (val) => user.phoneNumber = val,
     );
   }
 
@@ -245,6 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (form.validate()) {
       form.save();
+      print("USER PHONE NUMBER SAVE" + user.phoneNumber);
       _saveProfile();
     } else {
       _showMessage(
@@ -256,10 +268,30 @@ class _ProfilePageState extends State<ProfilePage> {
     var savedUser = await _controller.updateUser(user);
 
     if (savedUser != null) {
-      _showMessage('Profile successfully updated', Colors.blue);
+      print(" POHONE NUMBER AFTER SEVER UPDATRE" + savedUser.phoneNumber);
+       
+     
+      bool save = await _prefs.updateLoggedInUserWithUserObject(savedUser);
+     bool saveprof =  await updateLoggedInUser();
+      if (save && saveprof) {
+        _showMessage('Profile successfully updated', Colors.blue);
+      }
     } else {
       _showMessage('There was an error saving the profile. Try again later');
     }
+  }
+
+  updateLoggedInUser() async{
+    LoggedInUser loggedinUser = new LoggedInUser(
+              id: user.id,
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              fullName: "${user.firstName} ${user.firstName}",
+              phoneNumber: user.phoneNumber,
+              vouchers: user.vouchers,
+            );
+    return  await _authController.saveLoggedInUser(loggedinUser);
   }
 
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {

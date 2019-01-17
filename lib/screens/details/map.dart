@@ -1,210 +1,164 @@
-// import 'dart:async';
+import 'package:discoucher/models/establishment-full.dart';
+import 'package:discoucher/models/voucher.dart';
+import 'package:discoucher/utils/google-places.dart';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 
-// import 'package:discoucher/constants/api-key.dart';
-// import 'package:discoucher/models/establishment-full.dart';
-// import 'package:discoucher/models/voucher.dart';
-// import 'package:discoucher/utils/composite-subscription.dart';
-// import 'package:discoucher/utils/google-places.dart';
-// import 'package:flutter/material.dart';
-// import 'package:map_view/map_view.dart';
-// import 'package:google_maps_webservice/places.dart' as places;
+class MapWidget extends StatefulWidget {
+  final Voucher voucher;
+  final EstablishmentFull establishment;
 
-// class MapWidget extends StatefulWidget {
-//   final Voucher voucher;
-//   final EstablishmentFull establishment;
-//   MapWidget(this.voucher, this.establishment);
+  MapWidget(this.voucher, this.establishment);
 
-//   @override
-//   _MapWidgetState createState() => _MapWidgetState();
-// }
+  @override
+  State createState() => MapWidgetState();
+}
 
-// class _MapWidgetState extends State<MapWidget> {
-//   EstablishmentFull _est;
-//   String _address;
+class MapWidgetState extends State<MapWidget> {
+  GooglePlaces googlePlaces = GooglePlaces();
+  GoogleMapController controller;
+  Marker _selectedMarker;
+  Location _location;
 
-//   int _zoomLevel = 4;
-//   int _mapHeight = 400;
-//   int _mapWidth = 900;
+  EstablishmentFull _est;
+  String _address;
 
-//   /// 1. Get location
-//   /// 2. Iff successful, load map
-//   /// 3. If null, don't load map
+  @override
+  void initState() {
+    _est = widget.establishment;
+    _address = "${_est.location}, ${_est.address}";
 
-//   Location _location;
-//   Marker _marker;
-//   Uri staticMapUri;
+    initLocation();
 
-//   GooglePlaces googlePlaces = GooglePlaces();
-//   MapView mapView = MapView();
-//   CameraPosition cameraPosition;
+    super.initState();
+  }
 
-//   var compositeSubscription = CompositeSubscription();
-//   var staticMapProvider = StaticMapProvider(APIKEY);
+  @override
+  void dispose() {
+    controller?.onMarkerTapped?.remove(_onMarkerTapped);
+    super.dispose();
+  }
 
-//   @override
-//   initState() {
-//     super.initState();
+  initLocation() async {
+    if (!_address.contains('online')) {
+      var loc = await googlePlaces.getLocation(_address);
 
-//     initializeMap();
-//   }
+      if (loc != null) {
+        if (this.mounted) {
+          setState(() {
+            _location = loc;
+          });
+        }
+      }
+    }
+  }
 
-//   initializeMap() async {
-//     _est = widget.establishment;
-//     _address = "${_est.name}, ${_est.area}, ${_est.location}, ${_est.address}";
+  void _onMapCreated(GoogleMapController controller) async {
+    if (this.mounted) {
+      setState(() {
+        this.controller = controller;
+        final markerOptions = buildMarkerOptions(_location);
+        controller.onMarkerTapped.add(_onMarkerTapped);
+        controller.addMarker(markerOptions);
+      });
+    }
+  }
 
-//     getLocation().then((loc) async {
-//       if (loc != null) {
-//         _marker = buildMarker(loc);
-//         cameraPosition = CameraPosition(loc, 2.0);
-//         staticMapUri = buildStaticMapUri();
-//       }
-//     });
-//   }
+  MarkerOptions buildMarkerOptions(Location location) {
+    return MarkerOptions(
+      icon: BitmapDescriptor.defaultMarker,
+      position: LatLng(location.lat, location.lng),
+      infoWindowText: InfoWindowText(_est.name, _address),
+    );
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     staticMapUri = buildStaticMapUri();
-//     return staticMapUri == null
-//         ? Container()
-//         : Container(
-//             // height: 250.0,
-//             child: Stack(
-//               children: <Widget>[
-//                 InkWell(
-//                   child: Center(
-//                     child: Image.network(staticMapUri.toString()),
-//                   ),
-//                   onTap: showMap,
-//                 )
-//               ],
-//             ),
-//           );
-//   }
+  Future<Location> getLocation() async {
+    try {
+      Location loc = await googlePlaces.getLocation(_address);
+      return loc;
+    } catch (e) {
+      return null;
+    }
+  }
 
-//   Uri buildStaticMapUri() {
-//     return _location == null
-//         ? null
-//         : staticMapProvider.getStaticUriWithMarkersAndZoom(
-//             [_marker],
-//             center: _location,
-//             zoomLevel: _zoomLevel,
-//             width: _mapWidth,
-//             height: _mapHeight,
-//             maptype: StaticMapViewType.roadmap,
-//           );
-//   }
+  void _onMarkerTapped(Marker marker) {
+    if (_selectedMarker != null) {
+      _updateSelectedMarker(
+        const MarkerOptions(icon: BitmapDescriptor.defaultMarker),
+      );
+    }
 
-//   buildMarker(Location location) {
-//     return location == null
-//         ? null
-//         : Marker(
-//             widget.voucher.establishment.data.id,
-//             "${_est.name}",
-//             location.latitude,
-//             location.longitude,
-//             color: Colors.redAccent,
-//             markerIcon: MarkerIcon(
-//               "images/map-pointer.png",
-//               width: 150.0,
-//               height: 150.0,
-//             ),
-//           );
-//   }
+    if (this.mounted) {
+      setState(() {
+        _selectedMarker = marker;
+      });
+    }
 
-//   Future<Location> getLocation() async {
-//     try {
-//       places.Location latLon = await googlePlaces.getLocation(_address);
-//       Location loc = latLon == null ? null : Location(latLon.lat, latLon.lng);
+    _updateSelectedMarker(
+      MarkerOptions(
+        icon: BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueGreen,
+        ),
+      ),
+    );
+  }
 
-//       if (this.mounted) {
-//         setState(() {
-//           _location = loc;
-//         });
-//       }
-//       return loc;
-//     } catch (e) {
-//       return null;
-//     }
-//   }
+  _updateSelectedMarker(MarkerOptions changes) {
+    controller.updateMarker(_selectedMarker, changes);
+  }
 
-//   showMap() async {
-//     if (_location == null) return;
+  // void updateCamera(Location loc) {
+  //   if (controller != null && _location != null) {
+  //     double lat =  loc.lat;
+  //     double lng = loc.lng;
+  //     controller.animateCamera(
+  //       CameraUpdate.newCameraPosition(
+  //         const CameraPosition(
+  //           bearing: 270.0,
+  //           tilt: 30.0,
+  //           zoom: 13.0,
+  //           target: LatLng(lat, lng),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 
-//     mapView.show(
-//         MapOptions(
-//           title: "${_est.name}",
-//           mapViewType: MapViewType.normal,
-//           showUserLocation: true,
-//           showMyLocationButton: true,
-//           showCompassButton: true,
-//           initialCameraPosition: CameraPosition(_location, 15.0),
-//           hideToolbar: false,
-//         ),
-//         toolbarActions: [ToolbarAction("Done", 1)]);
-
-//     StreamSubscription sub = mapView.onMapReady.listen((_) {
-//       if (_marker != null) {
-//         mapView.setMarkers([_marker]);
-//       }
-//     });
-
-//     sub = mapView.onMapTapped.listen((location) {
-//       print("Touched location $location");
-//     });
-//     compositeSubscription.add(sub);
-
-//     sub = mapView.onCameraChanged.listen((cameraPosition) {
-//       if (this.mounted) {
-//         this.setState(() => this.cameraPosition = cameraPosition);
-//       }
-//     });
-//     compositeSubscription.add(sub);
-
-//     sub = mapView.onAnnotationDragStart.listen((markerMap) {
-//       var marker = markerMap.keys.first;
-//       print("Annotation ${marker.id} dragging started");
-//     });
-
-//     sub = mapView.onAnnotationDragEnd.listen((markerMap) {
-//       var marker = markerMap.keys.first;
-//       print("Annotation ${marker.id} dragging ended");
-//     });
-
-//     sub = mapView.onAnnotationDrag.listen((markerMap) {
-//       var marker = markerMap.keys.first;
-//       var location = markerMap[marker];
-//       print(
-//           "Annotation ${marker.id} moved to ${location.latitude} , ${location.longitude}");
-//     });
-//     compositeSubscription.add(sub);
-
-//     sub = mapView.onToolbarAction.listen((id) {
-//       print("Toolbar button id = $id");
-//       if (id == 1) {
-//         _handleDismiss();
-//       }
-//     });
-//     compositeSubscription.add(sub);
-
-//     sub = mapView.onInfoWindowTapped.listen((marker) {
-//       print("Info Window Tapped for ${marker.title}");
-//     });
-//     compositeSubscription.add(sub);
-//   }
-
-//   _handleDismiss() async {
-//     Uri uri = await staticMapProvider.getImageUriFromMap(
-//       mapView,
-//       width: _mapWidth,
-//       height: _mapHeight,
-//       maptype: StaticMapViewType.roadmap,
-//     );
-//     if (this.mounted) {
-//       setState(() {
-//         staticMapUri = uri;
-//       });
-//     }
-//     mapView.dismiss();
-//     compositeSubscription.cancel();
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return _location == null
+        ? Container()
+        : Padding(
+            padding: EdgeInsets.only(top: 15.0),
+            child: Stack(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Center(
+                  child: SizedBox(
+                    height: 300.0,
+                    child: GoogleMap(
+                      onMapCreated: _onMapCreated,
+                      options: GoogleMapOptions(
+                          cameraPosition: CameraPosition(
+                        target: LatLng(_location.lat, _location.lng),
+                        zoom: 17.0,
+                        bearing: 270.0,
+                        tilt: 30.0,
+                      )),
+                    ),
+                  ),
+                ),
+                // IconButton(
+                //   icon: Icon(Icons.ac_unit),
+                //   onPressed: () {},
+                // )
+                // RaisedButton(
+                //   child: const Text("Go to {_est.name}"),
+                //   onPressed: updateCamera,
+                // )
+              ],
+            ),
+          );
+  }
+}

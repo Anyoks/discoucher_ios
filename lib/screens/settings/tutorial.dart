@@ -2,7 +2,6 @@ import 'package:discoucher/constants/pref-paths.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/carousel-content.dart';
 import 'package:discoucher/screens/authentication/social-login-buttons.dart';
-import 'package:discoucher/screens/home/home.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -84,7 +83,7 @@ class _TutorialPageState extends State<TutorialPage> {
           imagePath: "images/uvp/buy2.jpg",
           title: "Buy",
           description:
-              "Buy your DisCoucher book for KES2,000 and access over 150 vouchers valued at over KES650,000"),
+              "Buy your DisCoucher license for KES2,000 and access over 150 vouchers valued at over KES650,000"),
       new CarouselContent(
           imagePath: "images/uvp/discover.png",
           title: "Discover",
@@ -94,7 +93,7 @@ class _TutorialPageState extends State<TutorialPage> {
           imagePath: "images/uvp/save.png",
           title: "Save",
           description:
-              "The item indicated on the voucher is deducted from your bill.")
+              "The voucher is deducted from your bill.")
     ];
 
     return Expanded(

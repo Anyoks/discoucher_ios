@@ -15,25 +15,68 @@ class SignUpResults {
 
 class AuthController extends BaseController {
   Future<User> login(String email, String password) async {
+    print("I am in the login func $email  , $password");
     try {
+      // make a json hash of the details
       Map<String, String> payload = {
         "email": "$email",
         "password": "$password"
       };
 
+      print("This is the payload $payload  ");
+
       final response =
           await postAnonymous(endPoint: Endpoint.signIn, payload: payload);
 
+      // decode the recieved json response
       final Map<String, dynamic> parsedJson = json.decode(response.body);
 
+      // Need to add corrent error response for wrong credentials
+      print("This is the response after payload check $parsedJson");
+      // print("This is the response after payload check ${parsedJson[]}");
       final Map<String, dynamic> data = parsedJson['data'];
       final Map<String, dynamic> userObj = data['user'];
+      final Map<String, dynamic> vouchers = {"vouchers": data['vouchers']};
+
+      // adding vouchers to the user object
+      userObj.addAll(vouchers);
 
       User user = User.fromJson(userObj);
 
+      print("This is the response $response");
+      print("This is the parsed json $parsedJson");
+      print("This is the data $data");
+      print("This is the user object $userObj");
+      print("This is the user $user");
+
       return user;
     } catch (e) {
+      // return better error response
       return null;
+    }
+  }
+
+  Future<String> checkUser(String email) async {
+    Map<String, String> payload = {"email": "$email"};
+
+    try {
+      final response =
+          await postAnonymous(endPoint: Endpoint.checkUser, payload: payload);
+
+      final Map<String, dynamic> parsedJson = json.decode(response.body);
+
+      final bool status = parsedJson['success'];
+
+      print("This is the response $response");
+      print("This is the status $status");
+
+      if (status == true) {
+        return 'true';
+      } else {
+        return 'false';
+      }
+    } catch (e) {
+      return 'error';
     }
   }
 
@@ -60,6 +103,10 @@ class AuthController extends BaseController {
       if (status == "success") {
         final Map<String, dynamic> data = parsedJson['data'];
         final Map<String, dynamic> userObj = data['user'];
+        final Map<String, dynamic> vouchers = {"vouchers": data['vouchers']};
+
+        // adding vouchers to the user object
+        userObj.addAll(vouchers);
 
         User user = User.fromJson(userObj);
 
@@ -70,6 +117,7 @@ class AuthController extends BaseController {
           lastName: user.lastName,
           email: user.email,
           phoneNumber: user.phoneNumber,
+          vouchers: user.vouchers,
         );
 
         saveLoggedInUser(loggedinUSer);

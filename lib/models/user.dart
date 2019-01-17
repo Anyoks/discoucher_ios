@@ -8,6 +8,7 @@ class User {
     String lastName;
     String phoneNumber;
     bool allowPasswordChange;
+    String vouchers; // valid, depleted, none, free : are the available states of this attribute
 
     DateTime dob;
     String password;
@@ -23,6 +24,7 @@ class User {
         this.lastName,
         this.phoneNumber,
         this.allowPasswordChange,
+        this.vouchers,
     });
 
     factory User.fromJson(Map<String, dynamic> json) => new User(
@@ -35,6 +37,7 @@ class User {
         lastName: json["last_name"],
         phoneNumber: json["phone_number"],
         allowPasswordChange: json["allow_password_change"],
+        vouchers: json["vouchers"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -47,5 +50,6 @@ class User {
         "last_name": lastName,
         "phone_number": phoneNumber,
         "allow_password_change": allowPasswordChange,
+        "vouchers": vouchers,
     };
 }

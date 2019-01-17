@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:discoucher/contollers/auth-controller.dart';
+import 'package:discoucher/models/user.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:discoucher/models/facebook-user.dart';
@@ -32,6 +33,57 @@ class FacebookLoginController extends AuthController {
     return logInAttempt;
   }
 
+  final AuthController _controller = new AuthController();
+  String email;
+
+  User user = new User();
+
+  Future<bool> signUpUser(account) async {
+    user.email = account.email;
+    user.firstName = account.firstName;
+    user.lastName = account.lastName;
+    user.password = user.firstName;
+    user.passwordConfirmation = user.firstName;
+    user.phoneNumber = null;
+    user.provider = "facebook";
+
+    print(" SIgn up FIrst name " + account.firstName);
+
+    SignUpResults signUpResults = await _controller.signUp(user);
+    if (signUpResults != null && signUpResults.status) {
+      // success
+      print(" Inside  Sing up SUCCESS");
+      return true;
+    } else {
+      // error
+      print(" Inside  Sing up ERROR");
+      return false;
+    }
+  }
+
+  Future<User> loginUser(account) async {
+    String password = account.firstName;
+    var user = await _controller.login(email, password);
+
+    if (user != null) {
+      LoggedInUser _userToSave = new LoggedInUser(
+        id: user.id,
+        fullName: "${user.firstName} ${user.lastName}",
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        vouchers: user.vouchers,
+      );
+      print(" Inside  LOGIN SUCCESS" + user.email);
+      return user;
+    } else {
+      //error
+      print(" Inside  LOGIN ERROR");
+      return null;
+    }
+  }
+
   Future<LoginResults> fetchFacebookUser(
       FacebookLoginResult loginResults) async {
     final FacebookAccessToken accessToken = loginResults.accessToken;
@@ -48,6 +100,54 @@ class FacebookLoginController extends AuthController {
       var profileData = json.decode(graphResponse.body);
       var userProfile = FacebookProfile.fromJson(profileData);
       userProfile.bytes = picRes.bodyBytes;
+
+      print(" FACE BOOK 1" + userProfile.firstName);
+      print(" FACE BOOK 2" + userProfile.lastName);
+      print(" FACE BOOK 3" + userProfile.email);
+
+      email = userProfile.email;
+
+      String result = await _controller.checkUser(email);
+
+      if (result == 'true') {
+        // login user
+        var login = await loginUser(userProfile);
+
+        if (login != null) {
+          // success
+          print(" Inside  GOOGLE SUCCESS" + login.email);
+          return new LoginResults(
+            success: true,
+            profile: login,
+            message: "Login successful",
+          );
+        } else {
+          // failure
+          return new LoginResults(
+            success: false,
+            profile: null,
+            message: "Error Logging in",
+          );
+        }
+      } else if (result == 'false') {
+        // sign up user
+        bool status = await signUpUser(userProfile);
+
+        if (status) {
+          return new LoginResults(
+            success: true,
+            profile: null,
+            message: "Login successful",
+          );
+        }
+      } else {
+        // error connecting.
+        return new LoginResults(
+          success: true,
+          profile: null,
+          message: " Error connecting to Server",
+        );
+      }
 
       return new LoginResults(
           success: true,

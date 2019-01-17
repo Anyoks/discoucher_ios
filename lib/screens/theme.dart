@@ -14,7 +14,7 @@ class DiscoucherTheme {
   }
 
   ThemeData _buildDiscoucherTheme() {
-    final ThemeData base = ThemeData.light();
+    final ThemeData base = ThemeData(brightness: Brightness.light, fontFamily: 'Futura');
     return base.copyWith(
       accentColor: discoucherRed700,
       primaryColor: discoucherGreen900,
@@ -24,7 +24,7 @@ class DiscoucherTheme {
       textSelectionColor: discoucherPink100,
       errorColor: discoucherErrorRed,
       splashColor: discoucherPurple.withOpacity(0.5),
-
+      
       // TODO: Add the text themes (103)
       // TODO: Add the icon themes (103)
       // TODO: Decorate the inputs (103)

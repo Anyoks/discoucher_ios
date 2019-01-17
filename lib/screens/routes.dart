@@ -1,9 +1,12 @@
 import 'package:discoucher/screens/authentication/login.dart';
+import 'package:discoucher/screens/authentication/sign-up.dart';
+import 'package:discoucher/screens/authentication/sign_up_pay_prompt.dart';
+import 'package:discoucher/screens/authentication/pay_prompt.dart';
 import 'package:discoucher/screens/home/home.dart';
-import 'package:discoucher/screens/playground/play.dart';
 import 'package:discoucher/screens/settings/settings.dart';
 import 'package:discoucher/screens/settings/tutorial.dart';
 import 'package:discoucher/screens/splash.screen.dart';
+import 'package:discoucher/models/user.dart';
 import 'package:flutter/material.dart';
 
 class DiscoucherRoutes {
@@ -13,6 +16,9 @@ class DiscoucherRoutes {
   String splashScreenRoute = '/splashScreen';
   String tutorialsRoute = '/tutorial';
   String loginRoute = '/login';
+  String signUpRoute = '/signUp';
+  String signUpPaymentRoute = '/signUpay';
+  String payPromptRoute = '/payPrompt';
 
   Map<String, WidgetBuilder> routes;
 
@@ -21,6 +27,7 @@ class DiscoucherRoutes {
     routes = _buildRoutes();
   }
 
+// Building a hash of routes
   Map<String, WidgetBuilder> _buildRoutes() {
     return <String, WidgetBuilder>{
       homeRoute: (BuildContext context) => HomePage(),
@@ -28,7 +35,10 @@ class DiscoucherRoutes {
       tutorialsRoute: (BuildContext context) => TutorialPage(),
       loginRoute: (BuildContext context) => LoginPage(
             fromSplashScreen: false,
-          )
+          ),
+      signUpRoute: (BuildContext context) => SignUpPage(),
+      signUpPaymentRoute: (BuildContext context) => SignUpPayPrompt(),
+      payPromptRoute: (BuildContext context) => PayPrompt(),
     };
   }
 
@@ -45,6 +55,10 @@ class DiscoucherRoutes {
               fromSplashScreen: false,
             );
           }
+          case "SignUpPage":
+          {
+            return SignUpPage();
+          }
         case "HomePage":
           {
             return HomePage();
@@ -56,6 +70,14 @@ class DiscoucherRoutes {
         case "TutorialPage":
           {
             return TutorialPage();
+          }
+        case "SignUpPayPrompt":
+          {
+            return SignUpPayPrompt();
+          }
+        case "PayPrompt":
+          {
+            return PayPrompt();
           }
         default:
           {

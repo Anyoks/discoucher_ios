@@ -9,6 +9,7 @@ class HttpController {
   static SharedPreferencesController prefs = new SharedPreferencesController();
   HeaderParams incomingHeaders = new HeaderParams();
 
+// headers change each time there's an http request. so update them often!
   _updateHeaders(headers) {
     final uid = headers["uid"];
     if (uid != null) {
@@ -21,16 +22,32 @@ class HttpController {
     }
   }
 
-  fetch({
+// make an http get request. Requires an endpoint and headers
+  Future<Response> fetch({
     String endPoint,
     Map<String, String> headers,
   }) async {
-    var _headers = await prefs.fetchHeaders();
+
+    var _headers= await prefs.fetchHeaders();
+    
+
+    print("THESE ARE THE HEADERS FROM HOME PAGE ****");
+    print(_headers);
 
     Client client = new Client();
     final Response response = await client.get(endPoint, headers: _headers);
     client.close();
+    print("THESE ARE THE HEADERS FROM HOME PAGE" + _headers.toString());
+    if (response.headers['access-token'] != null &&
+        response.headers['access-token'] != '' &&
+        response.headers['access-token'] != " ") {
+      print("UPDATING HEADERS");
+      print(response.headers);
+      _updateHeaders(response.headers);
+    }
 
+    print("****");
+    print(response.body);
     return response;
   }
 
@@ -56,7 +73,10 @@ class HttpController {
   Future<Response> post(
       {String endPoint, Map<String, String> headers, dynamic payload}) async {
     try {
+      print("HEADERS BBBBBBB");
       var _headers = await prefs.fetchHeaders();
+
+      print(_headers);
 
       Client client = new Client();
 
@@ -67,8 +87,11 @@ class HttpController {
       );
 
       client.close();
-
-      _updateHeaders(response.headers);
+      if (response.headers['access-token'] != null) {
+        print("UPDATING POST HEADERS HEADERS BBBBBBB");
+        _updateHeaders(response.headers);
+      }
+      // _updateHeaders(response.headers);
 
       return response;
     } catch (e) {
@@ -76,6 +99,7 @@ class HttpController {
     }
   }
 
+//  Make http post without headers
   Future<Response> postAnonymous({String endPoint, dynamic payload}) async {
     try {
       const _anonymousHeaders = {"Content-Type": "application/json"};

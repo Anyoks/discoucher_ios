@@ -21,12 +21,12 @@ Widget buildHomeList(BuildContext context, List<VoucherData> voucherDataList, in
   }
 
   return new Container(
-    margin: EdgeInsets.only(left: 12.0, top: 5.0),
+    margin: EdgeInsets.only(top: 5.0),// EdgeInsets.only(left: 12.0, top: 5.0),
     child: Column(
       children: <Widget>[
         buildHomeSectionTitle(context, voucherDataList, header),
         Container(
-          height: 154.0,
+          height: 155.0,
           child: ListView.builder(
             key: new Key(new Uuid().v1()),
             scrollDirection: Axis.horizontal,
