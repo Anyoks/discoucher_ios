@@ -13,7 +13,7 @@ import 'package:discoucher/contollers/paymet_controller.dart';
 // this it the first sign up payment prompt
 
 class SignUpPayPromptRoute extends MaterialPageRoute {
-  SignUpPayPromptRoute() : super(builder: (context) => SignUpPayPrompt());
+  SignUpPayPromptRoute(loggedInUser) : super(builder: (context) => SignUpPayPrompt(loggedInUser: loggedInUser,));
 }
 
 class SignUpPayPrompt extends StatefulWidget {
@@ -40,7 +40,7 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
   static SharedPreferencesController _prefs = new SharedPreferencesController();
   final SettingsController controller = new SettingsController(prefs: _prefs);
   // final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  bool checkPaymentStatus;
+  bool checkPaymentStatus, successPayment;
   String checkoutRequestId;
   Timer _timer;
   bool goneToMpesaScreen; // only true when the pay now button is clicked
@@ -54,7 +54,8 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
     super.initState();
     goneToMpesaScreen =
         false; // used to check whether the user is back from payment screen after clickin the pay the button
-    checkPaymentStatus = false; // will be used for loading progress
+    checkPaymentStatus = false;
+    successPayment = false; // will be used for loading progress
     getuser();
     print("mpesa state $goneToMpesaScreen");
     WidgetsBinding.instance
@@ -113,7 +114,7 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
   }
 
   void _submit() {
-    goHome();
+    goHomeWithoutDelay();
   }
 
   // This method will call the payment url
@@ -205,22 +206,16 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
           print("CHECKING THE PAYMENT SUCCESS");
           print("PROGRESS STATE $checkPaymentStatus");
           checkoutRequestId = null;
-
-          // goHome();
-          // now the user has valid voucher so update.
+          setState(() {
+            successPayment = true;
+          });
+          // now the user has valid voucher so update his local details.
           updateLoggedInUser();
-          // update user.vouchers here.
-          // updateProgress();
-
-          //go home
         } else {
           print("CHECKING THE PAYMENT ERROR ${checkPaymentResponse.message}");
           _notification = null;
           updateProgress();
           //error payment was not successful
-          // end progress bar
-          // go to error page with contact details
-          //  ${checkPaymentResponse.message}"
           _showErrorMessageDissmiss(
               "Sorry we could not Make the payment. You entered the wrong password, Kindly try again");
         }
@@ -316,6 +311,12 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
   }
 
   void goHome() {
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.popAndPushNamed(context, _routes.homeRoute);
+    });
+  }
+
+  void goHomeWithoutDelay() {
     Navigator.popAndPushNamed(context, _routes.homeRoute);
   }
 
@@ -415,16 +416,23 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
                 height: 40.0,
               ),
               SizedBox(
-                width: double.infinity,
-                child: checkPaymentStatus
-                    ? Loader()
-                    : OutlineButton(
-                        onPressed: () => _pay(widget.loggedInUser),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 36.0, vertical: 12.0),
-                        borderSide:
-                            BorderSide(color: xDiscoucherGreen, width: 1.0),
-                        child: boldGreenText("Pay Now"),
+                child: successPayment
+                    ? Image.asset(
+                        "images/icon.png",
+                        fit: BoxFit.contain,
+                      )
+                    : SizedBox(
+                        width: double.infinity,
+                        child: checkPaymentStatus
+                            ? Loader()
+                            : OutlineButton(
+                                onPressed: () => _pay(widget.loggedInUser),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 36.0, vertical: 12.0),
+                                borderSide: BorderSide(
+                                    color: xDiscoucherGreen, width: 1.0),
+                                child: boldGreenText("Pay Now"),
+                              ),
                       ),
               ),
             ],

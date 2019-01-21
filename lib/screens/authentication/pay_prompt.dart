@@ -1,4 +1,6 @@
 import 'package:discoucher/contollers/paymet_controller.dart';
+import 'package:discoucher/contollers/settings-controller.dart';
+import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/profile/profile.dart';
 import 'package:discoucher/screens/routes.dart';
@@ -29,21 +31,25 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
   final DiscoucherRoutes _routes = DiscoucherRoutes();
   final PaymentController _controller = new PaymentController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool checkPaymentStatus;
+  static SharedPreferencesController _prefs = new SharedPreferencesController();
+  final SettingsController controller = new SettingsController(prefs: _prefs);
+  bool checkPaymentStatus, successPayment;
   String checkoutRequestId;
   Timer _timer;
   bool goneToMpesaScreen; // only true when the pay now button is clicked
   AppLifecycleState _notification;
   final String countryCode = ("254".split("")).join(); // 254
-
+  LoggedInUser loggedInUser2; // used to update the user
   var counter = 0;
 
   @override
   void initState() {
     super.initState();
+    getuser();
     goneToMpesaScreen =
         false; // used to check whether the user is back from payment screen after clickin the pay the button
     checkPaymentStatus = false; // will be used for loading progress
+    successPayment = false;
     print("mpesa state $goneToMpesaScreen");
     WidgetsBinding.instance
         .addObserver(this); // checking if the app just came from the background
@@ -170,9 +176,12 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
           print("CHECKING THE PAYMENT SUCCESS");
           print("PROGRESS STATE $checkPaymentStatus");
           checkoutRequestId = null;
-
+          setState(() {
+            successPayment = true;
+          });
+          updateLoggedInUser();
           // updateProgress();
-          goHome();
+          // goHome();
           //go home
         } else {
           print("CHECKING THE PAYMENT ERROR ${checkPaymentResponse.message}");
@@ -209,6 +218,53 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
     }
   }
 
+  updateLoggedInUser() async {
+    print("UPDATIN USER   DONEEEEEE " + loggedInUser2.email);
+    if (loggedInUser2 != null) {
+      print("UPDATIN USER   DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+      LoggedInUser _userToSave = new LoggedInUser(
+        id: loggedInUser2.id,
+        fullName: "${loggedInUser2.firstName} ${loggedInUser2.firstName}",
+        firstName: loggedInUser2.firstName,
+        lastName: loggedInUser2.firstName,
+        email: loggedInUser2.email,
+        phoneNumber: loggedInUser2.phoneNumber,
+        vouchers: 'valid',
+      );
+      print("WWWWWWWWW ${loggedInUser2.vouchers}");
+
+      var save = await _prefs.updateLoggedInUser(_userToSave);
+
+      print("UPDATIN USER   DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE $save");
+      goHome();
+    }
+  }
+
+  void getuser() async {
+    await controller.checkLoggedIn().then((data) {
+      if (this.mounted) {
+        if (data != null) {
+          setState(() {
+            loggedInUser2 = data;
+            // print("Updated Ulser 1" + loggedInUser2.phoneNumber);
+          });
+        } else {
+          // check again because the first check always retursn null
+          // this is a work around.
+          if (counter < 2) {
+            counter++;
+            getuser();
+          } else {
+            counter = 0;
+            setState(() {
+              // error.text = "LoggedInUser not Logged IN";
+            });
+          }
+        }
+      }
+    });
+  }
+
   void _showMessage(String message, [MaterialColor color = Colors.orange]) {
     // return
     _scaffoldKey.currentState.showSnackBar(
@@ -239,8 +295,12 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
   }
 
   void goHome() {
-    Navigator.popAndPushNamed(context, _routes.homeRoute);
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.popAndPushNamed(context, _routes.homeRoute);
+    });
   }
+
+ 
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -304,24 +364,33 @@ class _PayPromptState extends State<PayPrompt> with WidgetsBindingObserver {
                 height: 40.0,
               ),
               SizedBox(
-                width: double.infinity,
-                child: checkPaymentStatus
-                    ? Loader()
-                    : RaisedButton(
-                        onPressed: () {
-                          // Loader();
-                          _submit(widget.user);
-                          // Navigator.push(context, LogInPageRoute(fromSplashScreen: false));
-                        },
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 36.0, vertical: 12.0),
-                        //borderSide: BorderSide(color: xDiscoucherGreen),
-                        child: Text(
-                          'Pay Now',
-                          style: TextStyle(color: Colors.white, fontSize: 18.0),
-                        ),
-                        color: Theme.of(context).primaryColor,
-                        elevation: 1.0,
+                child: successPayment
+                    ? Image.asset(
+                        "images/icon.png",
+                        fit: BoxFit.contain,
+                      )
+                    : SizedBox(
+                        width: double.infinity,
+                        // height: 30.0,
+                        child: checkPaymentStatus
+                            ? Loader()
+                            : RaisedButton(
+                                onPressed: () {
+                                  // Loader();
+                                  _submit(widget.user);
+                                  // Navigator.push(context, LogInPageRoute(fromSplashScreen: false));
+                                },
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 36.0, vertical: 12.0),
+                                //borderSide: BorderSide(color: xDiscoucherGreen),
+                                child: Text(
+                                  'Pay Now',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18.0),
+                                ),
+                                color: Theme.of(context).primaryColor,
+                                elevation: 1.0,
+                              ),
                       ),
               ),
             ],
