@@ -1,19 +1,15 @@
 import 'dart:async';
-
 import 'package:discoucher/contollers/settings-controller.dart';
 import 'package:discoucher/contollers/shared-preferences-controller.dart';
 import 'package:discoucher/loader/loader.dart';
-import 'package:discoucher/models/user.dart';
 import 'package:discoucher/screens/profile/profile.dart';
 import 'package:discoucher/screens/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:discoucher/screens/shared/wavy-header-image.dart';
 import 'package:discoucher/screens/shared/styled-texts.dart';
 import 'package:discoucher/constants/colors.dart';
 import 'package:discoucher/models/shared.dart';
 import 'package:discoucher/contollers/paymet_controller.dart';
-import 'package:discoucher/models/payment_response.dart';
 // this it the first sign up payment prompt
 
 class SignUpPayPromptRoute extends MaterialPageRoute {
@@ -150,7 +146,7 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
         phoneWithoutZero.removeAt(0); // remove the 0
         String phoneNumber = countryCode +
             phoneWithoutZero.join(); //'254711430817'; //user.phoneNumber;
-        print("USer in SIgn Up SCREEN ${phoneNumber}");
+        print("USer in SIgn Up SCREEN $phoneNumber");
         String desc = "$phoneNumber mpurchase";
         String uid = user.email;
 
@@ -253,19 +249,19 @@ class _SignUpPayPromptState extends State<SignUpPayPrompt>
   }
 
   updateLoggedInUser() async {
-    print("UPDATIN USER   DONEEEEEE " + loggedInUser.email);
-    if (loggedInUser != null) {
+    print("UPDATIN USER   DONEEEEEE " + loggedInUser2.email);
+    if (loggedInUser2 != null) {
       print("UPDATIN USER   DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
       LoggedInUser _userToSave = new LoggedInUser(
-        id: loggedInUser.id,
-        fullName: "${loggedInUser.firstName} ${loggedInUser.firstName}",
-        firstName: loggedInUser.firstName,
-        lastName: loggedInUser.firstName,
-        email: loggedInUser.email,
-        phoneNumber: loggedInUser.phoneNumber,
+        id: loggedInUser2.id,
+        fullName: "${loggedInUser2.firstName} ${loggedInUser2.firstName}",
+        firstName: loggedInUser2.firstName,
+        lastName: loggedInUser2.firstName,
+        email: loggedInUser2.email,
+        phoneNumber: loggedInUser2.phoneNumber,
         vouchers: 'valid',
       );
-      print("WWWWWWWWW ${loggedInUser.vouchers}");
+      print("WWWWWWWWW ${loggedInUser2.vouchers}");
 
       var save = await _prefs.updateLoggedInUser(_userToSave);
 
