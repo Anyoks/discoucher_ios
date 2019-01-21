@@ -51,6 +51,32 @@ class FavoritesController extends BaseController {
       return false;
     }
   }
+  Future<List> addRemoveFavorite(VoucherData voucherData) async {
+    List response2;
+    try {
+      final _payload = {"voucher_id": voucherData.id};
+
+      final response = await post(
+        endPoint: Endpoint.addFavorite,
+        payload: _payload,
+      );
+
+      final Map<String, dynamic> parsedJson = json.decode(response.body);
+      // {
+      //     "success": true,
+      //     "message": "Voucher marked as favourite"
+      // }
+
+      final bool success = parsedJson['success'];
+      final String message = parsedJson['message'];
+
+      response2 = [success,message ];
+
+      return response2 ;
+    } catch (e) {
+      return response2;
+    }
+  }
 
   Future<List<VoucherData>> getRedeemedOffers() async {
     try {

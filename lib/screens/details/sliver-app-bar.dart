@@ -39,7 +39,7 @@ buildSliverAppBar({
         },
         icon: Icon(Icons.share),
       ),
-      IconButton(onPressed: isFavourite == true ? null : addFavorite, icon: isFavourite == true ? Icon(Icons.favorite, color: Colors.red, ): Icon(Icons.favorite_border))
+      IconButton(onPressed: addFavorite, icon: isFavourite == true ? Icon(Icons.favorite, color: Colors.red, ): Icon(Icons.favorite_border))
     ],
     flexibleSpace: FlexibleSpaceBar(
       collapseMode: CollapseMode.parallax,

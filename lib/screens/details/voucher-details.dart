@@ -130,7 +130,8 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
               voucher: _voucher,
               est: _establishmentFull,
               addFavorite: () {
-                addFavorite();
+                //addFavorite();
+                 addRemoveFavorite();
               },
               isFavourite: isFavourite,
             ),
@@ -189,6 +190,22 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
       _showMessage("Voucher added to favorites successfully");
     } else {
       _showMessage("There was an error adding voucher to favorites");
+    }
+  }
+
+    addRemoveFavorite() async {
+    print("${widget.voucherData.toString()}");
+
+    final List addFavResults =
+        await _favoritesController.addRemoveFavorite(widget.voucherData);
+    if (addFavResults[0] == true) {
+      setState(() {
+        isFavourite = !isFavourite;
+        widget.voucherData.attributes.favourite = widget.voucherData.attributes.favourite == "true" ? "false" : "true";
+      });
+      _showMessage(addFavResults[1]);
+    } else {
+      _showMessage(addFavResults[1]);
     }
   }
 
