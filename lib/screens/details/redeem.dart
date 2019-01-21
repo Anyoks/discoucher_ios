@@ -257,6 +257,7 @@ class _RedeemPageState extends State<RedeemPage> {
             textAlign: TextAlign.center),
         Container(
           child: new TextField(
+            // textAlign: TextAlign.center,
             decoration: InputDecoration(border: InputBorder.none),
             style: new TextStyle(color: Colors.red),
             controller: error,
@@ -306,6 +307,7 @@ class _RedeemPageState extends State<RedeemPage> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   buildTextField("1"),
                   new SizedBox(width: 5.0),
