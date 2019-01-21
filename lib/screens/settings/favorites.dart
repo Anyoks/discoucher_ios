@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:discoucher/constants/strings.dart';
 import 'package:discoucher/contollers/favorites-controller.dart';
+import 'package:discoucher/loader/loader.dart';
 import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/screens/category/category-sliver-grid.dart';
 import 'package:discoucher/screens/category/category-sliver-list.dart';
@@ -24,11 +25,15 @@ class FavoritesPage extends StatefulWidget {
 class _FavoritesPageState extends State<FavoritesPage> {
   FavoritesController _favoritesController = new FavoritesController();
   Future<List<VoucherData>> _favoritesFuture;
+  List<VoucherData> favourites;
+  bool loading;
 
   @override
   void initState() {
+    loading = true;
     _favoritesFuture = _favoritesController.getFavorites();
 
+    getfavourites();
     super.initState();
   }
 
@@ -40,7 +45,29 @@ class _FavoritesPageState extends State<FavoritesPage> {
           leading: AppBackButton(),
           title: AppBarTitle(appBarFavorites),
         ),
-        body: buildFavoritesFuture());
+        body:  buildFavoritesFuture());//loading ? Center( child: Loader()) : buildFavoritesFuture2());
+  }
+
+  buildFavoritesFuture2() {
+    return CustomScrollView(
+      slivers: <Widget>[
+        // print("in here");
+        buildCategorySliverList(favourites),
+      ],
+    );
+  }
+
+  getfavourites() async {
+    var favs = await _favoritesController.getFavorites();
+
+    setState(() {
+      favourites = favs;
+      loading = false;
+      print("*******");
+      // print(favourites.length);
+      print("*******");
+    });
+    return favs;
   }
 
   buildFavoritesFuture() {
@@ -56,27 +83,40 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 message: "You are offline");
           case ConnectionState.waiting:
             return Container(
-              child: Center(child: CircularProgressIndicator()),
+              child: Center(child: Loader()),
             );
-          default:
-            if (snapshot.hasError)
+          case ConnectionState.active:
+            return CustomScrollView(slivers: <Widget>[
+              buildCategorySliverList(snapshot.data),
+            ]);
+          case ConnectionState.done:
+            if (snapshot.data == null) {
+              // NO internet connection
+              return HomeError(
+                onPressed: () {
+                  handleRefresh();
+                },
+                message: "Please Check your connection. Pull to refresh",
+              );
+            } else if (snapshot.data.length == 0) {
+              print(snapshot.hasData);
+              return _nofavoritesYet(context);
+            } else if (snapshot.hasError) {
               return HomeError(
                 onPressed: () {
                   handleRefresh();
                 },
                 message: "An error occured. Pull to refresh",
               );
-            else if (!snapshot.hasData) {
-              return _nofavoritesYet(context);
             } else {
-              print(snapshot.data);
-              return _buildFavorites(snapshot.data);
+              return CustomScrollView(slivers: <Widget>[
+                buildCategorySliverList(snapshot.data),
+              ]);
             }
         }
       },
     );
   }
-
 
   _nofavoritesYet(BuildContext context) {
     return Center(
@@ -109,17 +149,17 @@ class _FavoritesPageState extends State<FavoritesPage> {
   }
 
   _buildFavorites(List<VoucherData> _voucherDataList) {
-    return  ListView.builder(
-            key: new Key(new Uuid().v1()),
-            scrollDirection: Axis.horizontal,
-            itemCount: _voucherDataList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return buildGenericListItem(context, _voucherDataList[index]);
-            },
-          );
+    return ListView.builder(
+      key: new Key(new Uuid().v1()),
+      scrollDirection: Axis.vertical,
+      itemCount: _voucherDataList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return buildGenericListItem(context, _voucherDataList[index]);
+      },
+    );
   }
 
-   _buildFavorites2(List<VoucherData> _voucherDataList) {
+  _buildFavorites2(List<VoucherData> _voucherDataList) {
     return buildCategorySliverList(_voucherDataList);
     //  ListView.builder(
     //         key: new Key(new Uuid().v1()),
@@ -130,7 +170,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     //         },
     //       );
   }
-  
+
   Future<List<VoucherData>> handleRefresh() async {
     Future<List<VoucherData>> favsFuture = _favoritesController.getFavorites();
 
