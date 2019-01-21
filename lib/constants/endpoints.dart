@@ -27,6 +27,8 @@ class Endpoint {
   static String favorites = "$baseUrl/favourites";
   static String addFavorite = "$baseUrl/favourites/add";
 
+  static String redeemedOffers = "$baseUrl/profile/redeemed_offers"; // GET
+
   static String pay = "$baseUrl/pay/mobile"; // POST
   static String checkPayment = "$baseUrl/pay/check_status"; //POST
   static String redeemVoucher = "$baseUrl/redeem/voucher"; // POST
