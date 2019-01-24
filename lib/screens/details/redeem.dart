@@ -38,6 +38,7 @@ class _RedeemPageState extends State<RedeemPage> {
 
   bool _isButtonDisabled;
   bool checkRedeemStatus;
+  bool redeemed;
 
   Future<LoggedInUser> loggedInUser;
   LoggedInUser user;
@@ -69,6 +70,7 @@ class _RedeemPageState extends State<RedeemPage> {
     super.initState();
     checkRedeemStatus = false;
     _isButtonDisabled = false;
+    redeemed = false;
     loggedInUser = controller.checkLoggedIn();
 
     getuser();
@@ -172,39 +174,37 @@ class _RedeemPageState extends State<RedeemPage> {
 
     if (redeemStatus == null) {
       // couldn't reach searvers
+      setState(() {
+        error.text = "Error reaching our servers";
+      });
       print("NO NWTEORK ACCESS");
     } else if (redeemStatus.success == true) {
       //success redeeming voucher
       setState(() {
         widget.voucher.redeemed = "true";
+        redeemed = true;
       });
 
       //upDATE The logged in user so that we are in the know!
       var update = await updateLoggedInUser(redeemStatus.vouchers);
 
       if (update) {
-        closeDialog();
-      } else {
-        setState(() {
-          // error.text = "ERROR SAVING LOGGED INUSER";
+        // delay so that the user can see the tick that all was successful
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.pop(context, true);
         });
-      }
-      // show success redeem page
-      // closeDialog();
-      // showSuccessRedeemDialog(context, voucher);
+      } //else {
+        // the user was not successfully updated
 
-      setState(() {
-        error.text = "${redeemStatus.message}";
-      });
-      // Navigator.of(context).popAndPushNamed(showSuccessRedeemDialog( context, voucher) );
-
-      print("SUCCESS");
+        // setState(() {
+        //   // error.text = "ERROR SAVING LOGGED INUSER";
+        // });
+      //}
     } else if (redeemStatus.success == false) {
       // voucher not valid or wrong pin
       //show failed redemption page with error
       // display error message.
       updateProgress();
-      print("PIN / VOUCHER ERROR");
       setState(() {
         error.text = "${redeemStatus.message}";
       });
@@ -213,6 +213,7 @@ class _RedeemPageState extends State<RedeemPage> {
 
   closeDialog() {
     disableButton();
+    //  Navigator.of(context).pop();
     showSuccessRedeemDialog(context, voucher);
     // close the pin dialog after 20 seconds because I can't figure out how to close it as I leave
     // to the comment dialog.
@@ -263,7 +264,7 @@ class _RedeemPageState extends State<RedeemPage> {
             controller: error,
           ),
         ),
-        SizedBox(height: 8.0),
+        SizedBox(height: 3.0),
         Container(
           child: buildEstablishmentest_pinInput(),
           // child:buildTextField(),
@@ -322,21 +323,26 @@ class _RedeemPageState extends State<RedeemPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 15.0),
-                child: checkRedeemStatus
-                    ? Loader()
-                    : RaisedButton(
-                        onPressed: _isButtonDisabled ? null : _submit,
-                        child: Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text(
-                            '    Done    ',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 17.0),
+                child: redeemed
+                    ? Image.asset(
+                        "images/icon.png",
+                        fit: BoxFit.contain,
+                      )
+                    : checkRedeemStatus
+                        ? Loader()
+                        : RaisedButton(
+                            onPressed: _isButtonDisabled ? null : _submit,
+                            child: Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                '    Redeem    ',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 17.0),
+                              ),
+                            ),
+                            color: Theme.of(context).primaryColor,
+                            elevation: 4.0,
                           ),
-                        ),
-                        color: Theme.of(context).primaryColor,
-                        elevation: 4.0,
-                      ),
               ),
             ],
           ),

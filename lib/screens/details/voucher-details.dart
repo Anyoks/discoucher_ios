@@ -6,6 +6,7 @@ import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/authentication/pay_prompt.dart';
 import 'package:discoucher/screens/details/redeem-dialog.dart';
+import 'package:discoucher/screens/details/redeem_success_dialog.dart';
 import 'package:discoucher/screens/details/sliver-app-bar.dart';
 import 'package:discoucher/screens/details/sliver-list-placeholder.dart';
 import 'package:discoucher/screens/details/sliver-list.dart';
@@ -83,7 +84,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     });
   }
 
-  _processRedemption(LoggedInUser user) {
+  _processRedemption(LoggedInUser user) async {
     Voucher voucher = widget.voucherData.attributes;
     if (user != null) {
       // check if they have valid vouchers
@@ -91,9 +92,15 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
         // redeem
         print(user.vouchers);
         if (widget.voucherData.attributes.redeemed == "false") {
-          showRedeemDialog(context, voucher);
+
+          bool  back = await showRedeemDialog(context, voucher);
+          // make sure to show the rating page only if the redemption was successful.
+          if(back == true){
+            showSuccessRedeemDialog(context, voucher);
+          }
+          
         }
-        if (voucher.redeemed == "true") {
+        if (voucher.redeemed == "true") {          
           setState(() {
             _isButtonDisabled = true;
             widget.voucherData.attributes.redeemed = "true";
