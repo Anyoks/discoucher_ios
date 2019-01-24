@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
       _prefs.updateLoggedInUser(_userToSave);
     } else {
       _showMessage(
-        'There was an error loggin in. Please check your network or try again later',
+        'There was an error loggin in. Check your email or password',
         Colors.red,
       );
     }
@@ -146,6 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.only(
                     left: 45.0, top: 15.0, bottom: 15.0, right: 15.0),
                 child: RaisedButton(
+                  shape:  new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)) ,
                   onPressed: _submit,
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
@@ -158,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                   elevation: 4.0,
                 ),
               ),
-              SocialLoginButtons(),
+              // SocialLoginButtons(),
               Divider(),
 
               Row(

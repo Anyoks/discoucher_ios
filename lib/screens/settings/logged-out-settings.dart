@@ -20,10 +20,9 @@ Widget loggedOutUserSettings(
     children: <Widget>[
       SizedBox(height: 20.0),
       RaisedButton(
+        shape:  new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)) ,
         onPressed: () {
           Navigator.push(context, SignUpPageRoute());
-          // Navigator.push(context, SignUpPayPromptRoute());
-          // Navigator.push(context, PayPromptRoute());
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 12.0),
@@ -38,6 +37,7 @@ Widget loggedOutUserSettings(
       ),
       SizedBox(height: 5.0),
       OutlineButton(
+        shape:  new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)) ,
         onPressed: () {
           Navigator.push(context, LogInPageRoute(fromSplashScreen: false));
         },

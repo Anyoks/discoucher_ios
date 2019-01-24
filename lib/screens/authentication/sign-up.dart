@@ -161,6 +161,7 @@ class _SignUpPageState extends State<SignUpPage> {
             margin: EdgeInsets.only(
                 left: 45.0, top: 15.0, bottom: 15.0, right: 15.0),
             child: RaisedButton(
+              shape:  new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)) ,
               onPressed: _submit,
               child: Padding(
                 padding: EdgeInsets.all(10.0),
@@ -173,7 +174,7 @@ class _SignUpPageState extends State<SignUpPage> {
               elevation: 4.0,
             ),
           ),
-           SocialLoginButtons(),
+          //  SocialLoginButtons(),
         ],
       ),
       // floatingActionButton: FloatingActionButton.extended(
