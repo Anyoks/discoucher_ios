@@ -155,6 +155,7 @@ class _SettingsPageState extends State<SettingsPage> {
     if (this.mounted) {
       setState(() => loggedInUser = null);
     }
+    controller.logOut();
   }
 
   checkUser() {

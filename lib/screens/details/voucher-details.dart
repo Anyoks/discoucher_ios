@@ -131,7 +131,7 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
               est: _establishmentFull,
               addFavorite: () {
                 //addFavorite();
-                 addRemoveFavorite();
+                addRemoveFavorite();
               },
               isFavourite: isFavourite,
             ),
@@ -193,19 +193,25 @@ class _VoucherDetailsPageState extends State<VoucherDetailsPage> {
     }
   }
 
-    addRemoveFavorite() async {
+  addRemoveFavorite() async {
     print("${widget.voucherData.toString()}");
-
-    final List addFavResults =
-        await _favoritesController.addRemoveFavorite(widget.voucherData);
-    if (addFavResults[0] == true) {
-      setState(() {
-        isFavourite = !isFavourite;
-        widget.voucherData.attributes.favourite = widget.voucherData.attributes.favourite == "true" ? "false" : "true";
-      });
-      _showMessage(addFavResults[1]);
-    } else {
-      _showMessage(addFavResults[1]);
+    try {
+      final List addFavResults =
+          await _favoritesController.addRemoveFavorite(widget.voucherData);
+      if (addFavResults[0] == true) {
+        setState(() {
+          isFavourite = !isFavourite;
+          widget.voucherData.attributes.favourite =
+              widget.voucherData.attributes.favourite == "true"
+                  ? "false"
+                  : "true";
+        });
+        _showMessage(addFavResults[1]);
+      } else {
+        _showMessage(addFavResults[1]);
+      }
+    } catch (e) {
+       _showMessage("You need to sign in to perform this action");
     }
   }
 

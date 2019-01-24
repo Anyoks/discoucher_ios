@@ -78,6 +78,7 @@ class SettingsController {
   }
 
   Future<bool> logOut() async {
+    await prefs.updateHeaders(null);
     return await prefs.updateLoggedInUser(null);
   }
 }
