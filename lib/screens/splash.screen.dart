@@ -43,7 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       Duration timeout = Duration(seconds: 1, milliseconds: 500);
       Timer(timeout, () {
-        Navigator.pushReplacementNamed(context, routes.tutorialsRoute);
+        // Navigator.pushReplacementNamed(context, routes.tutorialsRoute);
+        Navigator.pushReplacementNamed(context, routes.homeRoute);
       });
     }
   }
