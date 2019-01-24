@@ -47,6 +47,8 @@ class _SuccessfulRedemptionPageState extends State<SuccessfulRedemptionPage> {
   String email;
 
   double rating = 0.0;
+  String comment;
+  bool rated;
 
   var error = new TextEditingController();
 
@@ -56,17 +58,18 @@ class _SuccessfulRedemptionPageState extends State<SuccessfulRedemptionPage> {
   initState() {
     super.initState();
     checkRedeemStatus = false;
+    rated = false;
     loggedInUser = controller.checkLoggedIn();
     // loggedInUser2 = _prefs.fetchLoggedInUser();
     getuser();
   }
 
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
 
-    print("DEPENDENCIES CHANGED SUCCESS REDEMPTION");
-    
-  }
+  //   print("DEPENDENCIES CHANGED SUCCESS REDEMPTION");
+
+  // }
 
   void updateProgress() {
     setState(() {
@@ -111,7 +114,7 @@ class _SuccessfulRedemptionPageState extends State<SuccessfulRedemptionPage> {
       if (form.validate()) {
         form.save();
 
-        postCommentAndRating(voucher.code, rating, user.email);
+        postCommentAndRating(voucher.code, rating, comment);
       } else {
         updateProgress();
         // _showMessage(
@@ -122,25 +125,36 @@ class _SuccessfulRedemptionPageState extends State<SuccessfulRedemptionPage> {
     }
   }
 
-  postCommentAndRating(voucherCode, rating, email) async {
+  postCommentAndRating(
+      String voucherCode, double rating, String comment) async {
     // TODO MAKE SERVER ENDPOINT FOR COMMENTS.
+    print("RATING DETAILS");
+    print("CODE $voucherCode, RATING: $rating, COMMENT: $comment");
+    var rate = await _controller.rateExpirience(voucherCode, rating, comment);
 
+    if (rate.success) {
+      setState(() {
+        rated = true;
+      });
+    }
+
+    print("RATING RESPONSE");
+    print("$rate");
     //go back to voucher page
     goToVoucherDetailsPage();
   }
-  
-  goToVoucherDetailsPage() {
-    
-    new Timer(const Duration(seconds: 1), () {
-      if (counter == 3) {
-        updateProgress();
-        Navigator.of(context).pop();
-      } else {
 
-        counter++;
-        goToVoucherDetailsPage();
-      }
-    });
+  goToVoucherDetailsPage() {
+    Future.delayed(const Duration(seconds: 2), (){Navigator.of(context).pop();});
+    // new Timer(const Duration(seconds: 1), () {
+    //   if (counter == 3) {
+    //     updateProgress();
+    //     Navigator.of(context).pop();
+    //   } else {
+    //     counter++;
+    //     goToVoucherDetailsPage();
+    //   }
+    // });
   }
 
   @override
@@ -226,14 +240,18 @@ class _SuccessfulRedemptionPageState extends State<SuccessfulRedemptionPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 15.0),
-                child: checkRedeemStatus
+                child: rated
+                    ? Image.asset(
+                        "images/icon.png",
+                        fit: BoxFit.contain,
+                      ) : checkRedeemStatus
                     ? Loader()
                     : RaisedButton(
                         onPressed: _submit,
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text(
-                            '    Done    ',
+                            '    Rate    ',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 17.0),
                           ),
@@ -264,8 +282,8 @@ class _SuccessfulRedemptionPageState extends State<SuccessfulRedemptionPage> {
         keyboardType: TextInputType.text,
         validator: (val) => val.isEmpty ? 'X' : null,
         onSaved: (val) {
-          // est_pin = est_pin + val;
-          print("this is the comment " + val);
+          comment = val;
+          print("this is the comment " + comment);
         },
       ),
     ));
