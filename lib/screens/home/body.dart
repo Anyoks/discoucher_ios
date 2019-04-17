@@ -18,11 +18,37 @@ class _HomeBodyState extends State<HomeBody> {
   final _homeController = new HomeController();
 
   Future<List<List<VoucherData>>> _homeFuture;
+  dynamic list;
+  List<String> categories;
+  var counter = 0;
 
   @override
   void initState() {
-    _homeFuture = _homeController.fetchHomeData();
+    getCategories();
+    // _homeFuture = _homeController.fetchHomeData();//(categories);
+     _homeFuture = _homeController.fetchHomeDataV2(categories);
+    // list = _homeController.fetchListOfCartegoryNames();
+    // print(list.toString());
     super.initState();
+  }
+
+  void getCategories() async {
+  // List<String> list;
+    await _homeController.fetchListOfCartegoryNames().then((data){
+      if (data != null){
+        setState(() {
+          categories = data;
+        });
+         
+      }else{
+        if (counter < 3) {
+            counter++;
+            getCategories();
+          } else {
+            counter = 0;
+          }
+      }
+    });
   }
 
   @override
@@ -69,13 +95,16 @@ class _HomeBodyState extends State<HomeBody> {
 
   Future<List<List<VoucherData>>> handleRefresh() async {
     setState(() {
-      _homeFuture = _homeController.fetchHomeData();
+      // _homeFuture = _homeController.fetchHomeData();
+      _homeFuture = _homeController.fetchHomeDataV2(categories);
     });
 
     return _homeFuture;
   }
 
   sectionBuilder(BuildContext context, List<List<VoucherData>> sections) {
+
+    print('SSSSSSSSSSSSSSSSSSSSSNAPTIOT'+ ' ${sections.length}');
     return ListView(
       children: <Widget>[
         SizedBox(height: 5.0),
@@ -87,7 +116,8 @@ class _HomeBodyState extends State<HomeBody> {
           scrollDirection: Axis.vertical,
           itemCount: sections.length,
           itemBuilder: (BuildContext context, int index) {
-            return buildHomeList(context, sections[index], index);
+            print('XXXXXXXXXXXXXXXXXX' + '$index' +' ' + '${sections.length}');
+            return buildHomeList(context, sections[index], index, categories);
           },
         )
       ],

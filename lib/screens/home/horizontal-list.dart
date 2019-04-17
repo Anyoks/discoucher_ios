@@ -1,24 +1,19 @@
+import 'package:discoucher/contollers/home-controller.dart';
 import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/screens/home/home-section-title.dart';
 import 'package:discoucher/screens/shared/generic-list-item.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-Widget buildHomeList(BuildContext context, List<VoucherData> voucherDataList, int index) {
+final _homeController = new HomeController();
+List<String> categories;
+
+Widget buildHomeList(BuildContext context, List<VoucherData> voucherDataList, int index, List<String> categories) {
+  
   String header = "";
-  switch (index) {
-    case 0:
-      header = "Restaurants";
-      break;
-    case 1:
-      header = "Hotels";
-      break;
-    case 2:
-      header = "Spas and Salons";
-      break;
-    default:
-      header = "Establishments";
-  }
+
+  // update header based on title
+  header = categories[index];
 
   return new Container(
     margin: EdgeInsets.only(top: 5.0),// EdgeInsets.only(left: 12.0, top: 5.0),
