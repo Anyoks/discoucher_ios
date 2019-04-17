@@ -18,6 +18,9 @@ class Endpoint {
   static String hotelVouchers = "$baseUrl/vouchers/hotels";
   static String spaVouchers = "$baseUrl/vouchers/spas";
 
+  static String availableCartegories = "$baseUrl/available/cartegories"; // get
+  static String cartegories = "$baseUrl/vouchers/category"; // POST
+
   static String voucherForEstablishment = "$baseUrl/vouchers/est"; //POST
 
   static String search = "$baseUrl/search/vouchers"; //POST
