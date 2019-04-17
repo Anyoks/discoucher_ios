@@ -1,7 +1,7 @@
 class EstablishmentType {
   String category; 
   String description;
-  String available;  
+  bool available;  
 
   EstablishmentType({
     this.category,
@@ -10,9 +10,9 @@ class EstablishmentType {
   });
 
   factory EstablishmentType.fromJson(Map<String, dynamic> json) => new EstablishmentType(
-        category: json["category"],
-        description: json['description'],
-        available:json["available"],
+        category: json["attributes"]["category"],
+        description: json["attributes"]['description'],
+        available:json["attributes"]["available"],
       );
 
   Map<String, dynamic> toJson() => {
