@@ -4,6 +4,7 @@ import 'package:discoucher/screens/home/home-section-title.dart';
 import 'package:discoucher/screens/shared/generic-list-item.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:recase/recase.dart';
 
 final _homeController = new HomeController();
 List<String> categories;
@@ -11,9 +12,12 @@ List<String> categories;
 Widget buildHomeList(BuildContext context, List<VoucherData> voucherDataList, int index, List<String> categories) {
   
   String header = "";
+  String rawHeader= "";
 
   // update header based on title
-  header = categories[index];
+  rawHeader = categories[index];
+  ReCase rc = new ReCase(rawHeader);
+  header = rc.titleCase;
 
   return new Container(
     margin: EdgeInsets.only(top: 5.0),// EdgeInsets.only(left: 12.0, top: 5.0),

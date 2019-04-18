@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:discoucher/contollers/home-controller.dart';
+import 'package:discoucher/loader/loader.dart';
 import 'package:discoucher/models/voucher-data.dart';
 import 'package:discoucher/screens/home/home-list-error.dart';
 import 'package:discoucher/screens/home/horizontal-list.dart';
@@ -24,26 +25,27 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   void initState() {
-    getCategories();
+    super.initState();
+    _getCategories();
     // _homeFuture = _homeController.fetchHomeData();//(categories);
-     _homeFuture = _homeController.fetchHomeDataV2(categories);
+    
     // list = _homeController.fetchListOfCartegoryNames();
     // print(list.toString());
-    super.initState();
+    
   }
 
-  void getCategories() async {
+  _getCategories() async {
   // List<String> list;
     await _homeController.fetchListOfCartegoryNames().then((data){
       if (data != null){
         setState(() {
           categories = data;
+           _homeFuture = _homeController.fetchHomeDataV2(categories);
         });
-         
       }else{
-        if (counter < 3) {
+        if (counter < 2) {
             counter++;
-            getCategories();
+            _getCategories();
           } else {
             counter = 0;
           }
@@ -61,18 +63,28 @@ class _HomeBodyState extends State<HomeBody> {
         future: _homeFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return snapshot.data.length > 0
+                    ? sectionBuilder(context, snapshot.data)
+                    : HomeError(
+                        onPressed: () async {
+                          return await handleRefresh();
+                        },
+                        message: "There are no vouchers to load at the moment");
+            case ConnectionState.waiting:
+              return Container(
+                child: Center(child: Loader()),//Center(child: CircularProgressIndicator()), //
+              );
             case ConnectionState.none:
-              return HomeError(
+               return counter < 2 ? Center(child: Loader()) : HomeError(
                   onPressed: () async {
                     return await handleRefresh();
                   },
                   message: "You are offline");
-            case ConnectionState.waiting:
-              return Container(
-                child: Center(child: CircularProgressIndicator()),
-              );
+              
             default:
               if (snapshot.hasError)
+                
                 return HomeError(
                   onPressed: () async {
                     return await handleRefresh();
