@@ -9,6 +9,8 @@ import 'package:discoucher/contollers/base-controller.dart';
 
 class HomeController extends BaseController {
 
+  BaseController base = new BaseController();
+
   // first fetch available establishment types/cartegories
 
   Future<List<EstablishmentType>> fetchAvailableTypes() async{
@@ -56,8 +58,8 @@ class HomeController extends BaseController {
        
     List<Response> responses = await Future.wait(
       categories.map((category) =>
-        
-        postAnonymous(endPoint: Endpoint.cartegories, payload: buildPayload(category) )),
+        base.post(endPoint: Endpoint.cartegories, payload: buildPayload(category) )),
+        // postAnonymous(endPoint: Endpoint.cartegories, payload: buildPayload(category) )),
     );
 
     // print("QQQQQQQQQQQQQ");
