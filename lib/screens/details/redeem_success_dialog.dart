@@ -1,13 +1,14 @@
 import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/successful_redemption.dart';
 import 'package:flutter/material.dart';
+import 'package:discoucher/utils/customShowDialog.dart';
 
 showSuccessRedeemDialog(BuildContext context, Voucher voucher) {
   showDialog(
     barrierDismissible: false, // force users to review!
     context: context,
     builder: (context) {
-      return AlertDialog(
+      return CustomAlertDialog(
           // actions: [
           //     FlatButton(
           //       onPressed: () {

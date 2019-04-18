@@ -247,6 +247,7 @@ class _SuccessfulRedemptionPageState extends State<SuccessfulRedemptionPage> {
                       ) : checkRedeemStatus
                     ? Loader()
                     : RaisedButton(
+                        shape:  new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                         onPressed: _submit,
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
