@@ -2,6 +2,7 @@ import 'package:discoucher/models/voucher.dart';
 import 'package:discoucher/screens/details/redeem.dart';
 import 'package:discoucher/screens/details/successful_redemption.dart';
 import 'package:flutter/material.dart';
+import 'package:discoucher/utils/customShowDialog.dart';
 
 showRedeemDialog(BuildContext context, Voucher voucher) {
   return showDialog(
@@ -9,7 +10,7 @@ showRedeemDialog(BuildContext context, Voucher voucher) {
 
     context: context,
     builder: (context) {
-      return AlertDialog(
+      return CustomAlertDialog(
           actions: [
             FlatButton(
               onPressed: () {

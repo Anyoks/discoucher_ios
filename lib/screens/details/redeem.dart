@@ -27,6 +27,7 @@ class _RedeemPageState extends State<RedeemPage> {
   _RedeemPageState(this.voucher);
   final Voucher voucher;
   final int maxTexInput = 1;
+  final int maxTexInput1 = 5;
   final Validators _validators = Validators();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final RedeemVoucherController _controller = new RedeemVoucherController();
@@ -39,11 +40,13 @@ class _RedeemPageState extends State<RedeemPage> {
   bool _isButtonDisabled;
   bool checkRedeemStatus;
   bool redeemed;
+  String validateForm;
 
   Future<LoggedInUser> loggedInUser;
   LoggedInUser user;
 
   String est_pin = '';
+  String single_est_pin = '';
   String email;
 
   var error = new TextEditingController();
@@ -140,9 +143,9 @@ class _RedeemPageState extends State<RedeemPage> {
       print(user.email);
       if (form.validate()) {
         form.save();
-        print("final est_pin" + est_pin);
-        _performRedeem(user.email, est_pin, voucher.code);
-        est_pin = ""; // clear the est_pin
+        print("final est_pin" + single_est_pin);
+        _performRedeem(user.email, single_est_pin, voucher.code);
+        single_est_pin = ""; // clear the est_pin
       } else {
         updateProgress();
         // _showMessage(
@@ -310,15 +313,16 @@ class _RedeemPageState extends State<RedeemPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  buildTextField("1"),
-                  new SizedBox(width: 5.0),
-                  buildTextField("2"),
-                  new SizedBox(width: 5.0),
-                  buildTextField("3"),
-                  new SizedBox(width: 5.0),
-                  buildTextField("4"),
-                  new SizedBox(width: 5.0),
-                  buildTextField("5")
+                  buildSingleTextField()
+                  // buildTextField("1"),
+                  // new SizedBox(width: 5.0),
+                  // buildTextField("2"),
+                  // new SizedBox(width: 5.0),
+                  // buildTextField("3"),
+                  // new SizedBox(width: 5.0),
+                  // buildTextField("4"),
+                  // new SizedBox(width: 5.0),
+                  // buildTextField("5")
                 ],
               ),
               Container(
@@ -331,6 +335,7 @@ class _RedeemPageState extends State<RedeemPage> {
                     : checkRedeemStatus
                         ? Loader()
                         : RaisedButton(
+                            shape:  new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                             onPressed: _isButtonDisabled ? null : _submit,
                             child: Padding(
                               padding: EdgeInsets.all(10.0),
@@ -432,6 +437,36 @@ class _RedeemPageState extends State<RedeemPage> {
   _fieldFocusChange(FocusNode current, FocusNode next) {
     current.unfocus();
     FocusScope.of(context).requestFocus(next);
+  }
+
+  buildSingleTextField(){
+    return new Flexible(
+              child: Container(
+            height: 50.0,
+            width: 150.0,
+            child: singleLineTextForm(),
+          ));
+    }
+  
+
+  singleLineTextForm(){
+    return TextFormField(
+      autofocus: true,
+      inputFormatters: [new LengthLimitingTextInputFormatter(maxTexInput1)],
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: 35),
+      
+      decoration:  (new InputDecoration(hintText: '- - - - -')) ,
+      onFieldSubmitted: (term) {
+        _fieldFocusChange(_focusPin1, _focusPin2);
+      },
+      keyboardType: TextInputType.number,
+      validator: (val) => val.isEmpty || val.length < 5 ? ' ' : null,
+      onSaved: (val) {
+        single_est_pin = single_est_pin + val;
+        print("this is the passwprd " + single_est_pin);
+      },
+    );
   }
 
   textFormField() {
