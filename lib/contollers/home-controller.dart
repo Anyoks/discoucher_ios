@@ -55,7 +55,7 @@ class HomeController extends BaseController {
 
   // for the new version of the app that dynamically updated available Establishment types
   Future<List<List<VoucherData>>> fetchHomeDataV2(List<String> categories) async {
-       
+    
     List<Response> responses = await Future.wait(
       categories.map((category) =>
         base.post(endPoint: Endpoint.cartegories, payload: buildPayload(category) )),

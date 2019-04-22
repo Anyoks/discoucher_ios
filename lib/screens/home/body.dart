@@ -8,6 +8,7 @@ import 'package:discoucher/screens/home/horizontal-list.dart';
 import 'package:discoucher/screens/home/top-banner.dart';
 import 'package:discoucher/screens/shared/search-app-bar.dart';
 import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:uuid/uuid.dart';
 
 class HomeBody extends StatefulWidget {
@@ -21,17 +22,14 @@ class _HomeBodyState extends State<HomeBody> {
   Future<List<List<VoucherData>>> _homeFuture;
   dynamic list;
   List<String> categories;
+  bool connected = false;
   var counter = 0;
 
   @override
   void initState() {
     super.initState();
     _getCategories();
-    // _homeFuture = _homeController.fetchHomeData();//(categories);
-    
-    // list = _homeController.fetchListOfCartegoryNames();
-    // print(list.toString());
-    
+    checkInternet();    
   }
 
   _getCategories() async {
@@ -53,34 +51,59 @@ class _HomeBodyState extends State<HomeBody> {
     });
   }
 
+  checkInternet() async{
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.mobile) {
+      // I am connected to a mobile network.
+        setState(() {
+          connected =true;
+        });
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      // I am connected to a wifi network.
+      setState(() {
+          connected =true;
+        });
+    } else if (connectivityResult ==ConnectivityResult.none) {
+      setState(() {
+          connected = false;
+        });
+    }
+    } catch (e) {
+    }
+    
+    
+  }
+  
   @override
   Widget build(BuildContext context) {
     // TODO: Handle loading screens
-
+  
     return Scaffold(
       appBar: SearchAppBar(),
       body: FutureBuilder(
         future: _homeFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return snapshot.data.length > 0
-                    ? sectionBuilder(context, snapshot.data)
-                    : HomeError(
-                        onPressed: () async {
-                          return await handleRefresh();
-                        },
-                        message: "There are no vouchers to load at the moment");
+            // case ConnectionState.done:
+            //   return snapshot.data.length > 0
+            //         ? sectionBuilder(context, snapshot.data)
+            //         : HomeError(
+            //             onPressed: () async {
+            //               return await handleRefresh();
+            //             },
+            //             message: "There are no vouchers to load at the moment");
             case ConnectionState.waiting:
               return Container(
                 child: Center(child: Loader()),//Center(child: CircularProgressIndicator()), //
               );
             case ConnectionState.none:
-               return counter < 2 ? Center(child: Loader()) : HomeError(
-                  onPressed: () async {
-                    return await handleRefresh();
-                  },
-                  message: "You are offline");
+              return connected ? Center(child: Loader()) : HomeError(
+                onPressed: () async {
+                  return await handleRefresh();
+                },
+                message: "You are offline");
               
             default:
               if (snapshot.hasError)
@@ -108,7 +131,8 @@ class _HomeBodyState extends State<HomeBody> {
   Future<List<List<VoucherData>>> handleRefresh() async {
     setState(() {
       // _homeFuture = _homeController.fetchHomeData();
-      _homeFuture = _homeController.fetchHomeDataV2(categories);
+      // _homeFuture = _homeController.fetchHomeDataV2(categories);
+      _getCategories();
     });
 
     return _homeFuture;
