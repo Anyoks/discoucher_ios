@@ -107,9 +107,12 @@ class _RedeemedOffersState extends State<RedeemedOffers> {
                 message: "An error occured. Pull to refresh",
               );
             } else {
-              return CustomScrollView(slivers: <Widget>[
+              return RefreshIndicator(
+                onRefresh: handleRefresh,
+                child: CustomScrollView(slivers: <Widget>[
                 buildCategorySliverList(snapshot.data),
-              ]);
+              ]),
+              );
             }
         }
         return _noRedeemedOffersYet();

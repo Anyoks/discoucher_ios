@@ -32,18 +32,11 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
    Future <void> handleRefresh() async {
-    
-      // _homeFuture = _homeController.fetchHomeData();
-       await _homeController.fetchCategoryDataV2(widget.type.toLowerCase()).then((voucherList){
-        setState(() {
-           widget.category = voucherList;   
-        });
+      await _homeController.fetchCategoryDataV2(widget.type.toLowerCase()).then((voucherList){
+      setState(() {
+          widget.category = voucherList;   
       });
-      
-      // _getCategories();
-   
-
-    // return _homeFuture;
+    });
   }
 
   @override
