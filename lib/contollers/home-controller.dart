@@ -73,6 +73,25 @@ class HomeController extends BaseController {
     return sectionsLists;
   }
 
+  //
+  Future<List<VoucherData>> fetchCategoryDataV2(String category) async {
+    
+   
+    Response response = await base.post(endPoint: Endpoint.cartegories, payload: buildPayload(category));
+    // postAnonymous(endPoint: Endpoint.cartegories, payload: buildPayload(category) )),
+   
+
+    // print("QQQQQQQQQQQQQ");
+    // print(responses.toString());
+    var sectionsLists = parseSectionData(response.body).toList();
+    print("===============");
+    // print("QQQQQQQQQQQQQ" + '${sectionsLists.toString()}');
+    print("===============");
+    
+    return sectionsLists;
+  }
+  //
+
   Map<String,String> buildPayload( String category ){
 
     Map<String, String> payload = {
