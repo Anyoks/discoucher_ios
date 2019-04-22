@@ -1,5 +1,5 @@
 // App
-final String appVersion = "Version 2.0";
+final String appVersion = "Version 2.1";
 
 // Page headers
 final String appBardiscover = "DISCOVER";
