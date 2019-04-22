@@ -140,23 +140,26 @@ class _HomeBodyState extends State<HomeBody> {
 
   sectionBuilder(BuildContext context, List<List<VoucherData>> sections) {
 
-    print('SSSSSSSSSSSSSSSSSSSSSNAPTIOT'+ ' ${sections.length}');
-    return ListView(
-      children: <Widget>[
-        SizedBox(height: 5.0),
-        topBannerSection,
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          key: new Key(new Uuid().v1()),
-          scrollDirection: Axis.vertical,
-          itemCount: sections.length,
-          itemBuilder: (BuildContext context, int index) {
-            print('XXXXXXXXXXXXXXXXXX' + '$index' +' ' + '${sections.length}');
-            return buildHomeList(context, sections[index], index, categories);
-          },
-        )
-      ],
+    // print('SSSSSSSSSSSSSSSSSSSSSNAPTIOT'+ ' ${sections.length}');
+    return RefreshIndicator(
+        onRefresh: handleRefresh,
+        child: ListView(
+        children: <Widget>[
+          SizedBox(height: 5.0),
+          topBannerSection,
+          ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            key: new Key(new Uuid().v1()),
+            scrollDirection: Axis.vertical,
+            itemCount: sections.length,
+            itemBuilder: (BuildContext context, int index) {
+              // print('XXXXXXXXXXXXXXXXXX' + '$index' +' ' + '${sections.length}');
+              return buildHomeList(context, sections[index], index, categories);
+            },
+          )
+        ],
+      ),
     );
   }
 }
