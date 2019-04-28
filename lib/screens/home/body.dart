@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:discoucher/contollers/home-controller.dart';
 import 'package:discoucher/loader/loader.dart';
@@ -28,58 +29,71 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
+    
     _getCategories();
-    checkInternet();    
+    checkInternet();
   }
 
   _getCategories() async {
-  // List<String> list;
-    await _homeController.fetchListOfCartegoryNames().then((data){
-      if (data != null){
+    // List<String> list;
+    await _homeController.fetchListOfCartegoryNames().then((data) {
+      if (data != null) {
         setState(() {
           categories = data;
-           _homeFuture = _homeController.fetchHomeDataV2(categories);
+          _homeFuture = _homeController.fetchHomeDataV2(categories);
         });
-      }else{
+      } else {
         if (counter < 2) {
-            counter++;
-            _getCategories();
-          } else {
-            counter = 0;
-          }
+          counter++;
+          _getCategories();
+        } else {
+          counter = 0;
+        }
       }
     });
   }
 
-  checkInternet() async{
-
+  checkInternet() async {
     try {
-      var connectivityResult = await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.mobile) {
-      // I am connected to a mobile network.
+      final result = await InternetAddress.lookup('http://159.89.103.53');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        print(result);
         setState(() {
-          connected =true;
+          connected = true;
         });
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      // I am connected to a wifi network.
+      }
+    } on SocketException catch (_) {
+      print('not connected');
       setState(() {
-          connected =true;
-        });
-    } else if (connectivityResult ==ConnectivityResult.none) {
-      setState(() {
-          connected = false;
-        });
+        connected = false;
+      });
     }
-    } catch (e) {
-    }
-    
-    
+
+    // try {
+    //   var connectivityResult = await (Connectivity().checkConnectivity());
+    //   if (connectivityResult == ConnectivityResult.mobile) {
+    //     // I am connected to a mobile network.
+    //     setState(() {
+    //       connected = true;
+    //     });
+    //   } else if (connectivityResult == ConnectivityResult.wifi) {
+    //     // I am connected to a wifi network.
+    //     setState(() {
+    //       connected = true;
+    //     });
+    //   } else if (connectivityResult == ConnectivityResult.none) {
+    //     setState(() {
+    //       connected = false;
+    //     });
+    //   }
+    // } catch (e) {}
   }
-  
+
   @override
   Widget build(BuildContext context) {
     // TODO: Handle loading screens
-  
+
     return Scaffold(
       appBar: SearchAppBar(),
       body: FutureBuilder(
@@ -96,18 +110,21 @@ class _HomeBodyState extends State<HomeBody> {
             //             message: "There are no vouchers to load at the moment");
             case ConnectionState.waiting:
               return Container(
-                child: Center(child: Loader()),//Center(child: CircularProgressIndicator()), //
+                child: Center(
+                    child:
+                        Loader()), //Center(child: CircularProgressIndicator()), //
               );
             case ConnectionState.none:
-              return connected ? Center(child: Loader()) : HomeError(
-                onPressed: () async {
-                  return await handleRefresh();
-                },
-                message: "You are offline");
-              
+              return connected
+                  ? Center(child: Loader())
+                  : HomeError(
+                      onPressed: () async {
+                        return await handleRefresh();
+                      },
+                      message: "You are offline");
+
             default:
               if (snapshot.hasError)
-                
                 return HomeError(
                   onPressed: () async {
                     return await handleRefresh();
@@ -139,11 +156,10 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   sectionBuilder(BuildContext context, List<List<VoucherData>> sections) {
-
     // print('SSSSSSSSSSSSSSSSSSSSSNAPTIOT'+ ' ${sections.length}');
     return RefreshIndicator(
-        onRefresh: handleRefresh,
-        child: ListView(
+      onRefresh: handleRefresh,
+      child: ListView(
         children: <Widget>[
           SizedBox(height: 5.0),
           topBannerSection,
