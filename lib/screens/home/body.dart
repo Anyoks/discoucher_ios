@@ -22,6 +22,7 @@ class _HomeBodyState extends State<HomeBody> {
   final _homeController = new HomeController();
 
   Future<List<List<VoucherData>>> _homeFuture;
+  Future<List<String>> _catFuture;
   dynamic list;
   List<String> categories;
   var counter = 0;
@@ -29,6 +30,7 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
+    _catFuture = _homeController.fetchListOfCartegoryNames();
     _getCategories();
   }
 
@@ -58,55 +60,79 @@ class _HomeBodyState extends State<HomeBody> {
     // TODO: Handle loading screens
 
     return Scaffold(
-      appBar: SearchAppBar(),
-      body: categories == null ? Container(
-                child: Center(
-                    child:
-                        Loader()), //Center(child: CircularProgressIndicator()), //
-              ) : FutureBuilder(
-        future: _homeFuture,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          switch (snapshot.connectionState) {
-            // case ConnectionState.done:
-            //   return snapshot.data.length > 0
-            //         ? sectionBuilder(context, snapshot.data)
-            //         : HomeError(
-            //             onPressed: () async {
-            //               return await handleRefresh();
-            //             },
-            //             message: "There are no vouchers to load at the moment");
-            case ConnectionState.waiting:
+        appBar: SearchAppBar(),
+        body: FutureBuilder(
+          future: _catFuture,
+          builder: (context, snapshot1) {
+            if (snapshot1.connectionState == ConnectionState.waiting) {
               return Container(
                 child: Center(
                     child:
                         Loader()), //Center(child: CircularProgressIndicator()), //
               );
-            case ConnectionState.none:
-              return  HomeError(
-                      onPressed: () async {
-                        return await handleRefresh();
-                      },
-                      message: "You are offline");
-            default:
-              if (snapshot.hasError)
-                return HomeError(
+            } else if (snapshot1.connectionState == ConnectionState.none) {
+              return HomeError(
                   onPressed: () async {
                     return await handleRefresh();
                   },
-                  message: "Nothing to see",
-                );
-              else
-                return snapshot.data.length > 0
-                    ? sectionBuilder(context, snapshot.data)
-                    : HomeError(
-                        onPressed: () async {
-                          return await handleRefresh();
-                        },
-                        message: "There are no vouchers to load at the moment");
-          }
-        },
-      ),
-    );
+                  message: "You are offline");
+            } else if (snapshot1.hasError) {
+              return HomeError(
+                onPressed: () async {
+                  return await handleRefresh();
+                },
+                message: "You are offline",
+              );
+            } else {
+              return Container(
+                child: FutureBuilder(
+                  future: _homeFuture,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    switch (snapshot.connectionState) {
+                      // case ConnectionState.done:
+                      //   return snapshot.data.length > 0
+                      //         ? sectionBuilder(context, snapshot.data)
+                      //         : HomeError(
+                      //             onPressed: () async {
+                      //               return await handleRefresh();
+                      //             },
+                      //             message: "There are no vouchers to load at the moment");
+                      case ConnectionState.waiting:
+                        return Container(
+                          child: Center(
+                              child:
+                                  Loader()), //Center(child: CircularProgressIndicator()), //
+                        );
+                      case ConnectionState.none:
+                        return HomeError(
+                            onPressed: () async {
+                              return await handleRefresh();
+                            },
+                            message: "You are offline");
+                      default:
+                        if (snapshot.hasError)
+                          return HomeError(
+                            onPressed: () async {
+                              return await handleRefresh();
+                            },
+                            message: "Nothing to see",
+                          );
+                        else
+                          return snapshot.data.length > 0
+                              ? sectionBuilder(context, snapshot.data)
+                              : HomeError(
+                                  onPressed: () async {
+                                    return await handleRefresh();
+                                  },
+                                  message:
+                                      "There are no vouchers to load at the moment");
+                    }
+                  },
+                ),
+              );
+            }
+          },
+        ));
   }
 
   Future<List<List<VoucherData>>> handleRefresh() async {

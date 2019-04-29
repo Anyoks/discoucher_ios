@@ -32,13 +32,15 @@ class HomeController extends BaseController {
 
   Future<List<String>> fetchListOfCartegoryNames() async{
     String endpoint = Endpoint.availableCartegories;
+    var _cartegoryList;
 
     final response = await fetch(endPoint: endpoint);
 
-    final Map<String, dynamic> parsedJson = json.decode(response.body);
+    try {
+      final Map<String, dynamic> parsedJson = json.decode(response.body);
     final List<dynamic> data = parsedJson['data'];
 
-    List<String> _cartegoryList = data.map<String>((item) {
+    _cartegoryList = data.map<String>((item) {
         EstablishmentType _cartegoryData = EstablishmentType.fromJson(item);
         String name = _cartegoryData.category;
         print("the names.........................................");
@@ -46,10 +48,15 @@ class HomeController extends BaseController {
         print(".............................");
         return name;
     }).toList();
-    
+    return _cartegoryList;
     // print("CARTEGORIES");
     // print(_cartegoryList);
     // print("CARTEGORIES");
+      
+    } catch (e) {
+    }
+
+    
     return _cartegoryList;
   }
 
