@@ -11,6 +11,7 @@ import 'package:discoucher/screens/shared/search-app-bar.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 class HomeBody extends StatefulWidget {
   @override
@@ -23,19 +24,17 @@ class _HomeBodyState extends State<HomeBody> {
   Future<List<List<VoucherData>>> _homeFuture;
   dynamic list;
   List<String> categories;
-  bool connected = false;
   var counter = 0;
 
   @override
   void initState() {
     super.initState();
-    
     _getCategories();
-    checkInternet();
   }
 
   _getCategories() async {
     // List<String> list;
+    // if (connected) {
     await _homeController.fetchListOfCartegoryNames().then((data) {
       if (data != null) {
         setState(() {
@@ -51,43 +50,7 @@ class _HomeBodyState extends State<HomeBody> {
         }
       }
     });
-  }
-
-  checkInternet() async {
-    try {
-      final result = await InternetAddress.lookup('http://159.89.103.53');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        print(result);
-        setState(() {
-          connected = true;
-        });
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      setState(() {
-        connected = false;
-      });
-    }
-
-    // try {
-    //   var connectivityResult = await (Connectivity().checkConnectivity());
-    //   if (connectivityResult == ConnectivityResult.mobile) {
-    //     // I am connected to a mobile network.
-    //     setState(() {
-    //       connected = true;
-    //     });
-    //   } else if (connectivityResult == ConnectivityResult.wifi) {
-    //     // I am connected to a wifi network.
-    //     setState(() {
-    //       connected = true;
-    //     });
-    //   } else if (connectivityResult == ConnectivityResult.none) {
-    //     setState(() {
-    //       connected = false;
-    //     });
-    //   }
-    // } catch (e) {}
+    // }
   }
 
   @override
@@ -96,7 +59,11 @@ class _HomeBodyState extends State<HomeBody> {
 
     return Scaffold(
       appBar: SearchAppBar(),
-      body: FutureBuilder(
+      body: categories == null ? Container(
+                child: Center(
+                    child:
+                        Loader()), //Center(child: CircularProgressIndicator()), //
+              ) : FutureBuilder(
         future: _homeFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
@@ -115,14 +82,11 @@ class _HomeBodyState extends State<HomeBody> {
                         Loader()), //Center(child: CircularProgressIndicator()), //
               );
             case ConnectionState.none:
-              return connected
-                  ? Center(child: Loader())
-                  : HomeError(
+              return  HomeError(
                       onPressed: () async {
                         return await handleRefresh();
                       },
                       message: "You are offline");
-
             default:
               if (snapshot.hasError)
                 return HomeError(
