@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:discoucher/contollers/home-controller.dart';
 import 'package:discoucher/screens/discover/discover.dart';
 import 'package:discoucher/screens/home/body.dart';
 import 'package:discoucher/screens/settings/settings.dart';
@@ -17,6 +18,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final _homeController = new HomeController();
+  static List<String> categories;
+  int counter = 0;
   int index = 0;
   final HomeBody homePage = new HomeBody();
   final DiscoverPage discoverPage = new DiscoverPage();
@@ -24,13 +29,36 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    // _getCategoryNames();
+    
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
   }
 
   @override
-  void dispose() {
+  void dispose() {    
     super.dispose();
+  }
+
+  _getCategoryNames() async {
+  // List<String> list;
+    await _homeController.fetchListOfCartegoryNames().then((data){
+      if (data != null){
+        print("setting cat names");
+        setState(() {
+          categories = data;
+        });
+        print("the names are $categories");
+      }else{
+        if (counter < 2) {
+            counter++;
+            _getCategoryNames();
+          } else {
+            counter = 0;
+            categories = null;
+          }
+      }
+    });
   }
 
   Future<bool> _onWillPop() {

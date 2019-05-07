@@ -13,7 +13,7 @@ import 'package:uuid/uuid.dart';
 
 class HomeBody extends StatefulWidget {
   @override
-  _HomeBodyState createState() => new _HomeBodyState();
+  _HomeBodyState createState() => _HomeBodyState();
 }
 
 class _HomeBodyState extends State<HomeBody> {
@@ -28,58 +28,39 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
+    // checkInternet();
+    // _homeFuture = _homeController.fetchHomeDataV2(categories);
     _getCategories();
-    checkInternet();    
+    // checkInternet();
   }
 
   _getCategories() async {
-  // List<String> list;
-    await _homeController.fetchListOfCartegoryNames().then((data){
-      if (data != null){
+    // List<String> list;
+    await _homeController.fetchListOfCartegoryNames().then((data) {
+      if (data != null) {
         setState(() {
           categories = data;
-           _homeFuture = _homeController.fetchHomeDataV2(categories);
+          connected = true;
+          
         });
-      }else{
+      } 
+      else {
         if (counter < 2) {
-            counter++;
-            _getCategories();
-          } else {
-            counter = 0;
-          }
+          counter++;
+          _getCategories();
+        } else {
+          counter = 0;
+        }
       }
+    }).then((_){
+      _homeFuture = _homeController.fetchHomeDataV2(categories);
     });
   }
 
-  checkInternet() async{
-
-    try {
-      var connectivityResult = await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.mobile) {
-      // I am connected to a mobile network.
-        setState(() {
-          connected =true;
-        });
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      // I am connected to a wifi network.
-      setState(() {
-          connected =true;
-        });
-    } else if (connectivityResult ==ConnectivityResult.none) {
-      setState(() {
-          connected = false;
-        });
-    }
-    } catch (e) {
-    }
-    
-    
-  }
-  
-  @override
+    @override
   Widget build(BuildContext context) {
     // TODO: Handle loading screens
-  
+
     return Scaffold(
       appBar: SearchAppBar(),
       body: FutureBuilder(
@@ -96,18 +77,19 @@ class _HomeBodyState extends State<HomeBody> {
             //             message: "There are no vouchers to load at the moment");
             case ConnectionState.waiting:
               return Container(
-                child: Center(child: Loader()),//Center(child: CircularProgressIndicator()), //
+                child: Center(
+                    child:
+                        Loader()), //Center(child: CircularProgressIndicator()), //
               );
             case ConnectionState.none:
-              return connected ? Center(child: Loader()) : HomeError(
-                onPressed: () async {
-                  return await handleRefresh();
-                },
-                message: "You are offline");
-              
+              return connected ? Loader() : HomeError(
+                  onPressed: () async {
+                    return await handleRefresh();
+                  },
+                  message: "You are offline");
+
             default:
               if (snapshot.hasError)
-                
                 return HomeError(
                   onPressed: () async {
                     return await handleRefresh();
@@ -121,7 +103,7 @@ class _HomeBodyState extends State<HomeBody> {
                         onPressed: () async {
                           return await handleRefresh();
                         },
-                        message: "There are no vouchers to load at the moment");
+                        message: "Check your internet connection");
           }
         },
       ),
@@ -139,11 +121,10 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   sectionBuilder(BuildContext context, List<List<VoucherData>> sections) {
-
     // print('SSSSSSSSSSSSSSSSSSSSSNAPTIOT'+ ' ${sections.length}');
     return RefreshIndicator(
-        onRefresh: handleRefresh,
-        child: ListView(
+      onRefresh: handleRefresh,
+      child: ListView(
         children: <Widget>[
           SizedBox(height: 5.0),
           topBannerSection,

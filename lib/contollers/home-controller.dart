@@ -8,13 +8,11 @@ import 'package:discoucher/constants/endpoints.dart';
 import 'package:discoucher/contollers/base-controller.dart';
 
 class HomeController extends BaseController {
-
   BaseController base = new BaseController();
 
   // first fetch available establishment types/cartegories
 
-  Future<List<EstablishmentType>> fetchAvailableTypes() async{
-
+  Future<List<EstablishmentType>> fetchAvailableTypes() async {
     String endpoint = Endpoint.availableCartegories;
 
     final response = await fetch(endPoint: endpoint);
@@ -22,64 +20,71 @@ class HomeController extends BaseController {
     final Map<String, dynamic> parsedJson = json.decode(response.body);
     final List<dynamic> data = parsedJson['data'];
 
-    List<EstablishmentType> _cartegoryList = data.map<EstablishmentType>((item) {
-        EstablishmentType _cartegoryData = EstablishmentType.fromJson(item);
-        return _cartegoryData;
+    List<EstablishmentType> _cartegoryList =
+        data.map<EstablishmentType>((item) {
+      EstablishmentType _cartegoryData = EstablishmentType.fromJson(item);
+      return _cartegoryData;
     }).toList();
-    
+
     return _cartegoryList;
   }
 
-  Future<List<String>> fetchListOfCartegoryNames() async{
+  Future<List<String>> fetchListOfCartegoryNames() async {
     String endpoint = Endpoint.availableCartegories;
 
-    final response = await fetch(endPoint: endpoint);
+    try {
+      final response = await fetch(endPoint: endpoint);
 
-    final Map<String, dynamic> parsedJson = json.decode(response.body);
-    final List<dynamic> data = parsedJson['data'];
+      final Map<String, dynamic> parsedJson = json.decode(response.body);
+      final List<dynamic> data = parsedJson['data'];
 
-    List<String> _cartegoryList = data.map<String>((item) {
+      List<String> _cartegoryList = data.map<String>((item) {
         EstablishmentType _cartegoryData = EstablishmentType.fromJson(item);
         String name = _cartegoryData.category;
         print("the names.........................................");
         print(name);
         print(".............................");
         return name;
-    }).toList();
-    
-    // print("CARTEGORIES");
-    // print(_cartegoryList);
-    // print("CARTEGORIES");
-    return _cartegoryList;
+      }).toList();
+
+      // print("CARTEGORIES");
+      // print(_cartegoryList);
+      // print("CARTEGORIES");
+      return _cartegoryList;
+    } catch (e) {
+      return null;
+    }
   }
 
   // for the new version of the app that dynamically updated available Establishment types
-  Future<List<List<VoucherData>>> fetchHomeDataV2(List<String> categories) async {
-    
-    List<Response> responses = await Future.wait(
-      categories.map((category) =>
-        base.post(endPoint: Endpoint.cartegories, payload: buildPayload(category) )),
+  Future<List<List<VoucherData>>> fetchHomeDataV2(
+      List<String> categories) async {
+    if (categories != null) {
+      List<Response> responses = await Future.wait(
+        categories.map((category) => base.post(
+            endPoint: Endpoint.cartegories, payload: buildPayload(category))),
         // postAnonymous(endPoint: Endpoint.cartegories, payload: buildPayload(category) )),
-    );
+      );
 
-    // print("QQQQQQQQQQQQQ");
-    // print(responses.toString());
-    var sectionsLists =
-        responses.map((response) => parseSectionData(response.body)).toList();
-    print("===============");
-    // print("QQQQQQQQQQQQQ" + '${sectionsLists.toString()}');
-    print("===============");
-    
-    return sectionsLists;
+      // print("QQQQQQQQQQQQQ");
+      // print(responses.toString());
+      var sectionsLists =
+          responses.map((response) => parseSectionData(response.body)).toList();
+      print("===============");
+      // print("QQQQQQQQQQQQQ" + '${sectionsLists.toString()}');
+      print("===============");
+
+      return sectionsLists;
+    }else{
+      return [];
+    }
   }
 
   //
   Future<List<VoucherData>> fetchCategoryDataV2(String category) async {
-    
-   
-    Response response = await base.post(endPoint: Endpoint.cartegories, payload: buildPayload(category));
+    Response response = await base.post(
+        endPoint: Endpoint.cartegories, payload: buildPayload(category));
     // postAnonymous(endPoint: Endpoint.cartegories, payload: buildPayload(category) )),
-   
 
     // print("QQQQQQQQQQQQQ");
     // print(responses.toString());
@@ -87,19 +92,18 @@ class HomeController extends BaseController {
     print("===============");
     // print("QQQQQQQQQQQQQ" + '${sectionsLists.toString()}');
     print("===============");
-    
+
     return sectionsLists;
   }
   //
 
-  Map<String,String> buildPayload( String category ){
-
+  Map<String, String> buildPayload(String category) {
     Map<String, String> payload = {
-          // category_name = category;
-          "name": category,
-        };
+      // category_name = category;
+      "name": category,
+    };
 
-   return payload;
+    return payload;
   }
 
   Future<List<List<VoucherData>>> fetchHomeData() async {
@@ -124,7 +128,7 @@ class HomeController extends BaseController {
   List<VoucherData> parseSectionData(String responseBody) {
     Map<String, dynamic> parsedJson = json.decode(responseBody);
     var data = parsedJson['data'];
-     
+
     //  print("GOT JUST DATA" + data);
     try {
       var list = data.map<VoucherData>((item) {
@@ -143,19 +147,15 @@ class HomeController extends BaseController {
   }
 
   List<EstablishmentType> parseCartegoryData(String responseBody) {
-
     Map<String, dynamic> parsedJson = json.decode(responseBody);
     var data = parsedJson['data'];
 
     var list = data.map<EstablishmentType>((item) {
-        EstablishmentType _cartegoryData = EstablishmentType.fromJson(item);
-        
-        return _cartegoryData;
-      }).toList();
+      EstablishmentType _cartegoryData = EstablishmentType.fromJson(item);
 
-      return list;
+      return _cartegoryData;
+    }).toList();
+
+    return list;
   }
-
-  
-
 }
